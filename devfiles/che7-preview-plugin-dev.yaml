@@ -1,0 +1,25 @@
+---
+displayName: Che 7 Dev
+description: Workspace.next sidecars and Theia as IDE with the tooling for plugin development
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+name: che7-preview-plugin-dev
+components:
+  -
+    type: cheEditor
+    id: eclipse/che-theia/next
+    memoryLimit: 512Mi
+  -
+    type: chePlugin
+    id: eclipse/che-machine-exec-plugin/0.0.1
+  -
+    type: dockerimage
+    alias: plugin-dev
+    dockerimage: wsskeleton/che-plugin-dev-tooling
+    memoryLimit: 512Mi
+    mountSources: true
+commands:
+  - name: Get OpenShift Console URL
+    actions:
+    - type: exec
+      component: plugin-dev
+      command: echo ${CHE_OSO_CLUSTER//api/console}

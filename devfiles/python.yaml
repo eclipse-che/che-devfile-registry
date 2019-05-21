@@ -1,0 +1,34 @@
+---
+displayName: Python with Theia IDE
+description:
+name: python
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+components:
+  -
+    type: cheEditor
+    id: eclipse/che-theia/next
+    memoryLimit: 512Mi
+  -
+    type: chePlugin
+    id: eclipse/che-machine-exec-plugin/0.0.1
+  -
+    type: chePlugin
+    id: ms-python/python/2019.2.5433
+    memoryLimit: 512Mi
+  -
+    type: dockerimage
+    dockerimage: centos/python-36-centos7:1
+    command: ['sleep']
+    args: ['infinity']
+    env:
+      - name: GOPATH
+        value: /go:/projects
+      - name: HOME
+        value: /home/user
+      - name: PS1
+        value: $(echo ${0})\\$
+    memoryLimit: 512mb
+    endpoints:
+      - name: 'django'
+        port: 7000
+    mountSources: true

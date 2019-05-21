@@ -1,0 +1,35 @@
+---
+displayName: Go with Theia IDE
+description: Default stack with Go 1.12.4 and Theia IDE
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+name: go
+components:
+  -
+    type: cheEditor
+    id: eclipse/che-theia/next
+    memoryLimit: 512Mi
+  -
+    type: chePlugin
+    id: eclipse/che-machine-exec-plugin/0.0.1
+    memoryLimit: 512Mi
+  -
+    type: chePlugin
+    id: ms-vscode/go/0.9.2
+    memoryLimit: 512Mi
+  -
+    type: dockerimage
+    dockerimage: golang:1.12.4-stretch
+    command: ['sleep']
+    args: ['infinity']
+    env:
+      - name: GOPATH
+        value: /go:/projects
+      - name: GOCACHE
+        value: /tmp/.cache
+      - name: PS1
+        value: $(echo ${0})\\$
+    memoryLimit: 512mb
+    endpoints:
+      - name: '8080/tcp'
+        port: 8080
+    mountSources: true

@@ -1,0 +1,45 @@
+---
+displayName: Java Gradle
+description: Java Stack with OpenJDK 11 and Gradle 5.2.1
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+name: java-gradle
+components:
+  -
+    type: cheEditor
+    id: eclipse/che-theia/next
+    memoryLimit: 512Mi
+  -
+    type: chePlugin
+    id: eclipse/che-machine-exec-plugin/0.0.1
+  -
+    type: chePlugin
+    id: redhat/java/0.38.0
+    memoryLimit: 1500Mi
+  -
+    type: dockerimage
+    alias: gradle
+    dockerimage: gradle:5.2.1-jdk11
+    command: ['sleep']
+    args: ['infinity']
+    env:
+      - name: GRADLE_USER_HOME
+        value: /home/user/.gradle
+      - name: JAVA_OPTS`
+        value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      - name: JAVA_TOOL_OPTIONS
+        value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+        PS1: "$(echo ${0})\\$ "
+      - name: HOME
+        value: /home/user
+    memoryLimit: 512Mb
+    endpoints:
+      - name: '8080/tcp'
+        port: 8080
+    volumes:
+      - name: gradle
+        containerPath: /home/user/.gradle
+    mountSources: true

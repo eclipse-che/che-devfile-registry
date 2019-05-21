@@ -1,0 +1,25 @@
+---
+displayName: Che 7 Theia dev
+description: Development Theia as IDE, che-theia components, Theia plugins or plugin api.
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+name: che7-development-che-theia-and-theia-plugins
+components:
+  -
+    type: cheEditor
+    id: eclipse/che-theia/next
+    memoryLimit: 512Mi
+  -
+    type: chePlugin
+    id: eclipse/che-machine-exec-plugin/0.0.1
+  -
+    type: chePlugin
+    id: che-incubator/typescript/1.30.2
+    memoryLimit: 700Mi
+  -
+    type: dockerimage
+    dockerimage: eclipse/che-theia-dev:next
+    memoryLimit: 512Mi
+    endpoints:
+      - name: 'ws/dev'
+        port: 3130
+    mountSources: true

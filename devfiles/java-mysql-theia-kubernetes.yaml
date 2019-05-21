@@ -1,0 +1,113 @@
+---
+displayName: Java and MySQL with Theia IDE on Kubernetes
+description: Multi Container Workspace - Java with MySQL database in Theia IDE
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+name: java-mysql-theia-kubernetes
+components:
+  -
+    type: cheEditor
+    id: eclipse/che-theia/next
+  -
+    type: chePlugin
+    id: eclipse/che-machine-exec-plugin/0.0.1
+  -
+    type: dockerimage
+    alias: web
+    dockerimage: registry.centos.org/che-stacks/centos-jdk8
+    memoryLimit: 512Mi
+    mountSources: true
+    endpoints:
+      - name: tomcat8
+        port: 8080
+  -
+    type: kubernetes
+    alias: mysql
+    referenceContent: |
+      kind: List
+      items:
+      -
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: db
+          labels:
+            type: db
+        spec:
+          containers:
+          -
+            image: centos/mysql-57-centos7
+            name: mysql
+            ports:
+            - name: mysql
+              containerPort: 3306
+              protocol: TCP
+            env:
+            - name: MYSQL_USER
+              value: petclinic
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+            - name: MYSQL_PASSWORD
+              value: password
+            - name: MYSQL_DATABASE
+              value: petclinic
+            resources:
+              limits:
+                memory: 256Mi
+      -
+        apiVersion:v1
+        kind: Service
+        metadata:
+          name: db
+        spec:
+          selector:
+            type: db
+          ports:
+          - name: mysql
+            port: 3306
+            protocol: TCP
+            targetPort: mysql
+commands:
+  - name: clone petclinic sample project
+    actions:
+    - type: exec
+      component: web
+      command: cd /projects && git clone https://github.com/che-samples/web-java-spring-petclinic.git
+          && cd web-java-spring-petclinic && git checkout mysql
+  - name: build
+    actions:
+    - type: exec
+      component: web
+      command: /opt/rh/rh-maven33/enable && mvn clean install -f ${current.project.path}
+  - name: deploy
+    actions:
+    - type: exec
+      component: web
+      command: cd ${current.project.path}/target/ && cp *.war ${TOMCAT_HOME}/webapps/ROOT.war
+  - name: build and deploy
+    actions:
+    - type: exec
+      component: web
+      command: /opt/rh/rh-maven33/enable && mvn clean install -f ${current.project.path}
+          && cd ${current.project.path}/target/ && cp *.war ${TOMCAT_HOME}/webapps/ROOT.war
+  - name: start Tomcat
+    actions:
+    - type: exec
+      component: web
+      command: ${TOMCAT_HOME}/bin/catalina.sh run 2>&1
+  - name: stop Tomcat
+    actions:
+    - type: exec
+      component: web
+      command: ${TOMCAT_HOME}/bin/catalina.sh stop
+  - name: build, deploy and start Tomcat
+    actions:
+    - type: exec
+      component: web
+      command: /opt/rh/rh-maven33/enable && mvn clean install -f ${current.project.path}
+          && cd ${current.project.path}/target/ && cp *.war ${TOMCAT_HOME}/webapps/ROOT.war
+          && ${TOMCAT_HOME}/bin/catalina.sh run 2>&1
+  - name: open database command line
+    actions:
+    - type: exec
+      component: mysql
+      command: mysql -u $MYSQL_USER -p$MYSQL_PASSWORD --database=$MYSQL_DATABASE

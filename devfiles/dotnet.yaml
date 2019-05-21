@@ -1,0 +1,40 @@
+---
+displayName: ".NET Core with Theia IDE"
+description: Default stack with .Net 2.2.105 and Theia IDE
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+name: dotnet
+components:
+  -
+    type: cheEditor
+    id: eclipse/che-theia/next
+    memoryLimit: 512Mi
+  -
+    type: chePlugin
+    id: eclipse/che-machine-exec-plugin/0.0.1
+  -
+    type: chePlugin
+    id: redhat-developer/che-omnisharp-plugin/0.0.1
+    memoryLimit: 512Mi
+  -
+    type: chePlugin
+    id: redhat-developer/netcoredbg-theia-plugin/0.0.1
+    memoryLimit: 512Mi
+  -
+    type: dockerimage
+    alias: dotnet
+    dockerimage: mcr.microsoft.com/dotnet/core/sdk:2.2-stretch
+    command: ['sleep']
+    args: ['infinity']
+    env:
+      - name: HOME
+        value: /home/user
+      - name: PS1
+        value: $(echo ${0})\\$
+    memoryLimit: 512mb
+    endpoints:
+      - name: '5000/tcp'
+        port: 5000
+    mountSources: true
+    volumes:
+      - name: dotnet
+        containerPath: "/home/user"
