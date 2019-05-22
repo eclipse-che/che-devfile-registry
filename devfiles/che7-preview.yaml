@@ -1,0 +1,29 @@
+---
+displayName: Che 7 Preview
+description: Workspace.next sidecars and Theia as IDE
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+name: che7-preview
+components:
+  -
+    type: cheEditor
+    id: eclipse/che-theia/next
+  -
+    type: chePlugin
+    id: eclipse/che-machine-exec-devfile/0.0.1
+  -
+    type: kubernetes
+    referenceContent: |
+      kind: List
+      items:
+        -
+          apiVersion: v1
+          kind: Pod
+          metadata:
+            name: ws
+          spec:
+            containers:
+            - image: eclipse/che-dev:nightly
+              name: dev
+              resources:
+                limits:
+                  memory: 512Mi

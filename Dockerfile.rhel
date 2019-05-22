@@ -1,0 +1,37 @@
+#
+# Copyright (c) 2018-2019 Red Hat, Inc.
+# This program and the accompanying materials are made
+# available under the terms of the Eclipse Public License 2.0
+# which is available at https://www.eclipse.org/legal/epl-2.0/
+#
+# SPDX-License-Identifier: EPL-2.0
+#
+FROM mikefarah/yq as builder
+RUN apk add --no-cache bash
+
+COPY .htaccess README.md *.sh /build/
+COPY /devfiles /build/devfiles
+WORKDIR /build/
+RUN ./index.sh > /build/devfiles/index.json
+
+FROM quay.io/openshiftio/rhel-base-httpd:latest
+
+RUN sed -i -e "s,Listen 80,Listen 8080," /etc/httpd/conf/httpd.conf
+RUN sed -i -e "s,logs/error_log,/dev/stderr," /etc/httpd/conf/httpd.conf
+RUN sed -i -e "s,logs/access_log,/dev/stdout," /etc/httpd/conf/httpd.conf
+RUN sed -i -e "s,AllowOverride None,AllowOverride All," /etc/httpd/conf/httpd.conf
+
+EXPOSE 80
+
+# the htpasswd file may be periodically replaced during run
+RUN chmod a+rwX            /etc/httpd/conf
+RUN chmod a+rwX            /run/httpd
+
+RUN mkdir /var/www/html/devfiles
+COPY --from=builder /build/ /var/www/html/
+USER 0
+RUN chmod -R g+rwX /var/www/html/devfiles
+
+STOPSIGNAL SIGWINCH
+
+ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
