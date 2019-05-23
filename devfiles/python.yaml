@@ -1,8 +1,9 @@
 ---
 displayName: Python with Theia IDE
 description:
-name: python
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+specVersion: 0.0.1
+name: python
 components:
   -
     type: cheEditor

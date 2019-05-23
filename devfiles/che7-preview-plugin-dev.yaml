@@ -2,6 +2,7 @@
 displayName: Che 7 Dev
 description: Workspace.next sidecars and Theia as IDE with the tooling for plugin development
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+specVersion: 0.0.1
 name: che7-preview-plugin-dev
 components:
   -

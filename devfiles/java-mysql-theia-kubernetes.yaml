@@ -2,6 +2,7 @@
 displayName: Java and MySQL with Theia IDE on Kubernetes
 description: Multi Container Workspace - Java with MySQL database in Theia IDE
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+specVersion: 0.0.1
 name: java-mysql-theia-kubernetes
 components:
   -
@@ -11,14 +12,48 @@ components:
     type: chePlugin
     id: eclipse/che-machine-exec-plugin/0.0.1
   -
-    type: dockerimage
+    type: kubernetes
     alias: web
-    image: registry.centos.org/che-stacks/centos-jdk8
-    memoryLimit: 512Mi
-    mountSources: true
-    endpoints:
-      - name: tomcat8
-        port: 8080
+    referenceContent: |
+      kind: List
+      items:
+      -
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: web
+        spec:
+          containers:
+          -
+            image: registry.centos.org/che-stacks/centos-jdk8
+            name: dev
+            ports:
+            - containerPort: 8080
+              protocol: TCP
+            resources:
+              limits:
+                memory: 512Mi
+            volumeMounts:
+            - name: projects
+              mountPath: /projects
+          volumes:
+          - name: projects
+            persistentVolumeClaim:
+              claimName: projects
+      -
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: projects
+          labels:
+            app.kubernetes.io/name: employee-manager
+            app.kubernetes.io/component: nodejs-app
+        spec:
+          accessModes:
+           - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
   -
     type: kubernetes
     alias: mysql
@@ -54,7 +89,7 @@ components:
               limits:
                 memory: 256Mi
       -
-        apiVersion:v1
+        apiVersion: v1
         kind: Service
         metadata:
           name: db

@@ -2,6 +2,7 @@
 displayName: Che 7 Preview
 description: Workspace.next sidecars and Theia as IDE
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+specVersion: 0.0.1
 name: che7-preview
 components:
   -
@@ -9,7 +10,7 @@ components:
     id: eclipse/che-theia/next
   -
     type: chePlugin
-    id: eclipse/che-machine-exec-devfile/0.0.1
+    id: eclipse/che-machine-exec-plugin/0.0.1
   -
     type: kubernetes
     referenceContent: |
@@ -27,3 +28,21 @@ components:
               resources:
                 limits:
                   memory: 512Mi
+              volumeMounts:
+              - name: projects
+                mountPath: /projects
+            volumes:
+            - name: projects
+              persistentVolumeClaim:
+                claimName: projects
+        -
+          apiVersion: v1
+          kind: PersistentVolumeClaim
+          metadata:
+            name: projects
+          spec:
+            accessModes:
+             - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi

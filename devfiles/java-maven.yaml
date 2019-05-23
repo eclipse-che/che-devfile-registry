@@ -1,8 +1,9 @@
 ---
 displayName: Java Maven
-description: 
-name: java-maven
+description:
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+specVersion: 0.0.1
+name: java-maven
 components:
   -
     type: cheEditor
