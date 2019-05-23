@@ -13,7 +13,7 @@ components:
   -
     type: dockerimage
     alias: web
-    dockerimage: registry.centos.org/che-stacks/centos-jdk8
+    image: registry.centos.org/che-stacks/centos-jdk8
     memoryLimit: 512Mi
     mountSources: true
     endpoints:

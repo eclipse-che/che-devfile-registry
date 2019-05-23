@@ -17,7 +17,7 @@ components:
     memoryLimit: 700Mi
   -
     type: dockerimage
-    dockerimage: eclipse/che-theia-dev:next
+    image: eclipse/che-theia-dev:next
     memoryLimit: 512Mi
     endpoints:
       - name: 'ws/dev'

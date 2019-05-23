@@ -18,7 +18,7 @@ components:
   -
     type: dockerimage
     alias: maven
-    dockerimage: maven:3.6.0-jdk-11
+    image: maven:3.6.0-jdk-11
     command: ['sleep']
     args: ['infinity']
     env:

@@ -18,7 +18,7 @@ components:
   -
     type: dockerimage
     alias: gradle
-    dockerimage: gradle:5.2.1-jdk11
+    image: gradle:5.2.1-jdk11
     command: ['sleep']
     args: ['infinity']
     env:

@@ -22,7 +22,7 @@ components:
   -
     type: dockerimage
     alias: dotnet
-    dockerimage: mcr.microsoft.com/dotnet/core/sdk:2.2-stretch
+    image: mcr.microsoft.com/dotnet/core/sdk:2.2-stretch
     command: ['sleep']
     args: ['infinity']
     env:
