@@ -35,7 +35,7 @@ components:
         PS1: "$(echo ${0})\\$ "
       - name: HOME
         value: /home/user
-    memoryLimit: 512Mb
+    memoryLimit: 512Mi
     endpoints:
       - name: '8080/tcp'
         port: 8080

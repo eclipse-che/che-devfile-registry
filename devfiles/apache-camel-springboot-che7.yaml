@@ -48,7 +48,7 @@ components:
         value: $(echo ${0})\\$
       - name: HOME
         value: /home/user
-    memoryLimit: 512mb
+    memoryLimit: 512Mi
     endpoints:
       - name: '8080/tcp'
         port: 8080

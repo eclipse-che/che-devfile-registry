@@ -27,7 +27,7 @@ components:
         value: /home/user
       - name: PS1
         value: $(echo ${0})\\$
-    memoryLimit: 512mb
+    memoryLimit: 512Mi
     endpoints:
       - name: 'django'
         port: 7000
