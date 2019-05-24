@@ -6,13 +6,6 @@ specVersion: 0.0.1
 name: python
 components:
   -
-    type: cheEditor
-    id: eclipse/che-theia/next
-    memoryLimit: 512Mi
-  -
-    type: chePlugin
-    id: eclipse/che-machine-exec-plugin/0.0.1
-  -
     type: chePlugin
     id: ms-python/python/2019.2.5433
     memoryLimit: 512Mi

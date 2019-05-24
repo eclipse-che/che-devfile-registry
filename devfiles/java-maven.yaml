@@ -6,13 +6,6 @@ specVersion: 0.0.1
 name: java-maven
 components:
   -
-    type: cheEditor
-    id: eclipse/che-theia/next
-    memoryLimit: 512Mi
-  -
-    type: chePlugin
-    id: eclipse/che-machine-exec-plugin/0.0.1
-  -
     type: chePlugin
     id: redhat/java/0.38.0
     memoryLimit: 1500Mi

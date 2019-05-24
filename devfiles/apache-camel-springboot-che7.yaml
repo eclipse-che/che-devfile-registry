@@ -6,13 +6,6 @@ specVersion: 0.0.1
 name: apache-camel-springboot-che7
 components:
   -
-    type: cheEditor
-    id: eclipse/che-theia/next
-    memoryLimit: 512Mi
-  -
-    type: chePlugin
-    id: eclipse/che-machine-exec-plugin/0.0.1
-  -
     type: chePlugin
     id: redhat/vscode-xml/0.5.1
     memoryLimit: 128Mi
