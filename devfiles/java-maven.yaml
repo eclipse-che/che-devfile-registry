@@ -1,6 +1,6 @@
 ---
 displayName: Java Maven
-description:
+description: Default Java Stack with OpenJDK 11 and Maven 3.6
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
 specVersion: 0.0.1
 name: java-maven
@@ -29,7 +29,7 @@ components:
         value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
           -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
           -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
-      - name: JAVA_OPTS`
+      - name: JAVA_OPTS
         value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
           -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
           -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"

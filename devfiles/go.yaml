@@ -3,7 +3,7 @@ displayName: Go with Theia IDE
 description: Default stack with Go 1.12.4 and Theia IDE
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
 specVersion: 0.0.1
-name: go
+name: golang
 components:
   -
     type: cheEditor
@@ -30,7 +30,4 @@ components:
       - name: PS1
         value: $(echo ${0})\\$
     memoryLimit: 512Mi
-    endpoints:
-      - name: '8080/tcp'
-        port: 8080
     mountSources: true

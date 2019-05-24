@@ -1,6 +1,6 @@
 ---
 displayName: Python with Theia IDE
-description:
+description: Default stack with Python 3.7 and Theia IDE
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
 specVersion: 0.0.1
 name: python
@@ -18,12 +18,11 @@ components:
     memoryLimit: 512Mi
   -
     type: dockerimage
+    alias: python
     image: centos/python-36-centos7:1
     command: ['sleep']
     args: ['infinity']
     env:
-      - name: GOPATH
-        value: /go:/projects
       - name: HOME
         value: /home/user
       - name: PS1

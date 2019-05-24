@@ -8,14 +8,13 @@ components:
   -
     type: cheEditor
     id: eclipse/che-theia/next
-    memoryLimit: 512Mi
   -
     type: chePlugin
     id: eclipse/che-machine-exec-plugin/0.0.1
   -
     type: chePlugin
     id: redhat-developer/che-omnisharp-plugin/0.0.1
-    memoryLimit: 512Mi
+    memoryLimit: 1024Mi
   -
     type: chePlugin
     id: redhat-developer/netcoredbg-theia-plugin/0.0.1

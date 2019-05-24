@@ -32,23 +32,26 @@ components:
     args: ['infinity']
     env:
       - name: MAVEN_CONFIG
-        value: /home/user/.m2
+        value: "/home/user/.m2"
       - name: MAVEN_OPTS
-        value: -XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+        value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
           -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
-          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
-      - name: JAVA_OPTS`
-        value: -XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      - name: JAVA_OPTS
+        value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
           -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
-          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
       - name: JAVA_TOOL_OPTIONS
-        value: -XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+        value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
           -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
-          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
       - name: PS1
-        value: $(echo ${0})\\$
+        value: "$(echo ${0})\\$"
       - name: HOME
-        value: /home/user
+        value: "/home/user"
+    volumes:
+      - name: m2
+        containerPath: "/home/user/.m2"
     memoryLimit: 512Mi
     endpoints:
       - name: '8080/tcp'
