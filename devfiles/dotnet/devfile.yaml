@@ -1,0 +1,31 @@
+---
+specVersion: 0.0.1
+name: dotnet
+components:
+  -
+    type: chePlugin
+    id: redhat-developer/che-omnisharp-plugin/0.0.1
+    memoryLimit: 1024Mi
+  -
+    type: chePlugin
+    id: redhat-developer/netcoredbg-theia-plugin/0.0.1
+    memoryLimit: 512Mi
+  -
+    type: dockerimage
+    alias: dotnet
+    image: mcr.microsoft.com/dotnet/core/sdk:2.2-stretch
+    command: ['sleep']
+    args: ['infinity']
+    env:
+      - name: HOME
+        value: /home/user
+      - name: PS1
+        value: $(echo ${0})\\$
+    memoryLimit: 512Mi
+    endpoints:
+      - name: '5000/tcp'
+        port: 5000
+    mountSources: true
+    volumes:
+      - name: dotnet
+        containerPath: "/home/user"

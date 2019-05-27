@@ -1,0 +1,49 @@
+---
+specVersion: 0.0.1
+name: apache-camel-springboot-che7
+components:
+  -
+    type: chePlugin
+    id: redhat/vscode-xml/0.5.1
+    memoryLimit: 128Mi
+  -
+    type: chePlugin
+    id: camel-tooling/vscode-apache-camel/0.0.14
+    memoryLimit: 128Mi
+  -
+    type: chePlugin
+    id: redhat/java/0.38.0
+    memoryLimit: 1500Mi
+  -
+    type: dockerimage
+    alias: maven
+    image: maven:3.6.1-jdk-8
+    command: ['sleep']
+    args: ['infinity']
+    env:
+      - name: MAVEN_CONFIG
+        value: "/home/user/.m2"
+      - name: MAVEN_OPTS
+        value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      - name: JAVA_OPTS
+        value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      - name: JAVA_TOOL_OPTIONS
+        value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      - name: PS1
+        value: "$(echo ${0})\\$"
+      - name: HOME
+        value: "/home/user"
+    volumes:
+      - name: m2
+        containerPath: "/home/user/.m2"
+    memoryLimit: 512Mi
+    endpoints:
+      - name: '8080/tcp'
+        port: 8080
+    mountSources: true

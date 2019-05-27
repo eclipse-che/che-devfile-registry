@@ -16,11 +16,12 @@ function buildIndex() {
     metaInfoFields=('displayName' 'description' 'icon')
 
     ## search for all devfiles
-    readarray -d '' arr < <(find "$1" -name '*.yaml' -print0)
+    readarray -d '' arr < <(find "$1" -name 'meta.yaml' -print0)
+
     FIRST_LINE=true
     echo "["
 
-    ## now loop through devfiles
+    ## now loop through meta.yaml files
     for i in "${arr[@]}"
     do
         if [ "$FIRST_LINE" = true ] ; then
@@ -34,10 +35,10 @@ function buildIndex() {
         do
             value="$(yq r "$i" "$field" | sed 's/^"\(.*\)"$/\1/')"
             echo "  \"$field\":\"$value\","
-            yq delete -i $i $field
         done
 
-        echo "  \"links\": {\"self\":\"/$i\" }"
+        parentFolderPath=${i%/*}
+        echo "  \"links\": {\"self\":\"/$parentFolderPath/devfile.yaml\" }"
         echo "}"
     done
     echo "]"

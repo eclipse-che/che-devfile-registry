@@ -1,0 +1,41 @@
+---
+specVersion: 0.0.1
+name: java-maven
+components:
+  -
+    type: chePlugin
+    id: redhat/java/0.38.0
+    memoryLimit: 1500Mi
+  -
+    type: dockerimage
+    alias: maven
+    image: maven:3.6.0-jdk-11
+    command: ['sleep']
+    args: ['infinity']
+    env:
+      - name: MAVEN_CONFIG
+        value: /home/user/.m2
+      - name: MAVEN_OPTS
+        value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      - name: JAVA_OPTS
+        value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      - name: JAVA_TOOL_OPTIONS
+        value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      - name: PS1
+        value: $(echo ${0})\\$
+      - name: HOME
+        value: /home/user
+    memoryLimit: 512Mi
+    endpoints:
+      - name: '8080/tcp'
+        port: 8080
+    mountSources: true
+    volumes:
+      - name: m2
+        containerPath: /home/user/.m2

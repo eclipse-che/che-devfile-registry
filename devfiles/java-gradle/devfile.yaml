@@ -1,0 +1,37 @@
+---
+specVersion: 0.0.1
+name: java-gradle
+components:
+  -
+    type: chePlugin
+    id: redhat/java/0.38.0
+    memoryLimit: 1500Mi
+  -
+    type: dockerimage
+    alias: gradle
+    image: gradle:5.2.1-jdk11
+    command: ['sleep']
+    args: ['infinity']
+    env:
+      - name: GRADLE_USER_HOME
+        value: /home/user/.gradle
+      - name: JAVA_OPTS
+        value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      - name: JAVA_TOOL_OPTIONS
+        value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      - name: PS1
+        value: "$(echo ${0})\\$ "
+      - name: HOME
+        value: /home/user
+    memoryLimit: 512Mi
+    endpoints:
+      - name: '8080/tcp'
+        port: 8080
+    volumes:
+      - name: gradle
+        containerPath: /home/user/.gradle
+    mountSources: true
