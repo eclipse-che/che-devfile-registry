@@ -13,7 +13,7 @@ set -e
 # Arguments:
 # 1 - folder to search files in
 function buildIndex() {
-    metaInfoFields=('displayName' 'description' 'icon')
+    metaInfoFields=('displayName' 'description' 'tags' 'icon')
 
     ## search for all devfiles
     readarray -d '' arr < <(find "$1" -name 'meta.yaml' -print0)
@@ -33,8 +33,11 @@ function buildIndex() {
 
         for field in "${metaInfoFields[@]}"
         do
-            value="$(yq r "$i" "$field" | sed 's/^"\(.*\)"$/\1/')"
-            echo "  \"$field\":\"$value\","
+            # get value of needed field in json format
+            # note that it may have differrent formats: arrays, string, etc.
+            # String value contains quotes, e.g. "str"
+            value="$(yq r -j "$i" "$field")"
+            echo "  \"$field\":$value,"
         done
 
         parentFolderPath=${i%/*}
