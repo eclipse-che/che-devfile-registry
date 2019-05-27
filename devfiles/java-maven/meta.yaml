@@ -1,0 +1,4 @@
+---
+displayName: Java Maven
+description: Default Java Stack with OpenJDK 11 and Maven 3.6
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg

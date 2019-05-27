@@ -1,7 +1,4 @@
 ---
-displayName: ".NET Core with Theia IDE"
-description: Default stack with .Net 2.2.105 and Theia IDE
-icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
 specVersion: 0.0.1
 name: dotnet
 components:
