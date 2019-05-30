@@ -4,8 +4,7 @@ name: java-maven
 components:
   -
     type: chePlugin
-    id: redhat/java/0.38.0
-    memoryLimit: 1500Mi
+    id: redhat/java/latest
   -
     type: dockerimage
     alias: maven
