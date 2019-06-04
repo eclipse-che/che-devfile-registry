@@ -3,4 +3,4 @@ displayName: Apache Camel based projects on Che 7
 description: Stack with environment ready to develop Integration projects with Apache Camel based on SpringBoot.
 tags: ["Java", "OpenJDK", "Maven", "Debian", "Apache Camel", "Red Hat Fuse"]
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
-requiredMemory: 2Gi
+globalMemoryLimit: 2930Mi

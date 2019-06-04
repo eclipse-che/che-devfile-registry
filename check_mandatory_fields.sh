@@ -10,7 +10,7 @@
 
 set -e
 
-FIELDS=('displayName' 'description' 'tags' 'icon' 'requiredMemory')
+FIELDS=('displayName' 'description' 'tags' 'icon' 'globalMemoryLimit')
 
 
 
