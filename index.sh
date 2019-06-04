@@ -13,7 +13,7 @@ set -e
 # Arguments:
 # 1 - folder to search files in
 function buildIndex() {
-    metaInfoFields=('displayName' 'description' 'tags' 'icon' 'requiredMemory')
+    metaInfoFields=('displayName' 'description' 'tags' 'icon' 'globalMemoryLimit')
 
     ## search for all devfiles
     readarray -d '' arr < <(find "$1" -name 'meta.yaml' -print0)
