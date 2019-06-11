@@ -1,6 +1,7 @@
 ---
-specVersion: 0.0.1
-name: golang
+apiVersion: 1.0.0
+metadata:
+  name: golang
 components:
   -
     type: chePlugin

@@ -1,6 +1,7 @@
 ---
-specVersion: 0.0.1
-name: java-maven
+apiVersion: 1.0.0
+metadata:
+  name: java-maven
 components:
   -
     type: chePlugin

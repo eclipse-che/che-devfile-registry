@@ -1,6 +1,7 @@
 ---
-specVersion: 0.0.1
-name: java-gradle
+apiVersion: 1.0.0
+metadata:
+  name: java-gradle
 components:
   -
     type: chePlugin
