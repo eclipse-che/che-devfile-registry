@@ -5,7 +5,7 @@ metadata:
 components:
   -
     type: chePlugin
-    id: ms-vscode/go/0.9.2
+    id: ms-vscode/go/latest
     memoryLimit: 512Mi
   -
     type: dockerimage
