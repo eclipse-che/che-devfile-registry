@@ -10,7 +10,6 @@ components:
   -
     type: chePlugin
     id: camel-tooling/vscode-apache-camel/0.0.14
-    memoryLimit: 128Mi
   -
     type: chePlugin
     id: redhat/java/latest
