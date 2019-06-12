@@ -5,11 +5,11 @@ metadata:
 components:
   -
     type: chePlugin
-    id: redhat/vscode-xml/0.5.1
+    id: redhat/vscode-xml/latest
     memoryLimit: 128Mi
   -
     type: chePlugin
-    id: camel-tooling/vscode-apache-camel/0.0.14
+    id: camel-tooling/vscode-apache-camel/latest
   -
     type: chePlugin
     id: redhat/java/latest

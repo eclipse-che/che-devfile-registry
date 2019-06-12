@@ -5,11 +5,11 @@ metadata:
 components:
   -
     type: chePlugin
-    id: redhat-developer/che-omnisharp-plugin/0.0.1
+    id: redhat-developer/che-omnisharp-plugin/latest
     memoryLimit: 1024Mi
   -
     type: chePlugin
-    id: redhat-developer/netcoredbg-theia-plugin/0.0.1
+    id: redhat-developer/netcoredbg-theia-plugin/latest
     memoryLimit: 512Mi
   -
     type: dockerimage

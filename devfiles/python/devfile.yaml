@@ -5,7 +5,7 @@ metadata:
 components:
   -
     type: chePlugin
-    id: ms-python/python/2019.2.5433
+    id: ms-python/python/latest
     memoryLimit: 512Mi
   -
     type: dockerimage
