@@ -1,6 +1,7 @@
 ---
-specVersion: 0.0.1
-name: apache-camel-springboot-che7
+apiVersion: 1.0.0
+metadata:
+  name: apache-camel-springboot-che7
 components:
   -
     type: chePlugin
