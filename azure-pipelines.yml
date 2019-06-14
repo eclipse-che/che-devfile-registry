@@ -1,0 +1,33 @@
+# Docker image
+# Build a Docker image to deploy, run, or push to a container registry.
+# Add steps that use Docker Compose, tag images, push to a registry, run an image, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- pizzafactory
+
+variables:
+  containerRegistry: camino.azurecr.io
+  prefix: $(containerRegistry)/
+  imageName: '$(prefix)che-devfile-registry'
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+steps:
+- script: docker build -f Dockerfile -t $(imageName) .
+  displayName: 'docker build'
+
+- task: Docker@1
+  inputs:
+    command: login
+    containerregistrytype: Container Registry
+    dockerRegistryEndpoint: camino.azurecr.io
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['Build.SourceBranch'], 'refs/heads/pizzafactory'))
+
+- script: |
+    docker push $(imageName)
+    docker tag $(imageName) $(imageName):$(build.buildId)
+    docker push $(imageName):$(build.buildId)
+  displayName: 'docker push'
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['Build.SourceBranch'], 'refs/heads/pizzafactory'))
