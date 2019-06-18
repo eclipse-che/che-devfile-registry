@@ -20,7 +20,7 @@ components:
     args: ['infinity']
     env:
       - name: GRADLE_USER_HOME
-        value: /home/user/.gradle
+        value: /home/gradle/.gradle
       - name: JAVA_OPTS
         value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
           -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
@@ -32,14 +32,14 @@ components:
       - name: PS1
         value: "$(echo ${0})\\$ "
       - name: HOME
-        value: /home/user
+        value: /home/gradle
     memoryLimit: 512Mi
     endpoints:
       - name: '8080/tcp'
         port: 8080
     volumes:
       - name: gradle
-        containerPath: /home/user/.gradle
+        containerPath: /home/gradle/.gradle
     mountSources: true
 commands:
   -
