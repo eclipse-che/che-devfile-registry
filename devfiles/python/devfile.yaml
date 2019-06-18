@@ -2,6 +2,12 @@
 apiVersion: 1.0.0
 metadata:
   name: python
+projects:
+  -
+    name: python-hello-world
+    source:
+      type: git
+      location: "https://github.com/che-samples/python-hello-world.git"
 components:
   -
     type: chePlugin
@@ -19,7 +25,12 @@ components:
       - name: PS1
         value: $(echo ${0})\\$
     memoryLimit: 512Mi
-    endpoints:
-      - name: 'django'
-        port: 7000
     mountSources: true
+commands:
+  -
+    name: run
+    actions:
+      -
+        type: exec
+        command: "cd ${CHE_PROJECTS_ROOT}/python-hello-world && python hello-world.py"
+        component: python

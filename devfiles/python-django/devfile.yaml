@@ -1,0 +1,60 @@
+---
+apiVersion: 1.0.0
+metadata:
+  name: python-django
+projects:
+  -
+    name: django-realworld-example-app
+    source:
+      type: git
+      location: "https://github.com/gothinkster/django-realworld-example-app"
+components:
+  -
+    type: chePlugin
+    id: ms-python/python/latest
+    memoryLimit: 512Mi
+  -
+    type: dockerimage
+    alias: python
+    image: centos/python-36-centos7:1
+    command: ['sleep']
+    args: ['infinity']
+    env:
+      - name: HOME
+        value: /home/user
+      - name: PS1
+        value: $(echo ${0})\\$
+    memoryLimit: 512Mi
+    endpoints:
+      - name: 'django'
+        port: 7000
+    mountSources: true
+commands:
+  -
+    name: install requirements
+    actions:
+      -
+        type: exec
+        component: python
+        command: cd ${CHE_PROJECTS_ROOT}/django-realworld-example-app && pip install -r requirements.txt
+  -
+    name: migrate
+    actions:
+      -
+        type: exec
+        component: python
+        command: cd ${CHE_PROJECTS_ROOT}/django-realworld-example-app && python manage.py migrate
+  -
+    name: patch resources
+    actions:
+      -
+        type: exec
+        component: python
+        command: cd ${CHE_PROJECTS_ROOT}/django-realworld-example-app && sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['*'\]/g" conduit/settings.py
+  -
+    name: run server
+    actions:
+      -
+        type: exec
+        component: python
+        command: cd ${CHE_PROJECTS_ROOT}/django-realworld-example-app && python manage.py runserver 0.0.0.0:7000
