@@ -1,0 +1,6 @@
+---
+displayName: Java MySQL
+description: Default Java MySQL
+tags: ["Java", "Maven", "Spring Boot v2", "MySQL"]
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+globalMemoryLimit: 2930Mi
