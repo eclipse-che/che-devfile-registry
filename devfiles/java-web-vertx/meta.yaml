@@ -1,0 +1,6 @@
+---
+displayName: Vertx Web
+description: Default Vertx Web Stack
+tags: ["Java", "Maven", "Spring Boot v2", "Vertx"]
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+globalMemoryLimit: 2674Mi
