@@ -1,0 +1,6 @@
+---
+displayName: Python with Theia IDE
+description: Default stack with Python 3.7 and Theia IDE adapted to work with Django
+tags: ["Theia", "Debian", "Python", "pip"]
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+globalMemoryLimit: 1686Mi

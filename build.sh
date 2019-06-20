@@ -8,4 +8,4 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-docker build -t openshiftio/che-devfile-registry/che-devfile-registry:latest .
+docker build -t quay.io/openshiftio/che-devfile-registry:latest .

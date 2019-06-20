@@ -1,7 +1,13 @@
 ---
 apiVersion: 1.0.0
 metadata:
-  name: apache-camel-springboot-che7
+  name: apache-camel-springboot
+projects:
+  -
+    name: fuse-rest-http-booster
+    source:
+      type: git
+      location: "https://github.com/jboss-fuse/fuse-rest-http-booster"
 components:
   -
     type: chePlugin
@@ -46,3 +52,22 @@ components:
       - name: '8080/tcp'
         port: 8080
     mountSources: true
+commands:
+  -
+    name: build the project
+    actions:
+      - type: exec
+        component: maven
+        command: cd ${CHE_PROJECTS_ROOT}/fuse-rest-http-booster && mvn clean install
+  -
+    name: run the services
+    actions:
+    - type: exec
+      component: maven
+      command: cd ${CHE_PROJECTS_ROOT}/fuse-rest-http-booster && mvn spring-boot:run -DskipTests
+  -
+    name: run and debug the services
+    actions:
+      - type: exec
+        component: maven
+        command: cd ${CHE_PROJECTS_ROOT}/fuse-rest-http-booster && mvn spring-boot:run -DskipTests -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"

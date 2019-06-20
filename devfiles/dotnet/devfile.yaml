@@ -2,6 +2,12 @@
 apiVersion: 1.0.0
 metadata:
   name: dotnet
+projects:
+  -
+    name: dotnet-web-simple
+    source:
+      type: git
+      location: "https://github.com/che-samples/dotnet-web-simple"
 components:
   -
     type: chePlugin
@@ -30,3 +36,16 @@ components:
     volumes:
       - name: dotnet
         containerPath: "/home/user"
+commands:
+  -
+    name: update dependencies
+    actions:
+      - type: exec
+        component: dotnet
+        command: "cd ${CHE_PROJECTS_ROOT}/dotnet-web-simple && dotnet restore"
+  -
+    name: run
+    actions:
+      - type: exec
+        component: dotnet
+        command: "cd ${CHE_PROJECTS_ROOT}/dotnet-web-simple && dotnet run"
