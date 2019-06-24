@@ -32,5 +32,6 @@ commands:
     actions:
       -
         type: exec
-        command: "cd ${CHE_PROJECTS_ROOT}/python-hello-world && python hello-world.py"
         component: python
+        command: "python hello-world.py"
+        workdir: ${CHE_PROJECTS_ROOT}/python-hello-world

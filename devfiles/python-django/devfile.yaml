@@ -36,25 +36,29 @@ commands:
       -
         type: exec
         component: python
-        command: cd ${CHE_PROJECTS_ROOT}/django-realworld-example-app && pip install -r requirements.txt
+        command: pip install -r requirements.txt
+        workdir: ${CHE_PROJECTS_ROOT}/django-realworld-example-app
   -
     name: migrate
     actions:
       -
         type: exec
         component: python
-        command: cd ${CHE_PROJECTS_ROOT}/django-realworld-example-app && python manage.py migrate
+        command: python manage.py migrate
+        workdir: cd ${CHE_PROJECTS_ROOT}/django-realworld-example-app
   -
     name: patch resources
     actions:
       -
         type: exec
         component: python
-        command: cd ${CHE_PROJECTS_ROOT}/django-realworld-example-app && sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['*'\]/g" conduit/settings.py
+        command: sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['*'\]/g" conduit/settings.py
+        workdir: ${CHE_PROJECTS_ROOT}/django-realworld-example-app
   -
     name: run server
     actions:
       -
         type: exec
         component: python
-        command: cd ${CHE_PROJECTS_ROOT}/django-realworld-example-app && python manage.py runserver 0.0.0.0:7000
+        command: python manage.py runserver 0.0.0.0:7000
+        workdir: ${CHE_PROJECTS_ROOT}/django-realworld-example-app
