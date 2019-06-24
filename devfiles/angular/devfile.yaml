@@ -48,7 +48,7 @@ commands:
     actions:
       - type: exec
         component: nodejs
-        command: yarn run start --disableHostCheck true
+        command: yarn run start --host 0.0.0.0 --disableHostCheck true
         workdir: ${CHE_PROJECTS_ROOT}/angular-realworld-example-app
   -
     name: test
@@ -62,5 +62,5 @@ commands:
     actions:
       - type: exec
         component: nodejs
-        command: yarn run list
+        command: yarn run lint
         workdir: ${CHE_PROJECTS_ROOT}/angular-realworld-example-app
