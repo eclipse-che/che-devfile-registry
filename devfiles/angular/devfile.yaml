@@ -30,6 +30,12 @@ components:
         port: 4200
     mountSources: true
 commands:
+  - name: yarn install
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn install
+        workdir: ${CHE_PROJECTS_ROOT}/angular-realworld-example-app
   -
     name: build
     actions:
