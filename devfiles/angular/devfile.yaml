@@ -1,0 +1,58 @@
+---
+apiVersion: 1.0.0
+metadata:
+  name: angular
+projects:
+  -
+    name: angular-realworld-example-app
+    source:
+      type: git
+      location: "https://github.com/gothinkster/angular-realworld-example-app"
+components:
+  -
+    type: chePlugin
+    id: che-incubator/typescript/latest
+  -
+    type: dockerimage
+    alias: nodejs
+    image: node:10.16-alpine
+    command: ['tail']
+    args: ['-f', '/dev/null']
+    env:
+      - name: HOME
+        value: /projects
+      - name: PS1
+        value: $(echo ${0})\\$
+    memoryLimit: 1Gi
+    endpoints:
+      - name: 'angular'
+        port: 4200
+    mountSources: true
+commands:
+  - name: yarn install
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn install
+        workdir: ${CHE_PROJECTS_ROOT}/angular-realworld-example-app
+  -
+    name: build
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn run build
+        workdir: ${CHE_PROJECTS_ROOT}/angular-realworld-example-app
+  -
+    name: start
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn run start --host 0.0.0.0 --disableHostCheck true
+        workdir: ${CHE_PROJECTS_ROOT}/angular-realworld-example-app
+  -
+    name: lint
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn run lint
+        workdir: ${CHE_PROJECTS_ROOT}/angular-realworld-example-app

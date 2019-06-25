@@ -1,0 +1,6 @@
+---
+displayName: NodeJS Angular Web Application
+description: Devfile for developing NodeJS Angular Web Application
+tags: ["NodeJS", "Theia", "Angular"]
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+globalMemoryLimit: 2686Mi
