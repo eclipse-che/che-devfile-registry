@@ -12,14 +12,14 @@ components:
 -
   type: chePlugin
   id: redhat/php/latest
-  memoryLimit: 1000Mi
+  memoryLimit: 1Gi
 -
   type: chePlugin
   id: redhat/php-debugger/latest
   memoryLimit: 256Mi
 -
   type: dockerimage
-  alias: tools
+  alias: php
   image: eclipse/php:7.1-che7
   env:
     - name: HOME
@@ -37,12 +37,12 @@ commands:
 -
     name: Start Apache Web Server
     actions:
-    - type: custom
-      component: tools
+    - type: exec
+      component: php
       command: "service apache2 start"
 -
     name: Stop Apache Web Server
     actions:
-    - type: custom
-      component: tools
+    - type: exec
+      component: php
       command: "service apache2 stop"

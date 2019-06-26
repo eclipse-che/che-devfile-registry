@@ -12,14 +12,14 @@ components:
 -
   type: chePlugin
   id: redhat/php/latest
-  memoryLimit: 1000Mi
+  memoryLimit: 1Gi
 -
   type: chePlugin
   id: redhat/php-debugger/latest
   memoryLimit: 256Mi
 -
   type: dockerimage
-  alias: tools
+  alias: php
   image: eclipse/php:7.1-che7
   env:
     - name: HOME
@@ -58,42 +58,42 @@ commands:
 -
   name: Start Artisan Web Server
   actions:
-  - type: custom
-    component: tools
+  - type: exec
+    component: php
     command: "php artisan serve"
     workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
 -
   name: Install dependencies
   actions:
-  - type: custom
-    component: tools
+  - type: exec
+    component: php
     command: "composer install"
     workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
 -
   name: Copy the example env file and make the required configuration changes in the .env file
   actions:
-  - type: custom
-    component: tools
+  - type: exec
+    component: php
     command: "cp .env.example .env"
     workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
 -
   name: Generate a new application key
   actions:
-  - type: custom
-    component: tools
+  - type: exec
+    component: php
     command: "php artisan key:generate"
     workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
 -
   name: Generate a new JWT authentication secret key
   actions:
-  - type: custom
-    component: tools
+  - type: exec
+    component: php
     command: "php artisan jwt:generate"
     workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
 -
   name: Run the database migrations
   actions:
-  - type: custom
-    component: tools
+  - type: exec
+    component: php
     command: "php artisan migrate"
     workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
