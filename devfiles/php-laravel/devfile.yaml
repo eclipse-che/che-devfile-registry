@@ -97,4 +97,3 @@ commands:
     component: tools
     command: "php artisan migrate"
     workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
-    
