@@ -42,10 +42,12 @@ commands:
     actions:
       - type: exec
         component: dotnet
-        command: "cd ${CHE_PROJECTS_ROOT}/dotnet-web-simple && dotnet restore"
+        command: "dotnet restore"
+        workdir: ${CHE_PROJECTS_ROOT}/dotnet-web-simple
   -
     name: run
     actions:
       - type: exec
         component: dotnet
-        command: "cd ${CHE_PROJECTS_ROOT}/dotnet-web-simple && dotnet run"
+        command: "dotnet run"
+        workdir: ${CHE_PROJECTS_ROOT}/dotnet-web-simple
