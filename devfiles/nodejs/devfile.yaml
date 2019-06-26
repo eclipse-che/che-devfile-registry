@@ -35,4 +35,5 @@ commands:
     actions:
       - type: exec
         component: nodejs
-        command: cd ${CHE_PROJECTS_ROOT}/nodejs-web-app/app && nodemon app.js
+        command: nodemon app.js
+        workdir: ${CHE_PROJECTS_ROOT}/nodejs-web-app/app

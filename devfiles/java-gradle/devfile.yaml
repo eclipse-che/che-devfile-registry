@@ -47,12 +47,14 @@ commands:
     actions:
       -
         type: exec
-        command: "cd ${CHE_PROJECTS_ROOT}/console-java-simple; gradle build"
         component: gradle
+        command: "gradle build"
+        workdir: ${CHE_PROJECTS_ROOT}/console-java-simple
   -
     name: gradle run
     actions:
       -
         type: exec
-        command: "cd ${CHE_PROJECTS_ROOT}/console-java-simple && gradle run"
         component: gradle
+        command: "gradle run"
+        workdir: ${CHE_PROJECTS_ROOT}/console-java-simple

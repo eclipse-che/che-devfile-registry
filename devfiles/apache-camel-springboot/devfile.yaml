@@ -58,16 +58,19 @@ commands:
     actions:
       - type: exec
         component: maven
-        command: cd ${CHE_PROJECTS_ROOT}/fuse-rest-http-booster && mvn clean install
+        command: mvn clean install
+        workdir: ${CHE_PROJECTS_ROOT}/fuse-rest-http-booster
   -
     name: run the services
     actions:
     - type: exec
       component: maven
-      command: cd ${CHE_PROJECTS_ROOT}/fuse-rest-http-booster && mvn spring-boot:run -DskipTests
+      command: mvn spring-boot:run -DskipTests
+      workdir: ${CHE_PROJECTS_ROOT}/fuse-rest-http-booster
   -
     name: run and debug the services
     actions:
       - type: exec
         component: maven
-        command: cd ${CHE_PROJECTS_ROOT}/fuse-rest-http-booster && mvn spring-boot:run -DskipTests -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+        command: mvn spring-boot:run -DskipTests -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+        workdir: ${CHE_PROJECTS_ROOT}/fuse-rest-http-booster

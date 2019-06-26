@@ -52,12 +52,14 @@ commands:
     actions:
       -
         type: exec
-        command: "mvn -Duser.home=${HOME} -f ${CHE_PROJECTS_ROOT}/console-java-simple clean install"
         component: maven
+        command: "mvn -Duser.home=${HOME} clean install"
+        workdir: ${CHE_PROJECTS_ROOT}/console-java-simple
   -
     name: maven build and run
     actions:
       -
         type: exec
-        command: "mvn -Duser.home=${HOME} -f ${CHE_PROJECTS_ROOT}/console-java-simple clean install && java -jar ${CHE_PROJECTS_ROOT}/console-java-simple/target/*.jar"
         component: maven
+        command: "mvn -Duser.home=${HOME} clean install && java -jar ./target/*.jar"
+        workdir: ${CHE_PROJECTS_ROOT}/console-java-simple
