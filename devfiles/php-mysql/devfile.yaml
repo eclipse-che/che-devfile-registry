@@ -1,0 +1,76 @@
+---
+apiVersion: 1.0.0
+metadata:
+  name: php-mysql
+projects:
+-
+  name: crud-php
+  source:
+    type: git
+    location: "https://github.com/taniarascia/pdo.git"
+components:
+-
+  type: chePlugin
+  id: redhat/php/latest
+  memoryLimit: 1Gi
+-
+  type: chePlugin
+  id: redhat/php-debugger/latest
+  memoryLimit: 256Mi
+-
+  type: dockerimage
+  alias: php
+  image: eclipse/php:7.1-che7
+  env:
+    - name: HOME
+      value: /home/user
+    - name: PS1
+      value: $(echo ${0})\\$
+  memoryLimit: 512Mi
+  endpoints:
+  - name: '8080/tcp'
+    port: 8080
+  mountSources: true
+  volumes:
+    - name: composer
+      containerPath: "/home/user/.composer"
+-
+  type: dockerimage
+  alias: mysql
+  image: centos/mysql-57-centos7
+  env:
+    - name: MYSQL_USER
+      value: user
+    - name: MYSQL_PASSWORD
+      value: root
+    - name: MYSQL_ROOT_PASSWORD
+      value: root
+    - name: MYSQL_DATABASE
+      value: database
+  memoryLimit: 256Mi
+  endpoints:
+    - name: 'db'
+      port: 3306
+      attributes:
+        discoverable: "true"
+  mountSources: false
+commands:
+-
+  name: Start Apache Web Server
+  actions:
+  - type: exec
+    component: php
+    command: "service apache2 start"
+-
+  name: Stop Apache Web Server
+  actions:
+  - type: exec
+    component: php
+    command: "service apache2 stop"
+-
+  name: Configure database
+  actions:
+  - type: exec
+    component: php
+    command: "sed -i 's/localhost/127.0.0.1/g' config.php && php install.php"
+    workdir: ${CHE_PROJECTS_ROOT}/crud-php

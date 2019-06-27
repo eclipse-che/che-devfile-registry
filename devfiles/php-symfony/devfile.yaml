@@ -1,0 +1,80 @@
+---
+apiVersion: 1.0.0
+metadata:
+  name: php-symfony
+projects:
+-
+  name: symfony-demo-application
+  source:
+    type: git
+    location: "https://github.com/symfony/demo.git"
+components:
+-
+  type: chePlugin
+  id: redhat/php/latest
+  memoryLimit: 1Gi
+-
+  type: chePlugin
+  id: redhat/php-debugger/latest
+  memoryLimit: 256Mi
+-
+  type: dockerimage
+  alias: php
+  image: eclipse/php:7.1-che7
+  env:
+    - name: HOME
+      value: /home/user
+    - name: PS1
+      value: $(echo ${0})\\$
+  memoryLimit: 512Mi
+  endpoints:
+  - name: '8080/tcp'
+    port: 8080
+  mountSources: true
+  volumes:
+    - name: composer
+      containerPath: "/home/user/.composer"
+    - name: symfony
+      containerPath: "/home/user/.symfony"
+-
+  type: dockerimage
+  alias: mysql
+  image: centos/mysql-57-centos7
+  env:
+    - name: MYSQL_USER
+      value: db_user
+    - name: MYSQL_PASSWORD
+      value: db_password
+    - name: MYSQL_ROOT_PASSWORD
+      value: db_password
+    - name: MYSQL_DATABASE
+      value: db_name
+  memoryLimit: 256Mi
+  endpoints:
+    - name: 'db'
+      port: 3306
+      attributes:
+        discoverable: "true"
+  mountSources: false
+commands:
+-
+  name: Start Symfony Web Server
+  actions:
+  - type: exec
+    component: php
+    command: "$HOME/.symfony/bin/symfony server:start"
+    workdir: ${CHE_PROJECTS_ROOT}/symfony-demo-application
+-
+  name: Install dependencies
+  actions:
+  - type: exec
+    component: php
+    command: "composer install && wget https://get.symfony.com/cli/installer -O - | bash"
+    workdir: ${CHE_PROJECTS_ROOT}/symfony-demo-application
+-
+  name: Stop Symfony Web Server
+  actions:
+  - type: exec
+    component: php
+    command: "$HOME/.symfony/bin/symfony server:stop"
+    workdir: ${CHE_PROJECTS_ROOT}/symfony-demo-application
