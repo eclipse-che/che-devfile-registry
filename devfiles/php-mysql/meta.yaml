@@ -1,0 +1,6 @@
+---
+displayName: "PHP MySQL"
+description: PHP Stack with MySQL and simple database application
+tags: ["PHP", "Apache", "MySQL"]
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+globalMemoryLimit: 2686Mi
