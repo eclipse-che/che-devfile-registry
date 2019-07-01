@@ -4,7 +4,7 @@ metadata:
   name: nodejs-mongo
 projects:
   -
-    name: nodejs-realworld-app
+    name: nodejs-mongodb-app
     source:
       type: git
       location: "https://github.com/gothinkster/node-express-realworld-example-app"
@@ -58,6 +58,7 @@ components:
         port: 27017
         attributes:
           discoverable: 'true'
+          public: 'false'
 commands:
   -
     name: run the web app
@@ -65,7 +66,7 @@ commands:
       - type: exec
         component: nodejs
         command: npm install && npm run dev 
-        workdir: ${CHE_PROJECTS_ROOT}/nodejs-realworld-app
+        workdir: ${CHE_PROJECTS_ROOT}/nodejs-mongodb-app
   -
     name: create test user
     actions:
