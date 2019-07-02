@@ -21,7 +21,7 @@ Though you may also just provide the image to the older versions of Docker (ex. 
 ## OpenShift
 You can deploy Che devfile registry on Openshift with command.
 ```
-  oc new-app -f deploy/openshift/che-devfile-registry.yml \
+  oc new-app -f deploy/openshift/che-devfile-registry.yaml \
              -p IMAGE="quay.io/openshiftio/che-devfile-registry" \
              -p IMAGE_TAG="latest" \
              -p PULL_POLICY="Always"
