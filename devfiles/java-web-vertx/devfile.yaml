@@ -61,5 +61,5 @@ commands:
       -
         type: exec
         component: maven
-        command: "java -jar ./target/*fat.jar"
+        command: "JDBC_URL=jdbc:h2:/tmp/db java -jar ./target/*fat.jar"
         workdir: "${CHE_PROJECTS_ROOT}/java-web-vertx"
