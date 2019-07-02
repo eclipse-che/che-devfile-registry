@@ -13,6 +13,9 @@ components:
     type: chePlugin
     id: che-incubator/typescript/latest
   -
+    type: chePlugin
+    id: ms-vscode/vscode-git/latest
+  -
     type: dockerimage
     alias: nodejs
     image: node:10.16-alpine

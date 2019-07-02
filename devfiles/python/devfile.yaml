@@ -14,6 +14,9 @@ components:
     id: ms-python/python/latest
     memoryLimit: 512Mi
   -
+    type: chePlugin
+    id: ms-vscode/vscode-git/latest
+  -
     type: dockerimage
     alias: python
     image: centos/python-36-centos7:1

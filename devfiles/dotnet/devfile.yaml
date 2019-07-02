@@ -18,6 +18,9 @@ components:
     id: redhat-developer/netcoredbg-theia-plugin/latest
     memoryLimit: 512Mi
   -
+    type: chePlugin
+    id: ms-vscode/vscode-git/latest
+  -
     type: dockerimage
     alias: dotnet
     image: mcr.microsoft.com/dotnet/core/sdk:2.2-stretch

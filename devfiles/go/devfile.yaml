@@ -8,6 +8,9 @@ components:
     id: ms-vscode/go/latest
     memoryLimit: 512Mi
   -
+    type: chePlugin
+    id: ms-vscode/vscode-git/latest
+  -
     type: dockerimage
     image: golang:1.12.4-stretch
     command: ['sleep']

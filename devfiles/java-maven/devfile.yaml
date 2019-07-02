@@ -13,6 +13,9 @@ components:
     type: chePlugin
     id: redhat/java/latest
   -
+    type: chePlugin
+    id: ms-vscode/vscode-git/latest
+  -
     type: dockerimage
     alias: maven
     image: maven:3.6.0-jdk-11

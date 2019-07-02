@@ -14,6 +14,9 @@ components:
     id: che-incubator/typescript/latest
     memoryLimit: 512Mi
   -
+    type: chePlugin
+    id: ms-vscode/vscode-git/latest
+  -
     type: dockerimage
     alias: nodejs
     image: registry.access.redhat.com/ubi8/nodejs-10

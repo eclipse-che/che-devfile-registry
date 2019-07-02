@@ -18,6 +18,9 @@ components:
   id: redhat/php-debugger/latest
   memoryLimit: 256Mi
 -
+  type: chePlugin
+  id: ms-vscode/vscode-git/latest
+-
   type: dockerimage
   alias: php
   image: eclipse/php:7.1-che7
