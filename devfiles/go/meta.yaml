@@ -1,6 +1,6 @@
 ---
 displayName: Go
-description: Default stack with Go 1.12.4
+description: Stack with Go 1.12.4
 tags: ["Debian", "Go"]
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
 globalMemoryLimit: 1686Mi

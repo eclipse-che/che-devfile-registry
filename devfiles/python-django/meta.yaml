@@ -1,6 +1,6 @@
 ---
 displayName: Django
-description: Default stack with Python 3.6 and Django
+description: Stack with Python 3.6 and Django
 tags: ["Centos", "Python", "pip"]
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
 globalMemoryLimit: 1686Mi
