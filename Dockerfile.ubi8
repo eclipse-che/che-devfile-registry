@@ -1,0 +1,38 @@
+#
+# Copyright (c) 2018-2019 Red Hat, Inc.
+# This program and the accompanying materials are made
+# available under the terms of the Eclipse Public License 2.0
+# which is available at https://www.eclipse.org/legal/epl-2.0/
+#
+# SPDX-License-Identifier: EPL-2.0
+#
+FROM registry.redhat.io/ubi8-minimal as builder
+USER 0
+WORKDIR /build/
+
+COPY yq_linux_amd64_2.4.0 /usr/bin/yq
+COPY .htaccess README.md *.sh /build/
+COPY /devfiles /build/devfiles
+
+RUN microdnf install -y findutils && chmod +x /usr/bin/yq && \
+  ./check_mandatory_fields.sh devfiles && \
+  ./index.sh > /build/devfiles/index.json
+
+FROM registry.redhat.io/rhel8/httpd-24:1-30
+USER 0
+EXPOSE 80
+
+COPY --from=builder /build/ /var/www/html/
+
+RUN sed -i -e "s,Listen 80,Listen 8080," \
+  -e "s,logs/error_log,/dev/stderr," \
+  -e "s,logs/access_log,/dev/stdout," \
+  -e "s,AllowOverride None,AllowOverride All," /etc/httpd/conf/httpd.conf && \
+  # the htpasswd file may be periodically replaced during run \
+  chmod a+rwX /etc/httpd/conf /run/httpd /etc/httpd/logs && \
+  mkdir -p /var/www/html/devfiles && \
+  chmod -R g+rwX /var/www/html/devfiles
+
+STOPSIGNAL SIGWINCH
+
+ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
