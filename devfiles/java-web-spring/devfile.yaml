@@ -4,10 +4,10 @@ metadata:
   name: java-web-spring
 projects:
   -
-    name: web-java-spring
+    name: java-web-spring
     source:
       type: git
-      location: "https://github.com/che-samples/web-java-spring.git"
+      location: "https://github.com/spring-projects/spring-petclinic.git"
 components:
   -
     type: chePlugin
@@ -19,26 +19,16 @@ components:
     command: ['sleep']
     args: ['infinity']
     env:
-      - name: MAVEN_CONFIG
-        value: /home/user/.m2
-      - name: MAVEN_OPTS
+      - name: JAVA_OPTS
         value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
           -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
           -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
           -Duser.home=/home/user"
-      - name: JAVA_OPTS
-        value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
-          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
-          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
-      - name: JAVA_TOOL_OPTIONS
-        value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
-          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
-          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      - name: MAVEN_OPTS
+        value: $(JAVA_OPTS)
       - name: PS1
         value: $(echo ${0})\\$
-      - name: HOME
-        value: /home/user
-    memoryLimit: 512Mi
+    memoryLimit: 1024Mi
     endpoints:
       - name: '8080/tcp'
         port: 8080
@@ -53,37 +43,12 @@ commands:
       -
         type: exec
         component: tools
-        command: "mvn -Duser.home=${HOME} clean install"
-        workdir: ${CHE_PROJECTS_ROOT}/web-java-spring
-  -
-    name: deploy
+        command: "./mvnw clean install"
+        workdir: ${CHE_PROJECTS_ROOT}/java-web-spring
+  - name: run webapp
     actions:
       -
         type: exec
         component: tools
-        command: "cp target/*.war ${TOMCAT_HOME}/webapps/ROOT.war"
-        workdir: ${CHE_PROJECTS_ROOT}/web-java-spring
-  -
-    name: start tomcat
-    actions:
-      -
-        type: exec
-        component: tools
-        command: "./bin/catalina.sh run 2>&1"
-        workdir: ${TOMCAT_HOME}
-  -
-    name: stop tomcat
-    actions:
-      -
-        type: exec
-        component: tools
-        command: "./bin/catalina.sh stop"
-        workdir: ${TOMCAT_HOME}
-  -
-    name: maven build and deploy
-    actions:
-      -
-        type: exec
-        component: tools
-        command: "mvn -Duser.home=${HOME} clean install && cp target/*.war ${TOMCAT_HOME}/webapps/ROOT.war"
-        workdir: ${CHE_PROJECTS_ROOT}/web-java-spring
+        command: "java -jar target/*.jar"
+        workdir: ${CHE_PROJECTS_ROOT}/java-web-spring
