@@ -6,28 +6,21 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 #
-FROM registry.redhat.io/ubi8-minimal as builder
-USER 0
-WORKDIR /build/
-
-COPY yq_linux_amd64_2.4.0 /usr/bin/yq
-COPY .htaccess README.md *.sh /build/
-COPY /devfiles /build/devfiles
-
-RUN microdnf install -y findutils && chmod +x /usr/bin/yq && \
-  ./check_mandatory_fields.sh devfiles && \
-  ./index.sh > /build/devfiles/index.json
-
 FROM registry.redhat.io/rhel8/httpd-24:1-30
 USER 0
 EXPOSE 80
+WORKDIR /build/
 
-COPY --from=builder /build/ /var/www/html/
+COPY .htaccess README.md *.sh /build/
+COPY /devfiles /build/devfiles
 
-RUN sed -i -e "s,Listen 80,Listen 8080," \
-  -e "s,logs/error_log,/dev/stderr," \
-  -e "s,logs/access_log,/dev/stdout," \
-  -e "s,AllowOverride None,AllowOverride All," /etc/httpd/conf/httpd.conf && \
+RUN ./check_mandatory_fields.sh devfiles && \
+  ./index.sh devfiles > /build/devfiles/index.json && \
+  cp -r /build/.htaccess /build/* /var/www/html/ && \
+  sed -i -e "s,Listen 80,Listen 8080," \
+    -e "s,logs/error_log,/dev/stderr," \
+    -e "s,logs/access_log,/dev/stdout," \
+    -e "s,AllowOverride None,AllowOverride All," /etc/httpd/conf/httpd.conf && \
   # the htpasswd file may be periodically replaced during run \
   chmod a+rwX /etc/httpd/conf /run/httpd /etc/httpd/logs && \
   mkdir -p /var/www/html/devfiles && \
