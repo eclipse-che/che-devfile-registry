@@ -16,6 +16,7 @@ components:
   -
     type: dockerimage
     alias: nodejs
+    # system limit for number of file watchers reached with
     # image: registry.access.redhat.com/ubi8/nodejs-10
     image: registry.centos.org/che-stacks/centos-nodejs
     command: ['sleep']
