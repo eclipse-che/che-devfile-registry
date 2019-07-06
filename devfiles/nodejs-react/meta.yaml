@@ -1,0 +1,6 @@
+---
+displayName: React web application
+description: NodeJS 10 stack with React real world application
+tags: ["NodeJS", "React", "Redux", "RealWorld"]
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+globalMemoryLimit: 1686Mi

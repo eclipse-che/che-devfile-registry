@@ -1,0 +1,47 @@
+---
+apiVersion: 1.0.0
+metadata:
+  name: nodejs-react
+projects:
+  -
+    name: react-redux-realworld-example-app
+    source:
+      type: git
+      location: "https://github.com/gothinkster/react-redux-realworld-example-app"
+components:
+  -
+    type: chePlugin
+    id: che-incubator/typescript/latest
+    memoryLimit: 512Mi
+  -
+    type: dockerimage
+    alias: nodejs
+    # image: registry.access.redhat.com/ubi8/nodejs-10
+    image: registry.centos.org/che-stacks/centos-nodejs
+    command: ['sleep']
+    args: ['infinity']
+    env:
+      - name: HOME
+        value: /tmp/user
+      - name: PS1
+        value: $(echo ${0})\\$
+    memoryLimit: 512Mi
+    endpoints:
+      - name: 'nodejs'
+        port: 4100
+    mountSources: true
+commands:
+  -
+    name: install all required dependencies
+    actions:
+      - type: exec
+        component: nodejs
+        command: npm install
+        workdir: ${CHE_PROJECTS_ROOT}/react-redux-realworld-example-app
+  -
+    name: start the local server
+    actions:
+      - type: exec
+        component: nodejs
+        command: npm start
+        workdir: ${CHE_PROJECTS_ROOT}/react-redux-realworld-example-app
