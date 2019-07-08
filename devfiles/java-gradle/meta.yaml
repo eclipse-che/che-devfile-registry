@@ -1,6 +1,6 @@
 ---
 displayName: Java Gradle
 description: Java Stack with OpenJDK 11 and Gradle 5.2.1
-tags: ["Java", "OpenJDK", "Gradle", "Spring Boot v2", "Debian"]
+tags: ["Java", "OpenJDK", "Gradle", "Ubuntu"]
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
 globalMemoryLimit: 2674Mi
