@@ -1,0 +1,6 @@
+---
+displayName: NodeJS React Web Application
+description: Stack for developing NodeJS React Web Application
+tags: ["NodeJS", "React", "Redux", "RealWorld"]
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+globalMemoryLimit: 1686Mi
