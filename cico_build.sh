@@ -22,6 +22,8 @@ function load_jenkins_vars() {
             DEVSHIFT_TAG_LEN \
             QUAY_USERNAME \
             QUAY_PASSWORD \
+            QUAY_ECLIPSE_CHE_USERNAME \
+            QUAY_ECLIPSE_CHE_PASSWORD \
             JENKINS_URL \
             GIT_BRANCH \
             GIT_COMMIT \
@@ -60,26 +62,30 @@ function deploy() {
 
   if [ "$TARGET" == "rhel" ]; then
     DOCKERFILE="Dockerfile.rhel"
+    ORGANIZATION="openshiftio"
     IMAGE="rhel-che-devfile-registry"
   else
     DOCKERFILE="Dockerfile"
+    ORGANIZATION="eclipse-che"
     IMAGE="che-devfile-registry"
+    # For pushing to quay.io 'eclipse-che' organization we need to use different credentials
+    QUAY_USERNAME=${QUAY_ECLIPSE_CHE_USERNAME}
+    QUAY_PASSWORD=${QUAY_ECLIPSE_CHE_PASSWORD}
   fi
 
   if [ -n "${QUAY_USERNAME}" ] && [ -n "${QUAY_PASSWORD}" ]; then
     docker login -u "${QUAY_USERNAME}" -p "${QUAY_PASSWORD}" "${REGISTRY}"
   else
-    echo "Could not login, missing credentials for the registry"
+    echo "Could not login, missing credentials for pushing to the '${ORGANIZATION}' organization"
   fi
 
-  # Let's deploy
+  # Let's build and push images to 'quay.io'
   docker build -t ${IMAGE} -f ${DOCKERFILE} .
 
   TAG=$(echo "$GIT_COMMIT" | cut -c1-"${DEVSHIFT_TAG_LEN}")
 
-  tag_push "${REGISTRY}/openshiftio/$IMAGE:$TAG"
-  tag_push "${REGISTRY}/openshiftio/$IMAGE:latest"
-  echo 'CICO: Image pushed, ready to update deployed app'
+  tag_push "${REGISTRY}/${ORGANIZATION}/$IMAGE:$TAG"
+  echo "CICO: Images pushed to 'quay.io/openshiftio', ready to update deployed app"
 }
 
 function cico_setup() {
