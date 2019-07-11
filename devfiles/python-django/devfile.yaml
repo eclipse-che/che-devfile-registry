@@ -45,7 +45,7 @@ commands:
         type: exec
         component: python
         command: python manage.py migrate
-        workdir: cd ${CHE_PROJECTS_ROOT}/django-realworld-example-app
+        workdir: ${CHE_PROJECTS_ROOT}/django-realworld-example-app
   -
     name: patch resources
     actions:
