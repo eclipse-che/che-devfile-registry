@@ -66,7 +66,7 @@ function deploy() {
     IMAGE="rhel-che-devfile-registry"
   else
     DOCKERFILE="Dockerfile"
-    ORGANIZATION="eclipse-che"
+    ORGANIZATION="eclipse"
     IMAGE="che-devfile-registry"
     # For pushing to quay.io 'eclipse-che' organization we need to use different credentials
     QUAY_USERNAME=${QUAY_ECLIPSE_CHE_USERNAME}
