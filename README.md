@@ -16,7 +16,7 @@ Useful when you change devfile files and rebuild the image.
 Note that the Dockerfiles feature multi-stage build, so it requires Docker of version 17.05 and higher.
 Though you may also just provide the image to the older versions of Docker (ex. on Minishift) by having it build on newer version, and pushing and pulling it from Docker Hub.
 
-`quay.io/openshiftio/che-devfile-registry:latest` image would be rebuilt after each commit in master
+`quay.io/openshiftio/che-devfile-registry:latest` image would be rebuilt after each commit in master.
 
 ## OpenShift
 You can deploy Che devfile registry on Openshift with command.
