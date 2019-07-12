@@ -55,6 +55,7 @@ function tag_push() {
 
 function build_and_push() {
   DOCKERFILE="Dockerfile"
+  REGISTRY="quay.io"
   ORGANIZATION="eclipse"
   IMAGE="che-devfile-registry"
   TAG="nightly"
