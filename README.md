@@ -1,4 +1,5 @@
 [![Build Status](https://ci.centos.org/buildStatus/icon?job=devtools-che-devfile-registry-build-master/)](https://ci.centos.org/job/devtools-che-devfile-registry-build-master/)
+[![Build Status](https://ci.centos.org/buildStatus/icon?job=devtools-che-devfile-registry-nightly/)](https://ci.centos.org/job/devtools-che-devfile-registry-nightly/)
 
 # Eclipse Che devfile registry
 
@@ -16,14 +17,14 @@ Useful when you change devfile files and rebuild the image.
 Note that the Dockerfiles feature multi-stage build, so it requires Docker of version 17.05 and higher.
 Though you may also just provide the image to the older versions of Docker (ex. on Minishift) by having it build on newer version, and pushing and pulling it from Docker Hub.
 
-`quay.io/openshiftio/che-devfile-registry:latest` image would be rebuilt after each commit in master.
+`quay.io/eclipse/che-devfile-registry` image would be rebuilt after each commit in master with the commit hash as tag e.g. `73967c0`. There is also `quay.io/eclipse/che-devfile-registry:nightly` image which is updated every 24 hours.
 
 ## OpenShift
 You can deploy Che devfile registry on Openshift with command.
 ```
   oc new-app -f deploy/openshift/che-devfile-registry.yaml \
-             -p IMAGE="quay.io/openshiftio/che-devfile-registry" \
-             -p IMAGE_TAG="latest" \
+             -p IMAGE="quay.io/eclipse/che-devfile-registry" \
+             -p IMAGE_TAG="nightly" \
              -p PULL_POLICY="Always"
 ```
 
@@ -53,7 +54,7 @@ helm delete --purge che-devfile-registry
 
 ## Docker
 ```
-docker run -it --rm -p 8080:8080 quay.io/openshiftio/che-devfile-registry
+docker run -it --rm -p 8080:8080 quay.io/eclipse/che-devfile-registry
 ```
 
 ### License

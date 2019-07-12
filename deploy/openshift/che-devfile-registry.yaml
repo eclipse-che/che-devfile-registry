@@ -83,11 +83,11 @@ objects:
       name: che-devfile-registry
 parameters:
 - name: IMAGE
-  value: quay.io/openshiftio/che-devfile-registry
+  value: quay.io/eclipse/che-devfile-registry
   displayName: Eclipse Che devfile registry image
-  description: Che devfile registry Docker image. Defaults to quay.io/openshiftio/che-devfile-registry
+  description: Che devfile registry Docker image. Defaults to quay.io/eclipse/che-devfile-registry
 - name: IMAGE_TAG
-  value: latest
+  value: nightly
   displayName: Eclipse Che devfile registry version
   description: Eclipse Che devfile registry version which defaults to latest
 - name: MEMORY_LIMIT
