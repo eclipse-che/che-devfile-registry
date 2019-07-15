@@ -19,25 +19,15 @@ components:
     command: ['sleep']
     args: ['infinity']
     env:
-      - name: MAVEN_CONFIG
-        value: /home/user/.m2
-      - name: MAVEN_OPTS
+      - name: JAVA_OPTS
         value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
           -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
           -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
           -Duser.home=/home/user"
-      - name: JAVA_OPTS
-        value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
-          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
-          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
-      - name: JAVA_TOOL_OPTIONS
-        value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
-          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
-          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      - name: MAVEN_OPTS
+        value: $(JAVA_OPTS)
       - name: PS1
         value: $(echo ${0})\\$
-      - name: HOME
-        value: /home/user
     memoryLimit: 512Mi
     endpoints:
       - name: '8080/tcp'
