@@ -14,6 +14,8 @@ set -x
 # Exit on error
 set -e
 
+SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
+
 # Source environment variables of the jenkins slave
 # that might interest this worker.
 function load_jenkins_vars() {
@@ -59,6 +61,9 @@ function build_and_push() {
   ORGANIZATION="eclipse"
   IMAGE="che-devfile-registry"
   TAG="nightly"
+
+  "${SCRIPT_DIR}"/arbitrary-users-patch/build_images.sh --push
+  echo "CICO: pushed nightly arbitrary-user patched base images"
 
   if [ -n "${QUAY_ECLIPSE_CHE_USERNAME}" ] && [ -n "${QUAY_ECLIPSE_CHE_PASSWORD}" ]; then
     docker login -u "${QUAY_ECLIPSE_CHE_USERNAME}" -p "${QUAY_ECLIPSE_CHE_PASSWORD}" "${REGISTRY}"

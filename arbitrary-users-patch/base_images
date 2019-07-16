@@ -1,1 +1,10 @@
-java11-maven maven:3.6.0-jdk-11
+che7-python-3.6          centos/python-36-centos7:1
+che7-php-7               eclipse/php:7.1-che7
+che7-golang-1.10         golang:1.10.7-stretch
+che7-java11-gradle       gradle:5.2.1-jdk11
+che7-java11-maven        maven:3.6.0-jdk-11
+che7-java8-maven         maven:3.6.1-jdk-8
+che7-dotnet-2.2          mcr.microsoft.com/dotnet/core/sdk:2.2-stretch
+che7-nodejs10-alpine     node:10.16-alpine
+che7-nodejs10-ubi        registry.access.redhat.com/ubi8/nodejs-10
+che7-nodejs8-centos      registry.centos.org/che-stacks/centos-nodejs
