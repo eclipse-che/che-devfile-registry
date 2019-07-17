@@ -16,7 +16,7 @@ components:
   -
     type: dockerimage
     alias: nodejs
-    image: quay.io/eclipse/che7-nodejs10-ubi:nightly
+    image: quay.io/eclipse/che-nodejs10-ubi:nightly
     memoryLimit: 512Mi
     endpoints:
       - name: 'nodejs'

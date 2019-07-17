@@ -15,7 +15,7 @@ components:
   -
     type: dockerimage
     alias: gradle
-    image: quay.io/eclipse/che7-java11-gradle:nightly
+    image: quay.io/eclipse/che-java11-gradle:nightly
     env:
       - name: GRADLE_USER_HOME
         value: /home/gradle/.gradle

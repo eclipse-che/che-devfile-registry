@@ -22,7 +22,7 @@ components:
   -
     type: dockerimage
     alias: maven
-    image: quay.io/eclipse/che7-java8-maven:nightly
+    image: quay.io/eclipse/che-java8-maven:nightly
     env:
       - name: MAVEN_CONFIG
         value: "/home/user/.m2"

@@ -20,7 +20,7 @@ components:
   -
     type: dockerimage
     alias: dotnet
-    image: quay.io/eclipse/che7-dotnet-2.2:nightly
+    image: quay.io/eclipse/che-dotnet-2.2:nightly
     memoryLimit: 512Mi
     endpoints:
       - name: '5000/tcp'
