@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-cheDevfileRegistryImage: quay.io/openshiftio/che-devfile-registry
+cheDevfileRegistryImage: quay.io/eclipse/che-devfile-registry:nightly
 cheDevfileRegistryImagePullPolicy: Always
 cheDevfileRegistryMemoryLimit: 256Mi
 #cheDevfileRegistryIngressSecretName: che-tls
