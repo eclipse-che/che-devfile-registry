@@ -68,7 +68,7 @@ function deploy() {
     DOCKERFILE="Dockerfile"
     ORGANIZATION="eclipse"
     IMAGE="che-devfile-registry"
-    # For pushing to quay.io 'eclipse-che' organization we need to use different credentials
+    # For pushing to quay.io 'eclipse' organization we need to use different credentials
     QUAY_USERNAME=${QUAY_ECLIPSE_CHE_USERNAME}
     QUAY_PASSWORD=${QUAY_ECLIPSE_CHE_PASSWORD}
   fi
@@ -85,7 +85,7 @@ function deploy() {
   TAG=$(echo "$GIT_COMMIT" | cut -c1-"${DEVSHIFT_TAG_LEN}")
 
   tag_push "${REGISTRY}/${ORGANIZATION}/$IMAGE:$TAG"
-  echo "CICO: Images pushed to 'quay.io/openshiftio', ready to update deployed app"
+  echo "CICO: Image pushed to '${REGISTRY}/${ORGANIZATION}', ready to update deployed app"
 }
 
 function cico_setup() {
