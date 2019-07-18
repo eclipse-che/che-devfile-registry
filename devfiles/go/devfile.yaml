@@ -18,10 +18,8 @@ components:
 -
   type: dockerimage
   # this version is used in the plugin
-  image: golang:1.10.7-stretch
+  image: quay.io/eclipse/che-golang-1.10:nightly
   alias: go-cli
-  command: ['sleep']
-  args: ['infinity']
   env:
     - name: GOPATH
       # replicate the GOPATH from the plugin
@@ -30,8 +28,6 @@ components:
       # replicate the GOCACHE from the plugin, even though the cache is not shared
       # between the two
       value: /tmp/.cache
-    - name: PS1
-      value: $(echo ${0})\\$
   memoryLimit: 512Mi
   mountSources: true
 commands:
