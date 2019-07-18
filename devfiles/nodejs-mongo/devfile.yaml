@@ -16,14 +16,8 @@ components:
   -
     type: dockerimage
     alias: nodejs
-    image: registry.access.redhat.com/ubi8/nodejs-10
-    command: ['sleep']
-    args: ['infinity']
+    image: quay.io/eclipse/che-nodejs10-ubi:nightly
     env:
-      - name: HOME
-        value: /tmp/user
-      - name: PS1
-        value: $(echo ${0})\\$
       # The values below are used to set up the environment for running the application
       - name: SECRET
         value: 220fd770-c028-480d-8f95-f84353c7d55a 

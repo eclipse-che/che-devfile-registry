@@ -20,14 +20,7 @@ components:
   -
     type: dockerimage
     alias: dotnet
-    image: mcr.microsoft.com/dotnet/core/sdk:2.2-stretch
-    command: ['sleep']
-    args: ['infinity']
-    env:
-      - name: HOME
-        value: /home/user
-      - name: PS1
-        value: $(echo ${0})\\$
+    image: quay.io/eclipse/che-dotnet-2.2:nightly
     memoryLimit: 512Mi
     endpoints:
       - name: '5000/tcp'
