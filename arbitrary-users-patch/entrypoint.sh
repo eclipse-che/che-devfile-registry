@@ -6,7 +6,7 @@ if [ ! -d "${HOME}" ]; then
 fi
 
 # Setup $PS1 for a consistent and reasonable prompt
-if [ ! -f "${HOME}"/.bashrc ]; then
+if [ -w "${HOME}" ] && [ ! -f "${HOME}"/.bashrc ]; then
   echo "PS1='\s-\v \w \$ '" > "${HOME}"/.bashrc
 fi
 
