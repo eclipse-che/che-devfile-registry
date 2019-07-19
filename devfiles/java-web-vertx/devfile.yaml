@@ -15,9 +15,7 @@ components:
   -
     type: dockerimage
     alias: maven
-    image: registry.centos.org/che-stacks/centos-jdk8
-    command: ['sleep']
-    args: ['infinity']
+    image: quay.io/eclipse/che-java8-maven:nightly
     env:
       - name: JAVA_OPTS
         value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
@@ -26,8 +24,6 @@ components:
           -Duser.home=/home/user"
       - name: MAVEN_OPTS
         value: $(JAVA_OPTS)
-      - name: PS1
-        value: $(echo ${0})\\$
     memoryLimit: 512Mi
     endpoints:
       - name: '8080/tcp'
