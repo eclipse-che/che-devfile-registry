@@ -15,7 +15,9 @@ components:
   -
     type: dockerimage
     alias: gradle
-    image: quay.io/eclipse/che-java11-gradle:nightly
+    image: gradle:5.2.1-jdk11
+    command: ['sleep']
+    args: ['infinity']
     env:
       - name: GRADLE_USER_HOME
         value: /home/gradle/.gradle
@@ -27,6 +29,8 @@ components:
         value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
           -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
           -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      - name: PS1
+        value: "$(echo ${0})\\$ "
       - name: HOME
         value: /home/gradle
     memoryLimit: 512Mi

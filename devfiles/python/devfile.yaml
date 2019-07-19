@@ -16,7 +16,14 @@ components:
   -
     type: dockerimage
     alias: python
-    image: quay.io/eclipse/che-python-3.6:nightly
+    image: centos/python-36-centos7:1
+    command: ['sleep']
+    args: ['infinity']
+    env:
+      - name: HOME
+        value: /home/user
+      - name: PS1
+        value: $(echo ${0})\\$
     memoryLimit: 512Mi
     mountSources: true
 commands:

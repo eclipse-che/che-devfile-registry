@@ -20,7 +20,12 @@ components:
 -
   type: dockerimage
   alias: php
-  image: quay.io/eclipse/che-php-7:nightly
+  image: eclipse/php:7.1-che7
+  env:
+    - name: HOME
+      value: /home/user
+    - name: PS1
+      value: $(echo ${0})\\$
   memoryLimit: 512Mi
   mountSources: true
   volumes:
