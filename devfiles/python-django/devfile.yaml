@@ -7,7 +7,7 @@ projects:
     name: django-realworld-example-app
     source:
       type: git
-      location: "https://github.com/gothinkster/django-realworld-example-app"
+      location: "https://github.com/che-samples/django-realworld-example-app"
 components:
   -
     type: chePlugin
@@ -24,12 +24,12 @@ components:
     mountSources: true
 commands:
   -
-    name: install requirements
+    name: install dependencies
     actions:
       -
         type: exec
         component: python
-        command: pip install -r requirements.txt
+        command: pip install -r requirements.txt && pip install ptvsd
         workdir: ${CHE_PROJECTS_ROOT}/django-realworld-example-app
   -
     name: migrate
@@ -40,18 +40,40 @@ commands:
         command: python manage.py migrate
         workdir: ${CHE_PROJECTS_ROOT}/django-realworld-example-app
   -
-    name: patch resources
-    actions:
-      -
-        type: exec
-        component: python
-        command: sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['*'\]/g" conduit/settings.py
-        workdir: ${CHE_PROJECTS_ROOT}/django-realworld-example-app
-  -
     name: run server
     actions:
       -
         type: exec
         component: python
-        command: python manage.py runserver 0.0.0.0:7000
+        command: export DEBUG_MODE=False && python manage.py runserver 0.0.0.0:7000
         workdir: ${CHE_PROJECTS_ROOT}/django-realworld-example-app
+  -
+    name: run server in debug mode
+    actions:
+      -
+        type: exec
+        component: python
+        command: export DEBUG_MODE=True && python manage.py runserver 0.0.0.0:7000 --noreload --nothreading
+        workdir: ${CHE_PROJECTS_ROOT}/django-realworld-example-app
+  -
+    name: debug
+    actions:
+    - type: vscode-launch
+      referenceContent: >
+        {
+        "version": "0.2.0",
+        "configurations": [
+          {
+            "name": "Python: Remote Attach",
+            "type": "python",
+            "request": "attach",
+            "port": 5678,
+            "host": "0.0.0.0",
+            "pathMappings": [
+              {
+                  "localRoot": "${workspaceFolder}",
+                  "remoteRoot": "${workspaceFolder}"
+              }
+            ]
+          }]
+        }
