@@ -5,6 +5,6 @@ che-java11-gradle       gradle:5.2.1-jdk11
 che-java11-maven        maven:3.6.0-jdk-11
 che-java8-maven         maven:3.6.1-jdk-8
 che-dotnet-2.2          mcr.microsoft.com/dotnet/core/sdk:2.2-stretch
-che-nodejs10-alpine     node:10.16-alpine
+che-nodejs10-community  node:10.16
 che-nodejs10-ubi        registry.access.redhat.com/ubi8/nodejs-10
 che-nodejs8-centos      registry.centos.org/che-stacks/centos-nodejs
