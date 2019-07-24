@@ -86,6 +86,13 @@ function deploy() {
 
   tag_push "${REGISTRY}/${ORGANIZATION}/$IMAGE:$TAG"
   echo "CICO: Image pushed to '${REGISTRY}/${ORGANIZATION}', ready to update deployed app"
+
+  # Lets's do a release if needed
+  DEVFILE_REGISTRY_VERSION=$(head -n 1 VERSION)
+  if [[ ${DEVFILE_REGISTRY_VERSION} != *"SNAPSHOT"* ]]; then
+    echo "CICO: Releasing '${DEVFILE_REGISTRY_VERSION}' version of the devfile registry"
+    tag_push "${REGISTRY}/${ORGANIZATION}/$IMAGE:$DEVFILE_REGISTRY_VERSION"
+  fi
 }
 
 function cico_setup() {
