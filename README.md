@@ -1,4 +1,5 @@
 [![Build Status](https://ci.centos.org/buildStatus/icon?job=devtools-che-devfile-registry-build-master/)](https://ci.centos.org/job/devtools-che-devfile-registry-build-master/)
+[![Build Status](https://ci.centos.org/buildStatus/icon?job=devtools-che-devfile-registry-nightly/)](https://ci.centos.org/job/devtools-che-devfile-registry-nightly/)
 
 # Eclipse Che devfile registry
 
