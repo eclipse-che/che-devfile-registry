@@ -12,6 +12,7 @@ components:
   -
     type: chePlugin
     id: redhat/java/latest
+    memoryLimit: 1512Mi
   -
     type: dockerimage
     alias: tools
@@ -24,7 +25,7 @@ components:
           -Duser.home=/home/user"
       - name: MAVEN_OPTS
         value: $(JAVA_OPTS)
-    memoryLimit: 1024Mi
+    memoryLimit: 768Mi
     endpoints:
       - name: '8080/tcp'
         port: 8080
