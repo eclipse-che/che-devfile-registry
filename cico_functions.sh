@@ -103,6 +103,6 @@ function build_and_push() {
 
   # Let's build and push images to 'quay.io'
   docker build -t ${IMAGE} -f ${DOCKERFILE} .
-  tag_push "${REGISTRY}/${ORGANIZATION}/$IMAGE:$TAG"
-  echo "CICO: '${TAG}' version of images pushed to 'quay.io/eclipse' organization"
+  tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${TAG}"
+  echo "CICO: '${TAG}' version of images pushed to '${REGISTRY}/${ORGANIZATION}' organization"
 }
