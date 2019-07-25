@@ -15,6 +15,7 @@ set -x
 set -e
 
 SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
+export SCRIPT_DIR
 
 # Source environment variables of the jenkins slave
 # that might interest this worker.
@@ -22,6 +23,8 @@ function load_jenkins_vars() {
   if [ -e "jenkins-env.json" ]; then
     eval "$(./env-toolkit load -f jenkins-env.json \
             DEVSHIFT_TAG_LEN \
+            QUAY_USERNAME \
+            QUAY_PASSWORD \
             QUAY_ECLIPSE_CHE_USERNAME \
             QUAY_ECLIPSE_CHE_PASSWORD \
             JENKINS_URL \
@@ -49,6 +52,13 @@ function install_deps() {
   echo 'CICO: Dependencies installed'
 }
 
+function set_release_tag() {
+  # Let's obtain the tag based on the 
+  # version defined in the 'VERSION' file
+  TAG=$(head -n 1 VERSION)
+  export TAG
+}
+
 function tag_push() {
   local TARGET=$1
   docker tag "${IMAGE}" "$TARGET"
@@ -56,19 +66,27 @@ function tag_push() {
 }
 
 function release() {
-  DOCKERFILE="Dockerfile"
+  TARGET=${TARGET:-"centos"}
   REGISTRY="quay.io"
-  ORGANIZATION="eclipse"
-  IMAGE="che-devfile-registry"
 
-  if [ -n "${QUAY_ECLIPSE_CHE_USERNAME}" ] && [ -n "${QUAY_ECLIPSE_CHE_PASSWORD}" ]; then
-    docker login -u "${QUAY_ECLIPSE_CHE_USERNAME}" -p "${QUAY_ECLIPSE_CHE_PASSWORD}" "${REGISTRY}"
+  if [ "$TARGET" == "rhel" ]; then
+    DOCKERFILE="Dockerfile.rhel"
+    ORGANIZATION="openshiftio"
+    IMAGE="rhel-che-devfile-registry"
+  else
+    DOCKERFILE="Dockerfile"
+    ORGANIZATION="eclipse"
+    IMAGE="che-devfile-registry"
+    # For pushing to quay.io 'eclipse' organization we need to use different credentials
+    QUAY_USERNAME=${QUAY_ECLIPSE_CHE_USERNAME}
+    QUAY_PASSWORD=${QUAY_ECLIPSE_CHE_PASSWORD}
+  fi
+
+  if [ -n "${QUAY_USERNAME}" ] && [ -n "${QUAY_PASSWORD}" ]; then
+    docker login -u "${QUAY_USERNAME}" -p "${QUAY_PASSWORD}" "${REGISTRY}"
   else
     echo "Could not login, missing credentials for pushing to the '${ORGANIZATION}' organization"
   fi
-
-  # Let's obtain the tag based on the version defined in the 'VERSION' file
-  export TAG=$(head -n 1 VERSION)
 
   "${SCRIPT_DIR}"/arbitrary-users-patch/build_images.sh --push
   echo "CICO: pushed '${TAG}' version of the arbitrary-user patched base images"
@@ -84,4 +102,5 @@ function cico_setup() {
   install_deps;
 }
 cico_setup
+set_release_tag
 release
