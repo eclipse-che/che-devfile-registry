@@ -16,11 +16,11 @@ components:
   -
     type: chePlugin
     id: camel-tooling/vscode-apache-camel/latest
-    memoryLimit: 200Mi
+    memoryLimit: 256Mi
   -
     type: chePlugin
     id: redhat/java/latest
-    memoryLimit: 1400Mi
+    memoryLimit: 1280Mi
   -
     type: dockerimage
     alias: maven
@@ -43,7 +43,7 @@ components:
     volumes:
       - name: m2
         containerPath: "/home/user/.m2"
-    memoryLimit: 512Mi
+    memoryLimit: 384Mi
     endpoints:
       - name: '8080/tcp'
         port: 8080
