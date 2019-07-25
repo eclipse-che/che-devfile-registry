@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2012-2018 Red Hat, Inc.
+# Copyright (c) 2012-2019 Red Hat, Inc.
 # This program and the accompanying materials are made
 # available under the terms of the Eclipse Public License 2.0
 # which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -46,8 +46,27 @@ function install_deps() {
     git
 
   service docker start
-
   echo 'CICO: Dependencies installed'
+}
+
+function set_release_tag() {
+  # Let's obtain the tag based on the 
+  # version defined in the 'VERSION' file
+  TAG=$(head -n 1 VERSION)
+  export TAG
+}
+
+function set_ci_tag() {
+  # Let's obtain the tag based on the 
+  # version defined in the 'VERSION' file
+  TAG=$(echo "$GIT_COMMIT" | cut -c1-"${DEVSHIFT_TAG_LEN}")
+  export TAG
+}
+
+function set_nightly_tag() {
+  # Let's obtain the tag based on the 
+  # version defined in the 'VERSION' file
+  export TAG="nightly"
 }
 
 function tag_push() {
@@ -56,7 +75,7 @@ function tag_push() {
   docker push "$TARGET"
 }
 
-function deploy() {
+function build_and_push() {
   TARGET=${TARGET:-"centos"}
   REGISTRY="quay.io"
 
@@ -79,18 +98,11 @@ function deploy() {
     echo "Could not login, missing credentials for pushing to the '${ORGANIZATION}' organization"
   fi
 
+  "${SCRIPT_DIR}"/arbitrary-users-patch/build_images.sh --push
+  echo "CICO: pushed '${TAG}' version of the arbitrary-user patched base images"
+
   # Let's build and push images to 'quay.io'
   docker build -t ${IMAGE} -f ${DOCKERFILE} .
-
-  TAG=$(echo "$GIT_COMMIT" | cut -c1-"${DEVSHIFT_TAG_LEN}")
-
   tag_push "${REGISTRY}/${ORGANIZATION}/$IMAGE:$TAG"
-  echo "CICO: Image pushed to '${REGISTRY}/${ORGANIZATION}', ready to update deployed app"
+  echo "CICO: '${TAG}' version of images pushed to 'quay.io/eclipse' organization"
 }
-
-function cico_setup() {
-  load_jenkins_vars;
-  install_deps;
-}
-cico_setup
-deploy
