@@ -60,13 +60,15 @@ function release() {
   REGISTRY="quay.io"
   ORGANIZATION="eclipse"
   IMAGE="che-devfile-registry"
-  TAG=$(head -n 1 VERSION)
 
   if [ -n "${QUAY_ECLIPSE_CHE_USERNAME}" ] && [ -n "${QUAY_ECLIPSE_CHE_PASSWORD}" ]; then
     docker login -u "${QUAY_ECLIPSE_CHE_USERNAME}" -p "${QUAY_ECLIPSE_CHE_PASSWORD}" "${REGISTRY}"
   else
     echo "Could not login, missing credentials for pushing to the '${ORGANIZATION}' organization"
   fi
+
+  # Let's obtain the tag based on the version defined in the 'VERSION' file
+  export TAG=$(head -n 1 VERSION)
 
   "${SCRIPT_DIR}"/arbitrary-users-patch/build_images.sh --push
   echo "CICO: pushed '${TAG}' version of the arbitrary-user patched base images"
