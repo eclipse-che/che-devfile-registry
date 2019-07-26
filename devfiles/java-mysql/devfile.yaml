@@ -12,6 +12,7 @@ components:
   -
     type: chePlugin
     id: redhat/java/latest
+    memoryLimit: 1280MiB
   -
     type: dockerimage
     alias: tools
@@ -45,7 +46,7 @@ components:
         value: petclinic
       - name: PS1
         value: $(echo ${0})\\$
-    memoryLimit: 256Mi
+    memoryLimit: 300Mi
     endpoints:
       - name: 'db'
         port: 3306
