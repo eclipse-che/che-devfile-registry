@@ -97,8 +97,12 @@ function build_and_push() {
     echo "Could not login, missing credentials for pushing to the '${ORGANIZATION}' organization"
   fi
 
-  "${SCRIPT_DIR}"/arbitrary-users-patch/build_images.sh --push
-  echo "CICO: pushed '${TAG}' version of the arbitrary-user patched base images"
+  # Let's build and push arbitrary-user patched images only to 'eclipse' quay.io organization
+  # which is done as part of the 'centos' target execution
+  if [ "$TARGET" == "centos" ]; then
+    "${SCRIPT_DIR}"/arbitrary-users-patch/build_images.sh --push
+    echo "CICO: pushed '${TAG}' version of the arbitrary-user patched base images"
+  fi
 
   # Let's build and push images to 'quay.io'
   docker build -t ${IMAGE} -f ${DOCKERFILE} .
