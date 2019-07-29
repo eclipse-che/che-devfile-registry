@@ -1,0 +1,6 @@
+---
+displayName: "Builder for TOPPERS/JSP (target: sh3-solution_engine)"
+description: GNU toolchains and TOPPERS/JSP tuned by PizzaFactory
+tags: ["TOPPERS", "TOPPERS/JSP", "PizzaFactory", "ITRON", "sh3-solution_engine" ]
+icon: https://raw.githubusercontent.com/wiki/PizzaFactory/che-devfile-registry/toppers-open.svg
+globalMemoryLimit: 1024Mi

@@ -1,0 +1,37 @@
+apiVersion: 1.0.0
+metadata:
+  name: jsp_blackfin-kobanzame
+projects:
+  - name: jsp_core
+    source:
+      type: git
+      location: 'https://github.com/PizzaFactory/jsp_core.git'
+components:
+  - alias: pizza-dev
+    type: dockerimage
+    image: camino.azurecr.io/vintage-pizza/pf-gnuchains4x-bfin-elf:4.7.4-20140603
+    memoryLimit: 512Mi
+    volumes:
+    - containerPath: /projects
+      name: projects
+commands:
+  - name: "build configurator"
+    actions:
+      - type: exec
+        component: theia-dev
+        command: cd ${CHE_PROJECTS_ROOT}/jsp_core/cfg && make CC=gcc-4.7 CXX=g++-4.7 && echo && echo Build complete.
+  - name: "configure sample1"
+    actions:
+      - type: exec
+        component: theia-dev
+        command: cd ${CHE_PROJECTS_ROOT}/jsp_core && ./configure -C blackfin -S kobanzame
+  - name: "make depend"
+    actions:
+      - type: exec
+        component: theia-dev
+        command: cd ${CHE_PROJECTS_ROOT}/jsp_core && make depend TARGET=bfin-pizzafactory-elf && echo && echo Done.
+  - name: "build JSP kernel"
+    actions:
+      - type: exec
+        component: theia-dev
+        command: cd ${CHE_PROJECTS_ROOT}/jsp_core && make TARGET=bfin-pizzafactory-elf

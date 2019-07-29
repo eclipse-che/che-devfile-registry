@@ -1,0 +1,6 @@
+---
+displayName: "Builder for TOPPERS/JSP (target: h8-akih8_3052f)"
+description: GNU toolchains and TOPPERS/JSP tuned by PizzaFactory
+tags: ["TOPPERS", "TOPPERS/JSP", "PizzaFactory", "ITRON", "h8-akih8_3052f" ]
+icon: https://raw.githubusercontent.com/wiki/PizzaFactory/che-devfile-registry/toppers-open.svg
+globalMemoryLimit: 1024Mi

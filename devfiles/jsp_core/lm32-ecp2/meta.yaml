@@ -1,0 +1,6 @@
+---
+displayName: "Builder for TOPPERS/JSP (target: lm32-ecp2)"
+description: GNU toolchains and TOPPERS/JSP tuned by PizzaFactory
+tags: ["TOPPERS", "TOPPERS/JSP", "PizzaFactory", "ITRON", "lm32-ecp2" ]
+icon: https://raw.githubusercontent.com/wiki/PizzaFactory/che-devfile-registry/toppers-open.svg
+globalMemoryLimit: 1024Mi
