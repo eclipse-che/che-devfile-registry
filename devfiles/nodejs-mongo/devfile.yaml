@@ -1,0 +1,70 @@
+---
+apiVersion: 1.0.0
+metadata:
+  name: nodejs-mongo
+projects:
+  -
+    name: nodejs-mongodb-app
+    source:
+      type: git
+      location: "https://github.com/gothinkster/node-express-realworld-example-app"
+components:
+  -
+    type: chePlugin
+    id: che-incubator/typescript/latest
+    memoryLimit: 512Mi
+  -
+    type: dockerimage
+    alias: nodejs
+    image: quay.io/eclipse/che-nodejs10-ubi:nightly
+    env:
+      # The values below are used to set up the environment for running the application
+      - name: SECRET
+        value: 220fd770-c028-480d-8f95-f84353c7d55a 
+      - name: NODE_ENV
+        value: production
+      - name: MONGODB_URI
+        value: mongodb://user:password@mongo/db
+    memoryLimit: 512Mi
+    endpoints:
+      - name: 'nodejs'
+        port: 3000
+    mountSources: true
+  -
+    type: dockerimage
+    alias: mongo
+    image: centos/mongodb-34-centos7
+    memoryLimit: 512Mi
+    env:
+      - name: MONGODB_USER
+        value: user
+      - name: MONGODB_PASSWORD
+        value: password
+      - name: MONGODB_DATABASE
+        value: db
+      - name: MONGODB_ADMIN_PASSWORD
+        value: password
+    volumes:
+      - name: mongo-storage
+        containerPath: /var/lib/mongodb/data 
+    endpoints:
+      - name: mongo
+        port: 27017
+        attributes:
+          discoverable: 'true'
+          public: 'false'
+commands:
+  -
+    name: run the web app
+    actions:
+      - type: exec
+        component: nodejs
+        command: npm install && npm run dev 
+        workdir: ${CHE_PROJECTS_ROOT}/nodejs-mongodb-app
+  -
+    name: create test user
+    actions:
+      - type: exec
+        component: nodejs
+        command: | 
+          curl -X POST --data '{"user": {"username": "test", "email": "test@test.com", "password": "password"}}' -H "Content-Type: application/json" http://localhost:3000/api/users

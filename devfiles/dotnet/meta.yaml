@@ -1,6 +1,6 @@
 ---
-displayName: ".NET Core with Theia IDE"
-description: Default stack with .Net 2.2.105 and Theia IDE
-tags: ["Theia", "Debian", "Dotnet", "C#"]
+displayName: ".NET Core"
+description: Stack with .Net 2.2
+tags: ["Debian", "Dotnet", "C#"]
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
 globalMemoryLimit: 2710Mi

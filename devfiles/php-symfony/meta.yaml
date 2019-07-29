@@ -1,6 +1,6 @@
 ---
 displayName: "PHP Symfony"
 description: PHP Stack with Symfony Demo Application https://symfony.com/
-tags: ["PHP", "Apache", "MySQL", "Symfony"]
+tags: ["PHP", "Apache", "MySQL", "Symfony", "Debian", "Centos"]
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
 globalMemoryLimit: 2686Mi

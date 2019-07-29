@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2012-2018 Red Hat, Inc.
+# Copyright (c) 2012-2019 Red Hat, Inc.
 # This program and the accompanying materials are made
 # available under the terms of the Eclipse Public License 2.0
 # which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -22,6 +22,8 @@ function load_jenkins_vars() {
             DEVSHIFT_TAG_LEN \
             QUAY_USERNAME \
             QUAY_PASSWORD \
+            QUAY_ECLIPSE_CHE_USERNAME \
+            QUAY_ECLIPSE_CHE_PASSWORD \
             JENKINS_URL \
             GIT_BRANCH \
             GIT_COMMIT \
@@ -44,8 +46,26 @@ function install_deps() {
     git
 
   service docker start
-
   echo 'CICO: Dependencies installed'
+}
+
+function set_release_tag() {
+  # Let's obtain the tag based on the 
+  # version defined in the 'VERSION' file
+  TAG=$(head -n 1 VERSION)
+  export TAG
+}
+
+function set_ci_tag() {
+  # Let's obtain the tag based on the 
+  # git commit hash
+  TAG=$(echo "$GIT_COMMIT" | cut -c1-"${DEVSHIFT_TAG_LEN}")
+  export TAG
+}
+
+function set_nightly_tag() {
+  # Let's set the tag as nightly
+  export TAG="nightly"
 }
 
 function tag_push() {
@@ -54,37 +74,38 @@ function tag_push() {
   docker push "$TARGET"
 }
 
-function deploy() {
+function build_and_push() {
   TARGET=${TARGET:-"centos"}
   REGISTRY="quay.io"
 
   if [ "$TARGET" == "rhel" ]; then
     DOCKERFILE="Dockerfile.rhel"
+    ORGANIZATION="openshiftio"
     IMAGE="rhel-che-devfile-registry"
   else
     DOCKERFILE="Dockerfile"
+    ORGANIZATION="eclipse"
     IMAGE="che-devfile-registry"
+    # For pushing to quay.io 'eclipse' organization we need to use different credentials
+    QUAY_USERNAME=${QUAY_ECLIPSE_CHE_USERNAME}
+    QUAY_PASSWORD=${QUAY_ECLIPSE_CHE_PASSWORD}
   fi
 
   if [ -n "${QUAY_USERNAME}" ] && [ -n "${QUAY_PASSWORD}" ]; then
     docker login -u "${QUAY_USERNAME}" -p "${QUAY_PASSWORD}" "${REGISTRY}"
   else
-    echo "Could not login, missing credentials for the registry"
+    echo "Could not login, missing credentials for pushing to the '${ORGANIZATION}' organization"
   fi
 
-  # Let's deploy
+  # Let's build and push arbitrary-user patched images only to 'eclipse' quay.io organization
+  # which is done as part of the 'centos' target execution
+  if [ "$TARGET" == "centos" ]; then
+    "${SCRIPT_DIR}"/arbitrary-users-patch/build_images.sh --push
+    echo "CICO: pushed '${TAG}' version of the arbitrary-user patched base images"
+  fi
+
+  # Let's build and push images to 'quay.io'
   docker build -t ${IMAGE} -f ${DOCKERFILE} .
-
-  TAG=$(echo "$GIT_COMMIT" | cut -c1-"${DEVSHIFT_TAG_LEN}")
-
-  tag_push "${REGISTRY}/openshiftio/$IMAGE:$TAG"
-  tag_push "${REGISTRY}/openshiftio/$IMAGE:latest"
-  echo 'CICO: Image pushed, ready to update deployed app'
+  tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${TAG}"
+  echo "CICO: '${TAG}' version of images pushed to '${REGISTRY}/${ORGANIZATION}' organization"
 }
-
-function cico_setup() {
-  load_jenkins_vars;
-  install_deps;
-}
-cico_setup
-deploy

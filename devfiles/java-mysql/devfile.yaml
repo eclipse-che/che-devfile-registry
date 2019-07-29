@@ -1,0 +1,72 @@
+---
+apiVersion: 1.0.0
+metadata:
+  name: java-mysql
+projects:
+  -
+    name: web-java-spring-petclinic
+    source:
+      type: git
+      location: "https://github.com/spring-projects/spring-petclinic.git"
+components:
+  -
+    type: chePlugin
+    id: redhat/java/latest
+  -
+    type: dockerimage
+    alias: tools
+    image: quay.io/eclipse/che-java8-maven:nightly
+    env:
+      - name: JAVA_OPTS
+        value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
+          -Duser.home=/home/user"
+      - name: MAVEN_OPTS
+        value: $(JAVA_OPTS)
+    memoryLimit: 700Mi
+    endpoints:
+      - name: '8080/tcp'
+        port: 8080
+    mountSources: true
+    volumes:
+      - name: m2
+        containerPath: /home/user/.m2
+  -
+    type: dockerimage
+    alias: mysql
+    image: centos/mysql-57-centos7
+    env:
+      - name: MYSQL_USER
+        value: petclinic
+      - name: MYSQL_PASSWORD
+        value: password
+      - name: MYSQL_DATABASE
+        value: petclinic
+      - name: PS1
+        value: $(echo ${0})\\$
+    memoryLimit: 256Mi
+    endpoints:
+      - name: 'db'
+        port: 3306
+        attributes:
+          discoverable: "true"
+          public: "false"
+    mountSources: false
+commands:
+  -
+    name: maven build
+    actions:
+      -
+        type: exec
+        component: tools
+        command: "mvn clean install"
+        workdir: "${CHE_PROJECTS_ROOT}/web-java-spring-petclinic"
+  - name: run webapp
+    actions:
+      -
+        type: exec
+        component: tools
+        command: |
+          SPRING_DATASOURCE_URL=jdbc:mysql://db/petclinic SPRING_DATASOURCE_USERNAME=petclinic SPRING_DATASOURCE_PASSWORD=password java -jar target/*.jar --spring.profile.active=mysql
+        workdir: ${CHE_PROJECTS_ROOT}/web-java-spring-petclinic

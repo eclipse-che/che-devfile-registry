@@ -16,14 +16,7 @@ components:
   -
     type: dockerimage
     alias: nodejs
-    image: registry.access.redhat.com/ubi8/nodejs-10
-    command: ['sleep']
-    args: ['infinity']
-    env:
-      - name: HOME
-        value: /home/user
-      - name: PS1
-        value: $(echo ${0})\\$
+    image: quay.io/eclipse/che-nodejs10-ubi:nightly
     memoryLimit: 512Mi
     endpoints:
       - name: 'nodejs'
