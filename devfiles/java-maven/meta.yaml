@@ -1,6 +1,6 @@
 ---
 displayName: Java Maven
-description: Default Java Stack with OpenJDK 11 and Maven 3.6
-tags: ["Java", "OpenJDK", "Maven", "Spring Boot v2", "Vert.x", "Debian"]
+description: Java Stack with OpenJDK 11 and Maven 3.6.0
+tags: ["Java", "OpenJDK", "Maven", "Debian"]
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
 globalMemoryLimit: 2674Mi

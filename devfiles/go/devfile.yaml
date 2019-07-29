@@ -2,22 +2,45 @@
 apiVersion: 1.0.0
 metadata:
   name: golang
+projects:
+-
+  name: example
+  source: 
+    type: git
+    location: https://github.com/golang/example.git
+  clonePath: src/github.com/golang/example/
 components:
-  -
-    type: chePlugin
-    id: ms-vscode/go/latest
-    memoryLimit: 512Mi
-  -
-    type: dockerimage
-    image: golang:1.12.4-stretch
-    command: ['sleep']
-    args: ['infinity']
-    env:
-      - name: GOPATH
-        value: /go:/projects
-      - name: GOCACHE
-        value: /tmp/.cache
-      - name: PS1
-        value: $(echo ${0})\\$
-    memoryLimit: 512Mi
-    mountSources: true
+-
+  type: chePlugin
+  id: ms-vscode/go/latest
+  alias: go-plugin
+  memoryLimit: 512Mi
+-
+  type: dockerimage
+  # this version is used in the plugin
+  image: quay.io/eclipse/che-golang-1.10:nightly
+  alias: go-cli
+  env:
+    - name: GOPATH
+      # replicate the GOPATH from the plugin
+      value: /go:$(CHE_PROJECTS_ROOT)
+    - name: GOCACHE
+      # replicate the GOCACHE from the plugin, even though the cache is not shared
+      # between the two
+      value: /tmp/.cache
+  memoryLimit: 512Mi
+  mountSources: true
+commands:
+-
+  name: run outyet
+  actions:
+  - type: exec
+    component: go-cli
+    command: go get -d && go run main.go
+    workdir: ${CHE_PROJECTS_ROOT}/src/github.com/golang/example/outyet
+- name: test outyet
+  actions:
+  - type: exec
+    component: go-cli
+    command: go test
+    workdir: ${CHE_PROJECTS_ROOT}/src/github.com/golang/example/outyet

@@ -15,14 +15,7 @@ components:
   -
     type: dockerimage
     alias: nodejs
-    image: node:10.16-alpine
-    command: ['tail']
-    args: ['-f', '/dev/null']
-    env:
-      - name: HOME
-        value: /projects
-      - name: PS1
-        value: $(echo ${0})\\$
+    image: quay.io/eclipse/che-nodejs10-community:nightly
     memoryLimit: 1Gi
     endpoints:
       - name: 'angular'
