@@ -47,5 +47,23 @@ commands:
       -
         type: exec
         component: maven
-        command: "JDBC_URL=jdbc:h2:/tmp/db java -jar ./target/*fat.jar"
+        command: |
+          JDBC_URL=jdbc:h2:/tmp/db \
+          java -jar -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 \
+          ./target/*fat.jar
         workdir: "${CHE_PROJECTS_ROOT}/java-web-vertx"
+  - name: Debug remote java application
+    actions:
+      - type: vscode-launch
+        referenceContent: |
+          {
+          "version": "0.2.0",
+          "configurations": [
+            {
+              "type": "java",
+              "name": "Debug (Attach) - Remote",
+              "request": "attach",
+              "hostName": "localhost",
+              "port": 5005
+            }]
+          }
