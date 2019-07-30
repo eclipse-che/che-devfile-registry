@@ -28,6 +28,9 @@ components:
       # replicate the GOCACHE from the plugin, even though the cache is not shared
       # between the two
       value: /tmp/.cache
+  endpoints:
+    - name: '8080/tcp'
+      port: 8080
   memoryLimit: 512Mi
   mountSources: true
 commands:
