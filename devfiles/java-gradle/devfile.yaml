@@ -30,9 +30,6 @@ components:
       - name: HOME
         value: /home/gradle
     memoryLimit: 512Mi
-    endpoints:
-      - name: '8080/tcp'
-        port: 8080
     volumes:
       - name: gradle
         containerPath: /home/gradle/.gradle

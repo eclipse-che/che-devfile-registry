@@ -33,9 +33,6 @@ components:
           -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
           -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
     memoryLimit: 512Mi
-    endpoints:
-      - name: '8080/tcp'
-        port: 8080
     mountSources: true
     volumes:
       - name: m2
