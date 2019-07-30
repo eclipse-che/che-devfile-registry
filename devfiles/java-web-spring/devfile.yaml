@@ -46,5 +46,22 @@ commands:
       -
         type: exec
         component: tools
-        command: "java -jar target/*.jar"
+        command: |
+          java -jar -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 \
+          target/*.jar
         workdir: ${CHE_PROJECTS_ROOT}/java-web-spring
+  - name: Debug remote java application
+    actions:
+      - type: vscode-launch
+        referenceContent: |
+          {
+          "version": "0.2.0",
+          "configurations": [
+            {
+              "type": "java",
+              "name": "Debug (Attach) - Remote",
+              "request": "attach",
+              "hostName": "localhost",
+              "port": 5005
+            }]
+          }
