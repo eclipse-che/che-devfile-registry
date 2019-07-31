@@ -1,0 +1,53 @@
+---
+apiVersion: 1.0.0
+metadata:
+  name: cpp
+projects:
+  -
+    name: cpp-hello-world
+    source:
+      type: git
+      location: 'https://github.com/che-samples/cpp-hello-world'
+components:
+-
+  type: chePlugin
+  reference: https://raw.githubusercontent.com/eclipse/che-plugin-registry/ab/cpp/v3/plugins/che-incubator/cpptools/1.0/meta.yaml
+  alias: cpp-plugin
+  preferences:
+    clangd.path: '/usr/bin/clangd'
+    cdt.clangd.binaries.enable: 'false'
+-
+  type: dockerimage
+  alias: cpp-dev
+  image: registry.centos.org/centos/devtoolset-7-toolchain-centos7
+  command: ['sleep']
+  args: ['infinity']
+  memoryLimit: 512Mi
+  mountSources: true
+commands:
+  -
+    name: build
+    actions:
+      - type: exec
+        component: cpp-dev
+        command: g++ -g hello.cpp -o hello.out
+        workdir: ${CHE_PROJECTS_ROOT}/cpp-hello-world
+  -
+    name: debug
+    actions:
+    - type: vscode-launch
+      referenceContent: >
+        {
+          "version": "0.2.0",
+          "configurations": [
+              {
+                  "type": "gdb",
+                  "name": "Debug c++ application",
+                  "request": "launch",
+                  "program": "${workspaceFolder}/hello.out",
+              }
+          ]
+        }
+
+
+
