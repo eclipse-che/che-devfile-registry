@@ -30,3 +30,29 @@ commands:
         component: nodejs
         command: nodemon app.js
         workdir: ${CHE_PROJECTS_ROOT}/nodejs-web-app/app
+  -
+    name: run the web app (debugging enabled)
+    actions:
+      - type: exec
+        component: nodejs
+        command: nodemon --inspect app.js
+        workdir: ${CHE_PROJECTS_ROOT}/nodejs-web-app/app
+  -
+    name: Attach remote debugger
+    actions:
+    - type: vscode-launch
+      referenceContent: |
+        {
+          "version": "0.2.0",
+          "configurations": [
+            {
+              "type": "node",
+              "request": "attach",
+              "name": "Attach to Remote",
+              "address": "localhost",
+              "port": 9229,
+              "localRoot": "${workspaceFolder}",
+              "remoteRoot": "#{workspaceFolder}"
+            }
+          ]
+        }
