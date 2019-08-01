@@ -24,6 +24,13 @@ components:
     mountSources: true
 commands:
   -
+    name: download dependencies
+    actions:
+      - type: exec
+        component: nodejs
+        command: npm install
+        workdir: ${CHE_PROJECTS_ROOT}/nodejs-web-app/app
+  -
     name: run the web app
     actions:
       - type: exec
