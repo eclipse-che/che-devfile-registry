@@ -51,8 +51,8 @@ commands:
     name: build
     actions:
     - type: exec
-      component: netcoredbg
-      command: "dotnet restore && dotnet build"
+      component: dotnet
+      command: "dotnet build"
       workdir: ${CHE_PROJECTS_ROOT}/dotnet-web-simple
   - name: Launch .NET Web Application on Debug mode
     actions:
