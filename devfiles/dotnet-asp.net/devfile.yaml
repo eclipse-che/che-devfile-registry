@@ -20,7 +20,7 @@ components:
   -
     type: dockerimage
     alias: dotnet
-    image: mcr.microsoft.com/dotnet/core/sdk:2.2-stretch
+    image: quay.io/eclipse/che-dotnet-2.2:nightly
     command: ['sleep']
     args: ['infinity']
     env:
