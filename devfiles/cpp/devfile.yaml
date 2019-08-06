@@ -11,11 +11,11 @@ projects:
 components:
 -
   type: chePlugin
-  reference: https://raw.githubusercontent.com/eclipse/che-plugin-registry/ab/cpp/v3/plugins/che-incubator/cpptools/1.0/meta.yaml
+  reference: che-incubator/cpptools/latest
   alias: cpp-plugin
   preferences:
-    clangd.path: '/usr/bin/clangd'
-    cdt.clangd.binaries.enable: 'false'
+    clangd.path: /usr/bin/clangd
+    cdt.clangd.binaries.enable: false
 -
   type: dockerimage
   alias: cpp-dev
@@ -35,19 +35,16 @@ commands:
   -
     name: debug
     actions:
-    - type: vscode-launch
-      referenceContent: >
-        {
-          "version": "0.2.0",
-          "configurations": [
-              {
-                  "type": "gdb",
-                  "name": "Debug c++ application",
-                  "request": "launch",
-                  "program": "${workspaceFolder}/hello.out",
-              }
-          ]
-        }
-
-
-
+      - type: vscode-launch
+        referenceContent: >
+          {
+            "version": "0.2.0",
+            "configurations": [
+                {
+                    "type": "gdb",
+                    "name": "Debug c++ application",
+                    "request": "launch",
+                    "program": "/projects/cpp-hello-world/hello.out"
+                }
+            ]
+          }
