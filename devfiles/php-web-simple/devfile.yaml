@@ -41,3 +41,9 @@ commands:
     - type: exec
       component: php
       command: "service apache2 stop"
+-
+    name: Restart Apache Web Server
+    actions:
+    - type: exec
+      component: php
+      command: "service apache2 restart"
