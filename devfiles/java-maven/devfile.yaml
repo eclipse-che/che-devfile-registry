@@ -44,7 +44,7 @@ commands:
       -
         type: exec
         component: maven
-        command: "mvn -Duser.home=${HOME} clean install"
+        command: "mvn clean install"
         workdir: ${CHE_PROJECTS_ROOT}/console-java-simple
   -
     name: maven build and run
@@ -52,5 +52,5 @@ commands:
       -
         type: exec
         component: maven
-        command: "mvn -Duser.home=${HOME} clean install && java -jar ./target/*.jar"
+        command: "mvn clean install && java -jar ./target/*.jar"
         workdir: ${CHE_PROJECTS_ROOT}/console-java-simple
