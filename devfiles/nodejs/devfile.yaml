@@ -45,6 +45,15 @@ commands:
         command: nodemon --inspect app.js
         workdir: ${CHE_PROJECTS_ROOT}/nodejs-web-app/app
   -
+    name: stop the web app
+    actions:
+      - type: exec
+        component: nodejs
+        command: >-
+          node_server_pids=$(pgrep -fx '.*nodemon (--inspect )?app.js' | tr "\\n" " ") &&
+          echo "Stopping node server with PIDs: ${node_server_pids}" && 
+          kill -15 ${node_server_pids} &>/dev/null && echo 'Done.'
+  -
     name: Attach remote debugger
     actions:
     - type: vscode-launch
