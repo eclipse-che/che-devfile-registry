@@ -33,20 +33,31 @@ components:
       containerPath: "/home/user/.symfony"
 commands:
 -
-    name: Start Apache Web Server
-    actions:
+  name: Start Apache Web Server
+  actions:
     - type: exec
       component: php
       command: "service apache2 start"
 -
-    name: Stop Apache Web Server
-    actions:
+  name: Stop Apache Web Server
+  actions:
     - type: exec
       component: php
       command: "service apache2 stop"
 -
-    name: Restart Apache Web Server
-    actions:
+  name: Restart Apache Web Server
+  actions:
     - type: exec
       component: php
       command: "service apache2 restart"
+-
+  name: Configure Apache Web Server DocumentRoot
+  actions:
+    - type: exec
+      component: php
+      command: |
+        if grep -q '/projects$' /etc/apache2/sites-available/000-default.conf; then
+          sed -i 's|DocumentRoot /projects|DocumentRoot /projects/php-web-simple|' /etc/apache2/sites-available/000-default.conf
+        else
+          echo "DocumentRoot already configured!"
+        fi
