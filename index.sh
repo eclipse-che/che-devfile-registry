@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2012-2018 Red Hat, Inc.
+# Copyright (c) 2018-2019 Red Hat, Inc.
 # This program and the accompanying materials are made
 # available under the terms of the Eclipse Public License 2.0
 # which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -11,32 +11,32 @@
 set -e
 
 # Arguments:
-# 1 - folder to search files in
+# 1 - folder in which to search for meta.yaml files
+if [[ ! $1 ]]; then echo "Error: must specify path to devfiles, eg., $0 /path/to/che-devfile-registry/devfiles"; exit 1; fi
+devfilesDir=$1; devfilesDir=${devfilesDir%/} # trim trailing slash if present
+
+metaInfoFields=('displayName' 'description' 'tags' 'icon' 'globalMemoryLimit')
+
 function buildIndex() {
-    metaInfoFields=('displayName' 'description' 'tags' 'icon' 'globalMemoryLimit')
-
-    ## search for all devfiles
-    readarray -d '' arr < <(find "$1" -name 'meta.yaml' -print0)
-
     FIRST_LINE=true
     echo "["
 
-    ## now loop through meta.yaml files
-    for i in "${arr[@]}"
-    do
-        if [ "$FIRST_LINE" = true ] ; then
+    ## loop through meta.yaml files
+    for i in $(ls -1 "${devfilesDir}/"*"/meta.yaml" | sort); do
+        if [[ "$FIRST_LINE" = true ]]; then
             echo "{"
             FIRST_LINE=false
         else
             echo ",{"
         fi
 
-        for field in "${metaInfoFields[@]}"
-        do
+        for field in "${metaInfoFields[@]}"; do
             # get value of needed field in json format
             # note that it may have differrent formats: arrays, string, etc.
             # String value contains quotes, e.g. "str"
-            value="$(yq r -j "$i" "$field")"
+            value=$(grep "${field}:" "${i}" | sed -e "s#^${field}: ##")
+            # if not an array and not already wrapped in quotes, wrap in quotes
+            if [[ ${value} != "["*"]" ]] && [[ ${value} != "\""*"\"" ]]; then value="\"${value}\""; fi
             echo "  \"$field\":$value,"
         done
 
@@ -47,4 +47,4 @@ function buildIndex() {
     echo "]"
 }
 
-buildIndex devfiles
+buildIndex

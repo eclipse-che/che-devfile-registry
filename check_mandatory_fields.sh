@@ -10,44 +10,41 @@
 
 set -e
 
-FIELDS=('displayName' 'description' 'tags' 'icon' 'globalMemoryLimit')
+# Arguments:
+# 1 - folder in which to search for meta.yaml files
+if [[ ! $1 ]]; then echo "Error: must specify path to devfiles, eg., $0 /path/to/che-devfile-registry/devfiles"; exit 1; fi
+devfilesDir=$1; devfilesDir=${devfilesDir%/} # trim trailing slash if present
 
-
+metaInfoFields=('displayName' 'description' 'tags' 'icon' 'globalMemoryLimit')
 
 # check that field value, given in the parameter, is not null or empty
 function check_field() {
-  if [[ $1 == "null" || $1 = "" ]];then
+  if [[ $1 == "null" || $1 = "" ]]; then
     return 1;
   fi
   return 0
 }
 
-readarray -d '' arr < <(find "$1" -name 'meta.yaml' -print0)
-
-for i in "${arr[@]}"
-do
-    id=$(yq r "$i" displayName | sed 's/^"\(.*\)"$/\1/')
+## loop through meta.yaml files
+for i in $(ls -1 "${devfilesDir}/"*"/meta.yaml" | sort); do
+    echo "Checking devfile '${i}'"
+    id=$(grep "displayName:" "${i}" | sed -e "s#^displayName: ##" -e 's#"##g')
     full_id=${id}:${i}
 
-    echo "Checking devfile '${i}'"
-
     unset NULL_OR_EMPTY_FIELDS
-
-    for FIELD in "${FIELDS[@]}"
-    do
-      VALUE=$(yq r "$i" "$FIELD")
-
-      if ! check_field "${VALUE}";then
-        NULL_OR_EMPTY_FIELDS+="$FIELD "
+    for field in "${metaInfoFields[@]}"; do
+      value=$(grep "${field}:" "${i}" | sed -e "s#^${field}: ##" -e 's#"##g')
+      if ! check_field "${value}";then
+        NULL_OR_EMPTY_FIELDS+="$field "
       fi
     done
 
-    if [[ -n "${NULL_OR_EMPTY_FIELDS}" ]];then
+    if [[ -n "${NULL_OR_EMPTY_FIELDS}" ]]; then
       echo "!!!   Null or empty mandatory fields in '${full_id}': $NULL_OR_EMPTY_FIELDS"
       INVALID_FIELDS=true
     fi
 done
 
-if [[ -n "${INVALID_FIELDS}" ]];then
+if [[ -n "${INVALID_FIELDS}" ]]; then
   exit 1
 fi
