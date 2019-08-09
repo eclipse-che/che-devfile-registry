@@ -12,11 +12,11 @@ RUN apk add --no-cache bash
 COPY .htaccess README.md *.sh /build/
 COPY /devfiles /build/devfiles
 WORKDIR /build/
-RUN ./check_mandatory_fields.sh devfiles
-RUN ./index.sh > /build/devfiles/index.json
+RUN ./check_mandatory_fields.sh devfiles && \
+    ./index.sh devfiles > /build/devfiles/index.json
 
 FROM registry.centos.org/centos/httpd-24-centos7
-RUN mkdir /var/www/html/devfiles
+RUN mkdir -p /var/www/html/devfiles
 COPY --from=builder /build/ /var/www/html/
 USER 0
 RUN chmod -R g+rwX /var/www/html/devfiles

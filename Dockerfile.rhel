@@ -12,23 +12,22 @@ RUN apk add --no-cache bash
 COPY .htaccess README.md *.sh /build/
 COPY /devfiles /build/devfiles
 WORKDIR /build/
-RUN ./check_mandatory_fields.sh devfiles
-RUN ./index.sh > /build/devfiles/index.json
+RUN ./check_mandatory_fields.sh devfiles && \
+    ./index.sh devfiles > /build/devfiles/index.json
 
 FROM quay.io/openshiftio/rhel-base-httpd:latest
 
-RUN sed -i -e "s,Listen 80,Listen 8080," /etc/httpd/conf/httpd.conf
-RUN sed -i -e "s,logs/error_log,/dev/stderr," /etc/httpd/conf/httpd.conf
-RUN sed -i -e "s,logs/access_log,/dev/stdout," /etc/httpd/conf/httpd.conf
-RUN sed -i -e "s,AllowOverride None,AllowOverride All," /etc/httpd/conf/httpd.conf
-
 EXPOSE 80
 
-# the htpasswd file may be periodically replaced during run
-RUN chmod a+rwX            /etc/httpd/conf
-RUN chmod a+rwX            /run/httpd
+RUN sed -e "s,Listen 80,Listen 8080," \
+    -e "s,logs/error_log,/dev/stderr," \
+    -e "s,logs/access_log,/dev/stdout," \
+    -e "s,AllowOverride None,AllowOverride All," \
+    -i /etc/httpd/conf/httpd.conf && \
+    # the htpasswd file may be periodically replaced during run
+    chmod a+rwX /etc/httpd/conf /run/httpd && \
+    mkdir -p /var/www/html/devfiles
 
-RUN mkdir /var/www/html/devfiles
 COPY --from=builder /build/ /var/www/html/
 USER 0
 RUN chmod -R g+rwX /var/www/html/devfiles
