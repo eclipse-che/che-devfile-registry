@@ -1,7 +1,7 @@
 ---
 apiVersion: 1.0.0
 metadata:
-  name: java-gradle
+  generateName: java-gradle-
 projects:
   -
     name: console-java-simple

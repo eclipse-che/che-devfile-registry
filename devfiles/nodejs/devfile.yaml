@@ -1,7 +1,7 @@
 ---
 apiVersion: 1.0.0
 metadata:
-  name: nodejs
+  generateName: nodejs-
 projects:
   -
     name: nodejs-web-app

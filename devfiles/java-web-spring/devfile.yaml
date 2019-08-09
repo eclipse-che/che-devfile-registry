@@ -1,7 +1,7 @@
 ---
 apiVersion: 1.0.0
 metadata:
-  name: java-web-spring
+  generateName: java-web-spring-
 projects:
   -
     name: java-web-spring
