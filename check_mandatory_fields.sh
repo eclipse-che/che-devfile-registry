@@ -28,12 +28,12 @@ function check_field() {
 ## loop through meta.yaml files
 for i in $(ls -1 "${devfilesDir}/"*"/meta.yaml" | sort); do
     echo "Checking devfile '${i}'"
-    id=$(grep "displayName:" "${i}" | sed -e "s#^displayName: ##" -e 's#"##g')
+	id=$(yq ."${displayName}" "$i" | tr -d "\"") # trim quotes from the field value
     full_id=${id}:${i}
 
     unset NULL_OR_EMPTY_FIELDS
     for field in "${metaInfoFields[@]}"; do
-      value=$(grep "${field}:" "${i}" | sed -e "s#^${field}: ##" -e 's#"##g')
+	  value=$(yq ."${field}" "$i" | tr -d "\"") # trim quotes from the field value
       if ! check_field "${value}";then
         NULL_OR_EMPTY_FIELDS+="$field "
       fi

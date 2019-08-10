@@ -34,10 +34,8 @@ function buildIndex() {
             # get value of needed field in json format
             # note that it may have differrent formats: arrays, string, etc.
             # String value contains quotes, e.g. "str"
-            value=$(grep "${field}:" "${i}" | sed -e "s#^${field}: ##")
-            # if not an array and not already wrapped in quotes, wrap in quotes
-            if [[ ${value} != "["*"]" ]] && [[ ${value} != "\""*"\"" ]]; then value="\"${value}\""; fi
-            echo "  \"$field\":$value,"
+            value="$(yq ."${field}" "$i" | sed 's/^"\(.*\)"$/\1/')"
+            echo "  \"$field\":\"$value\","
         done
 
         parentFolderPath=${i%/*}
