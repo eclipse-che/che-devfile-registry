@@ -10,41 +10,11 @@
 
 set -e
 
-# Arguments:
-# 1 - folder to search files in
-function buildIndex() {
-    metaInfoFields=('displayName' 'description' 'tags' 'icon' 'globalMemoryLimit')
-
-    ## search for all devfiles
-    readarray -d '' arr < <(find "$1" -name 'meta.yaml' -print0)
-
-    FIRST_LINE=true
-    echo "["
-
-    ## now loop through meta.yaml files
-    for i in "${arr[@]}"
-    do
-        if [ "$FIRST_LINE" = true ] ; then
-            echo "{"
-            FIRST_LINE=false
-        else
-            echo ",{"
-        fi
-
-        for field in "${metaInfoFields[@]}"
-        do
-            # get value of needed field in json format
-            # note that it may have differrent formats: arrays, string, etc.
-            # String value contains quotes, e.g. "str"
-            value="$(yq r -j "$i" "$field")"
-            echo "  \"$field\":$value,"
-        done
-
-        parentFolderPath=${i%/*}
-        echo "  \"links\": {\"self\":\"/$parentFolderPath/devfile.yaml\" }"
-        echo "}"
-    done
-    echo "]"
-}
-
-buildIndex devfiles
+readarray -d '' metas < <(find devfiles -name 'meta.yaml' -print0)
+for meta in "${metas[@]}"; do
+    META_DIR=$(dirname ${meta})
+    # Workaround to include self-links, since it's not possible to
+    # get filename in yq easily
+    echo -e "links:\n  self: /${META_DIR}/devfile.yaml" >> "${meta}"
+done
+yq -s 'map(.)' "${metas[@]}"
