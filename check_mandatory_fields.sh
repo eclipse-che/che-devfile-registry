@@ -12,42 +12,21 @@ set -e
 
 FIELDS=('displayName' 'description' 'tags' 'icon' 'globalMemoryLimit')
 
-
-
-# check that field value, given in the parameter, is not null or empty
-function check_field() {
-  if [[ $1 == "null" || $1 = "" ]];then
-    return 1;
-  fi
-  return 0
-}
-
-readarray -d '' arr < <(find "$1" -name 'meta.yaml' -print0)
-
-for i in "${arr[@]}"
-do
-    id=$(yq r "$i" displayName | sed 's/^"\(.*\)"$/\1/')
-    full_id=${id}:${i}
-
-    echo "Checking devfile '${i}'"
-
+readarray -d '' metas < <(find devfiles -name 'meta.yaml' -print0)
+for meta in "${metas[@]}"; do
+    echo "Checking devfile '${meta}'"
     unset NULL_OR_EMPTY_FIELDS
-
-    for FIELD in "${FIELDS[@]}"
-    do
-      VALUE=$(yq r "$i" "$FIELD")
-
-      if ! check_field "${VALUE}";then
-        NULL_OR_EMPTY_FIELDS+="$FIELD "
-      fi
+    for field in "${FIELDS[@]}"; do
+        if ! grep -q "^${field}:.*\S" $meta; then
+            NULL_OR_EMPTY_FIELDS+="$field "
+        fi
     done
-
     if [[ -n "${NULL_OR_EMPTY_FIELDS}" ]];then
-      echo "!!!   Null or empty mandatory fields in '${full_id}': $NULL_OR_EMPTY_FIELDS"
-      INVALID_FIELDS=true
+        echo "!!!   Null or empty mandatory fields in ${meta}: $NULL_OR_EMPTY_FIELDS"
+        INVALID_FIELDS=true
     fi
 done
 
 if [[ -n "${INVALID_FIELDS}" ]];then
-  exit 1
+    exit 1
 fi

@@ -6,8 +6,8 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 #
-FROM mikefarah/yq as builder
-RUN apk add --no-cache bash
+FROM alpine:3.10 AS builder
+RUN apk add --no-cache py-pip jq bash && pip install yq
 
 COPY .htaccess README.md *.sh /build/
 COPY /devfiles /build/devfiles
