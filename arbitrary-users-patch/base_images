@@ -1,6 +1,7 @@
 che-python-3.6          centos/python-36-centos7:1
 che-php-7               eclipse/php:7.1-che7
 che-golang-1.10         golang:1.10.7-stretch
+che-golang-1.12         golang:1.12-stretch
 che-java11-gradle       gradle:5.2.1-jdk11
 che-java11-maven        maven:3.6.0-jdk-11
 che-java8-maven         maven:3.6.1-jdk-8
