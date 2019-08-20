@@ -113,7 +113,7 @@ function build_and_push() {
   # which is done as part of the 'centos' target execution
   if [ "$TARGET" == "centos" ]; then
     # If additional tag (e.g. "nightly") is NOT set let's use git commit hash as a tag
-    TAG=${TAG:-${GIT_COMMIT_TAG}}
+    export TAG=${TAG:-${GIT_COMMIT_TAG}}
     "${SCRIPT_DIR}"/arbitrary-users-patch/build_images.sh --push
     echo "CICO: pushed '${TAG}' version of the arbitrary-user patched base images"
   fi
