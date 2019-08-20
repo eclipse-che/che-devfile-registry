@@ -11,7 +11,7 @@ projects:
 components:
 -
   type: chePlugin
-  reference: che-incubator/cpptools/latest
+  id: che-incubator/cpptools/latest
   alias: cpp-plugin
   preferences:
     clangd.path: /usr/bin/clangd
