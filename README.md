@@ -45,7 +45,7 @@ helm upgrade --install che-devfile-registry \
 
 ```
 
-You can use the following command to uninstall it.
+You can use the following command to uninstall it:
 
 ```bash
 
