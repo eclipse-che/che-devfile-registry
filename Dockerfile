@@ -9,9 +9,19 @@
 FROM alpine:3.10 AS builder
 RUN apk add --no-cache py-pip jq bash && pip install yq
 
-COPY .htaccess README.md *.sh /build/
+# Registry, organization, and tag to use for base images in dockerfiles. Devfiles
+# will be rewritten during build to use these values for base images.
+ARG PATCHED_IMAGES_REG="quay.io"
+ARG PATCHED_IMAGES_ORG="eclipse"
+ARG PATCHED_IMAGES_TAG="nightly"
+
+COPY .htaccess README.md *.sh ./arbitrary-users-patch/base_images /build/
 COPY /devfiles /build/devfiles
 WORKDIR /build/
+RUN TAG=${PATCHED_IMAGES_TAG} \
+    ORGANIZATION=${PATCHED_IMAGES_ORG} \
+    REGISTRY=${PATCHED_IMAGES_REG} \
+    ./update_devfile_patched_image_tags.sh
 RUN ./check_mandatory_fields.sh devfiles
 RUN ./index.sh > /build/devfiles/index.json
 
