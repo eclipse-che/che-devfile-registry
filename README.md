@@ -1,7 +1,7 @@
-[![Build Status](https://ci.centos.org/buildStatus/icon?job=devtools-che-devfile-registry-build-master/)](https://ci.centos.org/job/devtools-che-devfile-registry-build-master/)
-[![Build Status](https://ci.centos.org/buildStatus/icon?job=devtools-che-devfile-registry-nightly/)](https://ci.centos.org/job/devtools-che-devfile-registry-nightly/)
-[![Build Status](https://ci.centos.org/buildStatus/icon?job=devtools-che-devfile-registry-release/)](https://ci.centos.org/job/devtools-che-devfile-registry-release/)
-[![Build Status](https://ci.centos.org/buildStatus/icon?job=devtools-che-devfile-registry-release-preview/)](https://ci.centos.org/job/devtools-che-devfile-registry-release-preview/)
+[![Master Build Status](https://ci.centos.org/buildStatus/icon?subject=master&job=devtools-che-devfile-registry-build-master/)](https://ci.centos.org/job/devtools-che-devfile-registry-build-master/)
+[![Nightly Build Status](https://ci.centos.org/buildStatus/icon?subject=nightly&job=devtools-che-devfile-registry-nightly/)](https://ci.centos.org/job/devtools-che-devfile-registry-nightly/)
+[![Release Build Status](https://ci.centos.org/buildStatus/icon?subject=release&job=devtools-che-devfile-registry-release/)](https://ci.centos.org/job/devtools-che-devfile-registry-release/)
+[![Preview Release Build Status](https://ci.centos.org/buildStatus/icon?subject=release-preview&job=devtools-che-devfile-registry-release-preview/)](https://ci.centos.org/job/devtools-che-devfile-registry-release-preview/)
 
 # Eclipse Che devfile registry
 
