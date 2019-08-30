@@ -9,11 +9,13 @@
 FROM alpine:3.10 AS builder
 RUN apk add --no-cache py-pip jq bash && pip install yq
 
+# Registry, organization, and tag to use for base images in dockerfiles. Devfiles
+# will be rewritten during build to use these values for base images.
 ARG PATCHED_IMAGES_REG="quay.io"
 ARG PATCHED_IMAGES_ORG="eclipse"
 ARG PATCHED_IMAGES_TAG="nightly"
 
-COPY .htaccess README.md *.sh ./arbitrary-users-patch/base_images /build/
+COPY ./build/scripts ./arbitrary-users-patch/base_images /build/
 COPY /devfiles /build/devfiles
 WORKDIR /build/
 RUN TAG=${PATCHED_IMAGES_TAG} \
@@ -23,24 +25,9 @@ RUN TAG=${PATCHED_IMAGES_TAG} \
 RUN ./check_mandatory_fields.sh devfiles
 RUN ./index.sh > /build/devfiles/index.json
 
-FROM quay.io/openshiftio/rhel-base-httpd:latest
-
-RUN sed -i -e "s,Listen 80,Listen 8080," /etc/httpd/conf/httpd.conf
-RUN sed -i -e "s,logs/error_log,/dev/stderr," /etc/httpd/conf/httpd.conf
-RUN sed -i -e "s,logs/access_log,/dev/stdout," /etc/httpd/conf/httpd.conf
-RUN sed -i -e "s,AllowOverride None,AllowOverride All," /etc/httpd/conf/httpd.conf
-
-EXPOSE 80
-
-# the htpasswd file may be periodically replaced during run
-RUN chmod a+rwX            /etc/httpd/conf
-RUN chmod a+rwX            /run/httpd
-
+FROM registry.centos.org/centos/httpd-24-centos7
 RUN mkdir /var/www/html/devfiles
-COPY --from=builder /build/ /var/www/html/
+COPY .htaccess README.md /var/www/html/
+COPY --from=builder /build/devfiles /var/www/html/devfiles
 USER 0
 RUN chmod -R g+rwX /var/www/html/devfiles
-
-STOPSIGNAL SIGWINCH
-
-ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
