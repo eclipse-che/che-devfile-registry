@@ -77,11 +77,11 @@ function setup_environment() {
   export GIT_COMMIT_TAG
 
   if [ "$TARGET" == "rhel" ]; then
-    export DOCKERFILE="Dockerfile.rhel"
+    export DOCKERFILE_PATH="./build/dockerfiles/Dockerfile.rhel"
     export ORGANIZATION="openshiftio"
     export IMAGE="rhel-che-devfile-registry"
   else
-    export DOCKERFILE="Dockerfile"
+    export DOCKERFILE_PATH="./build/dockerfiles/Dockerfile"
     export ORGANIZATION="eclipse"
     export IMAGE="che-devfile-registry"
     # For pushing to quay.io 'eclipse' organization we need to use different credentials
@@ -99,7 +99,7 @@ function setup_environment() {
 # Build, tag, and push devfile registry, tagged with ${TAG} and ${GIT_COMMIT_TAG}
 function build_and_push() {
   # Let's build and push image to 'quay.io' using git commit hash as tag first
-  docker build -t ${IMAGE} -f ${DOCKERFILE} .
+  docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} .
   tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${GIT_COMMIT_TAG}"
   echo "CICO: '${GIT_COMMIT_TAG}' version of images pushed to '${REGISTRY}/${ORGANIZATION}' organization"
 
@@ -115,7 +115,7 @@ function build_and_push() {
 # arbitrary user patch
 function build_and_push_release() {
   echo "CICO: building release '${TAG}' version of devfile registry"
-  docker build -t ${IMAGE} -f ${DOCKERFILE} . \
+  docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} . \
     --build-arg PATCHED_IMAGES_REG=${REGISTRY} \
     --build-arg PATCHED_IMAGES_ORG=${ORGANIZATION} \
     --build-arg PATCHED_IMAGES_TAG=${TAG}
