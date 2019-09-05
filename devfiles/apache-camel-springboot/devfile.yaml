@@ -15,7 +15,7 @@ components:
     memoryLimit: 128Mi
   -
     type: chePlugin
-    id: camel-tooling/vscode-apache-camel/latest
+    id: redhat/vscode-apache-camel/latest
     memoryLimit: 200Mi
   -
     type: chePlugin
