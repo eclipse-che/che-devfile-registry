@@ -16,7 +16,7 @@ components:
   -
     type: dockerimage
     alias: python
-    image: centos/python-36-centos7:1
+    image: quay.io/eclipse/che-python-3.6:nightly
     memoryLimit: 512Mi
     endpoints:
       - name: 'django'
