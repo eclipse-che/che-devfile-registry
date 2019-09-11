@@ -29,7 +29,7 @@ commands:
       -
         type: exec
         component: python
-        command: pip install -r requirements.txt && pip install ptvsd
+        command: pip install --user -r requirements.txt && pip install --user ptvsd
         workdir: ${CHE_PROJECTS_ROOT}/django-realworld-example-app
   -
     name: migrate
