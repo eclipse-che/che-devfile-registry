@@ -19,7 +19,7 @@ components:
 -
   type: dockerimage
   alias: cpp-dev
-  image: registry.centos.org/centos/devtoolset-7-toolchain-centos7
+  image: quay.io/eclipse/che-cpp7-centos:nightly
   command: ['sleep']
   args: ['infinity']
   memoryLimit: 512Mi
@@ -31,6 +31,13 @@ commands:
       - type: exec
         component: cpp-dev
         command: g++ -g hello.cpp -o hello.out
+        workdir: ${CHE_PROJECTS_ROOT}/cpp-hello-world
+  -
+    name: run
+    actions:
+      - type: exec
+        component: cpp-dev
+        command: ./hello.out
         workdir: ${CHE_PROJECTS_ROOT}/cpp-hello-world
   -
     name: debug
