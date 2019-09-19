@@ -1,6 +1,6 @@
 ---
 displayName: Go Real World Application
-description: Go Stack with Go 1.12.9 and real wold application
+description: Go Stack with Go 1.12.9 and Real Wold Application
 tags: ["Debian", "Go"]
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
 globalMemoryLimit: 1686Mi
