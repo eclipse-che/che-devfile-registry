@@ -4,10 +4,10 @@ metadata:
   generateName: nodejs-mongo-
 projects:
   -
-    name: nodejs-mongodb-app
+    name: nodejs-mongodb-sample
     source:
       type: git
-      location: "https://github.com/gothinkster/node-express-realworld-example-app"
+      location: "https://github.com/che-samples/nodejs-mongodb-sample"
 components:
   -
     type: chePlugin
@@ -23,8 +23,6 @@ components:
         value: 220fd770-c028-480d-8f95-f84353c7d55a 
       - name: NODE_ENV
         value: production
-      - name: MONGODB_URI
-        value: mongodb://user:password@mongo/db
     memoryLimit: 512Mi
     endpoints:
       - name: 'nodejs'
@@ -41,30 +39,38 @@ components:
       - name: MONGODB_PASSWORD
         value: password
       - name: MONGODB_DATABASE
-        value: db
+        value: guestbook
       - name: MONGODB_ADMIN_PASSWORD
         value: password
     volumes:
       - name: mongo-storage
         containerPath: /var/lib/mongodb/data 
     endpoints:
-      - name: mongo
+      - name: mongodb-34-centos7
         port: 27017
         attributes:
           discoverable: 'true'
           public: 'false'
 commands:
   -
-    name: run the web app
+    name: run the application
     actions:
-      - type: exec
-        component: nodejs
-        command: npm install && npm run dev 
-        workdir: ${CHE_PROJECTS_ROOT}/nodejs-mongodb-app
+    - type: exec
+      component: nodejs
+      command: npm install && node --inspect=9229 app.js
+      workdir: ${CHE_PROJECTS_ROOT}/nodejs-mongodb-sample
   -
-    name: create test user
+    name: Debug remote node application
     actions:
-      - type: exec
-        component: nodejs
-        command: | 
-          curl -X POST --data '{"user": {"username": "test", "email": "test@test.com", "password": "password"}}' -H "Content-Type: application/json" http://localhost:3000/api/users
+    - type: vscode-launch
+      referenceContent: |
+        {
+        "version": "0.2.0",
+        "configurations": [
+          {
+            "type": "node",
+            "name": "Debug (Attach) - Remote",
+            "request": "attach",
+            "port": 9229
+          }]
+        }
