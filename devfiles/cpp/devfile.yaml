@@ -19,7 +19,7 @@ components:
 -
   type: dockerimage
   alias: cpp-dev
-  image: quay.io/eclipse/che-cpp7-centos:nightly
+  image: quay.io/eclipse/che-cpp-rhel7:nightly
   command: ['sleep']
   args: ['infinity']
   memoryLimit: 512Mi
@@ -30,7 +30,7 @@ commands:
     actions:
       - type: exec
         component: cpp-dev
-        command: g++ -g hello.cpp -o hello.out
+        command: g++ -g hello.cpp -o hello.out && echo "Build complete"
         workdir: ${CHE_PROJECTS_ROOT}/cpp-hello-world
   -
     name: run
