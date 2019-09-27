@@ -50,16 +50,9 @@ function install_deps() {
 }
 
 function set_release_tag() {
-  # Let's obtain the tag based on the 
+  # Let's obtain the tag based on the
   # version defined in the 'VERSION' file
   TAG=$(head -n 1 VERSION)
-  export TAG
-}
-
-function set_ci_tag() {
-  # Let's obtain the tag based on the 
-  # git commit hash
-  TAG=$(echo "$GIT_COMMIT" | cut -c1-"${DEVSHIFT_TAG_LEN}")
   export TAG
 }
 
@@ -74,21 +67,26 @@ function tag_push() {
   docker push "$TARGET"
 }
 
-function build_and_push() {
-  TARGET=${TARGET:-"centos"}
-  REGISTRY="quay.io"
+# Set appropriate environment variables and login to the docker registry
+# as the required user.
+function setup_environment() {
+  export TARGET=${TARGET:-"centos"}
+  export REGISTRY="quay.io"
+
+  GIT_COMMIT_TAG=$(echo "$GIT_COMMIT" | cut -c1-"${DEVSHIFT_TAG_LEN}")
+  export GIT_COMMIT_TAG
 
   if [ "$TARGET" == "rhel" ]; then
-    DOCKERFILE="Dockerfile.rhel"
-    ORGANIZATION="openshiftio"
-    IMAGE="rhel-che-devfile-registry"
+    export DOCKERFILE_PATH="./build/dockerfiles/Dockerfile.rhel"
+    export ORGANIZATION="openshiftio"
+    export IMAGE="rhel-che-devfile-registry"
   else
-    DOCKERFILE="Dockerfile"
-    ORGANIZATION="eclipse"
-    IMAGE="che-devfile-registry"
+    export DOCKERFILE_PATH="./build/dockerfiles/Dockerfile"
+    export ORGANIZATION="eclipse"
+    export IMAGE="che-devfile-registry"
     # For pushing to quay.io 'eclipse' organization we need to use different credentials
-    QUAY_USERNAME=${QUAY_ECLIPSE_CHE_USERNAME}
-    QUAY_PASSWORD=${QUAY_ECLIPSE_CHE_PASSWORD}
+    export QUAY_USERNAME=${QUAY_ECLIPSE_CHE_USERNAME}
+    export QUAY_PASSWORD=${QUAY_ECLIPSE_CHE_PASSWORD}
   fi
 
   if [ -n "${QUAY_USERNAME}" ] && [ -n "${QUAY_PASSWORD}" ]; then
@@ -96,16 +94,41 @@ function build_and_push() {
   else
     echo "Could not login, missing credentials for pushing to the '${ORGANIZATION}' organization"
   fi
+}
 
-  # Let's build and push arbitrary-user patched images only to 'eclipse' quay.io organization
-  # which is done as part of the 'centos' target execution
-  if [ "$TARGET" == "centos" ]; then
-    "${SCRIPT_DIR}"/arbitrary-users-patch/build_images.sh --push
-    echo "CICO: pushed '${TAG}' version of the arbitrary-user patched base images"
+# Build, tag, and push devfile registry, tagged with ${TAG} and ${GIT_COMMIT_TAG}
+function build_and_push() {
+  # Let's build and push image to 'quay.io' using git commit hash as tag first
+  docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} .
+  tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${GIT_COMMIT_TAG}"
+  echo "CICO: '${GIT_COMMIT_TAG}' version of images pushed to '${REGISTRY}/${ORGANIZATION}' organization"
+
+  # If additional tag is set (e.g. "nightly"), let's tag the image accordingly and also push to 'quay.io'
+  if [ -n "${TAG}" ]; then
+    tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${TAG}"
+    echo "CICO: '${TAG}'  version of images pushed to '${REGISTRY}/${ORGANIZATION}' organization"
   fi
+}
 
-  # Let's build and push images to 'quay.io'
-  docker build -t ${IMAGE} -f ${DOCKERFILE} .
+# Build release version of devfile registry, using ${TAG} as a tag. For release
+# versions, the devfiles are rewritten to refer to ${TAG}-tagged images with the
+# arbitrary user patch
+function build_and_push_release() {
+  echo "CICO: building release '${TAG}' version of devfile registry"
+  docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} . \
+    --build-arg PATCHED_IMAGES_REG=${REGISTRY} \
+    --build-arg PATCHED_IMAGES_ORG=${ORGANIZATION} \
+    --build-arg PATCHED_IMAGES_TAG=${TAG}
+  echo "CICO: release '${TAG}' version of devfile registry built"
   tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${TAG}"
-  echo "CICO: '${TAG}' version of images pushed to '${REGISTRY}/${ORGANIZATION}' organization"
+  echo "CICO: release '${TAG}' version of devfile registry pushed to '${REGISTRY}/${ORGANIZATION}' organization"
+}
+
+# Build images patched to work on OpenShift (work with arbitrary user IDs) and push
+# them to registry
+function build_patched_base_images() {
+  local TAG=${TAG:-${GIT_COMMIT_TAG}}
+  echo "CICO: building arbitrary-user-id patched base images with tag '${TAG}'"
+  "${SCRIPT_DIR}"/arbitrary-users-patch/build_images.sh --push
+  echo "CICO: pushed '${TAG}' version of the arbitrary-user patched base images"
 }

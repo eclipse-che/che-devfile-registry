@@ -1,7 +1,7 @@
 ---
 apiVersion: 1.0.0
 metadata:
-  name: java-maven
+  generateName: java-maven-
 projects:
   -
     name: console-java-simple
@@ -33,9 +33,6 @@ components:
           -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
           -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
     memoryLimit: 512Mi
-    endpoints:
-      - name: '8080/tcp'
-        port: 8080
     mountSources: true
     volumes:
       - name: m2
@@ -47,7 +44,7 @@ commands:
       -
         type: exec
         component: maven
-        command: "mvn -Duser.home=${HOME} clean install"
+        command: "mvn clean install"
         workdir: ${CHE_PROJECTS_ROOT}/console-java-simple
   -
     name: maven build and run
@@ -55,5 +52,5 @@ commands:
       -
         type: exec
         component: maven
-        command: "mvn -Duser.home=${HOME} clean install && java -jar ./target/*.jar"
+        command: "mvn clean install && java -jar ./target/*.jar"
         workdir: ${CHE_PROJECTS_ROOT}/console-java-simple

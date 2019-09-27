@@ -7,5 +7,20 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 #
+# Build Che devfile registry image. Note that this script will read the version
+# in ./VERSION; if it is *-SNAPSHOT, devfiles in the registry will use nightly-tagged
+# images with the arbitrary user IDs patch. If ./VERSION contains otherwise,
+# the devfiles in the registry will instead use the value in ./VERSION.
+#
 
-docker build -t quay.io/eclipse/che-devfile-registry:nightly .
+VERSION=$(head -n 1 VERSION)
+case $VERSION in
+  *SNAPSHOT)
+    echo "Snapshot version (${VERSION}) specified in $(find . -name VERSION): building nightly plugin registry."
+    docker build -t "quay.io/eclipse/che-devfile-registry:nightly" -f ./build/dockerfiles/Dockerfile .
+    ;;
+  *)
+    echo "Release version specified in $(find . -name VERSION): Building plugin registry for release ${VERSION}."
+    docker build -t "quay.io/eclipse/che-devfile-registry:${VERSION}" -f ./build/dockerfiles/Dockerfile . --build-arg "PATCHED_IMAGES_TAG=${VERSION}"
+    ;;
+esac

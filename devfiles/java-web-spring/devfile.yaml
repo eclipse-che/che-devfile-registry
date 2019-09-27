@@ -1,7 +1,7 @@
 ---
 apiVersion: 1.0.0
 metadata:
-  name: java-web-spring
+  generateName: java-web-spring-
 projects:
   -
     name: java-web-spring
@@ -12,6 +12,7 @@ components:
   -
     type: chePlugin
     id: redhat/java/latest
+    memoryLimit: 1512Mi
   -
     type: dockerimage
     alias: tools
@@ -24,7 +25,7 @@ components:
           -Duser.home=/home/user"
       - name: MAVEN_OPTS
         value: $(JAVA_OPTS)
-    memoryLimit: 1024Mi
+    memoryLimit: 768Mi
     endpoints:
       - name: '8080/tcp'
         port: 8080
@@ -46,5 +47,22 @@ commands:
       -
         type: exec
         component: tools
-        command: "java -jar target/*.jar"
+        command: |
+          java -jar -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 \
+          target/*.jar
         workdir: ${CHE_PROJECTS_ROOT}/java-web-spring
+  - name: Debug remote java application
+    actions:
+      - type: vscode-launch
+        referenceContent: |
+          {
+          "version": "0.2.0",
+          "configurations": [
+            {
+              "type": "java",
+              "name": "Debug (Attach) - Remote",
+              "request": "attach",
+              "hostName": "localhost",
+              "port": 5005
+            }]
+          }

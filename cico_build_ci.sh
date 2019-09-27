@@ -17,10 +17,10 @@ set -e
 SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
 export SCRIPT_DIR
 
-# shellcheck disable=SC1090
+# shellcheck source=./cico_functions.sh
 . "${SCRIPT_DIR}"/cico_functions.sh
 
 load_jenkins_vars
 install_deps
-set_ci_tag
+setup_environment
 build_and_push

@@ -1,11 +1,11 @@
 ---
 apiVersion: 1.0.0
 metadata:
-  name: golang
+  generateName: golang-
 projects:
 -
   name: example
-  source: 
+  source:
     type: git
     location: https://github.com/golang/example.git
   clonePath: src/github.com/golang/example/
@@ -28,6 +28,9 @@ components:
       # replicate the GOCACHE from the plugin, even though the cache is not shared
       # between the two
       value: /tmp/.cache
+  endpoints:
+    - name: '8080/tcp'
+      port: 8080
   memoryLimit: 512Mi
   mountSources: true
 commands:
@@ -38,9 +41,40 @@ commands:
     component: go-cli
     command: go get -d && go run main.go
     workdir: ${CHE_PROJECTS_ROOT}/src/github.com/golang/example/outyet
-- name: test outyet
+-
+  name: stop outyet
+  actions:
+  - type: exec
+    component: go-cli
+    command: kill $(pidof go)
+-
+  name: test outyet
   actions:
   - type: exec
     component: go-cli
     command: go test
     workdir: ${CHE_PROJECTS_ROOT}/src/github.com/golang/example/outyet
+-
+  name: run current file
+  actions:
+  - type: exec
+    component: go-cli
+    command: go get -d && go run ${file}
+    workdir: ${fileDirname}
+-
+  name: Debug current file
+  actions:
+  - type: vscode-launch
+    referenceContent: |
+      {
+        "version": "0.2.0",
+        "configurations": [
+          {
+            "name": "Debug current file",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${fileDirname}",
+          },
+        ]
+      }
