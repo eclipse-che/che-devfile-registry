@@ -1,20 +1,23 @@
 ---
 apiVersion: 1.0.0
 metadata:
-  generateName: golang-web-
+  generateName: golang-realworld-app-
 projects:
 -
   name: example
   source:
     type: git
     location: https://github.com/xesina/golang-echo-realworld-example-app
-  clonePath: golang-web-app
+  clonePath: golang-realworld-app
 components:
 -
   type: chePlugin
   id: ms-vscode/go/latest
   alias: go-plugin
   memoryLimit: 512Mi
+  preferences:
+      go.formatTool: goimports
+      go.useLanguageServer: true
 -
   type: dockerimage
   image: quay.io/eclipse/che-golang-1.12:nightly
@@ -38,28 +41,28 @@ commands:
   - type: exec
     component: go-cli
     command: go mod download
-    workdir: ${CHE_PROJECTS_ROOT}/golang-web-app
+    workdir: ${CHE_PROJECTS_ROOT}/golang-realworld-app
 -
   name: run
   actions:
   - type: exec
     component: go-cli
     command: go run main.go
-    workdir: ${CHE_PROJECTS_ROOT}/golang-web-app
+    workdir: ${CHE_PROJECTS_ROOT}/golang-realworld-app
 -
   name: build
   actions:
   - type: exec
     component: go-cli
     command: go build
-    workdir: ${CHE_PROJECTS_ROOT}/golang-web-app
+    workdir: ${CHE_PROJECTS_ROOT}/golang-realworld-app
 -
   name: test
   actions:
   - type: exec
     component: go-cli
     command: go test ./...
-    workdir: ${CHE_PROJECTS_ROOT}/golang-web-app
+    workdir: ${CHE_PROJECTS_ROOT}/golang-realworld-app
 -
   name: user create
   actions:
