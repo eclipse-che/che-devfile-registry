@@ -1,7 +1,7 @@
 ---
 apiVersion: 1.0.0
 metadata:
-  name: php-web-simple
+  generateName: php-web-simple-
 projects:
 -
     name: php-web-simple
@@ -23,6 +23,9 @@ components:
   image: quay.io/eclipse/che-php-7:nightly
   memoryLimit: 512Mi
   mountSources: true
+  endpoints:
+    - name: '8080/tcp'
+      port: 8080
   volumes:
     - name: composer
       containerPath: "/home/user/.composer"
@@ -30,14 +33,31 @@ components:
       containerPath: "/home/user/.symfony"
 commands:
 -
-    name: Start Apache Web Server
-    actions:
+  name: Start Apache Web Server
+  actions:
     - type: exec
       component: php
       command: "service apache2 start"
 -
-    name: Stop Apache Web Server
-    actions:
+  name: Stop Apache Web Server
+  actions:
     - type: exec
       component: php
       command: "service apache2 stop"
+-
+  name: Restart Apache Web Server
+  actions:
+    - type: exec
+      component: php
+      command: "service apache2 restart"
+-
+  name: Configure Apache Web Server DocumentRoot
+  actions:
+    - type: exec
+      component: php
+      command: |
+        if grep -q '/projects$' /etc/apache2/sites-available/000-default.conf; then
+          sed -i 's|DocumentRoot /projects|DocumentRoot /projects/php-web-simple|' /etc/apache2/sites-available/000-default.conf
+        else
+          echo "DocumentRoot already configured!"
+        fi
