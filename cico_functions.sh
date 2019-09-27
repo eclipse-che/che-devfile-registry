@@ -116,8 +116,6 @@ function build_and_push() {
 function build_and_push_release() {
   echo "CICO: building release '${TAG}' version of devfile registry"
   docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} . \
-    --build-arg PATCHED_IMAGES_REG=${REGISTRY} \
-    --build-arg PATCHED_IMAGES_ORG=${ORGANIZATION} \
     --build-arg PATCHED_IMAGES_TAG=${TAG}
   echo "CICO: release '${TAG}' version of devfile registry built"
   tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${TAG}"
