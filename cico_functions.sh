@@ -116,8 +116,6 @@ function build_and_push() {
 function build_and_push_release() {
   echo "CICO: building release '${TAG}' version of devfile registry"
   docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} . \
-    --build-arg PATCHED_IMAGES_REG=${REGISTRY} \
-    --build-arg PATCHED_IMAGES_ORG=${ORGANIZATION} \
     --build-arg PATCHED_IMAGES_TAG=${TAG}
   echo "CICO: release '${TAG}' version of devfile registry built"
   tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${TAG}"
@@ -125,10 +123,13 @@ function build_and_push_release() {
 }
 
 # Build images patched to work on OpenShift (work with arbitrary user IDs) and push
-# them to registry
+# them to registry. NOTE: 'arbitrary-users-patch' images will be pushed only to the public 
+# 'https://quay.io/organization/eclipse' organization
 function build_patched_base_images() {
-  local TAG=${TAG:-${GIT_COMMIT_TAG}}
-  echo "CICO: building arbitrary-user-id patched base images with tag '${TAG}'"
-  "${SCRIPT_DIR}"/arbitrary-users-patch/build_images.sh --push
-  echo "CICO: pushed '${TAG}' version of the arbitrary-user patched base images"
+  if [ "$TARGET" == "centos" ]; then
+    local TAG=${TAG:-${GIT_COMMIT_TAG}}
+    echo "CICO: building arbitrary-user-id patched base images with tag '${TAG}'"
+    "${SCRIPT_DIR}"/arbitrary-users-patch/build_images.sh --push
+    echo "CICO: pushed '${TAG}' version of the arbitrary-user patched base images"
+  fi
 }
