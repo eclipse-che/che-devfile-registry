@@ -18,20 +18,20 @@ commands:
   - name: "build configurator"
     actions:
       - type: exec
-        component: theia-dev
+        component: pizza-dev
         command: cd ${CHE_PROJECTS_ROOT}/jsp_core/cfg && make CC=gcc-4.7 CXX=g++-4.7 && echo && echo Build complete.
   - name: "configure sample1"
     actions:
       - type: exec
-        component: theia-dev
+        component: pizza-dev
         command: cd ${CHE_PROJECTS_ROOT}/jsp_core && ./configure -C mips32 -S semc5701
   - name: "make depend"
     actions:
       - type: exec
-        component: theia-dev
+        component: pizza-dev
         command: cd ${CHE_PROJECTS_ROOT}/jsp_core && make depend TARGET=mips-pizzafactory-elf && echo && echo Done.
   - name: "build JSP kernel"
     actions:
       - type: exec
-        component: theia-dev
+        component: pizza-dev
         command: cd ${CHE_PROJECTS_ROOT}/jsp_core && make TARGET=mips-pizzafactory-elf
