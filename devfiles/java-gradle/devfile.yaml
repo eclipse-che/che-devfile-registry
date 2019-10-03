@@ -11,7 +11,7 @@ projects:
 components:
   -
     type: chePlugin
-    id: redhat/java/latest
+    id: redhat/java11/latest
   -
     type: dockerimage
     alias: gradle
