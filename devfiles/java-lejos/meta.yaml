@@ -1,0 +1,6 @@
+---
+displayName: leJOS
+description: leJOS sample (Java Stack with OpenJDK 11 and Maven 3.6.0)
+tags: ["Java", "OpenJDK", "Maven", "Debian", "leJOS"]
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+globalMemoryLimit: 2674Mi
