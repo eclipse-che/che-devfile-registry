@@ -63,6 +63,7 @@ objects:
           envFrom:
           - configMapRef:
               name: che-devfile-registry
+              optional: true
     triggers:
     - type: ConfigChange
 - apiVersion: v1
