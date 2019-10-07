@@ -37,3 +37,10 @@ while read -r line; do
     docker push "${NAME_FORMAT}/${base_image_name}:${TAG}"
   fi
 done < "${SCRIPT_DIR}"/base_images
+
+# Build image for happy-path tests with precashed mvn dependencies
+docker build -t "${NAME_FORMAT}/happy-path:${TAG}" --no-cache --build-arg TAG=${TAG} "${SCRIPT_DIR}"/happy-path
+if ${PUSH_IMAGES}; then
+    echo "Pushing ${NAME_FORMAT}/happy-path:${TAG}" to remote registry
+    docker push "${NAME_FORMAT}/happy-path:${TAG}"
+fi
