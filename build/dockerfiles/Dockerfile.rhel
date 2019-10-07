@@ -16,7 +16,7 @@ ARG PATCHED_IMAGES_ORG="eclipse"
 ARG PATCHED_IMAGES_TAG="nightly"
 
 COPY ./build/scripts ./arbitrary-users-patch/base_images /build/
-COPY ./devfiles /build/devfiles
+COPY /devfiles /build/devfiles
 WORKDIR /build/
 RUN TAG=${PATCHED_IMAGES_TAG} \
     ORGANIZATION=${PATCHED_IMAGES_ORG} \
@@ -26,20 +26,35 @@ RUN ./check_mandatory_fields.sh devfiles
 RUN ./index.sh > /build/devfiles/index.json
 RUN chmod -R g+rwX /build/devfiles
 
-FROM registry.centos.org/centos/httpd-24-centos7 AS registry
+FROM quay.io/openshiftio/rhel-base-httpd:latest AS registry
+
+RUN sed -i -e "s,Listen 80,Listen 8080," /etc/httpd/conf/httpd.conf
+RUN sed -i -e "s,logs/error_log,/dev/stderr," /etc/httpd/conf/httpd.conf
+RUN sed -i -e "s,logs/access_log,/dev/stdout," /etc/httpd/conf/httpd.conf
+RUN sed -i -e "s,AllowOverride None,AllowOverride All," /etc/httpd/conf/httpd.conf
+
+EXPOSE 80
+
+# the htpasswd file may be periodically replaced during run
+RUN chmod a+rwX            /etc/httpd/conf
+RUN chmod a+rwX            /run/httpd
+
 RUN mkdir /var/www/html/devfiles
 COPY .htaccess README.md /var/www/html/
 COPY --from=builder /build/devfiles /var/www/html/devfiles
-COPY ./build/dockerfiles/entrypoint.sh /usr/bin/
-ENTRYPOINT ["/usr/bin/entrypoint.sh"]
-CMD ["/usr/bin/run-httpd"]
+
+STOPSIGNAL SIGWINCH
+
+COPY ./build/dockerfiles/rhel.entrypoint.sh ./build/dockerfiles/entrypoint.sh /usr/local/bin/
+RUN chmod g+rwX /usr/local/bin/entrypoint.sh /usr/local/bin/rhel.entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["/usr/local/bin/rhel.entrypoint.sh"]
 
 
-# Offline registry: download project zips and place them in /build/resources
+# Offline devfile registry build
 FROM builder AS offline-builder
 RUN ./cache_projects.sh devfiles resources && chmod -R g+rwX /build
 
-# Offline registry: copy updated devfile.yamls and cached projects
 FROM registry AS offline-registry
 COPY --from=offline-builder /build/devfiles /var/www/html/devfiles
 COPY --from=offline-builder /build/resources /var/www/html/resources
