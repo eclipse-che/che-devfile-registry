@@ -7,8 +7,9 @@ RUN cd / && \
     git clone https://github.com/spring-projects/spring-petclinic && \
     cd /spring-petclinic && \
     mvn clean package && \
-    mkdir -p /.m2 && \
-    cp -r /root/.m2/repository/* /.m2 && \
-    rm -rf spring-petclinic/ /root/.m2/repository/* 
+    mkdir -p /home/user/.m2/repository && \
+    cp -r /root/.m2/repository/* /home/user/.m2/repository && \
+    rm -rf spring-petclinic/ /root/.m2/repository/* && \
+    chmod -R g=u /home/user
 
 USER 10001
