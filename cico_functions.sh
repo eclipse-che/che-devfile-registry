@@ -133,3 +133,12 @@ function build_patched_base_images() {
     echo "CICO: pushed '${TAG}' version of the arbitrary-user patched base images"
   fi
 }
+
+function build_happy_path_image() {
+  if [ "$TARGET" == "centos" ]; then
+    local TAG=${TAG:-${GIT_COMMIT_TAG}}
+    echo "CICO: building image for happy path testing with tag '${TAG}'"
+    "${SCRIPT_DIR}"/arbitrary-users-patch/happy-path/build_happy_path_image.sh --push
+    echo "CICO: pushed '${TAG}' version of the happy path image"
+  fi
+}
