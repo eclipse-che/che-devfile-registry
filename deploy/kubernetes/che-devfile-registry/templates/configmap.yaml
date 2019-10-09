@@ -12,6 +12,6 @@ apiVersion: v1
 metadata:
   name: che-devfile-registry
 data:
-  CHE_DEVFILE_IMAGE_REGISTRY_URL: {{ .Values.cheDevfileImageOverride.url }}
-  CHE_DEVFILE_IMAGE_REGISTRY_ORGANIZATION: {{ .Values.cheDevfileImageOverride.organization }}
-  CHE_DEVFILE_IMAGE_REGISTRY_TAG: {{ .Values.cheDevfileImageOverride.tag }}}
+  CHE_DEVFILE_IMAGES_REGISTRY_URL: {{ .Values.cheDevfileImagesOverride.url }}
+  CHE_DEVFILE_IMAGES_REGISTRY_ORGANIZATION: {{ .Values.cheDevfileImagesOverride.organization }}
+  CHE_DEVFILE_IMAGES_REGISTRY_TAG: {{ .Values.cheDevfileImagesOverride.tag }}}

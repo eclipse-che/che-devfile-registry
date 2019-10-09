@@ -45,7 +45,6 @@ COPY --from=builder /build/devfiles /var/www/html/devfiles
 
 STOPSIGNAL SIGWINCH
 
-COPY --from=builder /build/devfiles /var/www/html/devfiles
 COPY ./build/dockerfiles/entrypoint.sh /usr/bin/
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]

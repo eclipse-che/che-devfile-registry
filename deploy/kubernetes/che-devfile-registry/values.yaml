@@ -12,7 +12,7 @@ cheDevfileRegistryImagePullPolicy: Always
 cheDevfileRegistryMemoryLimit: 256Mi
 #cheDevfileRegistryIngressSecretName: che-tls
 
-cheDevfileImageOverride:
+cheDevfileImagesOverride:
   # Override for registry URL in images used in devfiles
   url:
   # Override for registry organization in images used in devfiles
