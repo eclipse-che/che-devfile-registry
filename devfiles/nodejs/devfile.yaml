@@ -51,7 +51,7 @@ commands:
         component: nodejs
         command: >-
           node_server_pids=$(pgrep -fx '.*nodemon (--inspect )?app.js' | tr "\\n" " ") &&
-          echo "Stopping node server with PIDs: ${node_server_pids}" && 
+          echo "Stopping node server with PIDs: ${node_server_pids}" &&
           kill -15 ${node_server_pids} &>/dev/null && echo 'Done.'
   -
     name: Attach remote debugger
@@ -68,7 +68,7 @@ commands:
               "address": "localhost",
               "port": 9229,
               "localRoot": "${workspaceFolder}",
-              "remoteRoot": "#{workspaceFolder}"
+              "remoteRoot": "${workspaceFolder}"
             }
           ]
         }
