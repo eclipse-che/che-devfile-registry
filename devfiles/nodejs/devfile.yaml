@@ -50,7 +50,7 @@ commands:
       - type: exec
         component: nodejs
         command: >-
-          node_server_pids=$(pgrep -fx '.*nodemon (--inspect )?app.js' | tr "\\n" " ") &&
+          node_server_pids=$(pgrep -fx '.*nodemon (--inspect )?app.js' | tr "\\n" " ") && 
           echo "Stopping node server with PIDs: ${node_server_pids}" &&
           kill -15 ${node_server_pids} &>/dev/null && echo 'Done.'
   -
