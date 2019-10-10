@@ -24,6 +24,7 @@ RUN TAG=${PATCHED_IMAGES_TAG} \
     ./update_devfile_patched_image_tags.sh
 RUN ./check_mandatory_fields.sh devfiles
 RUN ./index.sh > /build/devfiles/index.json
+RUN chmod -R g+rwX /build/devfiles
 
 FROM quay.io/openshiftio/rhel-base-httpd:latest
 
@@ -41,9 +42,10 @@ RUN chmod a+rwX            /run/httpd
 RUN mkdir /var/www/html/devfiles
 COPY .htaccess README.md /var/www/html/
 COPY --from=builder /build/devfiles /var/www/html/devfiles
-USER 0
-RUN chmod -R g+rwX /var/www/html/devfiles
 
 STOPSIGNAL SIGWINCH
 
-ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+COPY ./build/dockerfiles/rhel.entrypoint.sh ./build/dockerfiles/entrypoint.sh /usr/local/bin/
+RUN chmod g+rwX /usr/local/bin/entrypoint.sh /usr/local/bin/rhel.entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["/usr/local/bin/rhel.entrypoint.sh"]
