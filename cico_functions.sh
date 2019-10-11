@@ -99,7 +99,7 @@ function setup_environment() {
 # Build, tag, and push devfile registry, tagged with ${TAG} and ${GIT_COMMIT_TAG}
 function build_and_push() {
   # Let's build and push image to 'quay.io' using git commit hash as tag first
-  docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} .
+  docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} --target registry .
   tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${GIT_COMMIT_TAG}"
   echo "CICO: '${GIT_COMMIT_TAG}' version of images pushed to '${REGISTRY}/${ORGANIZATION}' organization"
 
@@ -116,7 +116,8 @@ function build_and_push() {
 function build_and_push_release() {
   echo "CICO: building release '${TAG}' version of devfile registry"
   docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} . \
-    --build-arg PATCHED_IMAGES_TAG=${TAG}
+    --build-arg PATCHED_IMAGES_TAG=${TAG} \
+    --target registry
   echo "CICO: release '${TAG}' version of devfile registry built"
   tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${TAG}"
   echo "CICO: release '${TAG}' version of devfile registry pushed to '${REGISTRY}/${ORGANIZATION}' organization"

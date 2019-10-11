@@ -17,10 +17,12 @@ VERSION=$(head -n 1 VERSION)
 case $VERSION in
   *SNAPSHOT)
     echo "Snapshot version (${VERSION}) specified in $(find . -name VERSION): building nightly plugin registry."
-    docker build -t "quay.io/eclipse/che-devfile-registry:nightly" -f ./build/dockerfiles/Dockerfile .
+    docker build -t "quay.io/eclipse/che-devfile-registry:nightly" -f ./build/dockerfiles/Dockerfile --target registry .
     ;;
   *)
     echo "Release version specified in $(find . -name VERSION): Building plugin registry for release ${VERSION}."
-    docker build -t "quay.io/eclipse/che-devfile-registry:${VERSION}" -f ./build/dockerfiles/Dockerfile . --build-arg "PATCHED_IMAGES_TAG=${VERSION}"
+    docker build -t "quay.io/eclipse/che-devfile-registry:${VERSION}" -f ./build/dockerfiles/Dockerfile . \
+        --build-arg "PATCHED_IMAGES_TAG=${VERSION}" \
+        --target registry
     ;;
 esac
