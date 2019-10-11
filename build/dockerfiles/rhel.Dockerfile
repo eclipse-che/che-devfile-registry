@@ -95,10 +95,6 @@ RUN chmod g+rwX /usr/local/bin/entrypoint.sh /usr/local/bin/rhel.entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["/usr/local/bin/rhel.entrypoint.sh"]
 
-# append Brew metadata here
-
-
-
 # Offline devfile registry build
 FROM builder AS offline-builder
 RUN ./cache_projects.sh devfiles resources && chmod -R g+rwX /build
@@ -106,3 +102,5 @@ RUN ./cache_projects.sh devfiles resources && chmod -R g+rwX /build
 FROM registry AS offline-registry
 COPY --from=offline-builder /build/devfiles /var/www/html/devfiles
 COPY --from=offline-builder /build/resources /var/www/html/resources
+
+# append Brew metadata here
