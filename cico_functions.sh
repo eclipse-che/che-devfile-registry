@@ -77,7 +77,7 @@ function setup_environment() {
   export GIT_COMMIT_TAG
 
   if [ "$TARGET" == "rhel" ]; then
-    export DOCKERFILE_PATH="./build/dockerfiles/Dockerfile.rhel"
+    export DOCKERFILE_PATH="./build/dockerfiles/rhel.Dockerfile"
     export ORGANIZATION="openshiftio"
     export IMAGE="rhel-che-devfile-registry"
   else
