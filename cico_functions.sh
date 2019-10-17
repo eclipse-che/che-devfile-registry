@@ -110,14 +110,19 @@ function build_and_push() {
   fi
 }
 
-# Build release version of devfile registry, using ${TAG} as a tag. For release
+# Build release version of devfile registry, using ${TAG} / ${GIT_COMMIT_TAG} as a tag. For release
 # versions, the devfiles are rewritten to refer to ${TAG}-tagged images with the
 # arbitrary user patch
 function build_and_push_release() {
-  echo "CICO: building release '${TAG}' version of devfile registry"
+  echo "CICO: building release '${TAG}' / '${GIT_COMMIT_TAG}' version of devfile registry"
   docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} . \
     --build-arg PATCHED_IMAGES_TAG=${TAG} \
     --target registry
+
+  echo "CICO: '${GIT_COMMIT_TAG}' version of devfile registry built"
+  tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${GIT_COMMIT_TAG}"
+  echo "CICO: '${GIT_COMMIT_TAG}' version of devfile registry pushed to '${REGISTRY}/${ORGANIZATION}' organization"
+
   echo "CICO: release '${TAG}' version of devfile registry built"
   tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${TAG}"
   echo "CICO: release '${TAG}' version of devfile registry pushed to '${REGISTRY}/${ORGANIZATION}' organization"
