@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 FROM alpine:3.10 AS builder
-RUN apk add --no-cache py-pip jq bash && pip install yq
+RUN apk add --no-cache py-pip jq bash git && pip install yq
 
 # Registry, organization, and tag to use for base images in dockerfiles. Devfiles
 # will be rewritten during build to use these values for base images.
