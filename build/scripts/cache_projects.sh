@@ -15,46 +15,24 @@
 
 set -e
 
-DEVFILES_DIR="${1}"
-RESOURCES_DIR="${2}"
-TEMP_DIR="${2}/devfiles_temp/"
-TEMP_FILE="${TEMP_DIR}temp.yaml"
+DEVFILES_DIR="${1%/}"
+RESOURCES_DIR="${2%/}"
+TEMP_DIR="${RESOURCES_DIR}/devfiles_temp"
+TEMP_FILE="${TEMP_DIR}/temp.yaml"
+TEMP_REPO="${TEMP_DIR}/cloned"
 
-# Builds the URL for downloading a GitHub project as a .zip
+# Clone a git repository and create an archive zip at a specified location
 # Args:
-#   $1 - main repo URL; if it ends in '.git', this will be trimmed
-#   $2 - branch to download; if empty or 'null', 'master' is used
-function build_project_zip_url() {
-  location="$1"
-  branch="$2"
-
-  # Trim unwanted path portions
-  location="${location%/}"
-  location="${location%.git}"
-
-  # set branch to "master" if undefined
-  if [ -z "$branch" ] || [ "$branch" = "null" ]; then
-    branch="master"
-  fi
-
-  URL="${location}/archive/${branch}.zip"
-  echo "$URL"
-}
-
-# Download a project's zip to specified directory. If file already exists, nothing
-# is done.
-# Args:
-#   $1 - URL to download from
-#   $2 - path + name of file to save
-function download_project_zip() {
-  URL="$1"
-  destination="$2"
-  if [ -f "$destination" ]; then
-    echo "    Project already cached"
-  else
-    echo "    Downloading $URL to $destination"
-    wget -O "$destination" -nv "$URL" 2>&1 | sed "s/^/        /g"
-  fi
+#   $1 - URL of git repo
+#   $2 - (optional) branch to archive
+#   $3 - destination path for the archived project zip file
+function cache_project() {
+  local repo="$1"
+  local branch="$2"
+  local destination="$3"
+  git clone "$location" -b "$branch" --depth 1 "$TEMP_REPO" &>/dev/null
+  git archive "$branch" --remote="$TEMP_REPO" --format zip --output "$destination"
+  rm -rf "$TEMP_REPO"
 }
 
 # Update devfile to refer to a locally stored zip instead of a public git repo
@@ -63,13 +41,12 @@ function download_project_zip() {
 #   $2 - name of project to update within devfile
 #   $3 - path to downloaded project zip
 function update_devfile() {
-  devfile="$1"
-  project_name="$2"
-  destination="$3"
-  echo "    Updating devfile $devfile to point at cached project zip $destination"
+  local devfile="$1"
+  local project_name="$2"
+  local zip_path="$3"
   # The yq script below will rewrite the project with $project_name to be a zip-type
   # project with provided path. The location field contains a placeholder
-  # '{{ DEVFILE_REGISTRY_URL }}' which must be filled at runtime (see 
+  # '{{ DEVFILE_REGISTRY_URL }}' which must be filled at runtime (see
   # build/dockerfiles/entrypoint.sh script)
   # shellcheck disable=SC2016
   yq -y \
@@ -86,7 +63,7 @@ function update_devfile() {
       )
     }' "$devfile" \
     --arg "PROJECT_NAME" "${project_name}" \
-    --arg "PROJECT_PATH" "${destination}" \
+    --arg "PROJECT_PATH" "${zip_path}" \
     > "$TEMP_FILE"
   # As a workaround since jq does not support in-place updates, we need to copy
   # to a temp file and then overwrite the original.
@@ -95,10 +72,25 @@ function update_devfile() {
 
 }
 
+function get_devfile_name() {
+  devfile=$1
+  yq -r '.metadata |
+    if has("name") then
+      .name
+    elif has("generateName") then
+      .generateName
+    else
+      "unnamed-devfile"
+    end
+  ' $devfile
+}
+
 readarray -d '' devfiles < <(find "$DEVFILES_DIR" -name 'devfile.yaml' -print0)
 mkdir -p "$TEMP_DIR" "$RESOURCES_DIR"
 for devfile in "${devfiles[@]}"; do
   echo "Caching project files for devfile $devfile"
+  devfile_name=$(get_devfile_name "$devfile")
+  devfile_name=${devfile_name%-}
   for project in $(yq -c '.projects[]?' "$devfile"); do
     project_name=$(echo "$project" | jq -r '.name')
     echo "    Caching project $project_name"
@@ -111,20 +103,14 @@ for devfile in "${devfiles[@]}"; do
 
     location=$(echo "$project" | jq -r '.source.location')
     branch=$(echo "$project" | jq -r '.source.branch')
-    if ! echo "$location" | grep -q "github"; then
-      echo "    [WARN]: Project is not hosted on GitHub; skipping."
-      continue
+    if [ -n $branch ]; then
+      branch="master"
     fi
+    destination="${RESOURCES_DIR}/${devfile_name}-${project_name}-${branch}.zip"
+    echo "    Caching project to $(realpath $destination)"
+    cache_project "$location" "$branch" "$(realpath $destination)"
 
-    URL=$(build_project_zip_url "$location" "$branch")
-
-    filename=$(basename "$URL")
-    target=${URL#*//}
-    destination="${RESOURCES_DIR%/}/${target}"
-
-    mkdir -p "${destination%${filename}}"
-    download_project_zip "$URL" "$destination"
-
+    echo "    Updating devfile $devfile to point at cached project zip $destination"
     update_devfile "$devfile" "$project_name" "$destination"
   done
 done
