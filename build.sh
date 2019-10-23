@@ -1,21 +1,6 @@
-#!/bin/sh
-#
-# Copyright (c) 2012-2018 Red Hat, Inc.
-# This program and the accompanying materials are made
-# available under the terms of the Eclipse Public License 2.0
-# which is available at https://www.eclipse.org/legal/epl-2.0/
-#
-# SPDX-License-Identifier: EPL-2.0
-#
-# Build Che devfile registry image. Note that this script will read the version
-# in ./VERSION; if it is *-SNAPSHOT, devfiles in the registry will use nightly-tagged
-# images with the arbitrary user IDs patch. If ./VERSION contains otherwise,
-# the devfiles in the registry will instead use the value in ./VERSION.
-#
-
 #!/bin/bash
 #
-# Copyright (c) 2012-2018 Red Hat, Inc.
+# Copyright (c) 2019 Red Hat, Inc.
 # This program and the accompanying materials are made
 # available under the terms of the Eclipse Public License 2.0
 # which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -86,26 +71,7 @@ function parse_arguments() {
 
 parse_arguments "$@"
 
-IMAGE="${REGISTRY}/${ORGANIZATION}/che-plugin-registry:${TAG}"
-echo -n "Building image '$IMAGE' "
-if [ "$OFFLINE" = true ]; then
-    echo "in offline mode"
-    docker build \
-        -t "$IMAGE" \
-        -f ./build/dockerfiles/Dockerfile \
-        --build-arg LATEST_ONLY="${LATEST_ONLY}" \
-        --target offline-registry .
-else
-    echo ""
-    docker build \
-        -t "$IMAGE" \
-        -f ./build/dockerfiles/Dockerfile \
-        --build-arg LATEST_ONLY="${LATEST_ONLY}" \
-        --target registry .
-fi
-
 IMAGE="${REGISTRY}/${ORGANIZATION}/che-devfile-registry:${TAG}"
-
 VERSION=$(head -n 1 VERSION)
 case $VERSION in
   *SNAPSHOT)
