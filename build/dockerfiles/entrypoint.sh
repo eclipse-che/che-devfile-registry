@@ -19,7 +19,7 @@
 # In addition, this script will perform the necessary set up for the offline
 # devfile registry, replacing placeholders in all devfiles based off environment
 # variable
-#     CHE_DEVFILE_HTTPS_ENDPOINT
+#     CHE_DEVFILE_HTTP_ENDPOINT
 # which should be set to the public endpoint for this registry.
 #
 # Will execute any arguments on completion (`exec $@`)
@@ -29,7 +29,7 @@ set -e
 REGISTRY=${CHE_DEVFILE_IMAGES_REGISTRY_URL}
 ORGANIZATION=${CHE_DEVFILE_IMAGES_REGISTRY_ORGANIZATION}
 TAG=${CHE_DEVFILE_IMAGES_REGISTRY_TAG}
-PUBLIC_URL=${CHE_DEVFILE_HTTPS_ENDPOINT}
+PUBLIC_URL=${CHE_DEVFILE_HTTP_ENDPOINT}
 
 DEFAULT_DEVFILES_DIR="/var/www/html/devfiles"
 DEVFILES_DIR="${DEVFILES_DIR:-${DEFAULT_DEVFILES_DIR}}"
@@ -71,7 +71,7 @@ if [ -n "$PUBLIC_URL" ]; then
   sed -i "s|{{ DEVFILE_REGISTRY_URL }}|${PUBLIC_URL}|" "${devfiles[@]}"
 else
   if grep -q '{{ DEVFILE_REGISTRY_URL }}' "${devfiles[@]}"; then
-    echo "WARNING: environment variable 'CHE_DEVFILE_HTTPS_ENDPOINT' not configured" \
+    echo "WARNING: environment variable 'CHE_DEVFILE_HTTP_ENDPOINT' not configured" \
          "for an offline build of this registry. This may cause issues with importing" \
          "projects in a workspace."
     # Experimental workaround -- detect service IP for che-devfile-registry
