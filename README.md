@@ -30,7 +30,7 @@ The default docker build has multiple targets:
 - `--target registry` is used to build the default devfile registry, where projects in devfiles refer to publically hosted git repos
 - `--target offline-registry` is used to build a devfile registry which self-hosts projects as zip files.
 
-The offline registry build will, during the docker build, pull zips from all projects hosted on github and store them in the `/resources` path. This registry should be deployed with environment variable `CHE_DEVFILE_HTTP_ENDPOINT` set to the URL of the route/endpoint that exposes the devfile registry, as devfiles need to be rewritten to point to internally hosted zip files.
+The offline registry build will, during the docker build, pull zips from all projects hosted on github and store them in the `/resources` path. This registry should be deployed with environment variable `CHE_DEVFILE_REGISTRY_URL` set to the URL of the route/endpoint that exposes the devfile registry, as devfiles need to be rewritten to point to internally hosted zip files.
 
 ## OpenShift
 You can deploy Che devfile registry on Openshift with command.
