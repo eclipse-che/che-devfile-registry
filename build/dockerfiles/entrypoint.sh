@@ -41,7 +41,7 @@ DEVFILES_DIR="${DEVFILES_DIR:-${DEFAULT_DEVFILES_DIR}}"
 #   \4 - Image name portion of image, e.g. quay.io/eclipse/(che-theia):tag
 #   \5 - Tag of image, e.g. quay.io/eclipse/che-theia:(tag)
 #   \6 - Optional quotation following image reference
-IMAGE_REGEX='([[:space:]]*"?)([._a-zA-Z0-9-]*)/([._a-zA-Z0-9-]*)/([._a-zA-Z0-9-]*):([._a-zA-Z0-9-]*)("?)'
+IMAGE_REGEX='([[:space:]]*"?)([._:a-zA-Z0-9-]*)/([._a-zA-Z0-9-]*)/([._a-zA-Z0-9-]*):([._a-zA-Z0-9-]*)("?)'
 
 # We can't use the `-d` option for readarray because
 # registry.centos.org/centos/httpd-24-centos7 ships with Bash 4.2
