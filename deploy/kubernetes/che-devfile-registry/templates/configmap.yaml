@@ -14,4 +14,4 @@ metadata:
 data:
   CHE_DEVFILE_IMAGES_REGISTRY_URL: {{ .Values.cheDevfileImagesOverride.url }}
   CHE_DEVFILE_IMAGES_REGISTRY_ORGANIZATION: {{ .Values.cheDevfileImagesOverride.organization }}
-  CHE_DEVFILE_IMAGES_REGISTRY_TAG: {{ .Values.cheDevfileImagesOverride.tag }}}
+  CHE_DEVFILE_IMAGES_REGISTRY_TAG: {{ .Values.cheDevfileImagesOverride.tag }}
