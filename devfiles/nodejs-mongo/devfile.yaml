@@ -31,7 +31,7 @@ components:
   -
     type: dockerimage
     alias: mongo
-    image: centos/mongodb-34-centos7
+    image: docker.io/centos/mongodb-34-centos7
     memoryLimit: 512Mi
     env:
       - name: MONGODB_USER
