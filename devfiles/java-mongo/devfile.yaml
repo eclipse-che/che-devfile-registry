@@ -14,9 +14,6 @@ components:
   id: redhat/java/latest
   memoryLimit: 1280MiB
 -
-  type: chePlugin
-  id: redhat/vscode-openshift-connector/latest
--
   type: dockerimage
   alias: maven
   image: quay.io/eclipse/che-java8-maven:nightly
