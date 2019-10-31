@@ -34,7 +34,7 @@ components:
 -
   type: dockerimage
   alias: mysql
-  image: centos/mysql-57-centos7
+  image: docker.io/centos/mysql-57-centos7
   env:
     - name: MYSQL_USER
       value: db_user
