@@ -8,7 +8,6 @@ projects:
   source:
     type: git
     location: "https://github.com/che-samples/java-guestbook.git"
-    branch: "sv/init_project"
 components:
 -
   type: chePlugin
