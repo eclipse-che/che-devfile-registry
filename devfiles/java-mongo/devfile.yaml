@@ -25,7 +25,7 @@ components:
           -Duser.home=/home/user"
   - name: MAVEN_OPTS
     value: $(JAVA_OPTS)
-  memoryLimit: 700Mi
+  memoryLimit: 512Mi
   mountSources: true
   endpoints:
   - name: java-guestbook-backend
@@ -54,7 +54,7 @@ components:
     value: guestbook
   - name: MONGODB_ADMIN_PASSWORD
     value: password
-  memoryLimit: 512Mi
+  memoryLimit: 300Mi
   endpoints:
   - name: java-guestbook-mongodb
     attributes:
