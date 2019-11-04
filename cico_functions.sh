@@ -77,7 +77,7 @@ function setup_environment() {
   export GIT_COMMIT_TAG
 
   if [ "$TARGET" == "rhel" ]; then
-    export DOCKERFILE_PATH="./build/dockerfiles/Dockerfile.rhel"
+    export DOCKERFILE_PATH="./build/dockerfiles/rhel.Dockerfile"
     export ORGANIZATION="openshiftio"
     export IMAGE="rhel-che-devfile-registry"
   else
@@ -99,7 +99,7 @@ function setup_environment() {
 # Build, tag, and push devfile registry, tagged with ${TAG} and ${GIT_COMMIT_TAG}
 function build_and_push() {
   # Let's build and push image to 'quay.io' using git commit hash as tag first
-  docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} .
+  docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} --target registry .
   tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${GIT_COMMIT_TAG}"
   echo "CICO: '${GIT_COMMIT_TAG}' version of images pushed to '${REGISTRY}/${ORGANIZATION}' organization"
 
@@ -110,25 +110,41 @@ function build_and_push() {
   fi
 }
 
-# Build release version of devfile registry, using ${TAG} as a tag. For release
+# Build release version of devfile registry, using ${TAG} / ${GIT_COMMIT_TAG} as a tag. For release
 # versions, the devfiles are rewritten to refer to ${TAG}-tagged images with the
 # arbitrary user patch
 function build_and_push_release() {
-  echo "CICO: building release '${TAG}' version of devfile registry"
+  echo "CICO: building release '${TAG}' / '${GIT_COMMIT_TAG}' version of devfile registry"
   docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} . \
-    --build-arg PATCHED_IMAGES_REG=${REGISTRY} \
-    --build-arg PATCHED_IMAGES_ORG=${ORGANIZATION} \
-    --build-arg PATCHED_IMAGES_TAG=${TAG}
+    --build-arg PATCHED_IMAGES_TAG=${TAG} \
+    --target registry
+
+  echo "CICO: '${GIT_COMMIT_TAG}' version of devfile registry built"
+  tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${GIT_COMMIT_TAG}"
+  echo "CICO: '${GIT_COMMIT_TAG}' version of devfile registry pushed to '${REGISTRY}/${ORGANIZATION}' organization"
+
   echo "CICO: release '${TAG}' version of devfile registry built"
   tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${TAG}"
   echo "CICO: release '${TAG}' version of devfile registry pushed to '${REGISTRY}/${ORGANIZATION}' organization"
 }
 
 # Build images patched to work on OpenShift (work with arbitrary user IDs) and push
-# them to registry
+# them to registry. NOTE: 'arbitrary-users-patch' images will be pushed only to the public 
+# 'https://quay.io/organization/eclipse' organization
 function build_patched_base_images() {
-  local TAG=${TAG:-${GIT_COMMIT_TAG}}
-  echo "CICO: building arbitrary-user-id patched base images with tag '${TAG}'"
-  "${SCRIPT_DIR}"/arbitrary-users-patch/build_images.sh --push
-  echo "CICO: pushed '${TAG}' version of the arbitrary-user patched base images"
+  if [ "$TARGET" == "centos" ]; then
+    local TAG=${TAG:-${GIT_COMMIT_TAG}}
+    echo "CICO: building arbitrary-user-id patched base images with tag '${TAG}'"
+    "${SCRIPT_DIR}"/arbitrary-users-patch/build_images.sh --push
+    echo "CICO: pushed '${TAG}' version of the arbitrary-user patched base images"
+  fi
+}
+
+function build_happy_path_image() {
+  if [ "$TARGET" == "centos" ]; then
+    local TAG=${TAG:-${GIT_COMMIT_TAG}}
+    echo "CICO: building image for happy path testing with tag '${TAG}'"
+    "${SCRIPT_DIR}"/arbitrary-users-patch/happy-path/build_happy_path_image.sh --push
+    echo "CICO: pushed '${TAG}' version of the happy path image"
+  fi
 }

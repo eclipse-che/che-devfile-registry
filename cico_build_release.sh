@@ -26,4 +26,5 @@ set_release_tag
 setup_environment
 
 build_patched_base_images
+build_happy_path_image
 build_and_push_release
