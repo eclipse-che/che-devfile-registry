@@ -31,7 +31,7 @@ components:
       # between the two
       value: /tmp/.cache
     - name: GO111MODULE
-      value: on
+      value: 'on'
   memoryLimit: 512Mi
   mountSources: true
 commands:
@@ -54,7 +54,7 @@ commands:
   actions:
   - type: exec
     component: go-cli
-    command: go build
+    command: echo "Build starting." && go build -v && echo "Build complete."
     workdir: ${CHE_PROJECTS_ROOT}/golang-realworld-app
 -
   name: test
