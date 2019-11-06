@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 FROM alpine:3.10 AS builder
-RUN apk add --no-cache py-pip jq bash git && pip install yq
+RUN apk add --no-cache py-pip jq bash wget git && pip install yq
 
 # Registry, organization, and tag to use for base images in dockerfiles. Devfiles
 # will be rewritten during build to use these values for base images.
@@ -38,7 +38,9 @@ CMD ["/usr/bin/run-httpd"]
 
 # Offline registry: download project zips and place them in /build/resources
 FROM builder AS offline-builder
-RUN ./cache_projects.sh devfiles resources && chmod -R g+rwX /build
+RUN ./cache_projects.sh devfiles resources && \
+    ./cache_images.sh devfiles resources && \
+    chmod -R g+rwX /build
 
 # Offline registry: copy updated devfile.yamls and cached projects
 FROM registry AS offline-registry
