@@ -98,7 +98,9 @@ CMD ["/usr/local/bin/rhel.entrypoint.sh"]
 
 # Offline devfile registry build
 FROM builder AS offline-builder
-RUN ./cache_projects.sh devfiles resources && chmod -R g+rwX /build
+RUN ./cache_projects.sh devfiles resources && \
+    ./cache_images.sh devfiles resources && \
+    chmod -R g+rwX /build
 
 FROM registry AS offline-registry
 COPY --from=offline-builder /build/devfiles /var/www/html/devfiles
