@@ -2,5 +2,5 @@
 displayName: "Builder for TOPPERS/JSP (target: blackfin-ezkit_bf537)"
 description: GNU toolchains and TOPPERS/JSP tuned by PizzaFactory
 tags: ["TOPPERS", "TOPPERS/JSP", "PizzaFactory", "ITRON", "blackfin-ezkit_bf537" ]
-icon: https://camino.pizzafactory.jp/images/logos/toppers-open.svg
+icon: https://camino.pizzafactory.jp/en/images/logos/toppen.svg
 globalMemoryLimit: 1024Mi
