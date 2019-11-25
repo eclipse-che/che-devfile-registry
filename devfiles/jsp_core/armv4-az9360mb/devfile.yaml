@@ -1,5 +1,5 @@
 apiVersion: 1.0.0
-metatada
+metadata:
   name: jsp_armv4-az9360mb
 projects:
   - name: jsp_core
