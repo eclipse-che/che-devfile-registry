@@ -58,8 +58,16 @@ objects:
             periodSeconds: 10
             timeoutSeconds: 3
           resources:
+            requests:
+              cpu: 1m
+              memory: 5Mi
             limits:
+              cpu: 100m
               memory: ${MEMORY_LIMIT}
+          envFrom:
+          - configMapRef:
+              name: che-devfile-registry
+              optional: true
     triggers:
     - type: ConfigChange
 - apiVersion: v1
@@ -81,6 +89,15 @@ objects:
     to:
       kind: Service
       name: che-devfile-registry
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: che-devfile-registry
+  data:
+     CHE_DEVFILE_IMAGES_REGISTRY_URL: ${CHE_DEVFILE_IMAGES_REGISTRY_URL}
+     CHE_DEVFILE_IMAGES_REGISTRY_ORGANIZATION: ${CHE_DEVFILE_IMAGES_REGISTRY_ORGANIZATION}
+     CHE_DEVFILE_IMAGES_REGISTRY_TAG: ${CHE_DEVFILE_IMAGES_REGISTRY_TAG}
+
 parameters:
 - name: IMAGE
   value: quay.io/eclipse/che-devfile-registry
@@ -98,3 +115,12 @@ parameters:
   value: Always
   displayName: Eclipse Che devfile registry image pull policy
   description: Always pull by default. Can be IfNotPresent
+- name: CHE_DEVFILE_IMAGES_REGISTRY_URL
+  displayName: Devfile image registry URL
+  description: URL of docker registry containing base images refered in devfiles; used to override base images in devfiles
+- name: CHE_DEVFILE_IMAGES_REGISTRY_ORGANIZATION
+  displayName: Devfile image registry organization
+  description: Organization containing images referenced in devfiles; used to override base images in devfiles
+- name: CHE_DEVFILE_IMAGES_REGISTRY_TAG
+  displayName: Devfile image registry tag
+  description: Tag used for custom devfile images; used to override base images in devfiles

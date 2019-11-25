@@ -19,19 +19,23 @@ commands:
     actions:
       - type: exec
         component: pizza-dev
-        command: cd ${CHE_PROJECTS_ROOT}/jsp_core/cfg && make CC=gcc-4.7 CXX=g++-4.7 && echo && echo Build complete.
+        command: make CC=gcc-4.7 CXX=g++-4.7 && echo && echo Build complete.
+        workdir: ${CHE_PROJECTS_ROOT}/jsp_core/cfg
   - name: "configure sample1"
     actions:
       - type: exec
         component: pizza-dev
-        command: cd ${CHE_PROJECTS_ROOT}/jsp_core && ./configure -C sh1 -S zunda_sh1
+        command: ./configure -C sh1 -S zunda_sh1
+        workdir: ${CHE_PROJECTS_ROOT}/jsp_core
   - name: "make depend"
     actions:
       - type: exec
         component: pizza-dev
-        command: cd ${CHE_PROJECTS_ROOT}/jsp_core && make depend TARGET=sh-pizzafactory-elf && echo && echo Done.
+        command: make depend TARGET=sh-pizzafactory-elf && echo && echo Done.
+        workdir: ${CHE_PROJECTS_ROOT}/jsp_core
   - name: "build JSP kernel"
     actions:
       - type: exec
         component: pizza-dev
-        command: cd ${CHE_PROJECTS_ROOT}/jsp_core && make TARGET=sh-pizzafactory-elf
+        command: make TARGET=sh-pizzafactory-elf
+        workdir: ${CHE_PROJECTS_ROOT}/jsp_core

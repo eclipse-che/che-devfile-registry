@@ -20,22 +20,22 @@ commands:
       - type: exec
         component: pizza-dev
         command: make CC=gcc-4.7 CXX=g++-4.7 && echo && echo Build complete.
-        workdir: cd ${CHE_PROJECTS_ROOT}/jsp_core/cfg
+        workdir: ${CHE_PROJECTS_ROOT}/jsp_core/cfg
   - name: "configure sample1"
     actions:
       - type: exec
         component: pizza-dev
         command: ./configure -C armv4 -S integrator
-        workdir: cd ${CHE_PROJECTS_ROOT}/jsp_core
+        workdir: ${CHE_PROJECTS_ROOT}/jsp_core
   - name: "make depend"
     actions:
       - type: exec
         component: pizza-dev
         command: make depend TARGET=arm-pizzafactory-elf && echo && echo Done.
-        workdir: cd ${CHE_PROJECTS_ROOT}/jsp_core
+        workdir: ${CHE_PROJECTS_ROOT}/jsp_core
   - name: "build JSP kernel"
     actions:
       - type: exec
         component: pizza-dev
         command: make TARGET=arm-pizzafactory-elf
-        workdir: cd ${CHE_PROJECTS_ROOT}/jsp_core
+        workdir: ${CHE_PROJECTS_ROOT}/jsp_core

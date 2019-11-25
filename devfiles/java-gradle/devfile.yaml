@@ -8,10 +8,11 @@ projects:
     source:
       type: git
       location: "https://github.com/che-samples/console-java-simple.git"
+      branch: java1.11
 components:
   -
     type: chePlugin
-    id: redhat/java/latest
+    id: redhat/java11/latest
   -
     type: dockerimage
     alias: gradle
