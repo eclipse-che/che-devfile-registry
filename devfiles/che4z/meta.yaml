@@ -1,0 +1,6 @@
+---
+displayName: Mainframe Basic Stack
+description: Mainframe Basic Stack
+tags: ["Che4z", "Zowe", "mainframe", "Endevor", "explorer", "dataset", "COBOL", "JCL", "zOS", "USS"]
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+globalMemoryLimit: 2280Mi

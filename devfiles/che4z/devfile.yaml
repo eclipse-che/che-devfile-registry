@@ -1,0 +1,73 @@
+---
+apiVersion: 1.0.0
+metadata:
+  generateName: che4z-
+components:
+  - 
+    type: chePlugin
+    id: broadcommfd/cobol-language-support/latest
+  - 
+    type: chePlugin
+    id: bitlang/cobol/latest
+  - 
+    type: chePlugin
+    id: broadcommfd/explorer-for-endevor/latest
+  - 
+    id: eclipse/che-machine-exec-plugin/7.3.0
+    type: chePlugin
+  - 
+    id: eclipse/che-theia/7.3.0
+    type: cheEditor
+  - 
+    alias: zowe-cli
+    type: kubernetes
+    mountSources: true
+    referenceContent: |
+         kind: List
+         items:
+          -
+           apiVersion: v1
+           kind: Pod
+           metadata:
+            name: zowe
+           spec:
+            volumes:
+             - name: zowe
+               persistentVolumeClaim:
+                 claimName: zowe-claim
+            containers:
+             -
+              image: 'ca-docker-brightside-docker.bintray.io/cli-mainframe-basic-stack:2019-11-19T15-56-35'
+              env:
+               - name: THEIA_PLUGINS
+                 value: local-dir:///plugins
+               - name: ZOWE_CLI_HOME
+                 value: /home/user/.zowe
+              name: cli
+              resources:
+               limits:
+                memory: 1024Mi
+              volumeMounts:
+               - mountPath: /projects
+                 name: projects
+               - mountPath: /home/user/.zowe
+                 name: zowe
+            initContainers:
+             -
+              name: plugin-container
+              image: 'ca-docker-brightside-docker.bintray.io/cli-mainframe-basic-plugins:2019-11-19T15-56-35'
+              command: ["/bin/sh", "-c", "if [ -z \"$(ls -1A /.zowe)\" ]; then cp -r /.zowe_init/* /.zowe; fi"]
+              volumeMounts:
+               - mountPath: /.zowe
+                 name: zowe
+          -
+           apiVersion: v1
+           kind: PersistentVolumeClaim
+           metadata:
+            name: zowe-claim
+           spec:
+            accessModes:
+             - ReadWriteOnce
+            resources:
+              requests:
+                storage: 128Mi
