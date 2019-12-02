@@ -40,7 +40,9 @@ while read -r image; do
   image_dir="${RESOURCES_DIR%/}/${image_dir%/*}"
   mkdir -p "$image_dir"
 
-  cached_image="${image_dir%/}/${filename%\?*}"
+  # Strip query and fragment components from image URL
+  cached_image="${image_dir%/}/${filename%%\?*}"
+  cached_image="${cached_image%%\#*}"
   mv "$file" "$cached_image"
   echo "  Downloaded image $image to $cached_image"
 
