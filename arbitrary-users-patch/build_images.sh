@@ -16,6 +16,8 @@ DEFAULT_REGISTRY="quay.io"
 DEFAULT_ORGANIZATION="eclipse"
 DEFAULT_TAG="nightly"
 
+MAVEN_BASE="maven"
+
 REGISTRY=${REGISTRY:-${DEFAULT_REGISTRY}}
 ORGANIZATION=${ORGANIZATION:-${DEFAULT_ORGANIZATION}}
 TAG=${TAG:-${DEFAULT_TAG}}
@@ -31,7 +33,11 @@ while read -r line; do
   base_image_name=$(echo "$line" | tr -s ' ' | cut -f 1 -d ' ')
   base_image=$(echo "$line" | tr -s ' ' | cut -f 2 -d ' ')
   echo "Building ${NAME_FORMAT}/${base_image_name}:${TAG} based on $base_image ..."
-  docker build -t "${NAME_FORMAT}/${base_image_name}:${TAG}" --no-cache --build-arg FROM_IMAGE="$base_image" "${SCRIPT_DIR}"/
+  script_dir=${SCRIPT_DIR}
+  if [[ ${base_image:0:5} = ${MAVEN_BASE} ]] ; then
+    script_dir=${SCRIPT_DIR}/${MAVEN_BASE}
+  fi
+  docker build -t "${NAME_FORMAT}/${base_image_name}:${TAG}" --no-cache --build-arg FROM_IMAGE="$base_image" "${script_dir}"/
   if ${PUSH_IMAGES}; then
     echo "Pushing ${NAME_FORMAT}/${base_image_name}:${TAG}" to remote registry
     docker push "${NAME_FORMAT}/${base_image_name}:${TAG}"
