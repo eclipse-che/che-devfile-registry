@@ -1,0 +1,28 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: rust-
+projects:
+  - name: HelloWorld-Rust
+    source:
+      location: 'https://github.com/che-samples/helloworld-rust.git'
+      type: git
+      branch: master
+components:
+  - mountSources: true
+    memoryLimit: 512Mi
+    type: dockerimage
+    alias: rust
+    image: quay.io/eclipse/che-rust-1.39:nightly
+commands:
+  - name: build
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/HelloWorld-Rust'
+        type: exec
+        command: cargo build
+        component: rust
+  - name: run
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/HelloWorld-Rust'
+        type: exec
+        command: cargo run
+        component: rust
