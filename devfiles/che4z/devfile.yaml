@@ -13,10 +13,13 @@ components:
     type: chePlugin
     id: broadcommfd/explorer-for-endevor/latest
   - 
-    id: eclipse/che-machine-exec-plugin/7.3.0
     type: chePlugin
+    id: broadcommfd/debugger-for-mainframe/latest
   - 
-    id: eclipse/che-theia/7.3.0
+    type: chePlugin
+    id: broadcommfd/hlasm-language-support/latest    
+  - 
+    id: eclipse/che-theia/latest
     type: cheEditor
   - 
     alias: zowe-cli
