@@ -11,7 +11,7 @@ This repository holds ready-to-use Devfiles for different languages and technolo
 
 Execute
 ```shell
-docker build --no-cache -t quay.io/eclipse/che-devfile-registry:nightly --target registry .
+docker build --no-cache -t quay.io/eclipse/che-devfile-registry:nightly -f build/dockerfiles/Dockerfile --target registry .
 
 # or to use & create a RHEL-based image
 docker build --no-cache -t quay.io/eclipse/che-devfile-registry:nightly -f build/dockerfiles/rhel.Dockerfile --target registry.
