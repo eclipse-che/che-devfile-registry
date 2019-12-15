@@ -19,7 +19,7 @@ components:
     image: quay.io/eclipse/che-java11-maven:nightly
     env:
       - name: MAVEN_CONFIG
-        value: /home/user/.m2
+        value: ""
       - name: MAVEN_OPTS
         value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
           -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90

@@ -1,0 +1,6 @@
+---
+displayName: Apache Camel K
+description: Stack with tooling ready to develop Integration projects with Apache Camel K
+tags: ["Apache Camel K", "Red Hat Fuse", "Integration"]
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+globalMemoryLimit: 2850Mi
