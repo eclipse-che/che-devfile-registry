@@ -68,6 +68,7 @@ commands:
                   "args": [],
                   "name": ".NET Core Launch (console)",
                   "stopAtEntry": false,
+                  "preLaunchTask": "build",
                   "console": "internalConsole"
               }
           ]

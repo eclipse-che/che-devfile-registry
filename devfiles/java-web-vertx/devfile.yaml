@@ -4,10 +4,10 @@ metadata:
   generateName: java-web-vertx-
 projects:
   -
-    name: java-web-vertx
+    name: vertx-http-example
     source:
       type: git
-      location: "https://github.com/che-samples/web-java-vertx"
+      location: "https://github.com/openshift-vertx-examples/vertx-http-example.git"
 components:
   -
     type: chePlugin
@@ -17,6 +17,8 @@ components:
     alias: maven
     image: quay.io/eclipse/che-java8-maven:nightly
     env:
+      - name: MAVEN_CONFIG
+        value: ""
       - name: JAVA_OPTS
         value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
           -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
@@ -40,7 +42,7 @@ commands:
         type: exec
         component: maven
         command: "mvn -Duser.home=${HOME} clean install"
-        workdir: "${CHE_PROJECTS_ROOT}/java-web-vertx"
+        workdir: "${CHE_PROJECTS_ROOT}/vertx-http-example"
   -
     name: run app
     actions:
@@ -50,8 +52,15 @@ commands:
         command: |
           JDBC_URL=jdbc:h2:/tmp/db \
           java -jar -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 \
-          ./target/*fat.jar
-        workdir: "${CHE_PROJECTS_ROOT}/java-web-vertx"
+          ./target/*.jar
+        workdir: "${CHE_PROJECTS_ROOT}/vertx-http-example"
+  -
+    name: stop app
+    actions:
+      -
+        type: exec
+        component: maven
+        command: "echo 'Stopping the application...' && kill $(pidof java) && echo 'The application has been successfully stopped'"
   - name: Debug remote java application
     actions:
       - type: vscode-launch
