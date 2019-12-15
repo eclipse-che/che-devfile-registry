@@ -15,3 +15,4 @@ data:
   CHE_DEVFILE_IMAGES_REGISTRY_URL: {{ .Values.cheDevfileImagesOverride.url }}
   CHE_DEVFILE_IMAGES_REGISTRY_ORGANIZATION: {{ .Values.cheDevfileImagesOverride.organization }}
   CHE_DEVFILE_IMAGES_REGISTRY_TAG: {{ .Values.cheDevfileImagesOverride.tag }}
+  CHE_DEVFILE_REGISTRY_URL: http{{- if .Values.cheDevfileRegistryIngressSecretName -}}s{{- end -}}{{- printf "://che-devfile-registry-%s.%s" .Release.Namespace .Values.global.ingressDomain }}
