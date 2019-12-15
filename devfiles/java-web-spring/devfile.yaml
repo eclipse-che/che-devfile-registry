@@ -18,7 +18,7 @@ components:
     alias: tools
     image: quay.io/eclipse/che-java8-maven:nightly
     env:
-      - name: MAVEN_CONFIG	
+      - name: MAVEN_CONFIG
         value: ""
       - name: JAVA_OPTS
         value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
