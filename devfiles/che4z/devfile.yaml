@@ -17,10 +17,7 @@ components:
     id: broadcommfd/debugger-for-mainframe/latest
   - 
     type: chePlugin
-    id: broadcommfd/hlasm-language-support/latest    
-  - 
-    id: eclipse/che-theia/latest
-    type: cheEditor
+    id: broadcommfd/hlasm-language-support/latest
   - 
     alias: zowe-cli
     type: kubernetes
