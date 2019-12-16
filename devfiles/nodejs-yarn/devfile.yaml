@@ -17,7 +17,7 @@ components:
     type: dockerimage
     alias: nodejs
     image: quay.io/eclipse/che-nodejs10-community:nightly
-    memoryLimit: 512Mi
+    memoryLimit: 1Gi
     endpoints:
       - name: 'nodejs'
         port: 3000
