@@ -16,11 +16,11 @@ components:
   -
     type: chePlugin
     id: redhat/vscode-apache-camel/latest
-    memoryLimit: 200Mi
+    memoryLimit: 260Mi
   -
     type: chePlugin
     id: redhat/java/latest
-    memoryLimit: 1400Mi
+    memoryLimit: 1360Mi
   -
     type: dockerimage
     alias: maven
