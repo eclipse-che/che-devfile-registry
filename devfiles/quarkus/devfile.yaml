@@ -1,0 +1,69 @@
+---
+apiVersion: 1.0.0
+metadata:
+  generateName: quarkus-
+projects:
+  -
+    name: quarkus-quickstarts
+    source:
+      type: git
+      location: "https://github.com/quarkusio/quarkus-quickstarts.git"
+      sparseCheckoutDir: /getting-started/
+components:
+  -
+    type: chePlugin
+    id: redhat/quarkus/latest
+  -
+    type: dockerimage
+    alias: maven
+    image: quay.io/eclipse/che-quarkus:nightly
+    env:
+      - name: JAVA_OPTS
+        value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
+          -Duser.home=/home/user"
+      - name: MAVEN_OPTS
+        value: $(JAVA_OPTS)  
+    memoryLimit: 512Mi
+    mountSources: true
+    volumes:
+      - name: m2
+        containerPath: /home/user/.m2
+    endpoints:
+      - name: 'quarkus-getting-started'
+        port: 8080    
+commands:
+  -
+    name: maven package
+    actions:
+      -
+        type: exec
+        component: maven
+        command: "mvn package"
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
+  -
+    name: maven run in development mode
+    actions:
+      -
+        type: exec
+        component: maven
+        command: "mvn compile quarkus:dev"
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
+  -
+    name: Attach remote debugger
+    actions:
+    - type: vscode-launch
+      referenceContent: |
+        {
+          "version": "0.2.0",
+          "configurations": [
+            {
+              "type": "java",
+              "request": "attach",
+              "name": "Attach to Remote Quarkus App",
+              "hostName": "localhost",
+              "port": 5005
+            }
+          ]
+        }
