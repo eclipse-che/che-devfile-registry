@@ -9,26 +9,29 @@ This repository holds ready-to-use Devfiles for different languages and technolo
 
 ## Build Eclipse Che devfile registry docker image
 
-Execute
-```shell
-docker build --no-cache -t quay.io/eclipse/che-devfile-registry:nightly --target registry .
-
-# or to use & create a RHEL-based image
-docker build --no-cache -t quay.io/eclipse/che-devfile-registry:nightly -f build/dockerfiles/rhel.Dockerfile --target registry.
+This repository contains a `build.sh` script at its root that can be used to build the devfile registry:
 ```
-Where `--no-cache` is needed to prevent usage of cached layers with devfile registry files.
-Useful when you change devfile files and rebuild the image.
+Usage: ./build.sh [OPTIONS]
+Options:
+    --help
+        Print this message.
+    --tag, -t [TAG]
+        Docker image tag to be used for image; default: 'nightly'
+    --registry, -r [REGISTRY]
+        Docker registry to be used for image; default 'quay.io'
+    --organization, -o [ORGANIZATION]
+        Docker image organization to be used for image; default: 'eclipse'
+    --offline
+        Build offline version of registry, with all sample projects
+        cached in the registry; disabled by default.
+    --rhel
+        Build registry using UBI images instead of default
+```
+By default, the built registry will be tagged `quay.io/eclipse/che-devfile-registry:nightly`, and will be built with offline mode disabled.
 
-Note that the Dockerfiles feature multi-stage build, so it requires Docker of version 17.05 and higher.
-Though you may also just provide the image to the older versions of Docker (ex. on Minishift) by having it build on newer version, and pushing and pulling it from Docker Hub.
-
-`quay.io/eclipse/che-devfile-registry:nightly` image would be rebuilt after each commit in master.
+Note that the Dockerfiles utilize multi-stage builds, so Docker version 17.05 and higher is required.
 
 ### Offline registry
-
-The default docker build has multiple targets:
-- `--target registry` is used to build the default devfile registry, where projects in devfiles refer to publically hosted git repos
-- `--target offline-registry` is used to build a devfile registry which self-hosts projects as zip files.
 
 The offline registry build will, during the docker build, pull zips from all projects hosted on github and store them in the `/resources` path. This registry should be deployed with environment variable `CHE_DEVFILE_REGISTRY_URL` set to the URL of the route/endpoint that exposes the devfile registry, as devfiles need to be rewritten to point to internally hosted zip files.
 
@@ -46,7 +49,6 @@ You can deploy Che devfile registry on Openshift with command.
 You can deploy Che devfile registry on Kubernetes using [helm](https://docs.helm.sh/). For example if you want to deploy it in the namespace `kube-che` and you are using `minikube` you can use the following command.
 
 ```bash
-
 NAMESPACE="kube-che"
 DOMAIN="$(minikube ip).nip.io"
 helm upgrade --install che-devfile-registry \
@@ -54,15 +56,12 @@ helm upgrade --install che-devfile-registry \
     --namespace ${NAMESPACE} \
     --set global.ingressDomain=${DOMAIN} \
     ./deploy/kubernetes/che-devfile-registry/
-
 ```
 
 You can use the following command to uninstall it.
 
 ```bash
-
 helm delete --purge che-devfile-registry
-
 ```
 
 ## Docker
