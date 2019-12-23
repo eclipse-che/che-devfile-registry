@@ -31,11 +31,15 @@ components:
       - name: m2
         containerPath: /home/user/.m2
     endpoints:
-      - name: 'quarkus-getting-started'
+      - name: 'quarkus-development-server'
         port: 8080    
+      - name: 'hello-greeting-endpoint'
+        port: 8080
+        attributes:
+          path: /hello/greeting/che-user
 commands:
   -
-    name: maven package
+    name: Package the application
     actions:
       -
         type: exec
@@ -43,7 +47,7 @@ commands:
         command: "mvn package"
         workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
   -
-    name: maven run in development mode
+    name: Start development server
     actions:
       -
         type: exec
