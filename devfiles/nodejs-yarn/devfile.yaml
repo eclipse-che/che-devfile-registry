@@ -1,0 +1,53 @@
+---
+apiVersion: 1.0.0
+metadata:
+  generateName: nodejs-web-app-
+projects:
+  -
+    name: react-web-app
+    source:
+      type: git
+      location: "https://github.com/che-samples/react-web-app.git"
+components:
+  -
+    type: chePlugin
+    id: che-incubator/typescript/latest
+    memoryLimit: 512Mi
+  -
+    type: dockerimage
+    alias: nodejs
+    image: quay.io/eclipse/che-nodejs10-community:nightly
+    memoryLimit: 1Gi
+    endpoints:
+      - name: 'nodejs'
+        port: 3000
+    mountSources: true
+commands:
+  -
+    name: install all required dependencies
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn install
+        workdir: ${CHE_PROJECTS_ROOT}/react-web-app
+  -
+    name: build the app
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn build
+        workdir: ${CHE_PROJECTS_ROOT}/react-web-app
+  -
+    name: run the app
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn start
+        workdir: ${CHE_PROJECTS_ROOT}/react-web-app
+  -
+    name: launch tests
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn test
+        workdir: ${CHE_PROJECTS_ROOT}/react-web-app
