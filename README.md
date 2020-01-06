@@ -29,7 +29,7 @@ Options:
 ```
 By default, the built registry will be tagged `quay.io/eclipse/che-devfile-registry:nightly`, and will be built with offline mode disabled.
 
-Note that the Dockerfiles utilize multi-stage builds, so Docker version 17.05 and higher is required.
+Note that the Dockerfiles utilize multi-stage builds, so Docker version 17.05 or higher is required.
 
 ### Offline registry
 
