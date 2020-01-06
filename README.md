@@ -33,7 +33,11 @@ Note that the Dockerfiles utilize multi-stage builds, so Docker version 17.05 an
 
 ### Offline registry
 
-The offline registry build will, during the docker build, pull zips from all projects hosted on github and store them in the `/resources` path. This registry should be deployed with environment variable `CHE_DEVFILE_REGISTRY_URL` set to the URL of the route/endpoint that exposes the devfile registry, as devfiles need to be rewritten to point to internally hosted zip files.
+Using the `--offline` option in `build.sh` will build the registry to contain `zip` files for all projects referenced, which is useful for running Che in clusters that may not have access to GitHub. When building the offline registry, the docker build will
+1. Clone all git projects referenced in devfiles, and
+2. `git archive` them in the `/resources` path, making them available to workspaces.
+
+When deploying this offline registry, it is necessary to set the environment variable `CHE_DEVFILE_REGISTRY_URL` to the URL of the route/endpoint that exposes the devfile registry, as devfiles need to be rewritten to point to internally hosted zip files.
 
 ## OpenShift
 You can deploy Che devfile registry on Openshift with command.
