@@ -1,0 +1,6 @@
+---
+displayName: Quarkus Tools
+description: Quarkus Tools with OpenJDK 8 and Maven 3.6.0
+tags: ["Java", "Quarkus", "OpenJDK", "Maven", "Debian"]
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+globalMemoryLimit: 2674Mi
