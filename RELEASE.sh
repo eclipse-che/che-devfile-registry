@@ -5,9 +5,6 @@
 # set to 1 to actually trigger changes in the release branch
 TRIGGER_RELEASE=0 
 
-#REPO=git@github.com:eclipse/che-machine-exec
-#VERSION=7.7.0
-
 while [[ "$#" -gt 0 ]]; do
   case $1 in
     '-t'|'--trigger-release') TRIGGER_RELEASE=1; shift 0;;
@@ -20,7 +17,7 @@ done
 usage ()
 {
   echo "Usage: $0 --repo [GIT REPO TO EDIT] --version [VERSION TO RELEASE] [--trigger-release]"
-  echo "Example: $0 --repo git@github.com:eclipse/che-machine-exec --version 7.7.0 --trigger-release"; echo
+  echo "Example: $0 --repo git@github.com:eclipse/che-devfile-registry --version 7.7.0 --trigger-release"; echo
 }
 
 if [[ ! ${VERSION} ]] || [[ ! ${REPO} ]]; then
@@ -32,7 +29,7 @@ fi
 BRANCH=${VERSION%.*}.x
 
 # work in tmp dir
-TMP=$(mktemp -d); mkdir -p "$TMP"; cd "$TMP" || exit 1
+TMP=$(mktemp -d); pushd "$TMP" > /dev/null || exit 1
 
 # get sources from master branch
 echo "Check out ${REPO} to ${TMP}/${REPO##*/}"
@@ -41,7 +38,7 @@ cd "${REPO##*/}" || exit 1
 git fetch origin master:master
 git checkout master
 
-# create new branch off master + push to origin
+# create new branch off master (or check out latest commits if branch already exists), then push to origin
 git branch "${BRANCH}" || git checkout "${BRANCH}" && git pull origin "${BRANCH}"
 git push origin "${BRANCH}"
 git fetch origin "${BRANCH}:${BRANCH}"
@@ -95,3 +92,5 @@ fi
 
 # cleanup tmp dir
 cd /tmp && rm -fr "$TMP"
+
+popd > /dev/null
