@@ -28,7 +28,7 @@ RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
 RUN chmod -R g+rwX /build/devfiles
 
 FROM registry.centos.org/centos/httpd-24-centos7 AS registry
-RUN mkdir /var/www/html/devfiles
+RUN mkdir -m 777 /var/www/html/devfiles
 COPY .htaccess README.md /var/www/html/
 COPY --from=builder /build/devfiles /var/www/html/devfiles
 COPY ./build/dockerfiles/entrypoint.sh /usr/bin/
