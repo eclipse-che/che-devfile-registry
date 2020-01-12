@@ -1,6 +1,19 @@
 ## Major / Minor Release
 
-- create a branch for the release e.g. `7.6.x`
+Below are the steps needed to do a release. But rather than doing them by hand, you can run this script:
+
+https://github.com/eclipse/che-devfile-registry/blob/master/RELEASE.sh
+
+HOWEVER, because the master branch is protected from commits, the above script will not be able to commit an update to the VERSION file. Instead it must produce a PR.
+
+```
+remote: error: GH006: Protected branch update failed for refs/heads/master.
+remote: error: At least 1 approving review is required by reviewers with write access.
+To github.com:eclipse/che-devfile-registry
+ ! [remote rejected] master -> master (protected branch hook declined)
+```
+
+l- create a branch for the release e.g. `7.6.x`
 - provide a [PR](https://github.com/eclipse/che-devfile-registry/pull/171) with bumping the [VERSION](https://github.com/eclipse/che-devfile-registry/blob/master/VERSION) file to the `7.6.x` branch
 - [![Release Build Status](https://ci.centos.org/buildStatus/icon?subject=release&job=devtools-che-devfile-registry-release/)](https://ci.centos.org/job/devtools-che-devfile-registry-release/) CI is triggered based on the changes in the [`release`](https://github.com/eclipse/che-devfile-registry/tree/release) branch (not `7.6.x`).
 
