@@ -28,8 +28,8 @@ if [ "$1" == "--push" ]; then
 fi
 
 # Build image for happy-path tests with precashed mvn dependencies
-docker build -t "${NAME_FORMAT}/happy-path:${TAG}" --no-cache --build-arg TAG="${TAG}" "${SCRIPT_DIR}"/
+docker build -t "${NAME_FORMAT}/happy-path:${TAG}" --no-cache --build-arg TAG="${TAG}" "${SCRIPT_DIR}"/  | cat
 if ${PUSH_IMAGES}; then
     echo "Pushing ${NAME_FORMAT}/happy-path:${TAG}" to remote registry
-    docker push "${NAME_FORMAT}/happy-path:${TAG}"
+    docker push "${NAME_FORMAT}/happy-path:${TAG}" | cat
 fi
