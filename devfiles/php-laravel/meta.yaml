@@ -2,5 +2,5 @@
 displayName: "PHP Laravel with MySQL"
 description: PHP Stack with Laravel and MySQL real world application
 tags: ["PHP", "Apache", "MySQL", "Centos", "Debian"]
-icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+icon: /images/php.svg
 globalMemoryLimit: 2686Mi

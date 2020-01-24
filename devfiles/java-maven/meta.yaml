@@ -2,5 +2,5 @@
 displayName: Java Maven
 description: Java Stack with OpenJDK 11 and Maven 3.6.0
 tags: ["Java", "OpenJDK", "Maven", "Debian"]
-icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+icon: /images/java.svg
 globalMemoryLimit: 2674Mi
