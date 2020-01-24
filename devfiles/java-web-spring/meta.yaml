@@ -2,5 +2,5 @@
 displayName: Java Spring Boot
 description: Java stack with OpenJDK 8 and Spring Boot Petclinic demo application
 tags: ["Java", "OpenJDK", "Maven", "Spring Boot"]
-icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+icon: /images/springboot.svg
 globalMemoryLimit: 3072Mi

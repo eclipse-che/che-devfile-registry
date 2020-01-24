@@ -31,6 +31,7 @@ FROM registry.centos.org/centos/httpd-24-centos7 AS registry
 RUN mkdir -m 777 /var/www/html/devfiles
 COPY .htaccess README.md /var/www/html/
 COPY --from=builder /build/devfiles /var/www/html/devfiles
+COPY ./images /var/www/html/images
 COPY ./build/dockerfiles/entrypoint.sh /usr/bin/
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 CMD ["/usr/bin/run-httpd"]
