@@ -1,0 +1,79 @@
+---
+apiVersion: 1.0.0
+metadata:
+  generateName: scala-sbt-
+projects:
+  -
+    name: console-scala-simple
+    source:
+      type: git
+      location: "https://github.com/sideeffffect/console-scala-simple.git"
+      branch: master
+components:
+  -
+    type: chePlugin
+    id: scalameta/metals/latest
+  -
+    type: dockerimage
+    alias: sbt
+    image: quay.io/eclipse/che-java11-maven:nightly
+    env:
+      - name: SBT_OPTS
+        value: "-J-XX:MaxRAMPercentage=80 -J-XX:+UseParallelGC -J-XX:MinHeapFreeRatio=10
+          -J-XX:MaxHeapFreeRatio=20 -J-XX:GCTimeRatio=4 -J-XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -J-Xms20m -Djava.security.egd=file:/dev/./urandom
+          -Duser.home=/home/user"
+      - name: JAVA_OPTS
+        value: "-XX:MaxRAMPercentage=80 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      - name: JAVA_TOOL_OPTIONS
+        value: "-XX:MaxRAMPercentage=80 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+    memoryLimit: 1500Mi
+    mountSources: true
+    volumes:
+      - name: sbt
+        containerPath: /home/user/.sbt
+      - name: ivy2
+        containerPath: /home/user/.ivy2
+      - name: coursier
+        containerPath: /home/user/.cache/coursier
+      - name: metals
+        containerPath: /home/user/.cache/metals
+      - name: bloop
+        containerPath: /home/user/.cache/bloop
+commands:
+  -
+    name: sbt REPL
+    actions:
+      -
+        type: exec
+        component: sbt
+        command: "./sbt"
+        workdir: ${CHE_PROJECTS_ROOT}/console-scala-simple
+  -
+    name: sbt compile
+    actions:
+      -
+        type: exec
+        component: sbt
+        command: "./sbt compile"
+        workdir: ${CHE_PROJECTS_ROOT}/console-scala-simple
+  -
+    name: sbt test
+    actions:
+      -
+        type: exec
+        component: sbt
+        command: "./sbt test"
+        workdir: ${CHE_PROJECTS_ROOT}/console-scala-simple
+  -
+    name: sbt run
+    actions:
+      -
+        type: exec
+        component: sbt
+        command: "./sbt example/run"
+        workdir: ${CHE_PROJECTS_ROOT}/console-scala-simple
