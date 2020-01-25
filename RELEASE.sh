@@ -17,7 +17,7 @@ done
 usage ()
 {
   echo "Usage: $0 --repo [GIT REPO TO EDIT] --version [VERSION TO RELEASE] [--trigger-release]"
-  echo "Example: $0 --repo git@github.com:eclipse/che-devfile-registry --version 7.7.0 --trigger-release"; echo
+  echo "Example: $0 --repo git@github.com:eclipse/che-subproject --version 7.7.0 --trigger-release"; echo
 }
 
 if [[ ! ${VERSION} ]] || [[ ! ${REPO} ]]; then
@@ -28,21 +28,30 @@ fi
 # derive branch from version
 BRANCH=${VERSION%.*}.x
 
+# if doing a .0 release, use master; if doing a .z release, use $BRANCH
+if [[ ${VERSION} == *".0" ]]; then
+  BASEBRANCH="master"
+else 
+  BASEBRANCH="${BRANCH}"
+fi
+
 # work in tmp dir
 TMP=$(mktemp -d); pushd "$TMP" > /dev/null || exit 1
 
-# get sources from master branch
+# get sources from ${BASEBRANCH} branch
 echo "Check out ${REPO} to ${TMP}/${REPO##*/}"
 git clone "${REPO}" -q
 cd "${REPO##*/}" || exit 1
-git fetch origin master:master
-git checkout master
+git fetch origin "${BASEBRANCH}":"${BASEBRANCH}"
+git checkout "${BASEBRANCH}"
 
-# create new branch off master (or check out latest commits if branch already exists), then push to origin
-git branch "${BRANCH}" || git checkout "${BRANCH}" && git pull origin "${BRANCH}"
-git push origin "${BRANCH}"
-git fetch origin "${BRANCH}:${BRANCH}"
-git checkout "${BRANCH}"
+# create new branch off ${BASEBRANCH} (or check out latest commits if branch already exists), then push to origin
+if [[ "${BASEBRANCH}" != "${BRANCH}" ]]; then
+  git branch "${BRANCH}" || git checkout "${BRANCH}" && git pull origin "${BRANCH}"
+  git push origin "${BRANCH}"
+  git fetch origin "${BRANCH}:${BRANCH}"
+  git checkout "${BRANCH}"
+fi
 
 # change VERSION file + commit change into .x branch
 echo "${VERSION}" > VERSION
@@ -63,22 +72,30 @@ if [[ $TRIGGER_RELEASE -eq 1 ]]; then
   git push origin "${VERSION}"
 fi
 
-# now update master to the new snapshot version
-git fetch origin master:master
-git checkout master
+# now update ${BASEBRANCH} to the new snapshot version
+git fetch origin "${BASEBRANCH}":"${BASEBRANCH}"
+git checkout "${BASEBRANCH}"
 
-# change VERSION file + commit change into master branch
-[[ $BRANCH =~ ^([0-9]+)\.([0-9]+).x ]] && BASE=${BASH_REMATCH[1]}; NEXT=${BASH_REMATCH[2]}; (( NEXT=NEXT+1 )) # for BRANCH=7.10.x, get BASE=7, NEXT=11
-echo "${BASE}.${NEXT}.0-SNAPSHOT" > VERSION
-BRANCH=master
-COMMIT_MSG="[release] Bump to ${BASE}.${NEXT}.0-SNAPSHOT in ${BRANCH}"
+# change VERSION file + commit change into ${BASEBRANCH} branch
+if [[ "${BASEBRANCH}" != "${BRANCH}" ]]; then
+  # bump the y digit
+  [[ $BRANCH =~ ^([0-9]+)\.([0-9]+)\.x ]] && BASE=${BASH_REMATCH[1]}; NEXT=${BASH_REMATCH[2]}; (( NEXT=NEXT+1 )) # for BRANCH=7.10.x, get BASE=7, NEXT=11
+  NEXTVERSION="${BASE}.${NEXT}.0-SNAPSHOT"
+else
+  # bump the z digit
+  [[ $VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]] && BASE="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}"; NEXT="${BASH_REMATCH[3]}"; (( NEXT=NEXT+1 )) # for VERSION=7.7.1, get BASE=7.7, NEXT=2
+  NEXTVERSION="${BASE}.${NEXT}-SNAPSHOT"
+fi
+echo "${NEXTVERSION}" > VERSION
+BRANCH=${BASEBRANCH}
+COMMIT_MSG="[release] Bump to ${NEXTVERSION} in ${BRANCH}"
 git commit -s -m "${COMMIT_MSG}" VERSION
-git pull origin ${BRANCH}
+git pull origin "${BRANCH}"
 
-PUSH_TRY="$(git push origin ${BRANCH})"
+PUSH_TRY="$(git push origin "${BRANCH}")"
 # shellcheck disable=SC2181
 if [[ $? -gt 0 ]] || [[ $PUSH_TRY == *"protected branch hook declined"* ]]; then
-PR_BRANCH=pr-master-to-${BASE}.${NEXT}.0-SNAPSHOT
+PR_BRANCH=pr-master-to-${NEXTVERSION}
   # create pull request for master branch, as branch is restricted
   git branch "${PR_BRANCH}"
   git checkout "${PR_BRANCH}"
@@ -93,4 +110,4 @@ fi
 # cleanup tmp dir
 cd /tmp && rm -fr "$TMP"
 
-popd > /dev/null
+popd > /dev/null || exit
