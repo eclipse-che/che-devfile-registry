@@ -1,0 +1,57 @@
+---
+  apiVersion: 1.0.0
+  metadata:
+    generateName: java-maven-jdk8-
+  projects:
+    -
+      name: console-java-simple
+      source:
+        type: git
+        location: "https://github.com/che-samples/console-java-simple.git"
+  components:
+    -
+      type: chePlugin
+      id: redhat/java/latest
+    -
+      type: chePlugin
+      id: ms-vscode/vscode-java-pack/latest
+    -
+      type: dockerimage
+      alias: maven
+      image: quay.io/eclipse/che-java8-maven:7.7.1
+      env:
+        - name: MAVEN_CONFIG
+          value: ""
+        - name: MAVEN_OPTS
+          value: $(JAVA_OPTS)
+        - name: JAVA_OPTS
+          value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+            -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+            -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+        - name: JAVA_TOOL_OPTIONS
+          value: "-XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+            -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+            -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom"
+      memoryLimit: 512Mi
+      mountSources: true
+      volumes:
+        - name: m2
+          containerPath: /home/user/.m2
+  commands:
+    -
+      name: maven build
+      actions:
+        -
+          type: exec
+          component: maven
+          command: "mvn clean install"
+          workdir: ${CHE_PROJECTS_ROOT}/console-java-simple
+    -
+      name: maven build and run
+      actions:
+        -
+          type: exec
+          component: maven
+          command: "mvn clean install && java -jar ./target/*.jar"
+          workdir: ${CHE_PROJECTS_ROOT}/console-java-simple
+  
