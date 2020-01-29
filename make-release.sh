@@ -120,7 +120,7 @@ ${lastCommitComment}" -b "${BRANCH}" -h "${PR_BRANCH}"
   fi 
 fi
 
+popd > /dev/null || exit
+
 # cleanup tmp dir
 cd /tmp && rm -fr "$TMP"
-
-popd > /dev/null || exit
