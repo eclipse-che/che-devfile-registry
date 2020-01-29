@@ -63,6 +63,9 @@ components:
       discoverable: 'true'
       public: 'false'
     port: 27017
+  volumes:
+  - name: mongodb_data
+    containerPath: /var/lib/mongodb/data
 commands:
 -
   name: maven build backend
