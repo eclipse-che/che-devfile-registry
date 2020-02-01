@@ -40,9 +40,9 @@ function install_deps() {
   /usr/sbin/setenforce 0  || true
 
   # Get all the deps in
-  yum install -y yum-utils device-mapper-persistent-data lvm2
+  yum install -d1 -y yum-utils device-mapper-persistent-data lvm2
   yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-  yum install -y docker-ce \
+  yum install -d1 -y docker-ce \
     git
 
   service docker start
@@ -64,7 +64,7 @@ function set_nightly_tag() {
 function tag_push() {
   local TARGET=$1
   docker tag "${IMAGE}" "$TARGET"
-  docker push "$TARGET"
+  docker push "$TARGET" | cat
 }
 
 # Set appropriate environment variables and login to the docker registry
@@ -99,7 +99,7 @@ function setup_environment() {
 # Build, tag, and push devfile registry, tagged with ${TAG} and ${GIT_COMMIT_TAG}
 function build_and_push() {
   # Let's build and push image to 'quay.io' using git commit hash as tag first
-  docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} --target registry .
+  docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} --target registry . | cat
   tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${GIT_COMMIT_TAG}"
   echo "CICO: '${GIT_COMMIT_TAG}' version of images pushed to '${REGISTRY}/${ORGANIZATION}' organization"
 
@@ -117,7 +117,7 @@ function build_and_push_release() {
   echo "CICO: building release '${TAG}' / '${GIT_COMMIT_TAG}' version of devfile registry"
   docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} . \
     --build-arg PATCHED_IMAGES_TAG=${TAG} \
-    --target registry
+    --target registry | cat
 
   echo "CICO: '${GIT_COMMIT_TAG}' version of devfile registry built"
   tag_push "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${GIT_COMMIT_TAG}"
