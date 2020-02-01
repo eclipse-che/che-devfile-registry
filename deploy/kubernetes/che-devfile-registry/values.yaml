@@ -10,15 +10,15 @@
 cheDevfileRegistryImage: camino.azurecr.io/che-devfile-registry:nightly
 cheDevfileRegistryImagePullPolicy: Always
 cheDevfileRegistryMemoryLimit: 256Mi
-#cheDevfileRegistryIngressSecretName: che-tls
+cheDevfileRegistryIngressSecretName: che-tls
 
 cheDevfileImagesOverride:
   # Override for registry URL in images used in devfiles
   url: camino.azurecr.io
   # Override for registry organization in images used in devfiles
-  organization:
+  organization: ""
   # Override for image tags used images referenced in devfiles
-  tag:
+  tag: ""
 
 global:
   ingressDomain: c.pizzafactory.jp
