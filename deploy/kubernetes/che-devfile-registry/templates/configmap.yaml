@@ -12,7 +12,9 @@ apiVersion: v1
 metadata:
   name: che-devfile-registry
 data:
-  CHE_DEVFILE_IMAGES_REGISTRY_URL: {{ .Values.cheDevfileImagesOverride.url }}
-  CHE_DEVFILE_IMAGES_REGISTRY_ORGANIZATION: {{ .Values.cheDevfileImagesOverride.organization }}
-  CHE_DEVFILE_IMAGES_REGISTRY_TAG: {{ .Values.cheDevfileImagesOverride.tag }}
+  {{ with .Values.cheDevfileImagesOverride -}}
+  {{ with .url -}} CHE_DEVFILE_IMAGES_REGISTRY_URL: {{ . }} {{- end }}
+  {{ with .organization -}} CHE_DEVFILE_IMAGES_REGISTRY_ORGANIZATION: {{ . }} {{- end }}
+  {{ with .tag -}} CHE_DEVFILE_IMAGES_REGISTRY_TAG: {{ . }} {{- end }}
+  {{ end -}}
   CHE_DEVFILE_REGISTRY_URL: http{{- if .Values.cheDevfileRegistryIngressSecretName -}}s{{- end -}}{{- printf "://che-devfile-registry-%s.%s" .Release.Namespace .Values.global.ingressDomain }}

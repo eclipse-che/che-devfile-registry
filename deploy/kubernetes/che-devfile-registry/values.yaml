@@ -14,11 +14,11 @@ cheDevfileRegistryMemoryLimit: 256Mi
 
 cheDevfileImagesOverride:
   # Override for registry URL in images used in devfiles
-  url:
+  # url:
   # Override for registry organization in images used in devfiles
-  organization:
+  # organization: ""
   # Override for image tags used images referenced in devfiles
-  tag:
+  # tag: ""
 
 global:
   ingressDomain: 192.168.99.100.nip.io
