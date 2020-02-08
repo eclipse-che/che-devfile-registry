@@ -1,3 +1,6 @@
+{{- define "hostname" -}}
+{{- .Values.hostnameOverride | default (printf "che-plugin-registry-%s" .Release.Namespace) -}}
+{{- end -}}
 #
 # Copyright (c) 2018 Red Hat, Inc.
 # This program and the accompanying materials are made
@@ -6,9 +9,7 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 #
-{{- define "hostname" -}}
-{{- .Values.hostnameOverride | default (printf "che-plugin-registry-%s" .Release.Namespace) -}}
-{{- end -}}
+
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
