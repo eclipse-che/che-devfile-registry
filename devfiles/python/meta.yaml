@@ -2,5 +2,5 @@
 displayName: Python
 description: Python Stack with Python 3.7
 tags: ["Centos", "Python", "pip"]
-icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+icon: /images/python.svg
 globalMemoryLimit: 1686Mi

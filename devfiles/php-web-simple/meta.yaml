@@ -2,5 +2,5 @@
 displayName: "PHP Simple"
 description: PHP Stack with PHP 7.1 and simple web application
 tags: ["PHP", "Apache", "Debian"]
-icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+icon: /images/php.svg
 globalMemoryLimit: 2430Mi

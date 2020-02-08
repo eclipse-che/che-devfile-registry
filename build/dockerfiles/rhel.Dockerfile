@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2018-2019 Red Hat, Inc.
+# Copyright (c) 2018-2020 Red Hat, Inc.
 # This program and the accompanying materials are made
 # available under the terms of the Eclipse Public License 2.0
 # which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -12,7 +12,7 @@
 
 # Builder: check meta.yamls and create index.json
 # https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/ubi8-minimal
-FROM registry.access.redhat.com/ubi8-minimal:8.1-328 as builder
+FROM registry.access.redhat.com/ubi8-minimal:8.1-398 as builder
 USER 0
 
 ################# 
@@ -73,7 +73,7 @@ FROM registry.access.redhat.com/rhscl/httpd-24-rhel7:2.4-108.1575996463 AS regis
 
 # DOWNSTREAM: use RHEL8/httpd
 # https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/rhel8/httpd-24
-# FROM registry.redhat.io/rhel8/httpd-24:1-70 AS registry
+# FROM registry.redhat.io/rhel8/httpd-24:1-76 AS registry
 USER 0
 
 # BEGIN these steps might not be required
@@ -91,6 +91,7 @@ WORKDIR /var/www/html
 RUN mkdir -m 777 /var/www/html/devfiles
 COPY .htaccess README.md /var/www/html/
 COPY --from=builder /build/devfiles /var/www/html/devfiles
+COPY ./images /var/www/html/images
 COPY ./build/dockerfiles/rhel.entrypoint.sh ./build/dockerfiles/entrypoint.sh /usr/local/bin/
 RUN chmod g+rwX /usr/local/bin/entrypoint.sh /usr/local/bin/rhel.entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

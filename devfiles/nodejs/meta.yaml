@@ -2,5 +2,5 @@
 displayName: NodeJS Express Web Application
 description: Stack with NodeJS 10
 tags: ["NodeJS", "Express", "ubi8"]
-icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+icon: /images/nodejs.svg
 globalMemoryLimit: 1686Mi

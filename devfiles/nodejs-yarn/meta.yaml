@@ -2,5 +2,5 @@
 displayName: NodeJS Web Application based on Yarn
 description: Stack for developing NodeJS Web Application based on Yarn 
 tags: ["NodeJS", "Alpine", "Yarn", "React"]
-icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+icon: /images/nodejs.svg
 globalMemoryLimit: 2198Mi
