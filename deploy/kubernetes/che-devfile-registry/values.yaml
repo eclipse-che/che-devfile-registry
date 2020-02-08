@@ -12,6 +12,8 @@ cheDevfileRegistryImagePullPolicy: Always
 cheDevfileRegistryMemoryLimit: 256Mi
 cheDevfileRegistryIngressSecretName: che-tls
 
+#hostnameOverride: "che-devfile-registry"
+
 cheDevfileImagesOverride:
   # Override for registry URL in images used in devfiles
   url: camino.azurecr.io
