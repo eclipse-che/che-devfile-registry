@@ -20,8 +20,6 @@ components:
   type: dockerimage
   alias: cpp-dev
   image: quay.io/eclipse/che-cpp-rhel7:nightly
-  command: ['sleep']
-  args: ['infinity']
   memoryLimit: 512Mi
   mountSources: true
 commands:
