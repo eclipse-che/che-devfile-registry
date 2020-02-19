@@ -2,5 +2,5 @@
 displayName: Java with Spring Boot and MySQL
 description: Java stack with OpenJDK 8, MySQL and Spring Boot Petclinic demo application
 tags: ["Java", "OpenJDK", "Maven", "Spring Boot", "MySQL"]
-icon: /images/springboot.svg
+icon: /images/snowdrop.svg
 globalMemoryLimit: 3072Mi
