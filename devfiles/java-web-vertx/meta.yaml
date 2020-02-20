@@ -2,5 +2,5 @@
 displayName: Java Vert.x
 description: Java stack with OpenJDK 8 and Vert.x demo application
 tags: ["Java", "OpenJDK", "Maven", "Vertx"]
-icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+icon: /images/vertx.svg
 globalMemoryLimit: 2674Mi

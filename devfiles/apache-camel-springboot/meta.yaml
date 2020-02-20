@@ -2,5 +2,5 @@
 displayName: Apache Camel based on Spring Boot
 description: Stack with environment ready to develop Integration projects with Apache Camel based on Spring Boot.
 tags: ["Java", "OpenJDK", "Maven", "Debian", "Apache Camel", "Red Hat Fuse", "Spring Boot"]
-icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+icon: /images/camelk.svg
 globalMemoryLimit: 2930Mi

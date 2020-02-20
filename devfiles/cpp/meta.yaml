@@ -2,5 +2,5 @@
 displayName: C/C++
 description: Stack with C/C++ and Clang 8
 tags: ["C/C++", "clang", "g++", "gdb"]
-icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+icon: /images/cpp.svg
 globalMemoryLimit: 1686Mi

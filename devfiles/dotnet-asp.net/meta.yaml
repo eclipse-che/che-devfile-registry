@@ -2,5 +2,5 @@
 displayName: "ASP.NET Core Web Application"
 description: Stack for developing ASP.NET Core Web Application
 tags: ["Debian", "Dotnet", "C#", "ASP.NET"]
-icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+icon: /images/dotnetcore.svg
 globalMemoryLimit: 2710Mi

@@ -2,5 +2,5 @@
 displayName: ".NET Core"
 description: Stack with .Net 2.2
 tags: ["Debian", "Dotnet", "C#"]
-icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+icon: /images/dotnetcore.svg
 globalMemoryLimit: 2710Mi

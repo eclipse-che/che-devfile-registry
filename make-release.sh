@@ -1,15 +1,18 @@
 #!/bin/bash
 # Release process automation script. 
-# Used to create branch/tag, update VERSION files and and trigger release by force pushing changes to the release branch 
+# Used to create branch/tag, update VERSION files 
+# and and trigger release by force pushing changes to the release branch 
 
 # set to 1 to actually trigger changes in the release branch
 TRIGGER_RELEASE=0 
+NOCOMMIT=0
 
 while [[ "$#" -gt 0 ]]; do
   case $1 in
-    '-t'|'--trigger-release') TRIGGER_RELEASE=1; shift 0;;
+    '-t'|'--trigger-release') TRIGGER_RELEASE=1; NOCOMMIT=0; shift 0;;
     '-r'|'--repo') REPO="$2"; shift 1;;
     '-v'|'--version') VERSION="$2"; shift 1;;
+    '-n'|'--no-commit') NOCOMMIT=1; TRIGGER_RELEASE=0; shift 0;;
   esac
   shift 1
 done
@@ -53,11 +56,16 @@ if [[ "${BASEBRANCH}" != "${BRANCH}" ]]; then
   git checkout "${BRANCH}"
 fi
 
-# change VERSION file + commit change into .x branch
+# change VERSION file
 echo "${VERSION}" > VERSION
-git commit -s -m "[release] Bump to ${VERSION} in ${BRANCH}" VERSION
-git pull origin "${BRANCH}"
-git push origin "${BRANCH}"
+
+# commit change into branch
+if [[ ${NOCOMMIT} -eq 0 ]]; then
+  COMMIT_MSG="[release] Bump to ${VERSION} in ${BRANCH}"
+  git commit -s -m "${COMMIT_MSG}" VERSION
+  git pull origin "${BRANCH}"
+  git push origin "${BRANCH}"
+fi
 
 if [[ $TRIGGER_RELEASE -eq 1 ]]; then
   # push new branch to release branch to trigger CI build
@@ -86,28 +94,33 @@ else
   [[ $VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]] && BASE="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}"; NEXT="${BASH_REMATCH[3]}"; (( NEXT=NEXT+1 )) # for VERSION=7.7.1, get BASE=7.7, NEXT=2
   NEXTVERSION="${BASE}.${NEXT}-SNAPSHOT"
 fi
-echo "${NEXTVERSION}" > VERSION
-BRANCH=${BASEBRANCH}
-COMMIT_MSG="[release] Bump to ${NEXTVERSION} in ${BRANCH}"
-git commit -s -m "${COMMIT_MSG}" VERSION
-git pull origin "${BRANCH}"
 
-PUSH_TRY="$(git push origin "${BRANCH}")"
-# shellcheck disable=SC2181
-if [[ $? -gt 0 ]] || [[ $PUSH_TRY == *"protected branch hook declined"* ]]; then
-PR_BRANCH=pr-master-to-${NEXTVERSION}
-  # create pull request for master branch, as branch is restricted
-  git branch "${PR_BRANCH}"
-  git checkout "${PR_BRANCH}"
-  git pull origin "${PR_BRANCH}"
-  git push origin "${PR_BRANCH}"
-  lastCommitComment="$(git log -1 --pretty=%B)"
-  hub pull-request -o -f -m "${lastCommitComment}
+# change VERSION file
+echo "${NEXTVERSION}" > VERSION
+if [[ ${NOCOMMIT} -eq 0 ]]; then
+  BRANCH=${BASEBRANCH}
+  # commit change into branch
+  COMMIT_MSG="[release] Bump to ${NEXTVERSION} in ${BRANCH}"
+  git commit -s -m "${COMMIT_MSG}" VERSION
+  git pull origin "${BRANCH}"
+
+  PUSH_TRY="$(git push origin "${BRANCH}")"
+  # shellcheck disable=SC2181
+  if [[ $? -gt 0 ]] || [[ $PUSH_TRY == *"protected branch hook declined"* ]]; then
+  PR_BRANCH=pr-master-to-${NEXTVERSION}
+    # create pull request for master branch, as branch is restricted
+    git branch "${PR_BRANCH}"
+    git checkout "${PR_BRANCH}"
+    git pull origin "${PR_BRANCH}"
+    git push origin "${PR_BRANCH}"
+    lastCommitComment="$(git log -1 --pretty=%B)"
+    hub pull-request -o -f -m "${lastCommitComment}
 
 ${lastCommitComment}" -b "${BRANCH}" -h "${PR_BRANCH}"
-fi 
+  fi 
+fi
+
+popd > /dev/null || exit
 
 # cleanup tmp dir
 cd /tmp && rm -fr "$TMP"
-
-popd > /dev/null || exit
