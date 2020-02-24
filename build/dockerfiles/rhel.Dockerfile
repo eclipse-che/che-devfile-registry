@@ -39,7 +39,7 @@ ENV USE_DIGESTS=${USE_DIGESTS}
 
 # NOTE: uncomment for local build. Must also set full registry path in FROM to registry.redhat.io or registry.access.redhat.com
 # enable rhel 7 or 8 content sets (from Brew) to resolve jq as rpm
-COPY ./build/dockerfiles/content_sets_centos8_appstream.repo /etc/yum.repos.d/
+COPY ./build/dockerfiles/content_set*.repo /etc/yum.repos.d/
 
 COPY ./build/dockerfiles/rhel.install.sh /tmp
 RUN /tmp/rhel.install.sh && rm -f /tmp/rhel.install.sh
@@ -70,7 +70,7 @@ RUN chmod -R g+rwX /build/devfiles
 # Build registry, copying meta.yamls and index.json from builder
 # UPSTREAM: use RHEL7/RHSCL/httpd image so we're not required to authenticate with registry.redhat.io
 # https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/rhscl/httpd-24-rhel7
-FROM registry.access.redhat.com/rhscl/httpd-24-rhel7:2.4-108.1575996463 AS registry
+FROM registry.access.redhat.com/rhscl/httpd-24-rhel7:2.4-109 AS registry
 
 # DOWNSTREAM: use RHEL8/httpd
 # https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/rhel8/httpd-24
