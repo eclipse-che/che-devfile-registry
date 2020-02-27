@@ -2,5 +2,5 @@
 displayName: Mainframe Basic Stack
 description: Mainframe Basic Stack
 tags: ["Che4z", "Zowe", "mainframe", "Endevor", "explorer", "dataset", "COBOL", "JCL", "zOS", "USS", "HLASM", "InterTest", "debug"]
-icon: /images/mainframe.svg
+icon: /images/che4z.svg
 globalMemoryLimit: 2280Mi
