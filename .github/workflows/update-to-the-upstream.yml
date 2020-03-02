@@ -1,0 +1,39 @@
+name: UpdateToTheUpstream
+
+on:
+  schedule:
+    - cron: "0 6 * * 5"
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: merge-push
+      run: |
+        git remote add up https://github.com/eclipse/che-plugin-registry.git
+        git fetch --all
+        git checkout -b prp-update-to-the-upstream
+        git merge up/master -m 'Update to the upstream.'
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: prp-update-to-the-upstream
+        force: true
+    - name: install hub
+      uses: geertvdc/setup-hub@v1.0.0
+    - name: create PR
+      env:
+        GITHUB_USER: ${{ secrets.GITHUB_USER }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        hub pull-request -b master -m "[Scheduled] Update to the upstream"
+    - name: Notify to Google Chat
+      uses: Co-qn/google-chat-notification@releases/v1
+      with:
+        name: Update to the upstream
+        url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+        status: ${{ job.status }}
+      if: always()
