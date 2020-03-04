@@ -37,7 +37,7 @@ components:
                  claimName: zowe-claim
             containers:
              -
-              image: 'ca-docker-brightside-docker.bintray.io/cli-mainframe-basic-stack:2019-11-19T15-56-35'
+              image: 'ca-docker-brightside-docker.bintray.io/cli-mainframe-basic-stack:2020-02-13T23-41-08'
               env:
                - name: THEIA_PLUGINS
                  value: local-dir:///plugins
@@ -55,7 +55,7 @@ components:
             initContainers:
              -
               name: plugin-container
-              image: 'ca-docker-brightside-docker.bintray.io/cli-mainframe-basic-plugins:2019-11-19T15-56-35'
+              image: 'ca-docker-brightside-docker.bintray.io/cli-mainframe-basic-plugins:2020-02-13T23-41-08'
               command: ["/bin/sh", "-c", "if [ -z \"$(ls -1A /.zowe)\" ]; then cp -r /.zowe_init/* /.zowe; fi"]
               volumeMounts:
                - mountPath: /.zowe
