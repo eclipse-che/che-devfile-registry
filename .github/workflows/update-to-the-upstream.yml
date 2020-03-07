@@ -12,8 +12,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: merge-push
       run: |
-        git remote add up https://github.com/eclipse/che-plugin-registry.git
-        git fetch --all
+        git remote add up https://github.com/eclipse/che-devfile-registry.git
+        git fetch --all --unshallow
         git checkout -b prp-update-to-the-upstream
         git merge up/master -m 'Update to the upstream.'
     - name: Push changes
@@ -29,7 +29,7 @@ jobs:
         GITHUB_USER: ${{ secrets.GITHUB_USER }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        hub pull-request -b master -m "[Scheduled] Update to the upstream"
+        hub pull-request -b pizzafactory:pizzafactory -m "[Scheduled] Update to the upstream"
     - name: Notify to Google Chat
       uses: Co-qn/google-chat-notification@releases/v1
       with:
