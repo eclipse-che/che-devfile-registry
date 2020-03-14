@@ -10,6 +10,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: merge-push
       run: |
         git remote add up https://github.com/eclipse/che-devfile-registry.git
