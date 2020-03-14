@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: "0 6 * * 5"
 jobs:
-  build:
+  pr-for-merging-upstream:
 
     runs-on: ubuntu-latest
 
