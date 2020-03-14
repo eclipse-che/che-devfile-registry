@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: "0 6 * * 5"
 jobs:
-  build:
+  pr-for-merging-upstream:
 
     runs-on: ubuntu-latest
 
@@ -15,7 +15,7 @@ jobs:
     - name: merge-push
       run: |
         git remote add up https://github.com/eclipse/che-devfile-registry.git
-        git fetch --all --unshallow
+        git fetch --all
         git checkout -b prp-update-to-the-upstream
         git merge up/master -m 'Update to the upstream.'
     - name: Push changes
