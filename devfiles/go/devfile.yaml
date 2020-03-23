@@ -15,6 +15,9 @@ components:
   id: ms-vscode/go/latest
   alias: go-plugin
   memoryLimit: 512Mi
+  env:
+    - value: 'off'
+      name: GO111MODULE
   preferences:
     go.lintTool: 'golangci-lint'
     go.lintFlags: '--fast'
