@@ -21,6 +21,7 @@ components:
   preferences:
     go.lintTool: 'golangci-lint'
     go.lintFlags: '--fast'
+    go.useLanguageServer: true
 -
   type: dockerimage
   # this version is used in the plugin
