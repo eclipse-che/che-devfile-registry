@@ -14,6 +14,8 @@ jobs:
         fetch-depth: 0
     - name: merge-push
       run: |
+        git config --global user.email "monaka@monami-ya.com"
+        git config --global user.name "Masaki Muranaka (bot)"
         git remote add up https://github.com/eclipse/che-devfile-registry.git
         git fetch --all
         git checkout -b prp-update-to-the-upstream
