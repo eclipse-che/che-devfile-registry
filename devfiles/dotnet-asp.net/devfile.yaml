@@ -21,8 +21,6 @@ components:
     type: dockerimage
     alias: dotnet
     image: quay.io/eclipse/che-dotnet-2.2:nightly
-    command: ['sleep']
-    args: ['infinity']
     env:
       - name: HOME
         value: /home/user

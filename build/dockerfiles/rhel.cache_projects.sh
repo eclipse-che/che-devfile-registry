@@ -7,20 +7,15 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 #
+# Contributors:
+#   Red Hat, Inc. - initial API and implementation
+#
 
-# Output command before executing
 set -x
 
-# Exit on error
-set -e
-
-SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
-export SCRIPT_DIR
-
-# shellcheck source=./cico_functions.sh
-. "${SCRIPT_DIR}"/cico_functions.sh
-
-load_jenkins_vars
-install_deps
-setup_environment
-build_and_push
+if [[ ! -f /tmp/resources.tgz ]] || [[ ${BOOTSTRAP} == "true" ]]; then
+  ./cache_projects.sh devfiles resources
+else
+  # unpack into specified folder
+  tar -xvf /tmp/resources.tgz -C "$1/"
+fi
