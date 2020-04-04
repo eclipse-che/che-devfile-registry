@@ -8,15 +8,15 @@ trigger:
 
 variables:
   containerRegistry: camino.azurecr.io
-  prefix: $(containerRegistry)/
-  imageName: '$(prefix)che-devfile-registry'
+  organization: eclipse
+  imageTag: nightly
 
 pool:
   vmImage: 'Ubuntu-16.04'
 
 steps:
-- script: docker build -f build/dockerfiles/Dockerfile -t $(imageName) .
-  displayName: 'docker build'
+- script: ./build.sh -r $(containerRegistry) -o $(organization) -t $(imageTag) --offline
+  displayName: 'build'
 
 - task: Docker@1
   inputs:
@@ -25,9 +25,6 @@ steps:
     dockerRegistryEndpoint: camino.azurecr.io
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['Build.SourceBranch'], 'refs/heads/pizzafactory'))
 
-- script: |
-    docker push $(imageName)
-    docker tag $(imageName) $(imageName):$(build.buildId)
-    docker push $(imageName):$(build.buildId)
-  displayName: 'docker push'
+- script: docker push $(containerRegistry)/$(organization)/che-devfile-registry:$(imageTag)
+  displayName: 'push to ACR'
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['Build.SourceBranch'], 'refs/heads/pizzafactory'))
