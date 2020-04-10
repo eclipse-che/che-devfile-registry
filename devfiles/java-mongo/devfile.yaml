@@ -12,7 +12,7 @@ components:
 -
   type: chePlugin
   id: redhat/java/latest
-  memoryLimit: 1280MiB
+  memoryLimit: 1280Mi
 -
   type: dockerimage
   alias: maven
