@@ -20,12 +20,6 @@ jobs:
         git fetch --all
         git checkout -b prp-update-to-the-upstream
         git merge up/master -m 'Update to the upstream.'
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: prp-update-to-the-upstream
-        force: true
     - name: install hub
       uses: geertvdc/setup-hub@v1.0.0
     - name: create PR
@@ -33,7 +27,7 @@ jobs:
         GITHUB_USER: ${{ secrets.GITHUB_USER }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        hub pull-request -b pizzafactory:pizzafactory -m "[Scheduled] Update to the upstream"
+        hub pull-request -b pizzafactory:pizzafactory -m "[Scheduled] Update to the upstream" --push
     - name: Notify to Google Chat
       uses: Co-qn/google-chat-notification@releases/v1
       with:
