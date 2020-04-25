@@ -26,7 +26,7 @@ components:
     image: quay.io/eclipse/che-dotnet-2.2:nightly
     memoryLimit: 512Mi
     endpoints:
-      - name: '5000/tcp'
+      - name: '5000-tcp'
         port: 5000
     mountSources: true
     volumes:
