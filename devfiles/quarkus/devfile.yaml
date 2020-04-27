@@ -16,7 +16,8 @@ components:
   -
     type: dockerimage
     alias: maven
-    image: quay.io/eclipse/che-quarkus:nightly
+    # image: quay.io/eclipse/che-quarkus:nightly
+    image: quay.io/eclipse/che-quarkus@sha256:1b882e2d6e9833ddb0884e938cca53769499cf61105ebd3fdd91d44cecb2b248
     env:
       - name: JAVA_OPTS
         value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10

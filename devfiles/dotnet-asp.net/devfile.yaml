@@ -20,7 +20,8 @@ components:
   -
     type: dockerimage
     alias: dotnet
-    image: quay.io/eclipse/che-dotnet-2.2:nightly
+    # image: quay.io/eclipse/che-dotnet-2.2:nightly
+    image: quay.io/eclipse/che-dotnet-2.2@sha256:5d1bb1680dfc318b9de7d5a1422e03ce03c3a9ee2403cc5a329556dfcd179198
     env:
       - name: HOME
         value: /home/user

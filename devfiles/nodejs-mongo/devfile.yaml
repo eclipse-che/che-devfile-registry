@@ -16,7 +16,8 @@ components:
   -
     type: dockerimage
     alias: nodejs
-    image: quay.io/eclipse/che-nodejs10-ubi:nightly
+    # image: quay.io/eclipse/che-nodejs10-ubi:nightly
+    image: quay.io/eclipse/che-nodejs10-ubi@sha256:a5dc23dff5f551bbcd931f3a75285e6aa7aa582147d8fad79314c4373ed452f4
     env:
       # The values below are used to set up the environment for running the application
       - name: SECRET
@@ -31,7 +32,8 @@ components:
   -
     type: dockerimage
     alias: mongo
-    image: docker.io/centos/mongodb-34-centos7
+    # image: docker.io/centos/mongodb-34-centos7
+    image: docker.io/centos/mongodb-34-centos7@sha256:66e6020cee55e65c5e906a3b559fdd3110ee534e5035a07ceada07a6c564313a
     memoryLimit: 512Mi
     env:
       - name: MONGODB_USER

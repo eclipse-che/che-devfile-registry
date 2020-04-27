@@ -19,7 +19,8 @@ components:
 -
   type: dockerimage
   alias: cpp-dev
-  image: quay.io/eclipse/che-cpp-rhel7:nightly
+  # image: quay.io/eclipse/che-cpp-rhel7:nightly
+  image: quay.io/eclipse/che-cpp-rhel7@sha256:8e91b8568e8cecf71fe9ceb2ea3474fbb262b4b2e91b0b2e20433a56400b1b4f
   memoryLimit: 512Mi
   mountSources: true
 commands:

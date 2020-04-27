@@ -16,7 +16,8 @@ components:
 -
   type: dockerimage
   alias: maven
-  image: quay.io/eclipse/che-java8-maven:nightly
+  # image: quay.io/eclipse/che-java8-maven:nightly
+  image: quay.io/eclipse/che-java8-maven@sha256:db4d64f593e810b29f539aa2bfd9c3ebdce740cf76a8dbb3604c013622a875e3
   env:
   - name: MAVEN_CONFIG
     value: ""
@@ -46,7 +47,8 @@ components:
 -
   type: dockerimage
   alias: mongo
-  image: docker.io/centos/mongodb-34-centos7
+  # image: docker.io/centos/mongodb-34-centos7
+  image: docker.io/centos/mongodb-34-centos7@sha256:66e6020cee55e65c5e906a3b559fdd3110ee534e5035a07ceada07a6c564313a
   env:
   - name: MONGODB_USER
     value: user

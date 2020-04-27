@@ -20,7 +20,8 @@ components:
 -
   type: dockerimage
   alias: php
-  image: quay.io/eclipse/che-php-7:nightly
+  # image: quay.io/eclipse/che-php-7:nightly
+  image: quay.io/eclipse/che-php-7@sha256:ecc6db4593ec56e481c30272ec13d7a59842adc1ca8aed035ca1768eafd60fc2
   memoryLimit: 512Mi
   mountSources: true
   endpoints:

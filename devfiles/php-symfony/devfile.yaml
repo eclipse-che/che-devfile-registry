@@ -20,7 +20,8 @@ components:
 -
   type: dockerimage
   alias: php
-  image: quay.io/eclipse/che-php-7:nightly
+  # image: quay.io/eclipse/che-php-7:nightly
+  image: quay.io/eclipse/che-php-7@sha256:ecc6db4593ec56e481c30272ec13d7a59842adc1ca8aed035ca1768eafd60fc2
   memoryLimit: 512Mi
   endpoints:
   - name: '8000/tcp'
@@ -34,7 +35,8 @@ components:
 -
   type: dockerimage
   alias: mysql
-  image: docker.io/centos/mysql-57-centos7
+  # image: docker.io/centos/mysql-57-centos7
+  image: docker.io/centos/mysql-57-centos7@sha256:e08ee4d43b7356607685b69bde6335e27cf20c020f345b6c6c59400183882764
   env:
     - name: MYSQL_USER
       value: db_user

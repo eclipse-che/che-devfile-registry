@@ -15,7 +15,8 @@ components:
   -
     type: dockerimage
     alias: maven
-    image: quay.io/eclipse/che-java8-maven:nightly
+    # image: quay.io/eclipse/che-java8-maven:nightly
+    image: quay.io/eclipse/che-java8-maven@sha256:db4d64f593e810b29f539aa2bfd9c3ebdce740cf76a8dbb3604c013622a875e3
     env:
       - name: MAVEN_CONFIG
         value: ""
