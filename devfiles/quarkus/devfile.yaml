@@ -44,15 +44,15 @@ commands:
       -
         type: exec
         component: maven
-        command: "mvn package"
+        command: "./mvnw package"
         workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
   -
-    name: Start development server
+    name: Start Development mode
     actions:
       -
         type: exec
         component: maven
-        command: "mvn compile quarkus:dev"
+        command: "./mvnw compile quarkus:dev"
         workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
   -
     name: Attach remote debugger
