@@ -45,7 +45,7 @@ components:
         containerPath: "/home/user/.m2"
     memoryLimit: 512Mi
     endpoints:
-      - name: '8080/tcp'
+      - name: '8080-tcp'
         port: 8080
     mountSources: true
 commands:
