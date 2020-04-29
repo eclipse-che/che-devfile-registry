@@ -27,7 +27,7 @@ jobs:
         GITHUB_USER: ${{ secrets.GITHUB_USER }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        hub pull-request -b pizzafactory:pizzafactory -m "[Scheduled] Update to the upstream" --push
+        hub pull-request -b pizzafactory:pizzafactory -m "[Scheduled] Update to the upstream" --push -f
     - name: Notify to Google Chat
       uses: Co-qn/google-chat-notification@releases/v1
       with:
