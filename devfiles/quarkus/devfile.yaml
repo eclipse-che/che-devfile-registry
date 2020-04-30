@@ -59,7 +59,7 @@ commands:
         command: "./mvnw package"
         workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
   -
-    name: Start Dev mode (Hot reload + debug)
+    name: Start Development mode (Hot reload + debug)
     actions:
       -
         type: exec
