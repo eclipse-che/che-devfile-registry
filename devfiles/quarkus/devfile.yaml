@@ -15,7 +15,7 @@ components:
     id: redhat/quarkus-java8/latest
   -
     type: dockerimage
-    alias: maven
+    alias: centos-quarkus-maven
     image: quay.io/eclipse/che-quarkus:nightly
     env:
       - name: JAVA_OPTS
@@ -25,35 +25,64 @@ components:
           -Duser.home=/home/user"
       - name: MAVEN_OPTS
         value: $(JAVA_OPTS)  
-    memoryLimit: 512Mi
+    memoryLimit: 4Gi
     mountSources: true
     volumes:
       - name: m2
         containerPath: /home/user/.m2
     endpoints:
-      - name: 'quarkus-development-server'
-        port: 8080    
       - name: 'hello-greeting-endpoint'
         port: 8080
         attributes:
           path: /hello/greeting/che-user
+
+  - type: dockerimage
+    alias: ubi-quarkus-native-image
+    image: 'quay.io/quarkus/ubi-quarkus-native-image:19.2.0.1'
+    memoryLimit: 32M
+    mountSources: true
+    endpoints:
+      - name: 'hello-greeting-endpoint'
+        port: 8080
+        attributes:
+          path: /hello/greeting/che-user
+    command: ['tail']
+    args: ['-f', '/dev/null']
+
 commands:
   -
-    name: Package the application
+    name: Package
     actions:
       -
         type: exec
-        component: maven
+        component: centos-quarkus-maven
         command: "./mvnw package"
         workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
   -
-    name: Start Development mode
+    name: Start Development mode (Hot reload + debug)
     actions:
       -
         type: exec
-        component: maven
+        component: centos-quarkus-maven
         command: "./mvnw compile quarkus:dev"
         workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
+  -
+    name: Package Native
+    actions:
+      -
+        type: exec
+        component: centos-quarkus-maven
+        command: "./mvnw package -Dnative"
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
+
+  -
+    name: Start Native
+    actions:
+      -
+        type: exec
+        component: ubi-quarkus-native-image
+        command: ./getting-started-1.0-SNAPSHOT-runner
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started/target
   -
     name: Attach remote debugger
     actions:
