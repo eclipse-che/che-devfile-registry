@@ -2,8 +2,15 @@ ARG FROM_IMAGE
 FROM ${FROM_IMAGE}
 USER 0
 # Set permissions on /etc/passwd and /home to allow arbitrary users to write
-COPY --chown=0:0 entrypoint.sh /
-RUN mkdir -p /home/user && chgrp -R 0 /home && chmod -R g=u /etc/passwd /etc/group /home && chmod +x /entrypoint.sh
+COPY [--chown=0:0] entrypoint.sh /
+COPY [--chown=0:0] change-trust-store-permissions.sh /usr/bin
+RUN mkdir -p /home/user && \
+      chgrp -R 0 /home && \
+      chmod -R g=u /etc/passwd /home && \
+      chmod +x /entrypoint.sh && \
+      chmod +x /usr/bin/change-trust-store-permissions.sh && \
+      /usr/bin/change-trust-store-permissions.sh && \
+      rm /usr/bin/change-trust-store-permissions.sh
 
 USER 10001
 ENV HOME=/home/user
