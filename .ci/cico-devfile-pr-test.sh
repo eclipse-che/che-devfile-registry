@@ -182,6 +182,7 @@ export SCRIPT_DIR
 
 load_jenkins_vars
 install_deps
+setup_environment
 
 # Build & push.
 
