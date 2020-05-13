@@ -186,7 +186,7 @@ install_deps
 # Build & push.
 
 export TAG="PR-${ghprbPullId}"
-export IMAGE_NAME="quay.io/eclipse/che-plugin-registry:$TAG"
+export IMAGE_NAME="quay.io/eclipse/che-devfile-registry:$TAG"
 build_and_push
 
 export FAIL_MESSAGE="Build passed. Image is available on $IMAGE_NAME"
@@ -233,4 +233,4 @@ createTestWorkspaceAndRunTest
 
 getOpenshiftLogs
 
-archiveArtifacts "che--plugin-registry-prcheck"
+archiveArtifacts "che-devfile-registry-prcheck"
