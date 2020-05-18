@@ -60,7 +60,7 @@ function installAndStartMinishift() {
   minishift config set memory 14GB
   minishift config set cpus 4
 
-  echo "======== Launch minishift ========"
+  echo "========   ========"
   minishift start
 
   oc login -u system:admin
@@ -93,7 +93,7 @@ function createTestUserAndObtainUserToken() {
 
   ADMIN_USERNAME=admin
   ADMIN_PASS=admin
-  TEST_USERNAME=admin
+  TEST_USERNAME=developer
 
   echo "======== Getting admin token ========"
   ADMIN_ACCESS_TOKEN=$(curl -k -X POST $KEYCLOAK_BASE_URL/realms/master/protocol/openid-connect/token -H "Content-Type: application/x-www-form-urlencoded" -d "username=admin" -d "password=admin" -d "grant_type=password" -d "client_id=admin-cli" | jq -r .access_token)
@@ -128,8 +128,8 @@ createTestWorkspaceAndRunTest() {
   -e TS_SELENIUM_BASE_URL="$CHE_URL" \
   -e TS_SELENIUM_LOG_LEVEL=DEBUG \
   -e TS_SELENIUM_MULTIUSER=true \
-  -e TS_SELENIUM_USERNAME="admin" \
-  -e TS_SELENIUM_PASSWORD="admin" \
+  -e TS_SELENIUM_USERNAME="developer" \
+  -e TS_SELENIUM_PASSWORD="developer" \
   -e TS_SELENIUM_DEFAULT_TIMEOUT=300000 \
   -e TS_SELENIUM_WORKSPACE_STATUS_POLLING=20000 \
   -e TS_SELENIUM_LOAD_PAGE_TIMEOUT=420000 \
