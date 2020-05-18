@@ -40,7 +40,7 @@ ENV USE_DIGESTS=${USE_DIGESTS}
 # NOTE: uncomment for local build. Must also set full registry path in FROM to registry.redhat.io or registry.access.redhat.com
 # enable rhel 7 or 8 content sets (from Brew) to resolve jq as rpm
 COPY ./build/dockerfiles/content_set*.repo /etc/yum.repos.d/
-
+COPY ./build/dockerfiles/fedora.repo /etc/yum.repos.d/
 COPY ./build/dockerfiles/rhel.install.sh /tmp
 RUN /tmp/rhel.install.sh && rm -f /tmp/rhel.install.sh
 
