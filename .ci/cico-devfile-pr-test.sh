@@ -1,5 +1,21 @@
 #!/bin/bash
 
+# Copyright (c) 2012-2020 Red Hat, Inc.
+# This program and the accompanying materials are made
+# available under the terms of the Eclipse Public License 2.0
+# which is available at https://www.eclipse.org/legal/epl-2.0/
+#
+# SPDX-License-Identifier: EPL-2.0
+#
+# Contributors:
+#   Red Hat, Inc. - initial API and implementation
+
+
+##############################################################
+###################### Functions #############################
+##############################################################
+
+
 function installOC() {
   OC_DIR_NAME=openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit
   curl -vL "https://github.com/openshift/origin/releases/download/v3.11.0/${OC_DIR_NAME}.tar.gz" --output ${OC_DIR_NAME}.tar.gz
@@ -60,15 +76,15 @@ function installAndStartMinishift() {
   minishift config set memory 14GB
   minishift config set cpus 4
 
-  echo "========   ========"
+  echo "======== Launch minishift ========"
   minishift start
 
   oc login -u system:admin
   oc adm policy add-cluster-role-to-user cluster-admin developer
   oc login -u developer -p developer
 
-  . "${SCRIPT_DIR}"/che-cert-generation.sh
-
+  . "${SCRIPT_DIR}"/che-cert_generation.sh
+  
   oc project default
   oc delete secret router-certs
 
@@ -86,37 +102,19 @@ function installAndStartMinishift() {
 }
 
 function createTestUserAndObtainUserToken() {
-
   ### Create user and obtain token
   KEYCLOAK_URL=$(oc get checluster eclipse-che -o jsonpath='{.status.keycloakURL}')
   KEYCLOAK_BASE_URL="${KEYCLOAK_URL}/auth"
 
-  ADMIN_USERNAME=admin
-  ADMIN_PASS=admin
   TEST_USERNAME=admin
+  TEST_PASSWORD=admin
 
-  echo "======== Getting admin token ========"
-  ADMIN_ACCESS_TOKEN=$(curl -k -X POST $KEYCLOAK_BASE_URL/realms/master/protocol/openid-connect/token -H "Content-Type: application/x-www-form-urlencoded" -d "username=admin" -d "password=admin" -d "grant_type=password" -d "client_id=admin-cli" | jq -r .access_token)
-  echo $ADMIN_ACCESS_TOKEN
-
-  echo "========Creating user========"
-  USER_JSON="{\"username\": \"${TEST_USERNAME}\",\"enabled\": true,\"emailVerified\": true,\"email\":\"test1@user.aa\"}"
-  echo $USER_JSON
-
-  curl -k -X POST $KEYCLOAK_BASE_URL/admin/realms/che/users -H "Authorization: Bearer ${ADMIN_ACCESS_TOKEN}" -H "Content-Type: application/json" -d "${USER_JSON}" -v
-  USER_ID=$(curl -k -X GET $KEYCLOAK_BASE_URL/admin/realms/che/users?username=${TEST_USERNAME} -H "Authorization: Bearer ${ADMIN_ACCESS_TOKEN}" | jq -r .[0].id)
-  echo "========User id: $USER_ID========"
-
-  echo "========Updating password========"
-  CREDENTIALS_JSON={\"type\":\"password\",\"value\":\"${TEST_USERNAME}\",\"temporary\":false}
-  echo $CREDENTIALS_JSON
-
-  curl -k -X PUT $KEYCLOAK_BASE_URL/admin/realms/che/users/${USER_ID}/reset-password -H "Authorization: Bearer ${ADMIN_ACCESS_TOKEN}" -H "Content-Type: application/json" -d "${CREDENTIALS_JSON}" -v
-  export USER_ACCESS_TOKEN=$(curl -k -X POST $KEYCLOAK_BASE_URL/realms/che/protocol/openid-connect/token -H "Content-Type: application/x-www-form-urlencoded" -d "username=${TEST_USERNAME}" -d "password=${TEST_USERNAME}" -d "grant_type=password" -d "client_id=che-public" | jq -r .access_token)
+  export USER_ACCESS_TOKEN=$(curl -k -v -X POST $KEYCLOAK_BASE_URL/realms/che/protocol/openid-connect/token -H "Content-Type: application/x-www-form-urlencoded" -d "username=${TEST_USERNAME}" -d "password=${TEST_PASSWORD}" -d "grant_type=password" -d "client_id=che-public" | jq -r .access_token)
   echo "========User Access Token: $USER_ACCESS_TOKEN "
+
 }
 
-createTestWorkspaceAndRunTest() {
+function createTestWorkspaceAndRunTest() {
   CHE_URL=$(oc get checluster eclipse-che -o jsonpath='{.status.cheURL}')
 
   ### Create directory for report
@@ -168,7 +166,9 @@ function installJQ() {
   yum install --assumeyes -d1 jq
 }
 
-
+##############################################################
+######################## Running #############################
+##############################################################
 
 set -x
 
@@ -206,6 +206,8 @@ spec:
   server:
     devfileRegistryImage: $IMAGE_NAME
     selfSignedCert: true
+  auth:
+    updateAdminPassword: false
 EOL
 
 echo "======= Che cr patch ======="
@@ -228,7 +230,7 @@ fi
 
 #Run tests
 
-# createTestUserAndObtainUserToken
+createTestUserAndObtainUserToken
 
 createTestWorkspaceAndRunTest
 
