@@ -172,7 +172,7 @@ function installJQ() {
 
 set -x
 
-export IS_TESTS_FAILED=false
+export IS_TESTS_FAILED="false"
 export FAIL_MESSAGE="Build failed."
 
 SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
@@ -240,5 +240,9 @@ getOpenshiftLogs
 archiveArtifacts "che-devfile-registry-prcheck"
 
 if [ "$IS_TESTS_FAILED" == "true" ]; then
+  exit 1;
+fi
+
+if [ "$IS_TESTS_FAILED" == "false" ]; then
   exit 1;
 fi
