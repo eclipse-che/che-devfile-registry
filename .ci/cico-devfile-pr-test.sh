@@ -83,7 +83,7 @@ function installAndStartMinishift() {
   oc adm policy add-cluster-role-to-user cluster-admin developer
   oc login -u developer -p developer
 
-  . "${SCRIPT_DIR}"/che-cert_generation.sh
+  . "${SCRIPT_DIR}"/che-cert-generation.sh
   
   oc project default
   oc delete secret router-certs
