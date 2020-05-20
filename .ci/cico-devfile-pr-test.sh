@@ -131,7 +131,7 @@ function createTestWorkspaceAndRunTest() {
   -e TS_SELENIUM_DEFAULT_TIMEOUT=300000 \
   -e TS_SELENIUM_WORKSPACE_STATUS_POLLING=20000 \
   -e TS_SELENIUM_LOAD_PAGE_TIMEOUT=420000 \
-  -e TEST_SUITE="test-all-devfiles" \
+  -e TEST_SUITE="test-java-vertx" \
   -e NODE_TLS_REJECT_UNAUTHORIZED=0 \
   quay.io/eclipse/che-e2e:nightly || IS_TESTS_FAILED=true
 }
@@ -172,6 +172,7 @@ function installJQ() {
 
 set -x
 
+export IS_TESTS_FAILED=false
 export FAIL_MESSAGE="Build failed."
 
 SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
@@ -237,3 +238,7 @@ createTestWorkspaceAndRunTest
 getOpenshiftLogs
 
 archiveArtifacts "che-devfile-registry-prcheck"
+
+if [ "$IS_TESTS_FAILED" == "true" ]; then
+  exit 1;
+fi
