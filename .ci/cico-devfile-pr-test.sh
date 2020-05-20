@@ -131,7 +131,7 @@ function createTestWorkspaceAndRunTest() {
   -e TS_SELENIUM_DEFAULT_TIMEOUT=300000 \
   -e TS_SELENIUM_WORKSPACE_STATUS_POLLING=20000 \
   -e TS_SELENIUM_LOAD_PAGE_TIMEOUT=420000 \
-  -e TEST_SUITE="test-java-vertx" \
+  -e TEST_SUITE="test-all-devfiles" \
   -e NODE_TLS_REJECT_UNAUTHORIZED=0 \
   quay.io/eclipse/che-e2e:nightly || IS_TESTS_FAILED=true
 }
