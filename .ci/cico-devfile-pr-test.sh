@@ -101,19 +101,6 @@ function installAndStartMinishift() {
   oc project che
 }
 
-function createTestUserAndObtainUserToken() {
-  ### Create user and obtain token
-  KEYCLOAK_URL=$(oc get checluster eclipse-che -o jsonpath='{.status.keycloakURL}')
-  KEYCLOAK_BASE_URL="${KEYCLOAK_URL}/auth"
-
-  TEST_USERNAME=admin
-  TEST_PASSWORD=admin
-
-  export USER_ACCESS_TOKEN=$(curl -k -v -X POST $KEYCLOAK_BASE_URL/realms/che/protocol/openid-connect/token -H "Content-Type: application/x-www-form-urlencoded" -d "username=${TEST_USERNAME}" -d "password=${TEST_PASSWORD}" -d "grant_type=password" -d "client_id=che-public" | jq -r .access_token)
-  echo "========User Access Token: $USER_ACCESS_TOKEN "
-
-}
-
 function createTestWorkspaceAndRunTest() {
   CHE_URL=$(oc get checluster eclipse-che -o jsonpath='{.status.cheURL}')
 
@@ -131,7 +118,7 @@ function createTestWorkspaceAndRunTest() {
   -e TS_SELENIUM_DEFAULT_TIMEOUT=300000 \
   -e TS_SELENIUM_WORKSPACE_STATUS_POLLING=20000 \
   -e TS_SELENIUM_LOAD_PAGE_TIMEOUT=420000 \
-  -e TEST_SUITE="test-java-vertx" \
+  -e TEST_SUITE="test-all-devfiles" \
   -e NODE_TLS_REJECT_UNAUTHORIZED=0 \
   quay.io/eclipse/che-e2e:nightly || IS_TESTS_FAILED=true
 }
@@ -231,8 +218,6 @@ fi
 
 #Run tests
 
-createTestUserAndObtainUserToken
-
 createTestWorkspaceAndRunTest
 
 getOpenshiftLogs
@@ -240,9 +225,5 @@ getOpenshiftLogs
 archiveArtifacts "che-devfile-registry-prcheck"
 
 if [ "$IS_TESTS_FAILED" == "true" ]; then
-  exit 1;
-fi
-
-if [ "$IS_TESTS_FAILED" == "false" ]; then
   exit 1;
 fi
