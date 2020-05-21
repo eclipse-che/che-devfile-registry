@@ -26,11 +26,11 @@ function installOC() {
 
 function getOpenshiftLogs() {
     echo "====== Che server logs ======"
-    oc logs "$(oc get pods --selector=component=che -o jsonpath="{.items[].metadata.name}")"  || true
+    oc logs $(oc get pods --selector=component=che -o jsonpath="{.items[].metadata.name}")  || true
     echo "====== Keycloak logs ======"
-    oc logs "$(oc get pods --selector=component=keycloak -o jsonpath="{.items[].metadata.name}")" || true
+    oc logs $(oc get pods --selector=component=keycloak -o jsonpath="{.items[].metadata.name}") || true
     echo "====== Che operator logs ======"
-    oc logs "$(oc get pods --selector=app=che-operator -o jsonpath="{.items[].metadata.name}")" || true
+    oc logs $(oc get pods --selector=app=che-operator -o jsonpath="{.items[].metadata.name}") || true
 }
 
 function installKVM() {
@@ -83,6 +83,7 @@ function installAndStartMinishift() {
   oc adm policy add-cluster-role-to-user cluster-admin developer
   oc login -u developer -p developer
 
+  # shellcheck disable=SC1090
   . "${SCRIPT_DIR}"/che-cert-generation.sh
   
   oc project default
@@ -105,11 +106,11 @@ function createTestWorkspaceAndRunTest() {
   CHE_URL=$(oc get checluster eclipse-che -o jsonpath='{.status.cheURL}')
 
   ### Create directory for report
-  cd /root/payload || exit 1
+  cd /root/payload
   mkdir report
   REPORT_FOLDER=$(pwd)/report
   ### Run tests
-  docker run --shm-size=1g --net=host  --ipc=host -v "$REPORT_FOLDER:/tmp/e2e/report:Z" \
+  docker run --shm-size=1g --net=host  --ipc=host -v $REPORT_FOLDER:/tmp/e2e/report:Z \
   -e TS_SELENIUM_BASE_URL="$CHE_URL" \
   -e TS_SELENIUM_LOG_LEVEL=DEBUG \
   -e TS_SELENIUM_MULTIUSER=true \
@@ -127,13 +128,13 @@ function archiveArtifacts() {
   JOB_NAME=$1
   DATE=$(date +"%m-%d-%Y-%H-%M")
   echo "Archiving artifacts from ${DATE} for ${JOB_NAME}/${BUILD_NUMBER}"
-  cd /root/payload || exit 1
+  cd /root/payload
   ls -la ./artifacts.key
   chmod 600 ./artifacts.key
-  chown "$(whoami)" ./artifacts.key
-  mkdir -p "./che/${JOB_NAME}/${BUILD_NUMBER}"
-  cp -R "./report ./che/${JOB_NAME}/${BUILD_NUMBER}/" | true
-  rsync --password-file=./artifacts.key -Hva --partial --relative "./che/${JOB_NAME}/${BUILD_NUMBER}" devtools@artifacts.ci.centos.org::devtools/
+  chown $(whoami) ./artifacts.key
+  mkdir -p ./che/${JOB_NAME}/${BUILD_NUMBER}
+  cp -R ./report ./che/${JOB_NAME}/${BUILD_NUMBER}/ | true
+  rsync --password-file=./artifacts.key -Hva --partial --relative ./che/${JOB_NAME}/${BUILD_NUMBER} devtools@artifacts.ci.centos.org::devtools/
 }
 
 function installEpelRelease() {
@@ -162,7 +163,8 @@ set -x
 export IS_TESTS_FAILED="false"
 export FAIL_MESSAGE="Build failed."
 
-SCRIPT_DIR=$(cd "$(dirname "$0") || exit 1"; pwd)
+# shellcheck disable=SC2164
+SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
 export SCRIPT_DIR
 
 # shellcheck disable=SC1090
@@ -174,6 +176,7 @@ setup_environment
 
 # Build & push.
 
+# shellcheck disable=SC2154
 export TAG="PR-${ghprbPullId}"
 export IMAGE_NAME="quay.io/eclipse/che-devfile-registry:$TAG"
 build_and_push
