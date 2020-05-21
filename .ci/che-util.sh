@@ -33,5 +33,7 @@ function createTestWorkspaceAndRunTest() {
   -e TEST_SUITE="test-all-devfiles" \
   -e NODE_TLS_REJECT_UNAUTHORIZED=0 \
   quay.io/eclipse/che-e2e:nightly || IS_TESTS_FAILED=true
+
+  export IS_TESTS_FAILED
 }
 
