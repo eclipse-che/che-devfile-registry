@@ -31,7 +31,7 @@ components:
   -
     type: dockerimage
     alias: mongo
-    image: docker.io/centos/mongodb-34-centos7
+    image: docker.io/centos/mongodb-36-centos7
     memoryLimit: 512Mi
     env:
       - name: MONGODB_USER
@@ -46,7 +46,7 @@ components:
       - name: mongo-storage
         containerPath: /var/lib/mongodb/data 
     endpoints:
-      - name: mongodb-34-centos7
+      - name: mongodb-36-centos7
         port: 27017
         attributes:
           discoverable: 'true'
