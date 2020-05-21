@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2155,SC2125
 
 #
 # Copyright (c) 2012-2020 Red Hat, Inc.
@@ -14,7 +15,6 @@
 #Declare CN
 export CA_CN=eclipse-che-signer
 
-# shellcheck disable=SC2155
 export DOMAIN=*.$(minishift ip).nip.io
 
 #Create Root Key

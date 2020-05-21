@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2046,SC2164,SC2086,SC1090,SC2154
 
 # Copyright (c) 2012-2020 Red Hat, Inc.
 # This program and the accompanying materials are made
@@ -83,7 +84,6 @@ function installAndStartMinishift() {
   oc adm policy add-cluster-role-to-user cluster-admin developer
   oc login -u developer -p developer
 
-  # shellcheck disable=SC1090
   . "${SCRIPT_DIR}"/che-cert-generation.sh
   
   oc project default
@@ -163,11 +163,9 @@ set -x
 export IS_TESTS_FAILED="false"
 export FAIL_MESSAGE="Build failed."
 
-# shellcheck disable=SC2164
 SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
 export SCRIPT_DIR
 
-# shellcheck disable=SC1090
 . "${SCRIPT_DIR}"/../cico_functions.sh
 
 load_jenkins_vars
@@ -176,7 +174,6 @@ setup_environment
 
 # Build & push.
 
-# shellcheck disable=SC2154
 export TAG="PR-${ghprbPullId}"
 export IMAGE_NAME="quay.io/eclipse/che-devfile-registry:$TAG"
 build_and_push
