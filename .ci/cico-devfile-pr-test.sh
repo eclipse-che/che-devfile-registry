@@ -11,7 +11,6 @@
 # Contributors:
 #   Red Hat, Inc. - initial API and implementation
 
-
 function getOpenshiftLogs() {
     echo "====== Che server logs ======"
     oc logs $(oc get pods --selector=component=che -o jsonpath="{.items[].metadata.name}")  || true
@@ -64,7 +63,6 @@ installOC
 installKVM
 installAndStartMinishift
 installJQ
-
 
 bash <(curl -sL https://www.eclipse.org/che/chectl/) --channel=next
 

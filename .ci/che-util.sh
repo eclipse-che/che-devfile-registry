@@ -11,8 +11,6 @@
 # Contributors:
 #   Red Hat, Inc. - initial API and implementation
 
-
-
 function createTestWorkspaceAndRunTest() {
   CHE_URL=$(oc get checluster eclipse-che -o jsonpath='{.status.cheURL}')
 
@@ -36,4 +34,3 @@ function createTestWorkspaceAndRunTest() {
 
   export IS_TESTS_FAILED
 }
-
