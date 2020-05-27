@@ -19,6 +19,9 @@ components:
     type: chePlugin
     id: broadcommfd/hlasm-language-support/latest
   - 
+    type: chePlugin
+    id: zowe/vscode-extension-for-zowe/latest
+  - 
     alias: zowe-cli
     type: kubernetes
     mountSources: true
@@ -31,43 +34,21 @@ components:
            metadata:
             name: zowe
            spec:
-            volumes:
-             - name: zowe
-               persistentVolumeClaim:
-                 claimName: zowe-claim
             containers:
              -
-              image: 'ca-docker-brightside-docker.bintray.io/cli-mainframe-basic-stack:2020-02-13T23-41-08'
+              image: 'ca-docker-brightside-docker.bintray.io/cli-mainframe-basic-stack:2020-05-26T14-11-41'
               env:
-               - name: THEIA_PLUGINS
-                 value: local-dir:///plugins
                - name: ZOWE_CLI_HOME
-                 value: /home/user/.zowe
+                 value: /projects/.zowe
               name: cli
               resources:
                limits:
                 memory: 1024Mi
-              volumeMounts:
-               - mountPath: /projects
-                 name: projects
-               - mountPath: /home/user/.zowe
-                 name: zowe
             initContainers:
              -
               name: plugin-container
-              image: 'ca-docker-brightside-docker.bintray.io/cli-mainframe-basic-plugins:2020-02-13T23-41-08'
-              command: ["/bin/sh", "-c", "if [ -z \"$(ls -1A /.zowe)\" ]; then cp -r /.zowe_init/* /.zowe; fi"]
+              image: 'ca-docker-brightside-docker.bintray.io/cli-mainframe-basic-plugins:2020-05-26T14-11-41'
+              command: ["/bin/sh", "-c", "if [ -z \"$(ls -1A /projects/.zowe)\" ]; then mkdir /projects/.zowe && cp -r /.zowe_init/* /projects/.zowe; fi"]
               volumeMounts:
-               - mountPath: /.zowe
-                 name: zowe
-          -
-           apiVersion: v1
-           kind: PersistentVolumeClaim
-           metadata:
-            name: zowe-claim
-           spec:
-            accessModes:
-             - ReadWriteOnce
-            resources:
-              requests:
-                storage: 128Mi
+               - mountPath: /projects
+                 name: projects
