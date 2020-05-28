@@ -35,16 +35,31 @@ function archiveArtifacts() {
 
 set -x
 
-export IS_TESTS_FAILED="false"
-export FAIL_MESSAGE="Build failed."
 
+#Download the "common-qe" functions
+DOWNLOADER_URL=https://raw.githubusercontent.com/eclipse/che/iokhrime-common-centos/.ci/common-qe/downloader.sh
+
+curl $DOWNLOADER_URL -o downloader.sh
+curl u+x downloader.sh
+
+
+#Import methods
 SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
 export SCRIPT_DIR
 
-. "${SCRIPT_DIR}"/che-util.sh
-. "${SCRIPT_DIR}"/installation-util.sh
+. "${SCRIPT_DIR}"/common-qe/che-util.sh
+. "${SCRIPT_DIR}"/common-qe/che-cert-generation.sh
+. "${SCRIPT_DIR}"/common-qe/common-util.sh
+. "${SCRIPT_DIR}"/common-qe/installation-util.sh
 
 . "${SCRIPT_DIR}"/../cico_functions.sh
+
+
+
+
+
+export IS_TESTS_FAILED="false"
+export FAIL_MESSAGE="Build failed."
 
 load_jenkins_vars
 install_deps
@@ -95,7 +110,7 @@ fi
 
 #Run tests
 
-createTestWorkspaceAndRunTest
+#createTestWorkspaceAndRunTest
 
 getOpenshiftLogs
 
