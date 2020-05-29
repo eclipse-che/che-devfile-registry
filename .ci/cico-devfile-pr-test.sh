@@ -38,10 +38,9 @@ set -x
 
 #Download the "common-qe" functions
 DOWNLOADER_URL=https://raw.githubusercontent.com/eclipse/che/iokhrime-common-centos/.ci/common-qe/downloader.sh
-
 curl $DOWNLOADER_URL -o downloader.sh
 curl u+x downloader.sh
-
+. ./downloader.sh
 
 #Import methods
 SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
