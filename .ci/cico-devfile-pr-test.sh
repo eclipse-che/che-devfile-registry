@@ -41,6 +41,10 @@ curl $DOWNLOADER_URL -o downloader.sh
 curl u+x downloader.sh
 . ./downloader.sh
 
+pwd
+ls -al
+ls -al common-qe
+
 #Import methods
 SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
 export SCRIPT_DIR
