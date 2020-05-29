@@ -34,7 +34,6 @@ function archiveArtifacts() {
 }
 
 set -x
-
 #Download the "common-qe" functions
 DOWNLOADER_URL=https://raw.githubusercontent.com/eclipse/che/iokhrime-common-centos/.ci/common-qe/downloader.sh
 curl $DOWNLOADER_URL -o downloader.sh
@@ -46,15 +45,15 @@ ls -al
 ls -al common-qe
 
 #Import methods
-SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
-export SCRIPT_DIR
+# SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
+# export SCRIPT_DIR
 
 . common-qe/che-util.sh
 . common-qe/che-cert-generation.sh
 . common-qe/common-util.sh
 . common-qe/installation-util.sh
 
-. "${SCRIPT_DIR}"/../cico_functions.sh
+. cico_functions.sh
 
 
 
