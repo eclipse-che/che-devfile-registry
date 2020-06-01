@@ -35,6 +35,7 @@ function archiveArtifacts() {
 }
 
 set -x
+set -e
 #Download the "common-qe" functions
 DOWNLOADER_URL=https://raw.githubusercontent.com/eclipse/che/iokhrime-common-centos/.ci/common-qe/downloader.sh
 curl $DOWNLOADER_URL -o downloader.sh
