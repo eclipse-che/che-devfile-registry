@@ -101,7 +101,7 @@ fi
 
 #Run tests
 
-createTestWorkspaceAndRunTest
+runTest
 
 getOpenshiftLogs
 
