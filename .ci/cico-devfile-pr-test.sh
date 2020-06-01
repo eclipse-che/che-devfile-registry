@@ -49,10 +49,10 @@ ls -al common-qe
 # SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
 # export SCRIPT_DIR
 
-. common-qe/che-util.sh
-. common-qe/che-cert-generation.sh
-. common-qe/common-util.sh
-. common-qe/installation-util.sh
+# . common-qe/che-util.sh
+# . common-qe/che-cert-generation.sh
+# . common-qe/common-util.sh
+# . common-qe/installation-util.sh
 
 . cico_functions.sh
 
