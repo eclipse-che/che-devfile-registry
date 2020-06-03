@@ -29,7 +29,7 @@ function archiveArtifacts() {
   chmod 600 ./artifacts.key
   chown $(whoami) ./artifacts.key
   mkdir -p ./che/${JOB_NAME}/${BUILD_NUMBER}
-  cp -R ./report ./che/${JOB_NAME}/${BUILD_NUMBER}/ | true
+  cp -R ./report ./che/${JOB_NAME}/${BUILD_NUMBER}/ || true
   rsync --password-file=./artifacts.key -Hva --partial --relative ./che/${JOB_NAME}/${BUILD_NUMBER} devtools@artifacts.ci.centos.org::devtools/
 }
 
@@ -90,7 +90,7 @@ else
     oc get all
     getOpenshiftLogs
     oc get checluster -o yaml || true
-    exit 1337
+    exit 133
 fi
 
 #Run tests
