@@ -55,7 +55,6 @@ ls -al common-qe
 #Import methods
 # . "$BUILD_SCRIPT_PATH"
 
-
 export IS_TESTS_FAILED="false"
 export FAIL_MESSAGE="Build failed."
 
