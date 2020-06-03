@@ -23,4 +23,6 @@ export SCRIPT_DIR
 load_jenkins_vars
 install_deps
 setup_environment
+check_buildx_support
 build_and_push
+

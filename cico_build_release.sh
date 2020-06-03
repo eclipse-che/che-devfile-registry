@@ -27,4 +27,6 @@ setup_environment
 
 build_patched_base_images
 build_happy_path_image
+check_buildx_support
 build_and_push_release
+
