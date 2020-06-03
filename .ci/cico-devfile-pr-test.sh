@@ -58,6 +58,8 @@ ls -al common-qe
 export IS_TESTS_FAILED="false"
 export FAIL_MESSAGE="Build failed."
 
+. cico_functions.sh
+
 load_jenkins_vars
 install_deps
 setup_environment
