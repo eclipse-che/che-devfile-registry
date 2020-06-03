@@ -13,27 +13,27 @@
 
 
 
-function getOpenshiftLogs() {
-    echo "====== Che server logs ======"
-    oc logs $(oc get pods --selector=component=che -o jsonpath="{.items[].metadata.name}")  || true
-    echo "====== Keycloak logs ======"
-    oc logs $(oc get pods --selector=component=keycloak -o jsonpath="{.items[].metadata.name}") || true
-    echo "====== Che operator logs ======"
-    oc logs $(oc get pods --selector=app=che-operator -o jsonpath="{.items[].metadata.name}") || true
-}
+# function getOpenshiftLogs() {
+#     echo "====== Che server logs ======"
+#     oc logs $(oc get pods --selector=component=che -o jsonpath="{.items[].metadata.name}")  || true
+#     echo "====== Keycloak logs ======"
+#     oc logs $(oc get pods --selector=component=keycloak -o jsonpath="{.items[].metadata.name}") || true
+#     echo "====== Che operator logs ======"
+#     oc logs $(oc get pods --selector=app=che-operator -o jsonpath="{.items[].metadata.name}") || true
+# }
 
-function archiveArtifacts() {
-  JOB_NAME=$1
-  DATE=$(date +"%m-%d-%Y-%H-%M")
-  echo "Archiving artifacts from ${DATE} for ${JOB_NAME}/${BUILD_NUMBER}"
-  cd /root/payload
-  ls -la ./artifacts.key
-  chmod 600 ./artifacts.key
-  chown $(whoami) ./artifacts.key
-  mkdir -p ./che/${JOB_NAME}/${BUILD_NUMBER}
-  cp -R ./report ./che/${JOB_NAME}/${BUILD_NUMBER}/ | true
-  rsync --password-file=./artifacts.key -Hva --partial --relative ./che/${JOB_NAME}/${BUILD_NUMBER} devtools@artifacts.ci.centos.org::devtools/
-}
+# function archiveArtifacts() {
+#   JOB_NAME=$1
+#   DATE=$(date +"%m-%d-%Y-%H-%M")
+#   echo "Archiving artifacts from ${DATE} for ${JOB_NAME}/${BUILD_NUMBER}"
+#   cd /root/payload
+#   ls -la ./artifacts.key
+#   chmod 600 ./artifacts.key
+#   chown $(whoami) ./artifacts.key
+#   mkdir -p ./che/${JOB_NAME}/${BUILD_NUMBER}
+#   cp -R ./report ./che/${JOB_NAME}/${BUILD_NUMBER}/ | true
+#   rsync --password-file=./artifacts.key -Hva --partial --relative ./che/${JOB_NAME}/${BUILD_NUMBER} devtools@artifacts.ci.centos.org::devtools/
+# }
 
 set -x
 set -e
@@ -58,10 +58,12 @@ ls -al common-qe
 export IS_TESTS_FAILED="false"
 export FAIL_MESSAGE="Build failed."
 
-. cico_functions.sh
+# . cico_functions.sh
 
-load_jenkins_vars
-install_deps
+# load_jenkins_vars
+# install_deps
+# setup_environment
+
 setup_environment
 
 # Build & push.
@@ -73,10 +75,10 @@ buildAndPushRepoDockerImage "$TAG"
 # export FAIL_MESSAGE="Build passed. Image is available on $IMAGE_NAME"
 
 # Install test deps
-installOC
-installKVM
-installAndStartMinishift
-installJQ
+# installOC
+# installKVM
+# installAndStartMinishift
+# installJQ
 
 bash <(curl -sL https://www.eclipse.org/che/chectl/) --channel=next
 
