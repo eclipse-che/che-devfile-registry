@@ -37,7 +37,8 @@ function archiveArtifacts() {
 
 set -x
 set -e
-#Download the "common-qe" functions
+
+#Download and import the "common-qe" functions
 DOWNLOADER_URL=https://raw.githubusercontent.com/eclipse/che/iokhrime-common-centos/.ci/common-qe/downloader.sh
 curl $DOWNLOADER_URL -o downloader.sh
 chmod u+x downloader.sh
@@ -47,8 +48,12 @@ pwd
 ls -al
 ls -al common-qe
 
+
+# BUILD_SCRIPT_PATH=$(readConfigProperty build.script.path)
+# BUILD_AND_PUSH_METHOD_NAME=$(readConfigProperty build.and.push.method.name)
+
 #Import methods
-. cico_functions.sh
+# . "$BUILD_SCRIPT_PATH"
 
 
 export IS_TESTS_FAILED="false"
@@ -62,9 +67,9 @@ setup_environment
 
 export TAG="PR-${ghprbPullId}"
 export IMAGE_NAME="quay.io/eclipse/che-devfile-registry:$TAG"
-build_and_push
+buildAndPushRepoDockerImage "$TAG"
 
-export FAIL_MESSAGE="Build passed. Image is available on $IMAGE_NAME"
+# export FAIL_MESSAGE="Build passed. Image is available on $IMAGE_NAME"
 
 # Install test deps
 installOC
