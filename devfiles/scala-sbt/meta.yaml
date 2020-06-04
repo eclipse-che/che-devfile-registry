@@ -1,0 +1,6 @@
+---
+displayName: Scala sbt
+description: Scala Stack with OpenJDK 11 and sbt 1.3.10
+tags: ["Scala", "OpenJDK", "sbt", "Debian"]
+icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
+globalMemoryLimit: 2674Mi
