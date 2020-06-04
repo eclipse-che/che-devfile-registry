@@ -59,11 +59,12 @@ IMAGE_REGEX='([[:space:]]*"?)([._:a-zA-Z0-9-]*)/([._a-zA-Z0-9-]*)/([._a-zA-Z0-9-
 # RELATED_IMAGE_che_rust_1_39_devfile_registry_image_G4XDCMZOGIFA____=quay.io/eclipse/che-rust-1.39@sha256:3d9f36e6b3ed99c7a9959ac9476778ef5019add15b7c0f0b5f27b55587db3def
 if env | grep -q ".*devfile_registry_image.*"; then
   declare -A imageMap
-  ENV_IMAGES=($(env | grep ".*devfile_registry_image.*"))
-  for image in "${ENV_IMAGES[@]}"; do
-    tag=$(echo "${image}" | sed -e 's;.*registry_image_\(.*\)=.*;\1;' | tr _ = | base32 -d)
-    digest=$(echo "${image}" | sed -e 's;\(.*\)\(@sha256:\)\([._a-zA-Z0-9-]*\);\2\3;')
-    imageToReplace=$(echo "${image}" | sed -e 's;.*=\(.*\)\@.*;\1;'):${tag}
+  readarray -t ENV_IMAGES < <(env | grep ".*devfile_registry_image.*")
+  for imageEnv in "${ENV_IMAGES[@]}"; do
+    tag=$(echo "${imageEnv}" | sed -e 's;.*registry_image_\(.*\)=.*;\1;' | tr _ = | base32 -d)
+    imageWithDigest=${imageEnv#*=};
+    imageToReplace="${imageWithDigest%@*}:${tag}"
+    digest="@${imageWithDigest#*@}"
     imageMap["${imageToReplace}"]="${digest}"
   done
 
@@ -75,14 +76,14 @@ if env | grep -q ".*devfile_registry_image.*"; then
 
   readarray -t devfiles < <(find "${DEVFILES_DIR}" -name 'devfile.yaml')
   for devfile in "${devfiles[@]}"; do
-    images=($(grep "image:" "${devfile}" | sed -E "s;.*image:[[:space:]]*"?\(.*\)"?[[:space:]]*;\1;" | tr -d '"'))
+    readarray -t images < <(grep "image:" "${devfile}" | sed -E "s;.*image:[[:space:]]*"?\(.*\)"?[[:space:]]*;\1;" | tr -d '"')
     for image in "${images[@]}"; do
       digest="${imageMap[${image}]}"
-      if [[ ! -z "${digest}" ]]; then
+      if [[ -n "${digest}" ]]; then
         if [[ ${image} == *"@"* ]]
         then
           imageName="${image%@*}"
-          tagOrDigest="${image#*@}"
+          tagOrDigest="@${image#*@}"
         elif [[ ${image} == *":"* ]]
         then
           imageName="${image%:*}"
