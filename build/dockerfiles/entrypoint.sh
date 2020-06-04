@@ -45,36 +45,48 @@ INDEX_JSON="${DEVFILES_DIR}/index.json"
 #   \7 - Optional quotation following image reference
 IMAGE_REGEX='([[:space:]]*"?)([._:a-zA-Z0-9-]*)/([._a-zA-Z0-9-]*)/([._a-zA-Z0-9-]*)(@sha256)?:([._a-zA-Z0-9-]*)("?)'
 
-if [[ ! -z $(env | grep .*devfile_registry_image.*) ]];then
+# Extract and use env variables with image digest information.
+# Env variable name format: 
+# RELATED_IMAGES_(Image_name)_(Image_label)_(Encoded_base32_image_tag)
+# Where are:
+# "Image_name" - image name. Not valid chars for env variable name replaced to '_'.
+# "Image_label" - image target, for example 'devfile_registry_image'.
+# "Encoded_base32_image_tag_" - original image tag encoded to base32, to avoid invalid for env name chars. base32 alphabet has only 
+# one invalid character for env name: '='. That's why it was replaced to '_'. 
+# INFO: "=" for base32 it is pad character. If encoded string contains this char(s), then it is always located at the end of the string.
+# Env value it is image with digest to use.
+# Example env variable:
+# RELATED_IMAGE_che_rust_1_39_devfile_registry_image_G4XDCMZOGIFA____=quay.io/eclipse/che-rust-1.39@sha256:3d9f36e6b3ed99c7a9959ac9476778ef5019add15b7c0f0b5f27b55587db3def
+if env | grep -q ".*devfile_registry_image.*"; then
   declare -A imageMap
-  ENV_IMAGES=$(env | grep .*devfile_registry_image.*)
-  for image in  ${ENV_IMAGES[@]}; do
-    tag=$(echo ${image} | sed -e 's;.*registry_image_\(.*\)=.*;\1;' | tr _ = | base32 -d)
-    digest=$(echo ${image} | sed -e 's;\(.*\)\(@sha256:\)\([._a-zA-Z0-9-]*\);\2\3;')
-    imageToReplace=$(echo ${image} | sed -e 's;.*=\(.*\)\@.*;\1;'):${tag}
-    imageMap[${imageToReplace}]=${digest}
+  ENV_IMAGES=($(env | grep ".*devfile_registry_image.*"))
+  for image in "${ENV_IMAGES[@]}"; do
+    tag=$(echo "${image}" | sed -e 's;.*registry_image_\(.*\)=.*;\1;' | tr _ = | base32 -d)
+    digest=$(echo "${image}" | sed -e 's;\(.*\)\(@sha256:\)\([._a-zA-Z0-9-]*\);\2\3;')
+    imageToReplace=$(echo "${image}" | sed -e 's;.*=\(.*\)\@.*;\1;'):${tag}
+    imageMap["${imageToReplace}"]="${digest}"
   done
 
   echo "--------------------------Digest map--------------------------"
   for KEY in "${!imageMap[@]}"; do
-    echo "Key: $KEY Value: ${imageMap[$KEY]}"
+    echo "Key: $KEY Value: ${imageMap[${KEY}]}"
   done
   echo "--------------------------------------------------------------"
 
   readarray -t devfiles < <(find "${DEVFILES_DIR}" -name 'devfile.yaml')
   for devfile in "${devfiles[@]}"; do
-    images=$(cat "${devfile}" | grep "image:" | sed -E "s;.*image:[[:space:]]*"?\(.*\)"?[[:space:]]*;\1;" | tr -d '"')
-    for image in ${images[@]}; do
-      digest=${imageMap[${image}]}
+    images=($(grep "image:" "${devfile}" | sed -E "s;.*image:[[:space:]]*"?\(.*\)"?[[:space:]]*;\1;" | tr -d '"'))
+    for image in "${images[@]}"; do
+      digest="${imageMap[${image}]}"
       if [[ ! -z "${digest}" ]]; then
         if [[ ${image} == *"@"* ]]
         then
-          imageName=$(echo "${image}" | sed -e "s;\(.*\)@.*;\1;")
-          tagOrDigest=$(echo "${image}" | sed -e "s;.*@\(.*\);\1;")
+          imageName="${image%@*}"
+          tagOrDigest="${image#*@}"
         elif [[ ${image} == *":"* ]]
         then
-          imageName=$(echo "${image}" | sed -e "s;\(.*\):.*;\1;")
-          tagOrDigest=$(echo "${image}" | sed -e "s;.*:\(.*\);\1;")
+          imageName="${image%:*}"
+          tagOrDigest="${image#*:}"
         else
           imageName=${image}
         fi
