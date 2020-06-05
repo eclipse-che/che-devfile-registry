@@ -14,7 +14,19 @@
 set -x
 set -e
 
+#Download and import the "common-qe" functions
 export IS_TESTS_FAILED="false"
+DOWNLOADER_URL=https://raw.githubusercontent.com/eclipse/che/iokhrime-common-centos/.ci/common-qe/downloader.sh
+curl $DOWNLOADER_URL -o downloader.sh
+chmod u+x downloader.sh
+. ./downloader.sh
+
+setConfigProperty "test.suite" "test-all-devfiles"
+setConfigProperty "env.setup.environment.script.path" "cico_functions.sh"
+setConfigProperty "env.setup.environment.method.name" "setup_environment"
+
+setup_environment
+
 export TAG="PR-${ghprbPullId}"
 export IMAGE_NAME="quay.io/eclipse/che-devfile-registry:$TAG"
 CHE_SERVER_PATCH="$(cat <<EOL
@@ -26,14 +38,6 @@ spec:
     updateAdminPassword: false
 EOL
 )"
-
-#Download and import the "common-qe" functions
-DOWNLOADER_URL=https://raw.githubusercontent.com/eclipse/che/iokhrime-common-centos/.ci/common-qe/downloader.sh
-curl $DOWNLOADER_URL -o downloader.sh
-chmod u+x downloader.sh
-. ./downloader.sh
-
-setup_environment
 
 buildAndPushRepoDockerImage "$TAG"
 
