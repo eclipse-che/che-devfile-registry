@@ -25,13 +25,7 @@ setConfigProperty "test.suite" "test-all-devfiles"
 setConfigProperty "env.setup.environment.script.path" "cico_functions.sh"
 setConfigProperty "env.setup.environment.method.name" "setup_environment"
 
-cat common-qe/common-qe-configuration.conf
-
-
 setup_environment
-
-cat common-qe/common-qe-configuration.conf
-
 
 export TAG="PR-${ghprbPullId}"
 export IMAGE_NAME="quay.io/eclipse/che-devfile-registry:$TAG"
@@ -45,25 +39,11 @@ spec:
 EOL
 )"
 
-cat common-qe/common-qe-configuration.conf
-
-
 buildAndPushRepoDockerImage "$TAG"
-
-
-cat common-qe/common-qe-configuration.conf
-
 
 installChectl
 
-cat common-qe/common-qe-configuration.conf
-
-
 startCheServer "$CHE_SERVER_PATCH"
-
-
-cat common-qe/common-qe-configuration.conf
-
 
 runTest
 
