@@ -17,4 +17,4 @@ data:
   {{ with .organization -}} CHE_DEVFILE_IMAGES_REGISTRY_ORGANIZATION: {{ . }} {{- end }}
   {{ with .tag -}} CHE_DEVFILE_IMAGES_REGISTRY_TAG: {{ . }} {{- end }}
   {{ end -}}
-  CHE_DEVFILE_REGISTRY_URL: http{{- if .Values.cheDevfileRegistryIngressSecretName -}}s{{- end -}}{{- printf "://che-devfile-registry-%s.%s" .Release.Namespace .Values.global.ingressDomain }}
+  CHE_DEVFILE_REGISTRY_URL: http{{- if .Values.cheDevfileRegistryIngressSecretName -}}s{{- end -}} :// {{- template "devfile.hostname" . -}} . {{- .Values.global.ingressDomain }}
