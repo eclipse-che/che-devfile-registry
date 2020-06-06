@@ -61,10 +61,14 @@ if env | grep -q ".*devfile_registry_image.*"; then
   declare -A imageMap
   readarray -t ENV_IMAGES < <(env | grep ".*devfile_registry_image.*")
   for imageEnv in "${ENV_IMAGES[@]}"; do
-    tag=$(echo "${imageEnv}" | sed -e 's;.*registry_image_\(.*\)=.*;\1;' | tr _ = | base32 -d)
+    tagOrDigest=$(echo "${imageEnv}" | sed -e 's;.*registry_image_\(.*\)=.*;\1;' | tr _ = | base32 -d)
+    if [[ ${tagOrDigest} == *"@"* ]]; then
+      # Well, image was "freezed", because it already has got digest, so do nothing.
+      continue
+    fi
     imageWithDigest=${imageEnv#*=};
-    if [[ -n "${tag}" ]]; then
-      imageToReplace="${imageWithDigest%@*}:${tag}"
+    if [[ -n "${tagOrDigest}" ]]; then
+      imageToReplace="${imageWithDigest%@*}:${tagOrDigest}"
     else
       imageToReplace="${imageWithDigest%@*}"
     fi
@@ -84,20 +88,15 @@ if env | grep -q ".*devfile_registry_image.*"; then
     for image in "${images[@]}"; do
       digest="${imageMap[${image}]}"
       if [[ -n "${digest}" ]]; then
-        if [[ ${image} == *"@"* ]]
-        then
-          imageName="${image%@*}"
-          tagOrDigest="@${image#*@}"
-        elif [[ ${image} == *":"* ]]
-        then
+        if [[ ${image} == *":"* ]]; then
           imageName="${image%:*}"
-          tagOrDigest="${image#*:}"
+          tag="${image#*:}"
         else
           imageName=${image}
-          tagOrDigest=""
+          tag=""
         fi
 
-        IMAGE_REGEX="([[:space:]]*\"?)(${imageName})(@sha256)?:?(${tagOrDigest})(\"?)"
+        IMAGE_REGEX="([[:space:]]*\"?)(${imageName})(@sha256)?:?(${tag})(\"?)"
         sed -i -E "s|image:${IMAGE_REGEX}|image:\1\2\3${digest}\5|" "$devfile"
       fi
     done
