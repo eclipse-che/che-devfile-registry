@@ -63,7 +63,11 @@ if env | grep -q ".*devfile_registry_image.*"; then
   for imageEnv in "${ENV_IMAGES[@]}"; do
     tag=$(echo "${imageEnv}" | sed -e 's;.*registry_image_\(.*\)=.*;\1;' | tr _ = | base32 -d)
     imageWithDigest=${imageEnv#*=};
-    imageToReplace="${imageWithDigest%@*}:${tag}"
+    if [[ -n "${tag}" ]]; then
+      imageToReplace="${imageWithDigest%@*}:${tag}"
+    else
+      imageToReplace="${imageWithDigest%@*}"
+    fi
     digest="@${imageWithDigest#*@}"
     imageMap["${imageToReplace}"]="${digest}"
   done
@@ -90,6 +94,7 @@ if env | grep -q ".*devfile_registry_image.*"; then
           tagOrDigest="${image#*:}"
         else
           imageName=${image}
+          tagOrDigest=""
         fi
 
         IMAGE_REGEX="([[:space:]]*\"?)(${imageName})(@sha256)?:?(${tagOrDigest})(\"?)"
