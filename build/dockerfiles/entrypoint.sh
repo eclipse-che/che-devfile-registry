@@ -84,7 +84,7 @@ if env | grep -q ".*devfile_registry_image.*"; then
 
   readarray -t devfiles < <(find "${DEVFILES_DIR}" -name 'devfile.yaml')
   for devfile in "${devfiles[@]}"; do
-    readarray -t images < <(grep "image:" "${devfile}" | sed -E "s;.*image:[[:space:]]*"?\(.*\)"?[[:space:]]*;\1;" | tr -d '"' | tr -d ' ')
+    readarray -t images < <(grep "image:" "${devfile}" | sed -r "s;.*image:[[:space:]]*'?\"?([a-zA-Z0-9:.@_/-]*)'?\"?[[:space:]]*;\1;")
     for image in "${images[@]}"; do
       digest="${imageMap[${image}]}"
       if [[ -n "${digest}" ]]; then
@@ -96,8 +96,8 @@ if env | grep -q ".*devfile_registry_image.*"; then
           tag=""
         fi
 
-        IMAGE_REGEX="([[:space:]]*\"?)(${imageName})(@sha256)?:?(${tag})(\"?)"
-        sed -i -E "s|image:${IMAGE_REGEX}|image:\1\2\3${digest}\5|" "$devfile"
+        REGEX="([[:space:]]*\"?'?)(${imageName})(@sha256)?:?(${tag})(\"?'?)"
+        sed -i -E "s|image:${REGEX}|image:\1\2\3${digest}\5|" "$devfile"
       fi
     done
   done
