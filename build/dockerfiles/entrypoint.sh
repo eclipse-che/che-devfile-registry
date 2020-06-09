@@ -84,20 +84,28 @@ if env | grep -q ".*devfile_registry_image.*"; then
 
   readarray -t devfiles < <(find "${DEVFILES_DIR}" -name 'devfile.yaml')
   for devfile in "${devfiles[@]}"; do
-    readarray -t images < <(grep "image:" "${devfile}" | sed -r "s;.*image:[[:space:]]*'?\"?([a-zA-Z0-9:.@_/-]*)'?\"?[[:space:]]*;\1;")
+    readarray -t images < <(grep "image:" "${devfile}" | sed -r "s;.*image:[[:space:]]*'?\"?([._:a-zA-Z0-9-]*/?[._a-zA-Z0-9-]*/[._a-zA-Z0-9-]*(@sha256)?:?[._a-zA-Z0-9-]*)'?\"?[[:space:]]*;\1;")
     for image in "${images[@]}"; do
-      digest="${imageMap[${image}]}"
+      separators="${image//[^\/]}"
+      imageWithRegistry=""
+      if [ "${#separators}" == "1" ]; then
+        imageWithRegistry="docker.io/${image}"
+      else
+        imageWithRegistry="${image}"
+      fi
+
+      digest="${imageMap[${imageWithRegistry}]}"
       if [[ -n "${digest}" ]]; then
         if [[ ${image} == *":"* ]]; then
-          imageName="${image%:*}"
+          imageWithoutTag="${image%:*}"
           tag="${image#*:}"
         else
-          imageName=${image}
+          imageWithoutTag=${image}
           tag=""
         fi
 
-        REGEX="([[:space:]]*\"?'?)(${imageName})(@sha256)?:?(${tag})(\"?'?)"
-        sed -i -E "s|image:${REGEX}|image:\1\2\3${digest}\5|" "$devfile"
+        REGEX="([[:space:]]*\"?'?)(${imageWithoutTag}):?(${tag})(\"?'?)"
+        sed -i -E "s|image:${REGEX}|image:\1\2${digest}\4|" "${devfile}"
       fi
     done
   done
