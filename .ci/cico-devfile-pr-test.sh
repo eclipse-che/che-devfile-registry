@@ -16,7 +16,7 @@ set -e
 
 #Download and import the "common-qe" functions
 export IS_TESTS_FAILED="false"
-DOWNLOADER_URL=https://raw.githubusercontent.com/eclipse/che/iokhrime-common-centos/.ci/common-qe/downloader.sh
+DOWNLOADER_URL=https://raw.githubusercontent.com/eclipse/che/iokhrime-common-centos/tests/.infra/centos-ci/common-qe/downloader.sh
 curl $DOWNLOADER_URL -o downloader.sh
 chmod u+x downloader.sh
 . ./downloader.sh
@@ -39,7 +39,8 @@ spec:
 EOL
 )"
 
-buildAndPushRepoDockerImage "$TAG"
+. ./../cico_functions.sh
+build_and_push
 
 installChectl
 
