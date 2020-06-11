@@ -13,7 +13,7 @@ set -e
 REGISTRY="quay.io"
 ORGANIZATION="eclipse"
 TAG="nightly"
-TARGET="registry"
+TARGET="registry" # or offline-registry
 USE_DIGESTS=false
 DOCKERFILE="./build/dockerfiles/Dockerfile"
 
@@ -31,10 +31,10 @@ Options:
     --use-digests
         Build registry to use images pinned by digest instead of tag
     --offline
-        Build offline version of registry, with all sample projects
+        Build offline version of registry, with all artifacts included
         cached in the registry; disabled by default.
     --rhel
-        Build registry using UBI images instead of default
+        Build using the rhel.Dockerfile (UBI images) instead of default
 "
 
 function print_usage() {
@@ -87,15 +87,15 @@ case $VERSION in
         -t "${IMAGE}" \
         -f ${DOCKERFILE} \
         --build-arg "USE_DIGESTS=${USE_DIGESTS}" \
-        --target ${TARGET} .
+        --target "${TARGET}" .
     ;;
   *)
     echo "Release version specified in $(find . -name VERSION): Building plugin registry for release ${VERSION}."
     docker build \
         -t "${IMAGE}" \
-        -f ${DOCKERFILE} \
-        --build-arg "USE_DIGESTS=${USE_DIGESTS}" \
+        -f "${DOCKERFILE}" \
         --build-arg "PATCHED_IMAGES_TAG=${VERSION}" \
-        --target ${TARGET} .
+        --build-arg "USE_DIGESTS=${USE_DIGESTS}" \
+        --target "${TARGET}" .
     ;;
 esac
