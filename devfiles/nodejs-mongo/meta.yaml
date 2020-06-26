@@ -3,4 +3,4 @@ displayName: NodeJS MongoDB Web Application
 description: Stack with NodeJS 10 and MongoDB 3.4
 tags: ["NodeJS", "Express", "MongoDB", "RealWorld", "ubi8", "Centos"]
 icon: /images/nodejs.svg
-globalMemoryLimit: 1686Mi
+globalMemoryLimit: 2198Mi
