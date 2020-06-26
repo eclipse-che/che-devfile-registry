@@ -8,6 +8,7 @@ projects:
     source:
       type: git
       location: "https://github.com/spring-projects/spring-petclinic.git"
+      branch: main
 components:
   -
     type: chePlugin
