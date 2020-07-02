@@ -1,6 +1,6 @@
 ---
 displayName: Quarkus Tools
-description: Quarkus Tools with OpenJDK 8 and Maven 3.6.3
+description: Quarkus Tools with OpenJDK 11 and Maven 3.6.3
 tags: ["Java", "Quarkus", "OpenJDK", "Maven", "Debian"]
 icon: /images/quarkus.svg
 globalMemoryLimit: 2674Mi
