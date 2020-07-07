@@ -8,7 +8,7 @@ projects:
     source:
       type: git
       location: "https://github.com/che-samples/dotnet-web-simple"
-      branch: netcoreapp2.2
+      branch: netcoreapp3.1
 components:
   -
     type: chePlugin
@@ -23,7 +23,7 @@ components:
   -
     type: dockerimage
     alias: dotnet
-    image: quay.io/eclipse/che-dotnet-2.2:nightly
+    image: quay.io/eclipse/che-dotnet-3.1:nightly
     memoryLimit: 512Mi
     endpoints:
       - name: '5000-tcp'
@@ -64,7 +64,7 @@ commands:
               {
                   "type": "netcoredbg",
                   "request": "launch",
-                  "program": "/projects/dotnet-web-simple/bin/Debug/netcoreapp2.2/web.dll",
+                  "program": "/projects/dotnet-web-simple/bin/Debug/netcoreapp3.1/web.dll",
                   "args": [],
                   "name": ".NET Core Launch (console)",
                   "stopAtEntry": false,
