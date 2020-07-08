@@ -37,7 +37,8 @@ RUN apk add --no-cache bash && \
     mkdir -m 777 /usr/local/apache2/htdocs/devfiles && \
     mkdir -p /var/www && ln -s /usr/local/apache2/htdocs /var/www/html && \
     chmod -R g+rwX /usr/local/apache2 && \
-    echo "ServerName localhost" >> /usr/local/apache2/conf/httpd.conf
+    echo "ServerName localhost" >> /usr/local/apache2/conf/httpd.conf && \
+    apk add --no-cache coreutils
 COPY .htaccess README.md /usr/local/apache2/htdocs/
 COPY --from=builder /build/devfiles /usr/local/apache2/htdocs/devfiles
 COPY ./images /usr/local/apache2/htdocs/images
