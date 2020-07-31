@@ -5,7 +5,7 @@ DirectoryIndex README.md
 AddType image/svg+xml svg svgz
 AddEncoding gzip svgz
 
-<FilesMatch "\.(json|yaml|svg|png)$">
+<FilesMatch "\.(json|yaml)$">
 
   <IfModule mod_expires.c>
     ExpiresActive Off
@@ -21,4 +21,14 @@ AddEncoding gzip svgz
     Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
     Header set Expires "Mon, 10 Apr 1972 00:00:00 GMT"
   </IfModule>
+</FilesMatch>
+
+<FilesMatch "\.(svg|png)$">
+
+  <IfModule mod_expires.c>
+    ExpiresActive on
+    # Set the default expiry times.
+    ExpiresDefault "access plus 1 days"
+  </IfModule>
+
 </FilesMatch>
