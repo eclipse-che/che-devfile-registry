@@ -55,7 +55,7 @@ commands:
         type: exec
         component: centos-quarkus-maven
         command: >-
-          read 'Enter your name [Eclipse Che]: ' name
+          read -p 'Enter your name [Eclipse Che]: ' name
           name=${name:-'Eclipse Che'}
           set -o xtrace;
           mvn compile quarkus:dev -Dquarkus.args="$name"
@@ -76,7 +76,7 @@ commands:
         type: exec
         component: ubi-minimal
         command: >-
-          read 'Enter your name [Eclipse Che]: ' name
+          read -p 'Enter your name [Eclipse Che]: ' name
           name=${name:-'Eclipse Che'}
           set -o xtrace;
           ./getting-started-command-mode-1.0-SNAPSHOT-runner $name
