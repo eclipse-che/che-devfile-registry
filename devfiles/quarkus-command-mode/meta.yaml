@@ -1,0 +1,6 @@
+---
+displayName: Quarkus command mode
+description: Quarkus command mode with OpenJDK 11 and Maven 3.6.3
+tags: ["Java", "Quarkus", "OpenJDK", "Maven", "Debian"]
+icon: /images/quarkus.svg
+globalMemoryLimit: 2674Mi
