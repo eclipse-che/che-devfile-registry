@@ -9,19 +9,14 @@ projects:
       type: git
       location: 'https://github.com/che-samples/cpp-hello-world'
 components:
--
-  type: chePlugin
-  id: che-incubator/cpptools/latest
-  alias: cpp-plugin
-  preferences:
-    clangd.path: /usr/bin/clangd
-    cdt.clangd.binaries.enable: false
--
-  type: dockerimage
-  alias: cpp-dev
-  image: quay.io/eclipse/che-cpp-rhel7:nightly
-  memoryLimit: 512Mi
-  mountSources: true
+  - type: chePlugin
+    id: eclipse-cdt/cdt-vscode/latest
+    alias: cpp-plugin
+  - type: dockerimage
+    alias: cpp-dev
+    image: quay.io/eclipse/che-cpp-rhel7:nightly
+    memoryLimit: 512Mi
+    mountSources: true
 commands:
   -
     name: build
