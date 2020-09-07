@@ -18,10 +18,6 @@ projects:
 
 components:
 -
-  type: cheEditor
-  id: eclipse/che-theia/next
-  memoryLimit: 1Gi
--
   type: chePlugin
   id: golang/go/latest
   alias: go-plugin
