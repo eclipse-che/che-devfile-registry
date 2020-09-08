@@ -17,7 +17,7 @@ components:
     type: dockerimage
     alias: nodejs
     image: quay.io/eclipse/che-nodejs10-community:nightly
-    memoryLimit: 1Gi
+    memoryLimit: 1500Mi
     endpoints:
       - name: 'nodejs'
         port: 3000
@@ -28,7 +28,7 @@ commands:
     actions:
       - type: exec
         component: nodejs
-        command: yarn install
+        command: npm install
         workdir: ${CHE_PROJECTS_ROOT}/react-web-app
   -
     name: build the app
