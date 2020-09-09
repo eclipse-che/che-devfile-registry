@@ -7,6 +7,7 @@ che-java11-gradle       gradle:6.2.1-jdk11
 che-java11-maven        maven:3.6.3-jdk-11
 che-java8-maven         maven:3.6.1-jdk-8
 che-nodejs10-community  node:10.16
+che-nodejs12-community  node:12.18
 che-nodejs10-ubi        registry.access.redhat.com/ubi8/nodejs-10
 che-nodejs8-centos      registry.centos.org/che-stacks/centos-nodejs
 che-php-7               quay.io/eclipse/che-php-base:7.4
