@@ -16,36 +16,43 @@ components:
   -
     type: dockerimage
     alias: nodejs
-    image: quay.io/eclipse/che-nodejs10-community:nightly
-    memoryLimit: 1Gi
+    image: quay.io/eclipse/che-nodejs12-community:nightly
+    memoryLimit: 1500Mi
     endpoints:
       - name: 'nodejs'
         port: 3000
     mountSources: true
 commands:
   -
-    name: install all required dependencies
+    name: 1. Install Yarn 2
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn set version berry
+        workdir: ${CHE_PROJECTS_ROOT}/react-web-app
+  -
+    name: 2. Install all required dependencies
     actions:
       - type: exec
         component: nodejs
         command: yarn install
         workdir: ${CHE_PROJECTS_ROOT}/react-web-app
   -
-    name: build the app
+    name: 3. Build the app
     actions:
       - type: exec
         component: nodejs
         command: yarn build
         workdir: ${CHE_PROJECTS_ROOT}/react-web-app
   -
-    name: run the app
+    name: 4. Run the app
     actions:
       - type: exec
         component: nodejs
         command: yarn start
         workdir: ${CHE_PROJECTS_ROOT}/react-web-app
   -
-    name: launch tests
+    name: 5. Launch tests
     actions:
       - type: exec
         component: nodejs
