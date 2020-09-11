@@ -3,7 +3,7 @@ che-dotnet-2.2          mcr.microsoft.com/dotnet/core/sdk:2.2-stretch
 che-dotnet-3.1          mcr.microsoft.com/dotnet/core/sdk:3.1.301-buster
 che-golang-1.12         golang:1.12-stretch
 che-golang-1.14         golang:1.14-stretch
-che-java11-gradle       gradle:6.2.1-jdk11
+che-java11-gradle       gradle:6.6.1-jdk11
 che-java11-maven        maven:3.6.3-jdk-11
 che-java8-maven         maven:3.6.1-jdk-8
 che-nodejs10-community  node:10.16
