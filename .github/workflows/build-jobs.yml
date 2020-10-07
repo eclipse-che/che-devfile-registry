@@ -1,0 +1,30 @@
+#
+# Copyright (c) 2020 Red Hat, Inc.
+# This program and the accompanying materials are made
+# available under the terms of the Eclipse Public License 2.0
+# which is available at https://www.eclipse.org/legal/epl-2.0/
+#
+# SPDX-License-Identifier: EPL-2.0
+#
+
+name: CI Build/Push
+
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  nightly-build-push:
+    env:
+      QUAY_ECLIPSE_CHE_USERNAME: ${{ secrets.QUAY_DOCKER_USERNAME }}
+      QUAY_ECLIPSE_CHE_PASSWORD: ${{ secrets.QUAY_DOCKER_PASSWORD }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone source code
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: Build and push image
+        run: /bin/bash cico_build_nightly.sh
