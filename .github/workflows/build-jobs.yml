@@ -17,8 +17,8 @@ on:
 jobs:
   nightly-build-push:
     env:
-      QUAY_ECLIPSE_CHE_USERNAME: ${{ secrets.QUAY_DOCKER_USERNAME }}
-      QUAY_ECLIPSE_CHE_PASSWORD: ${{ secrets.QUAY_DOCKER_PASSWORD }}
+      QUAY_ECLIPSE_CHE_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_ECLIPSE_CHE_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
     runs-on: ubuntu-latest
     steps:
       - name: Clone source code
