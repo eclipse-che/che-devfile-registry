@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-name: CI Build/Push
+name: Build/Push
 
 on:
   push:
