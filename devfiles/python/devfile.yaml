@@ -26,5 +26,13 @@ commands:
       -
         type: exec
         component: python
-        command: "python hello-world.py"
-        workdir: ${CHE_PROJECTS_ROOT}/python-hello-world
+        command: '. ${CHE_PROJECTS_ROOT}/.venv/bin/activate &&  python hello-world.py'
+        workdir: '${CHE_PROJECTS_ROOT}/python-hello-world'
+  -
+    name: set up venv
+    actions:
+      -
+        type: exec
+        workdir: '${CHE_PROJECTS_ROOT}/'
+        command: python -m venv /projects/.venv
+        component: python
