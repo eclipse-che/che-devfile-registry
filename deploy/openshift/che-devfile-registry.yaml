@@ -107,6 +107,9 @@ objects:
       app.kubernetes.io/instance: che
       app.kubernetes.io/component: devfile-registry
   spec:
+    tls:
+      termination:
+        edge
     to:
       kind: Service
       name: che-devfile-registry
