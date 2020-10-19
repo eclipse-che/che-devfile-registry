@@ -16,3 +16,4 @@ che-python-3.7          python:3.7.4-slim
 che-python-3.8          python:3.8.6-slim
 che-quarkus             quay.io/quarkus/centos-quarkus-maven:20.1.0-java11
 che-rust-1.39           rust:1.39.0-slim
+che-rust-1.47           rust:1.47.0-slim
