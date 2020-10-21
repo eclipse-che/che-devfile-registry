@@ -7,7 +7,6 @@ projects:
     source:
       type: git
       location: 'https://github.com/che-samples/django-realworld-example-app'
-      commitId: 0d425480c1b28d6063c255e7c4fa869eb1709d85
 components:
   -
     type: chePlugin
