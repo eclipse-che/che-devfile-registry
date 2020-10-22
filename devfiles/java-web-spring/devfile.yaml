@@ -14,6 +14,8 @@ components:
     type: chePlugin
     id: redhat/java11/latest
     memoryLimit: 1512Mi
+    preferences:
+      java.server.launchMode: Standard
   -
     type: dockerimage
     alias: tools
