@@ -19,7 +19,7 @@ components:
     memoryLimit: 260Mi
   -
     type: chePlugin
-    id: redhat/java/latest
+    id: redhat/java8/latest
     memoryLimit: 1360Mi
   -
     type: dockerimage
