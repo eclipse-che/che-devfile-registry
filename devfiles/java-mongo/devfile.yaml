@@ -40,6 +40,10 @@ components:
       discoverable: 'true'
       public: 'true'
     port: 8443
+  - name: debug
+    attributes:
+      public: 'false'
+    port: 5005
   volumes:
   - name: m2
     containerPath: /home/user/.m2

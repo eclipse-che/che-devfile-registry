@@ -47,6 +47,10 @@ components:
     endpoints:
       - name: '8080-tcp'
         port: 8080
+      - name: 'debug'
+        port: 5005
+        attributes:
+          public: 'false'
     mountSources: true
 commands:
   -

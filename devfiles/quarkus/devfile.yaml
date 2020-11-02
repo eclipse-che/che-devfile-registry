@@ -35,8 +35,12 @@ components:
         port: 8080
         attributes:
           path: /hello/greeting/che-user
-
-  - type: dockerimage
+      - name: 'debug'
+        port: 5005
+        attributes:
+          public: 'false'
+  -
+    type: dockerimage
     alias: ubi-minimal
     image: 'registry.access.redhat.com/ubi8/ubi-minimal'
     memoryLimit: 32M
