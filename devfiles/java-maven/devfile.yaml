@@ -40,6 +40,11 @@ components:
     volumes:
       - name: m2
         containerPath: /home/user/.m2
+    endpoints:
+      - name: 'debug'
+        port: 5005
+        attributes:
+          public: 'false'
 commands:
   -
     name: maven build

@@ -37,6 +37,11 @@ components:
       - name: gradle
         containerPath: /home/gradle/.gradle
     mountSources: true
+    endpoints:
+      - name: 'debug'
+        port: 5005
+        attributes:
+          public: 'false'
 commands:
   -
     name: gradle build

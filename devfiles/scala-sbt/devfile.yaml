@@ -44,6 +44,11 @@ components:
         containerPath: /home/user/.cache/metals
       - name: bloop
         containerPath: /home/user/.cache/bloop
+    endpoints:
+      - name: 'debug'
+        port: 5005
+        attributes:
+          public: 'false'
 commands:
   -
     name: sbt REPL

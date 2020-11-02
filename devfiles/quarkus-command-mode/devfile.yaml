@@ -30,8 +30,13 @@ components:
     volumes:
       - name: m2
         containerPath: /home/user/.m2
-
-  - type: dockerimage
+    endpoints:
+      - name: 'debug'
+        port: 5005
+        attributes:
+          public: 'false'
+  -
+    type: dockerimage
     alias: ubi-minimal
     image: 'registry.access.redhat.com/ubi8/ubi-minimal'
     memoryLimit: 32M
