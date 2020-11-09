@@ -11,11 +11,11 @@ projects:
 components:
 -
   type: chePlugin
-  id: redhat/php/latest
+  id: bmewburn/vscode-intelephense-client/latest
   memoryLimit: 1Gi
 -
   type: chePlugin
-  id: redhat/php-debugger/latest
+  id: felixfbecker/vscode-php-debug/latest
   memoryLimit: 256Mi
 -
   type: dockerimage
