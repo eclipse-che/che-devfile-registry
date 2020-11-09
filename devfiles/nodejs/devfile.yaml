@@ -16,6 +16,8 @@ components:
   - 
     type: chePlugin
     id: ms-vscode/node-debug2/latest
+    preferences:
+      debug.node.useV3: false
   -
     type: dockerimage
     alias: nodejs
