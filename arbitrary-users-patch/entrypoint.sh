@@ -15,7 +15,7 @@ fi
 
 # Setup $PS1 for a consistent and reasonable prompt
 if [ -w "${HOME}" ] && [ ! -f "${HOME}"/.bashrc ]; then
-  echo "PS1='\s-\v \w \$ '" > "${HOME}"/.bashrc
+  echo "PS1='\[\e[38;5;69m\]$CHE_WORKSPACE_NAMESPACE\[\e[0;39m\]@\[\e[38;5;220m\]$CHE_WORKSPACE_NAME\[\e[0;39m\] 🟢 $CHE_MACHINE_NAME\[\e[0;39m\]:\[\e[38;5;172m\]\w\[\e[0;39m\]\[\e[1;32m\]\[\e[0;39m\] \n\[\e[38;5;172m\]>_ \[\e[1;39m\]'" > "${HOME}"/.bashrc
 fi
 
 # Add current (arbitrary) user to /etc/passwd and /etc/group
