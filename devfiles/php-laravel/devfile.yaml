@@ -32,7 +32,7 @@ components:
 -
   type: dockerimage
   alias: mysql
-  image: quay.io/eclipse/che--centos--mysql-57-centos7:latest-a915db7beca87198fcd7860086989fe8a327a1a4f6508025b64ab28fcc7423b2
+  image: quay.io/eclipse/che--centos--mysql-57-centos7:latest-e08ee4d43b7356607685b69bde6335e27cf20c020f345b6c6c59400183882764
   env:
     - name: MYSQL_USER
       value: homestead
