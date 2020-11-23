@@ -48,7 +48,7 @@ components:
       port: 3306
       attributes:
         discoverable: "true"
-  mountSources: false
+  mountSources: true
 commands:
 -
   name: Start Artisan Web Server
