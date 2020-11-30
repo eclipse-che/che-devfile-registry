@@ -8,6 +8,7 @@ projects:
   source:
     type: git
     location: "https://github.com/symfony/demo.git"
+    branch: main
 components:
 -
   type: chePlugin
