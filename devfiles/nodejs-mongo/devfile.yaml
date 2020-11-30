@@ -56,6 +56,7 @@ components:
         attributes:
           discoverable: 'true'
           public: 'false'
+    mountSources: true
 commands:
   -
     name: run the application

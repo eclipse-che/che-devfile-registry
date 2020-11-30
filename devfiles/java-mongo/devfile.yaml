@@ -70,6 +70,7 @@ components:
   volumes:
   - name: mongodb_data
     containerPath: /var/lib/mongodb/data
+  mountSources: true
 commands:
 -
   name: maven build backend
