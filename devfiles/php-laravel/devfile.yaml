@@ -15,7 +15,7 @@ components:
   memoryLimit: 1Gi
 -
   type: chePlugin
-  id: felixfbecker/vscode-php-debug/latest
+  id: felixfbecker/php-debug/latest
   memoryLimit: 256Mi
 -
   type: dockerimage
