@@ -26,12 +26,18 @@ jobs:
           fetch-depth: 1
           ref: release
 
-      - name: Login to quay.io
-        uses: docker/login-action@v1
+      - name: Login to Quay.io
+        uses: azure/docker-login@v1
         with:
-          registry: quay.io
+          login-server: quay.io
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
+
+      - name: Login to Docker Hub
+        uses: azure/docker-login@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and push patched base images and happy path image
         run: |
