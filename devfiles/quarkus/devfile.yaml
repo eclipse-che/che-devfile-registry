@@ -25,7 +25,7 @@ components:
           -Duser.home=/home/user"
       - name: MAVEN_OPTS
         value: $(JAVA_OPTS)  
-    memoryLimit: 4927M
+    memoryLimit: 4G
     mountSources: true
     volumes:
       - name: m2
