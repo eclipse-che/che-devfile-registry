@@ -6,7 +6,7 @@ projects:
     source:
       location: 'https://github.com/che-samples/lombok-demo.git'
       type: git
-      branch: master
+      branch: main
 components:
   - id: redhat/java8/latest
     type: chePlugin
