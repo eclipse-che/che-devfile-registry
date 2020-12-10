@@ -25,7 +25,7 @@ components:
           -Duser.home=/home/user"
       - name: MAVEN_OPTS
         value: $(JAVA_OPTS)  
-    memoryLimit: 4927M
+    memoryLimit: 4G
     mountSources: true
     volumes:
       - name: m2
@@ -71,7 +71,7 @@ commands:
       -
         type: exec
         component: centos-quarkus-maven
-        command: "mvn package -Dnative -Dmaven.test.skip"
+        command: "mvn package -Dnative -Dmaven.test.skip -Dquarkus.native.native-image-xmx=2G"
         workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started-command-mode
 
   -
