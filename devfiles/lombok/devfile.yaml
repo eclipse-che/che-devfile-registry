@@ -1,0 +1,68 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: javalombok-
+projects:
+  - name: lombok-demo
+    source:
+      location: 'https://github.com/che-samples/lombok-demo.git'
+      type: git
+      branch: master
+components:
+  - id: redhat/java8/latest
+    type: chePlugin
+    volumes:
+      - containerPath: /tmp/vscode-unpacked
+        name: lombok-java-unpacked
+    preferences:
+      java.jdt.ls.vmargs: -javaagent:/tmp/vscode-unpacked/lombok.jar
+  - type: chePlugin
+    id: gabrielbb/vscode-lombok/latest
+    volumes:
+      - containerPath: /tmp/vscode-unpacked
+        name: lombok-java-unpacked
+    alias: vscode-lombok
+  - id: eclipse/che-theia/next
+    type: cheEditor
+  - type: dockerimage
+    command:
+      - sh
+      - -c
+    args:
+      - until [ -d /tmp/vscode-unpacked/*lombok* ]; do sleep 1; done; cp $(find /tmp |grep lombok |grep jar) /tmp/vscode-unpacked/; sleep infinity
+    alias: java-lombok
+    image: quay.io/eclipse/che-java8-maven:nightly
+    env:
+      - name: MAVEN_CONFIG
+        value: >-
+          -javaagent:/tmp/vscode-unpacked/lombok.jar -XX:MaxRAMPercentage=50.0
+          -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20
+          -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m
+          -Djava.security.egd=file:/dev/./urandom -Duser.home=/home/user
+      - name: MAVEN_OPTS
+        value: >-
+          -XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
+          -Duser.home=/home/user
+      - name: JAVA_OPTS
+        value: >-
+          -XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4
+          -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true
+          -Xms20m -Djava.security.egd=file:/dev/./urandom -Duser.home=/home/user
+      - name: JAVA_TOOL_OPTIONS
+        value: >-
+          -XX:MaxRAMPercentage=50 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
+          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
+    memoryLimit: 512Mi
+    mountSources: true
+    volumes:
+      - name: m2
+        containerPath: /home/user/.m2
+      - name: lombok-java-unpacked
+        containerPath: /tmp/vscode-unpacked
+    endpoints:
+      - name: 8080/tcp
+        port: 8080

@@ -1,0 +1,6 @@
+---
+displayName: Java8 Lombok
+description: Java8 with Lombok engine
+tags: ["Java", "Lombok"]
+icon: /images/java.svg
+globalMemoryLimit: 2000Mi
