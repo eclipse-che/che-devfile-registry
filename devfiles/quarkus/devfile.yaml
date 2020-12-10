@@ -76,7 +76,7 @@ commands:
       -
         type: exec
         component: centos-quarkus-maven
-        command: "./mvnw package -Dnative -Dmaven.test.skip"
+        command: "./mvnw package -Dnative -Dmaven.test.skip -Dquarkus.native.native-image-xmx=2G"
         workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
 
   -
