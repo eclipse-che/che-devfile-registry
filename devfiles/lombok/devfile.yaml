@@ -16,7 +16,7 @@ components:
     preferences:
       java.jdt.ls.vmargs: -javaagent:/tmp/vscode-unpacked/lombok.jar
   - type: chePlugin
-    id: gabrielbb/vscode-lombok/latest
+    id: cool2k/vscode-lombok/latest
     volumes:
       - containerPath: /tmp/vscode-unpacked
         name: lombok-java-unpacked
