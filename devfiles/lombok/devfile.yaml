@@ -8,7 +8,7 @@ projects:
       type: git
       branch: main
 components:
-  - id: redhat/java8/latest
+  - id: redhat/java/latest
     type: chePlugin
     volumes:
       - containerPath: /tmp/vscode-unpacked
@@ -30,7 +30,7 @@ components:
     args:
       - until [ -d /tmp/vscode-unpacked/*lombok* ]; do sleep 1; done; cp $(find /tmp |grep lombok |grep jar) /tmp/vscode-unpacked/; sleep infinity
     alias: java-lombok
-    image: quay.io/eclipse/che-java8-maven:nightly
+    image: quay.io/eclipse/che-java11-maven:nightly
     env:
       - name: MAVEN_CONFIG
         value: >-
