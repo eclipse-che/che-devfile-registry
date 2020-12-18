@@ -68,7 +68,7 @@ commands:
       -
         type: exec
         component: centos-quarkus-maven
-        command: "./mvnw compile quarkus:dev"
+        command: "./mvnw compile quarkus:dev -Dquarkus.http.host=0.0.0.0"
         workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
   -
     name: Package Native
