@@ -24,7 +24,9 @@ components:
           -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
           -Duser.home=/home/user"
       - name: MAVEN_OPTS
-        value: $(JAVA_OPTS)  
+        value: $(JAVA_OPTS)
+      - name: QUARKUS_HTTP_HOST
+        value: 0.0.0.0
     memoryLimit: 4G
     mountSources: true
     volumes:
@@ -68,7 +70,7 @@ commands:
       -
         type: exec
         component: centos-quarkus-maven
-        command: "./mvnw compile quarkus:dev -Dquarkus.http.host=0.0.0.0"
+        command: "./mvnw compile quarkus:dev"
         workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
   -
     name: Package Native
