@@ -24,7 +24,9 @@ components:
           -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
           -Duser.home=/home/user"
       - name: MAVEN_OPTS
-        value: $(JAVA_OPTS)  
+        value: $(JAVA_OPTS)
+      - name: QUARKUS_HTTP_HOST
+        value: 0.0.0.0
     memoryLimit: 4G
     mountSources: true
     volumes:
