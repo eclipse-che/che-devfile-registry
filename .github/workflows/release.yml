@@ -10,11 +10,12 @@
 name: Release Che Devfile Registry
 
 on:
+  workflow_dispatch
   push:
     branches: 
-      - release
+      - 'release'
     paths:
-      - VERSION
+      - 'VERSION'
 
 jobs:
   release-build-publish:
