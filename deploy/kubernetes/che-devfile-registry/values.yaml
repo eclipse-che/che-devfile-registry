@@ -10,7 +10,7 @@
 cheDevfileRegistryImage: quay.io/eclipse/che-devfile-registry:nightly
 cheDevfileRegistryImagePullPolicy: Always
 cheDevfileRegistryMemoryLimit: 256Mi
-#cheDevfileRegistryIngressSecretName: che-tls
+cheDevfileRegistryIngressSecretName: che-tls
 #hostnameOverride: che-devfile-registry
 
 cheDevfileImagesOverride:
