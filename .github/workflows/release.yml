@@ -26,10 +26,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone source code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
         with:
           fetch-depth: 1
           ref: release
+
+      - name: Prepare
+        id: prep
+        run: |
+          SHORT_SHA1=$(git rev-parse --short HEAD)
+          echo ::set-output name=short_sha1::${SHORT_SHA1}
+          VERSION=$(head -n 1 VERSION)
+          echo ::set-output name=version::${VERSION}
+          IMAGE=che-devfile-registry
+          echo ::set-output name=image::${IMAGE}
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
 
       - name: Login to Quay.io
         uses: azure/docker-login@v1
@@ -51,13 +68,15 @@ jobs:
           /bin/bash arbitrary-users-patch/build_images.sh --push
 
       - name: Build and push images
-        run: |
-          SHORT_SHA1=$(git rev-parse --short HEAD)
-          VERSION=$(head -n 1 VERSION)
-          IMAGE=che-devfile-registry
-          DOCKERFILE_PATH=./build/dockerfiles/Dockerfile
-          docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} --build-arg PATCHED_IMAGES_TAG=${VERSION} --target registry .
-          docker tag ${IMAGE} quay.io/eclipse/${IMAGE}:${SHORT_SHA1}
-          docker push quay.io/eclipse/${IMAGE}:${SHORT_SHA1}
-          docker tag ${IMAGE} quay.io/eclipse/${IMAGE}:${VERSION}
-          docker push quay.io/eclipse/${IMAGE}:${VERSION}
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./build/dockerfiles/Dockerfile
+          target: registry
+          build-args: |
+            PATCHED_IMAGES_TAG=${{ steps.prep.outputs.version }}
+          platforms: linux/amd64,linux/s390x
+          tags: quay.io/eclipse/${{ steps.prep.outputs.image }}:${{ steps.prep.outputs.version }},quay.io/eclipse/${{ steps.prep.outputs.image }}:${{ steps.prep.outputs.short_sha1 }}
+          push: true
+
