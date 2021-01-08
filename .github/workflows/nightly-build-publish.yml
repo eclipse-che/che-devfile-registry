@@ -28,6 +28,8 @@ jobs:
         run: |
           SHORT_SHA1=$(git rev-parse --short HEAD)
           echo ::set-output name=short_sha1::${SHORT_SHA1}
+          PLATFORMS=$(cat PLATFORMS)
+          echo ::set-output name=platforms::${PLATFORMS}
 
       - name: Set up Docker Buildx
         id: buildx
@@ -56,6 +58,6 @@ jobs:
           context: .
           file: ./build/dockerfiles/Dockerfile
           target: registry
-          platforms: linux/amd64,linux/s390x
+          platforms: ${{ steps.prep.outputs.platforms }}
           tags: quay.io/eclipse/che-devfile-registry:nightly,quay.io/eclipse/che-devfile-registry:${{ steps.prep.outputs.short_sha1 }}
           push: true

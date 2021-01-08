@@ -40,6 +40,8 @@ jobs:
           echo ::set-output name=version::${VERSION}
           IMAGE=che-devfile-registry
           echo ::set-output name=image::${IMAGE}
+          PLATFORMS=$(cat PLATFORMS)
+          echo ::set-output name=platforms::${PLATFORMS}
 
       - name: Set up Docker Buildx
         id: buildx
@@ -76,7 +78,7 @@ jobs:
           target: registry
           build-args: |
             PATCHED_IMAGES_TAG=${{ steps.prep.outputs.version }}
-          platforms: linux/amd64,linux/s390x
+          platforms: ${{ steps.prep.outputs.platforms }}
           tags: quay.io/eclipse/${{ steps.prep.outputs.image }}:${{ steps.prep.outputs.version }},quay.io/eclipse/${{ steps.prep.outputs.image }}:${{ steps.prep.outputs.short_sha1 }}
           push: true
 
