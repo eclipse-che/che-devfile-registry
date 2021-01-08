@@ -16,13 +16,14 @@ objects:
   kind: DeploymentConfig
   metadata:
     labels:
-      app: che-devfile-registry
-    name: che-devfile-registry
+      app: che
+      component: devfile-registry
+    name: devfile-registry
   spec:
     replicas: 1
     selector:
-      app: che-devfile-registry
-      deploymentconfig: che-devfile-registry
+      app: che
+      component: devfile-registry
     strategy:
       rollingParams:
         intervalSeconds: 1
@@ -34,13 +35,13 @@ objects:
     template:
       metadata:
         labels:
-          app: che-devfile-registry
-          deploymentconfig: che-devfile-registry
+          app: che
+          component: devfile-registry
       spec:
         containers:
         - image: ${IMAGE}:${IMAGE_TAG}
           imagePullPolicy: "${PULL_POLICY}"
-          name: che-devfile-registry
+          name: devfile-registry
           ports:
           - containerPort: 8080
           livenessProbe:
@@ -66,33 +67,44 @@ objects:
               memory: ${MEMORY_LIMIT}
           envFrom:
           - configMapRef:
-              name: che-devfile-registry
+              name: devfile-registry
               optional: true
     triggers:
     - type: ConfigChange
 - apiVersion: v1
   kind: Service
   metadata:
-    name: che-devfile-registry
+    name: devfile-registry
   spec:
     ports:
-      - protocol: TCP
-        port: 80
+      - name: http
+        protocol: TCP
+        port: 8080
         targetPort: 8080
     selector:
-      deploymentconfig: che-devfile-registry
+      app: che
+      component: devfile-registry
 - apiVersion: v1
   kind: Route
   metadata:
-    name: che-devfile-registry
+    labels:
+      app: che
+      component: devfile-registry
+    name: devfile-registry
   spec:
     to:
       kind: Service
-      name: che-devfile-registry
+      name: devfile-registry
+      weight: 100
+    port:
+      targetPort: 8080
+    tls:
+      termination: edge
+      insecureEdgeTerminationPolicy: Redirect
 - apiVersion: v1
   kind: ConfigMap
   metadata:
-    name: che-devfile-registry
+    name: devfile-registry
   data:
      CHE_DEVFILE_IMAGES_REGISTRY_URL: ${CHE_DEVFILE_IMAGES_REGISTRY_URL}
      CHE_DEVFILE_IMAGES_REGISTRY_ORGANIZATION: ${CHE_DEVFILE_IMAGES_REGISTRY_ORGANIZATION}
