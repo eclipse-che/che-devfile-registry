@@ -15,10 +15,13 @@ objects:
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
+    name: devfile-registry
     labels:
       app: che
       component: devfile-registry
-    name: devfile-registry
+      app.kubernetes.io/name: che
+      app.kubernetes.io/instance: che
+      app.kubernetes.io/managed-by: OpenShift
   spec:
     replicas: 1
     selector:
