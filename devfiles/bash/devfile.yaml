@@ -1,0 +1,52 @@
+apiVersion: 1.0.0
+metadata:
+  name: bash
+projects:
+  - name: bash
+    source:
+      location: 'https://github.com/che-samples/bash'
+      type: git
+      branch: main
+components:
+  - mountSources: true
+    command:
+      - tail
+    args:
+      - '-f'
+      - /dev/null
+    memoryLimit: 64Mi
+    type: dockerimage
+    alias: dev
+    image: 'registry.access.redhat.com/ubi8-minimal:8.3'
+  - id: mads-hartmann/bash-ide-vscode/latest
+    type: chePlugin
+  - id: rogalmic/bash-debug/latest
+    type: chePlugin
+  - id: timonwong/shellcheck/latest
+    memoryLimit: 64Mi
+    preferences:
+      shellcheck.executablePath: /bin/shellcheck
+    type: chePlugin
+commands:
+  - name: Run main.sh script
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/bash'
+        type: exec
+        command: ./main.sh
+        component: dev
+  - name: Attach bash debugger to main.sh
+    actions:
+      - referenceContent: |
+          {
+            "version": "0.2.0",
+            "configurations": [
+              {
+                "type": "bashdb",
+                "request": "launch",
+                "name": "Bash-Debug main.sh",
+                "cwd": "${workspaceFolder}",
+                "program": "${workspaceFolder}/bash/main.sh"
+              }
+            ]
+          }
+        type: vscode-launch

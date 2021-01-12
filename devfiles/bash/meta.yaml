@@ -1,0 +1,6 @@
+---
+displayName: Bash
+description: Stack with environment ready to develop bash scripts.
+tags: ["Bash", "Shell"]
+icon: /images/che.svg
+globalMemoryLimit: 2930Mi
