@@ -87,7 +87,7 @@ commands:
       -
         type: exec
         component: ubi-minimal
-        command: ./getting-started-1.0-SNAPSHOT-runner
+        command: ./getting-started-1.0.0-SNAPSHOT-runner
         workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started/target
   -
     name: Attach remote debugger
