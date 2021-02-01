@@ -10,13 +10,19 @@
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: che-devfile-registry
   name: che-devfile-registry
+  labels:
+    app.kubernetes.io/name: che
+    app.kubernetes.io/component: devfile-registry
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
 spec:
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
   selector:
-    app: che-devfile-registry
+    app.kubernetes.io/name: che
+    app.kubernetes.io/component: devfile-registry
+
