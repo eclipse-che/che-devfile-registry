@@ -8,7 +8,7 @@
 
 </div>
 
-# Welcome your `Quarkus` Eclipse Che workspace
+# Welcome to your `Quarkus` Eclipse Che workspace
 Congratulations! You have started a Che workspace with the Quarkus Getting started sample. You are all set to code, debug, compile and test in a production-like environment. Let’s start!
 
 The guide is interactive. You can click on the below links to open files or start the predefined commands.
