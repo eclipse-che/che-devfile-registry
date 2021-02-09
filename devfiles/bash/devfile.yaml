@@ -1,6 +1,6 @@
 apiVersion: 1.0.0
 metadata:
-  name: bash
+  generateName: bash-
 projects:
   - name: bash
     source:
