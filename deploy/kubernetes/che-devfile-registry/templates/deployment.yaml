@@ -10,15 +10,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: che-devfile-registry
   name: che-devfile-registry
+  labels:
+    app: che
+    component: devfile-registry
+    app.kubernetes.io/name: che
+    app.kubernetes.io/component: devfile-registry
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
 spec:
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: che-devfile-registry
+      app: che
+      component: devfile-registry
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -27,7 +34,13 @@ spec:
   template:
     metadata:
       labels:
-        app: che-devfile-registry
+        app: che
+        component: devfile-registry
+        app.kubernetes.io/name: che
+        app.kubernetes.io/component: devfile-registry
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     spec:
       containers:
       - image: {{ .Values.cheDevfileRegistryImage }}
@@ -51,11 +64,17 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 10
           timeoutSeconds: 3
+        securityContext:
+          capabilities:
+            drop:
+              - ALL
         resources:
           limits:
             memory: {{ .Values.cheDevfileRegistryMemoryLimit }}
+            cpu: 500m
           requests:
-            memory: 256Mi
+            memory: 32Mi
+            cpu: 100m
         envFrom:
           - configMapRef:
               name: che-devfile-registry
