@@ -26,9 +26,6 @@ jobs:
   build:
     name: Create Che Devfile Registry Release
     runs-on: ubuntu-latest
-    env:
-      SHORT_SHA1: $(git rev-parse --short HEAD)
-      VERSION: $(head -n 1 VERSION)
     steps:
       -
         name: "Checkout  source code"
