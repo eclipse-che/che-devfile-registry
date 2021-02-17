@@ -6,12 +6,14 @@
 # set to 1 to actually trigger changes in the release branch
 TRIGGER_RELEASE=0 
 NOCOMMIT=0
+USE_TMP_DIR=0
+REPO=git@github.com:eclipse/che-devfile-registry
 
 while [[ "$#" -gt 0 ]]; do
   case $1 in
     '-t'|'--trigger-release') TRIGGER_RELEASE=1; NOCOMMIT=0; shift 0;;
-    '-r'|'--repo') REPO="$2"; shift 1;;
     '-v'|'--version') VERSION="$2"; shift 1;;
+    '-tmp'|'--use-tmp-dir')USE_TMP_DIR=1; shift 0;;
     '-n'|'--no-commit') NOCOMMIT=1; TRIGGER_RELEASE=0; shift 0;;
   esac
   shift 1
@@ -19,11 +21,30 @@ done
 
 usage ()
 {
-  echo "Usage: $0 --repo [GIT REPO TO EDIT] --version [VERSION TO RELEASE] [--trigger-release]"
-  echo "Example: $0 --repo git@github.com:eclipse/che-subproject --version 7.7.0 --trigger-release"; echo
+  echo "Usage: $0  --version [VERSION TO RELEASE] [--trigger-release]"
+  echo "Example: $0 --version 7.7.0 --trigger-release"; echo
 }
 
-if [[ ! ${VERSION} ]] || [[ ! ${REPO} ]]; then
+performRelease() 
+{
+  #Build and push patched base images and happy path image
+  export TAG=$(head -n 1 VERSION)
+  /bin/bash arbitrary-users-patch/happy-path/build_happy_path_image.sh --push
+  /bin/bash arbitrary-users-patch/build_images.sh --push
+
+  #Build and push images
+  SHORT_SHA1=$(git rev-parse --short HEAD)
+  VERSION=$(head -n 1 VERSION)
+  IMAGE=che-devfile-registry
+  DOCKERFILE_PATH=./build/dockerfiles/Dockerfile
+  docker build -t ${IMAGE} -f ${DOCKERFILE_PATH} --build-arg PATCHED_IMAGES_TAG=${VERSION} --target registry .
+  docker tag ${IMAGE} quay.io/eclipse/${IMAGE}:${SHORT_SHA1}
+  docker push quay.io/eclipse/${IMAGE}:${SHORT_SHA1}
+  docker tag ${IMAGE} quay.io/eclipse/${IMAGE}:${VERSION}
+  docker push quay.io/eclipse/${IMAGE}:${VERSION}
+}
+
+if [[ ! ${VERSION} ]]; then
   usage
   exit 1
 fi
@@ -39,12 +60,14 @@ else
 fi
 
 # work in tmp dir
-TMP=$(mktemp -d); pushd "$TMP" > /dev/null || exit 1
+if [[ ${USE_TMP_DIR} -eq 1 ]]; then
+  TMP=$(mktemp -d); pushd "$TMP" > /dev/null || exit 1
+  # get sources from ${BASEBRANCH} branch
+  echo "Check out ${REPO} to ${TMP}/${REPO##*/}"
+  git clone "${REPO}" -q
+  cd "${REPO##*/}" || exit 1
+fi
 
-# get sources from ${BASEBRANCH} branch
-echo "Check out ${REPO} to ${TMP}/${REPO##*/}"
-git clone "${REPO}" -q
-cd "${REPO##*/}" || exit 1
 git fetch origin "${BASEBRANCH}":"${BASEBRANCH}"
 git checkout "${BASEBRANCH}"
 
@@ -71,8 +94,7 @@ if [[ $TRIGGER_RELEASE -eq 1 ]]; then
   # push new branch to release branch to trigger CI build
   git fetch origin "${BRANCH}:${BRANCH}"
   git checkout "${BRANCH}"
-  git branch release -f 
-  git push origin release -f
+  performRelease
 
   # tag the release
   git checkout "${BRANCH}"
@@ -114,13 +136,13 @@ if [[ ${NOCOMMIT} -eq 0 ]]; then
     git pull origin "${PR_BRANCH}"
     git push origin "${PR_BRANCH}"
     lastCommitComment="$(git log -1 --pretty=%B)"
-    hub pull-request -f -m "${lastCommitComment}
-
-${lastCommitComment}" -b "${BRANCH}" -h "${PR_BRANCH}"
+    hub pull-request -f -m "${lastCommitComment}" -b "${BRANCH}" -h "${PR_BRANCH}"
   fi 
 fi
 
 popd > /dev/null || exit
 
-# cleanup tmp dir
-cd /tmp && rm -fr "$TMP"
+if [[ ${USE_TMP_DIR} -eq 1 ]]; then
+  # cleanup tmp dir
+  cd /tmp && rm -fr "$TMP"
+fi
