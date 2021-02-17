@@ -12,11 +12,9 @@ components:
 -
   type: chePlugin
   id: bmewburn/vscode-intelephense-client/latest
-  memoryLimit: 1Gi
 -
   type: chePlugin
   id: felixfbecker/php-debug/latest
-  memoryLimit: 256Mi
 -
   type: dockerimage
   alias: php

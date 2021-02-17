@@ -21,7 +21,6 @@ components:
   type: chePlugin
   id: golang/go/latest
   alias: go-plugin
-  memoryLimit: 512Mi
   env:
     - value: 'off'
       name: GO111MODULE

@@ -23,7 +23,6 @@ components:
   - id: rogalmic/bash-debug/latest
     type: chePlugin
   - id: timonwong/shellcheck/latest
-    memoryLimit: 64Mi
     preferences:
       shellcheck.executablePath: /bin/shellcheck
     type: chePlugin

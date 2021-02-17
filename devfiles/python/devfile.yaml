@@ -12,7 +12,6 @@ components:
   -
     type: chePlugin
     id: ms-python/python/latest
-    memoryLimit: 512Mi
   -
     type: dockerimage
     alias: python
