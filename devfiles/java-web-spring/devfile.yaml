@@ -13,7 +13,6 @@ components:
   -
     type: chePlugin
     id: redhat/java/latest
-    memoryLimit: 1512Mi
     preferences:
       java.server.launchMode: Standard
   -
