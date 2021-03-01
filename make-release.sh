@@ -6,14 +6,14 @@
 # set to 1 to actually trigger changes in the release branch
 TRIGGER_RELEASE=0 
 NOCOMMIT=0
-USE_TMP_DIR=0
+TMP=""
 REPO=git@github.com:eclipse/che-devfile-registry
 
 while [[ "$#" -gt 0 ]]; do
   case $1 in
     '-t'|'--trigger-release') TRIGGER_RELEASE=1; NOCOMMIT=0; shift 0;;
     '-v'|'--version') VERSION="$2"; shift 1;;
-    '-tmp'|'--use-tmp-dir')USE_TMP_DIR=1; shift 0;;
+    '-tmp'|'--use-tmp-dir') TMP=$(mktemp -d); shift 0;;
     '-n'|'--no-commit') NOCOMMIT=1; TRIGGER_RELEASE=0; shift 0;;
   esac
   shift 1
@@ -60,8 +60,8 @@ else
 fi
 
 # work in tmp dir
-if [[ ${USE_TMP_DIR} -eq 1 ]]; then
-  TMP=$(mktemp -d); pushd "$TMP" > /dev/null || exit 1
+if [[ $TMP ]] && [[ -d $TMP ]]; then
+  pushd "$TMP" > /dev/null || exit 1
   # get sources from ${BASEBRANCH} branch
   echo "Check out ${REPO} to ${TMP}/${REPO##*/}"
   git clone "${REPO}" -q
@@ -142,7 +142,7 @@ fi
 
 popd > /dev/null || exit
 
-if [[ ${USE_TMP_DIR} -eq 1 ]]; then
-  # cleanup tmp dir
-  cd /tmp && rm -fr "$TMP"
+# cleanup tmp dir
+if [[ $TMP ]] && [[ -d $TMP ]]; then
+  rm -fr "$TMP"
 fi
