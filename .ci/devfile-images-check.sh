@@ -23,12 +23,12 @@ function filterDevFileYamls() {
     local ROOT_DIR
     ROOT_DIR=$(dirname "$(dirname "$SCRIPT")");
 
-    for files in ${PR_FILES_CHANGED}
+    for file in ${PR_FILES_CHANGED}
     do  
         # Filter only files which are devfiles folder and finish with .yaml extension
-        if [[ $files =~ ^devfiles.*.yaml$ ]]; then
-            echo "[INFO] Added/Changed new devfile in the current PR: ${files}"
-            FILES_CHANGED_ARRAY+=("${ROOT_DIR}/"$files)
+        if [[ $file =~ ^devfiles.*.yaml$ ]]; then
+            echo "[INFO] Added/Changed new devfile in the current PR: ${file}"
+            FILES_CHANGED_ARRAY+=("${ROOT_DIR}/${file}")
             export FILES_CHANGED_ARRAY
         fi
     done 
