@@ -28,7 +28,8 @@ usage ()
 performRelease() 
 {
   #Build and push patched base images and happy path image
-  export TAG=$(head -n 1 VERSION)
+  TAG=$(head -n 1 VERSION)
+  export TAG
   /bin/bash arbitrary-users-patch/happy-path/build_happy_path_image.sh --push
   /bin/bash arbitrary-users-patch/build_images.sh --push
 
