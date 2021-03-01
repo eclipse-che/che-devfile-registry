@@ -22,7 +22,7 @@ done
 usage ()
 {
   echo "Usage: $0  --version [VERSION TO RELEASE] [--trigger-release]"
-  echo "Example: $0 --version 7.7.0 --trigger-release"; echo
+  echo "Example: $0 --version 7.27.0 --trigger-release"; echo
 }
 
 performRelease() 
