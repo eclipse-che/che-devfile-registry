@@ -20,6 +20,8 @@ REGISTRY=${REGISTRY:-${DEFAULT_REGISTRY}}
 ORGANIZATION=${ORGANIZATION:-${DEFAULT_ORGANIZATION}}
 TAG=${TAG:-${DEFAULT_TAG}}
 
+PLATFORMS=$(cat arbitrary-users-patch/PLATFORMS)
+
 NAME_FORMAT="${REGISTRY}/${ORGANIZATION}"
 
 PUSH_IMAGES=false
@@ -32,7 +34,7 @@ while read -r line; do
   base_image_name=$(echo "$line" | tr -s ' ' | cut -f 1 -d ' ')
   base_image=$(echo "$line" | tr -s ' ' | cut -f 2 -d ' ')
   echo "Building ${NAME_FORMAT}/${base_image_name}:${TAG} based on $base_image ..."
-  docker build -t "${NAME_FORMAT}/${base_image_name}:${TAG}" --no-cache --build-arg FROM_IMAGE="$base_image" "${SCRIPT_DIR}"/ | cat
+  docker buildx build --platform "$PLATFORMS" -t "${NAME_FORMAT}/${base_image_name}:${TAG}" --no-cache --build-arg FROM_IMAGE="$base_image" "${SCRIPT_DIR}"/ | cat
   if ${PUSH_IMAGES}; then
     echo "Pushing ${NAME_FORMAT}/${base_image_name}:${TAG}" to remote registry
     docker push "${NAME_FORMAT}/${base_image_name}:${TAG}" | cat
