@@ -29,8 +29,10 @@ jobs:
         run: |
           SHORT_SHA1=$(git rev-parse --short HEAD)
           echo ::set-output name=short_sha1::${SHORT_SHA1}
-          VERSION=$(head -n 1 VERSION)
-          echo ::set-output name=version::${VERSION}
+          # VERSION file contains 7.yy.0-SNAPSHOT but for nightlies we want just a nightly tag
+          # VERSION=$(head -n 1 VERSION)
+          # echo ::set-output name=version::${VERSION}
+          echo ::set-output name=version::nightly
           IMAGE=che-devfile-registry
           echo ::set-output name=image::${IMAGE}
           PLATFORMS=$(cat PLATFORMS)
