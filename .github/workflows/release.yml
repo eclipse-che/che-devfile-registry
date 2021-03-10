@@ -40,5 +40,9 @@ jobs:
 
       - name: Build and push patched base images and happy path image
         run: |
+          git config --global user.name "Mykhailo Kuznietsov"
+          git config --global user.email "mkuznets@redhat.com"
+
           export GITHUB_TOKEN=${{ secrets.CHE_BOT_GITHUB_TOKEN }}
+
           ./make-release.sh --version ${{ github.event.inputs.version}} --trigger-release
