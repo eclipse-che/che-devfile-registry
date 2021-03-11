@@ -20,6 +20,8 @@ REGISTRY=${REGISTRY:-${DEFAULT_REGISTRY}}
 ORGANIZATION=${ORGANIZATION:-${DEFAULT_ORGANIZATION}}
 TAG=${TAG:-${DEFAULT_TAG}}
 
+PLATFORMS=$(cat arbitrary-users-patch/happy-path/PLATFORMS)
+
 NAME_FORMAT="${REGISTRY}/${ORGANIZATION}"
 
 PUSH_IMAGES=false
@@ -28,7 +30,7 @@ if [ "$1" == "--push" ]; then
 fi
 
 # Build image for happy-path tests with precashed mvn dependencies
-docker build -t "${NAME_FORMAT}/happy-path:${TAG}" --no-cache --build-arg TAG="${TAG}" "${SCRIPT_DIR}"/  | cat
+docker buildx build --platform "$PLATFORMS" -t "${NAME_FORMAT}/happy-path:${TAG}" --no-cache --build-arg TAG="${TAG}" "${SCRIPT_DIR}"/  | cat
 if ${PUSH_IMAGES}; then
     echo "Pushing ${NAME_FORMAT}/happy-path:${TAG}" to remote registry
     docker push "${NAME_FORMAT}/happy-path:${TAG}" | cat
