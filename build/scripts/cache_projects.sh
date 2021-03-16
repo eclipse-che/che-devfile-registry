@@ -126,7 +126,7 @@ for devfile in "${devfiles[@]}"; do
     location=$(echo "$project" | jq -r '.source.location')
     branch=$(echo "$project" | jq -r '.source.branch')
     if [[ ! "$branch" ]] || [[ "$branch" == "null" ]]; then
-      branch="master"
+      branch=$(git ls-remote --symref "$location" HEAD | sed -nE 's|^ref: refs/heads/(\S+)\s+HEAD|\1|p')
     fi
     commitId=$(echo "$project" | jq -r '.source.commitId')
     sparse_checkout_dir=$(echo "$project" | jq -r '.source.sparseCheckoutDir')
