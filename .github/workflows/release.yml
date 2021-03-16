@@ -20,10 +20,22 @@ on:
         required: false
         default: 'false'
 
+env:
+  IMAGE: quay.io/eclipse/che-devfile-registry
+
 jobs:
   build:
     name: Create Che Devfile Registry Release
     runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [amd64,arm64,ppc64le,s390x]
+    outputs:
+      amd64: ${{ steps.result.outputs.amd64 }}
+      arm64: ${{ steps.result.outputs.arm64 }}
+      ppc64le: ${{ steps.result.outputs.ppc64le }}
+      s390x: ${{ steps.result.outputs.s390x }}
     steps:
       -
         name: "Checkout source code"
@@ -52,7 +64,7 @@ jobs:
         name: "Set up QEMU"
         uses: docker/setup-qemu-action@v1
       -
-        name: "Set up Docker Buildx"
+        name: "Set up Docker Buildx ${{ matrix.arch }}"
         uses: docker/setup-buildx-action@v1
       -
         name: "Docker quay.io Login"
@@ -68,7 +80,111 @@ jobs:
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          
+      -
+        name: "Build and push ${{ matrix.arch }}"
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./build/dockerfiles/Dockerfile
+          target: registry
+          build-args: |
+            PATCHED_IMAGES_TAG=${{ github.event.inputs.version }}
+          platforms: linux/${{ matrix.arch }}
+          push: true
+          tags: ${{ env.IMAGE }}:${{ github.event.inputs.version }}-${{ matrix.arch }}
+      -
+        id: result
+        name: "Build result outputs version"
+        if: ${{ success() }}
+        run: echo "::set-output name=${{ matrix.arch }}::${{ github.event.inputs.version }}-${{ matrix.arch }}"
+  
+  create-manifest:
+    needs: build-images
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: "Checkout source code"
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 0
+      - 
+        name: Prepare
+        id: prep
+        run: |
+          SHORT_SHA1=$(git rev-parse --short HEAD)
+          echo ::set-output name=short_sha1::${SHORT_SHA1}
+      -
+        name: "Docker quay.io Login"
+        uses: docker/login-action@v1
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+      - 
+        name: Login to docker.io
+        uses: docker/login-action@v1
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      -
+        name: "Create and push manifest"
+        run: |
+          AMD64_VERSION="${{ needs['build'].outputs.amd64 }}"
+          ARM64_VERSION="${{ needs['build'].outputs.arm64 }}"
+          PPC64LE_VERSION="${{ needs['build'].outputs.ppc64le }}"
+          S390X_VERSION="${{ needs['build'].outputs.s390x }}"
+          if [[ -z "$AMD64_VERSION" || \
+               -z "$ARM64_VERSION" || \
+               -z "$PPC64LE_VERSION" || \
+               -z "$S390X_VERSION" ]]; then
+            echo "[!] The job 'build' fails on some of the architectures. Can't create complete manifest.";
+            exit 1;
+          fi
+          AMEND=""
+          AMEND+=" --amend ${{ env.IMAGE }}:$AMD64_VERSION";
+          AMEND+=" --amend ${{ env.IMAGE }}:$ARM64_VERSION";
+          AMEND+=" --amend ${{ env.IMAGE }}:$PPC64LE_VERSION";
+          AMEND+=" --amend ${{ env.IMAGE }}:$S390X_VERSION";
+          docker manifest create ${{ env.IMAGE }}:${{ github.event.inputs.version }} $AMEND
+          docker manifest push ${{ env.IMAGE }}:${{ github.event.inputs.version }}
+          docker manifest create ${{ env.IMAGE }}:${{ steps.prep.outputs.short_sha1 }} $AMEND
+          docker manifest push ${{ env.IMAGE }}:${{ steps.prep.outputs.short_sha1 }}
+      -
+        id: result
+        name: "Manifest result"
+        if: ${{ success() }}
+        run: echo "Manifest was created and pushed successfully"
+
+  tag-release:
+    needs: create-manifest
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: "Checkout source code"
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 0
+      -
+        name: "Set up QEMU"
+        uses: docker/setup-qemu-action@v1
+      -
+        name: "Set up Docker Buildx ${{ matrix.arch }}"
+        uses: docker/setup-buildx-action@v1
+      -
+        name: "Docker quay.io Login"
+        uses: docker/login-action@v1
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}  
+      - 
+        name: Login to docker.io
+        uses: docker/login-action@v1
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - 
         name: Build and push patched base images and happy path image
         run: |
@@ -76,14 +192,14 @@ jobs:
           git config --global user.email "mkuznets@redhat.com"
 
           export GITHUB_TOKEN=${{ secrets.CHE_BOT_GITHUB_TOKEN }}
-          ./make-release.sh --version ${{ github.event.inputs.version}} --trigger-release
+          ./make-release.sh --version ${{ github.event.inputs.version}} --tag-release
 
       - name: Generate devfiles with registryUrls and publish to GH pages
         env:
           GITHUB_TOKEN: ${{ secrets.CHE_BOT_GITHUB_TOKEN }}
           VERSION: ${{ github.event.inputs.version}}
         run: ./.ci/generate_and_publish_registry_url_devfiles.sh
-
+   
       - name: Create failure MM message
         if: ${{ failure() }}
         run: |

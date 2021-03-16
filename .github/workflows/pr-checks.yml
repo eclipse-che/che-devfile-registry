@@ -44,36 +44,39 @@ jobs:
         run: ./arbitrary-users-patch/build_images.sh --rm
 
   build-main-image:
-
     runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [amd64,arm64,ppc64le,s390x]
+    outputs:
+      amd64: ${{ steps.result.outputs.amd64 }}
+      arm64: ${{ steps.result.outputs.arm64 }}
+      ppc64le: ${{ steps.result.outputs.ppc64le }}
+      s390x: ${{ steps.result.outputs.s390x }}
 
     steps:
-    - uses: actions/checkout@v1
-
+    -
+      name: "Checkout source code"
+      uses: actions/checkout@v1
     - 
-      name: Prepare
-      id: prep
-      run: |
-        PLATFORMS=$(cat PLATFORMS)
-        echo ::set-output name=platforms::${PLATFORMS}
-        
-    - name: Set up Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@v1
-
-    - name: Set up QEMU
+      name: Set up QEMU
       uses: docker/setup-qemu-action@v1
-      
-    - name: Cache docker layers
+    - 
+      name: "Set up Docker Buildx ${{ matrix.arch }}"
+      id: buildx
+      uses: docker/setup-buildx-action@v1    
+    - 
+      name: Cache docker layers
       uses: actions/cache@v1
       with:
         path: ./caches
-        key: v1-${{ github.head_ref }}
-        
-    - name: Load docker layer cache
+        key: v1-${{ github.head_ref }}  
+    - 
+      name: Load docker layer cache
       run: |
         set +o pipefail
-        docker load -i ./caches/app.tar | true
+        docker load -i ./caches/app-${{ matrix.arch }}.tar | true
     
     - name: Build devfile registry
       uses: docker/build-push-action@v2
@@ -81,8 +84,8 @@ jobs:
         context: .
         file: ./build/dockerfiles/Dockerfile
         target: registry
-        platforms: ${{ steps.prep.outputs.platforms }}
-        tags: app
+        platforms: linux/${{ matrix.arch }}
+        tags: app-${{ matrix.arch }}
         cache-from: "type=local,src=/tmp/.buildx-cache"
         cache-to: "type=local,dest=/tmp/.buildx-cache"
         push: false
@@ -93,7 +96,7 @@ jobs:
         context: .
         file: ./build/dockerfiles/Dockerfile
         target: offline-registry
-        platforms: ${{ steps.prep.outputs.platforms }}
-        tags: app
+        platforms: linux/${{ matrix.arch }}
+        tags: app-${{ matrix.arch }}
         cache-from: "type=local,src=/tmp/.buildx-cache"
         push: false

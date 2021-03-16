@@ -14,12 +14,69 @@ on:
     branches: 
       - master
 
+env:
+  IMAGE: quay.io/eclipse/che-devfile-registry
+  VERSION: nightly
+
 jobs:
   nightly-build-publish:
     runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [amd64,arm64,ppc64le,s390x]
+    outputs:
+      amd64: ${{ steps.result.outputs.amd64 }}
+      arm64: ${{ steps.result.outputs.arm64 }}
+      ppc64le: ${{ steps.result.outputs.ppc64le }}
+      s390x: ${{ steps.result.outputs.s390x }}
     steps:
+      -
+        name: "Checkout source code"
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      -
+        name: "Set up QEMU"
+        uses: docker/setup-qemu-action@v1
+      -
+        name: "Set up Docker Buildx ${{ matrix.arch }}"
+        uses: docker/setup-buildx-action@v1
+      -
+        name: "Docker quay.io Login"
+        uses: docker/login-action@v1
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
       - 
-        name: Clone source code
+        name: Login to docker.io
+        uses: docker/login-action@v1
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      -
+        name: "Build and push ${{ matrix.arch }}"
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./build/dockerfiles/Dockerfile
+          platforms: linux/${{ matrix.arch }}
+          tags:  ${{ env.IMAGE }}:${{ env.VERSION }}-${{ matrix.arch }}
+          push: true 
+      -
+        id: result
+        name: "Build result outputs version"
+        if: ${{ success() }}
+        run: echo "::set-output name=${{ matrix.arch }}::${{ env.VERSION }}-${{ matrix.arch }}"
+
+  create-manifest:
+    needs: nightly-build-publish
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: "Checkout source code"
         uses: actions/checkout@v1
         with:
           fetch-depth: 1
@@ -29,19 +86,58 @@ jobs:
         run: |
           SHORT_SHA1=$(git rev-parse --short HEAD)
           echo ::set-output name=short_sha1::${SHORT_SHA1}
-          # VERSION file contains 7.yy.0-SNAPSHOT but for nightlies we want just a nightly tag
-          # VERSION=$(head -n 1 VERSION)
-          # echo ::set-output name=version::${VERSION}
-          echo ::set-output name=version::nightly
-          IMAGE=che-devfile-registry
-          echo ::set-output name=image::${IMAGE}
-          PLATFORMS=$(cat PLATFORMS)
-          echo ::set-output name=platforms::${PLATFORMS}
+      -
+        name: "Docker quay.io Login"
+        uses: docker/login-action@v1
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+      - 
+        name: Login to docker.io
+        uses: docker/login-action@v1
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      -  
+        name: "Create and push manifest"
+        run: |
+          AMD64_VERSION="${{ needs['nightly-build-publish'].outputs.amd64 }}"
+          ARM64_VERSION="${{ needs['nightly-build-publish'].outputs.arm64 }}"
+          PPC64LE_VERSION="${{ needs['nightly-build-publish'].outputs.ppc64le }}"
+          S390X_VERSION="${{ needs['nightly-build-publish'].outputs.s390x }}"
+          if [[ -z "$AMD64_VERSION" || \
+               -z "$ARM64_VERSION" || \
+               -z "$PPC64LE_VERSION" || \
+               -z "$S390X_VERSION" ]]; then
+            echo "[!] The job 'nightly-build-publish' fails on some of the architectures. Can't create complete manifest.";
+            exit 1;
+          fi
+          AMEND=""
+          AMEND+=" --amend ${{ env.IMAGE }}:$AMD64_VERSION";
+          AMEND+=" --amend ${{ env.IMAGE }}:$ARM64_VERSION";
+          AMEND+=" --amend ${{ env.IMAGE }}:$PPC64LE_VERSION";
+          AMEND+=" --amend ${{ env.IMAGE }}:$S390X_VERSION";
+          docker manifest create ${{ env.IMAGE }}:${{ env.VERSION }} $AMEND
+          docker manifest push ${{ env.IMAGE }}:${{ env.VERSION }}
+          docker manifest create ${{ env.IMAGE }}:${{ steps.prep.outputs.short_sha1 }} $AMEND
+          docker manifest push ${{ env.IMAGE }}:${{ steps.prep.outputs.short_sha1 }}
+
+  build-images:
+    needs: nightly-build-publish
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: "Checkout source code"
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
       -
         name: "Set up QEMU"
         uses: docker/setup-qemu-action@v1
       -
-        name: "Set up Docker Buildx"
+        name: "Set up Docker Buildx ${{ matrix.arch }}"
         uses: docker/setup-buildx-action@v1
       -
         name: "Docker quay.io Login"
@@ -63,12 +159,4 @@ jobs:
 
       - name: Build and push happy path image
         run: ./arbitrary-users-patch/happy-path/build_happy_path_image.sh --push --rm
-      -
-        name: "Build and push"
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./build/dockerfiles/Dockerfile
-          platforms: ${{ steps.package.outputs.content }}
-          tags:  quay.io/eclipse/${{ steps.prep.outputs.image }}:${{ steps.prep.outputs.version }},quay.io/eclipse/${{ steps.prep.outputs.image }}:${{ steps.prep.outputs.short_sha1 }}
-          push: true 
+

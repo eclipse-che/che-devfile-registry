@@ -1,32 +1,30 @@
 #!/bin/bash
 # Release process automation script. 
-# Used to create branch/tag, update VERSION files
-# and and trigger release by force pushing changes to the release branch 
+# Used to create branch/tag, update VERSION files 
+# and trigger release by force pushing changes to the release branch
 
-# set to 1 to actually trigger changes in the release branch
-TRIGGER_RELEASE=0 
+# set to 1 to actually tag changes in the release branch
+TAG_RELEASE=0 
 NOCOMMIT=0
 TMP=""
 REPO=git@github.com:eclipse-che/che-devfile-registry
-REGISTRY=quay.io
-ORGANIZATION=eclipse
 
 SCRIPT_DIR=$(cd "$(dirname "$0")" || exit; pwd)
 
 while [[ "$#" -gt 0 ]]; do
   case $1 in
-    '-t'|'--trigger-release') TRIGGER_RELEASE=1; NOCOMMIT=0; shift 0;;
+    '-t'|'--tag-release') TAG_RELEASE=1; NOCOMMIT=0; shift 0;;
     '-v'|'--version') VERSION="$2"; shift 1;;
     '-tmp'|'--use-tmp-dir') TMP=$(mktemp -d); shift 0;;
-    '-n'|'--no-commit') NOCOMMIT=1; TRIGGER_RELEASE=0; shift 0;;
+    '-n'|'--no-commit') NOCOMMIT=1; TAG_RELEASE=0; shift 0;;
   esac
   shift 1
 done
 
 usage ()
 {
-  echo "Usage: $0  --version [VERSION TO RELEASE] [--trigger-release]"
-  echo "Example: $0 --version 7.27.0 --trigger-release"; echo
+  echo "Usage: $0  --version [VERSION TO RELEASE] [--tag-release]"
+  echo "Example: $0 --version 7.27.0 --tag-release"; echo
 }
 
 verifyContainerExistsWithTimeout()
@@ -90,7 +88,7 @@ checkRequiredImagesExist()
   wait
 }
 
-performRelease() 
+buildAndPushImages() 
 {
   set -xe
 
@@ -103,14 +101,6 @@ performRelease()
   ./arbitrary-users-patch/happy-path/build_happy_path_image.sh --push --rm
   
   checkRequiredImagesExist
-
-  #Build and push images
-  PLATFORMS="$(cat PLATFORMS)"
-  IMAGE=che-devfile-registry
-  VERSION=$(head -n 1 VERSION)
-  SHORT_SHA1=$(git rev-parse --short HEAD)
-  DOCKERFILE_PATH=./build/dockerfiles/Dockerfile
-  docker buildx build --push --platform "${PLATFORMS}" --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${VERSION}" --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${SHORT_SHA1}" -f ${DOCKERFILE_PATH} --build-arg PATCHED_IMAGES_TAG="${VERSION}" --target registry .
 
   set +xe
 }
@@ -200,10 +190,10 @@ updateVersionFile "${VERSION}"
 # commit change into branch
 commitChangeOrCreatePR "${VERSION}" "${BRANCH}" "pr-${BRANCH}-to-${VERSION}"
 
-if [[ $TRIGGER_RELEASE -eq 1 ]]; then
+if [[ $TAG_RELEASE -eq 1 ]]; then
   # push new branch to release branch to trigger CI build
   fetchAndCheckout "${BRANCH}"
-  performRelease
+  buildAndPushImages
 
   # tag the release
   git checkout "${BRANCH}"
