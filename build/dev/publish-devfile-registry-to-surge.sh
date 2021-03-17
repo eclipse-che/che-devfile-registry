@@ -6,6 +6,7 @@
 # which is available at https://www.eclipse.org/legal/epl-2.0/
 #
 # SPDX-License-Identifier: EPL-2.0
+set -e
 
 DEFAULT_BUILD_DIR="/projects/build"
 BUILD_DIR=${BUILD_DIR:-$DEFAULT_BUILD_DIR}
@@ -16,19 +17,23 @@ SURGE_DIR=${SURGE_DIR:-$DEFAULT_SURGE_DIR}
 DEFAULT_REPO_DIR="/projects/che-devfile-registry"
 REPO_DIR=${REPO_DIR:-$DEFAULT_REPO_DIR}
 
-rm ${SURGE_DIR} -rf;
-mkdir -p ${SURGE_DIR}/images
-cd ${SURGE_DIR}
+rm "$SURGE_DIR" -rf;
+mkdir -p "$SURGE_DIR"/images
+cd "$SURGE_DIR"
 echo '*' > CORS
-cp -rf ${BUILD_DIR}/devfiles ${SURGE_DIR}/devfiles
-cp -rf ${REPO_DIR}/images/* ${SURGE_DIR}/images
-export CHE_DEVFILE_REGISTRY_URL=https://${CHE_WORKSPACE_NAMESPACE}-${CHE_WORKSPACE_NAME}.surge.sh
-export DEVFILES_DIR=${SURGE_DIR}/devfiles
-${REPO_DIR}/build/dockerfiles/entrypoint.sh echo "done running entrypoint.sh to publish to surge"
+cp -rf "$BUILD_DIR/devfiles" "$SURGE_DIR/devfiles"
+cp -rf "$REPO_DIR"/images/* "$SURGE_DIR/images"
 
-for directory in `find . -type d`
+CHE_DEVFILE_REGISTRY_URL="https://$CHE_WORKSPACE_NAMESPACE-$CHE_WORKSPACE_NAME.surge.sh"
+DEVFILES_DIR=${SURGE_DIR}/devfiles
+
+export CHE_DEVFILE_REGISTRY_URL
+export DEVFILES_DIR
+"$REPO_DIR/build/dockerfiles/entrypoint.sh" echo "done running entrypoint.sh to publish to surge"
+
+while IFS= read -r -d '' directory
 do
-  (cd $directory && tree -H '.' -L 1 --noreport --charset utf-8 | sed '/<p class="VERSION">/,/<\/p>/d' > index.html);
-done
-surge ./ ${CHE_WORKSPACE_NAMESPACE}-${CHE_WORKSPACE_NAME}.surge.sh && echo Checkout the published plugin registry at https://${CHE_WORKSPACE_NAMESPACE}-${CHE_WORKSPACE_NAME}.surge.sh/devfiles/
+  (cd "$directory" && tree -H '.' -L 1 --noreport --charset utf-8 | sed '/<p class="VERSION">/,/<\/p>/d' > index.html);
+done <   <(find . -type d -print0)
 
+surge ./ "$CHE_WORKSPACE_NAMESPACE-$CHE_WORKSPACE_NAME.surge.sh" && echo "Checkout the published devfile registry at https://$CHE_WORKSPACE_NAMESPACE-$CHE_WORKSPACE_NAME.surge.sh/devfiles/"
