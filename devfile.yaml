@@ -38,6 +38,10 @@ components:
     type: chePlugin
     registryUrl: 'https://che-plugin-registry-main.surge.sh/v3'
 
+  - id: timonwong/shellcheck/latest
+    type: chePlugin
+    registryUrl: 'https://che-plugin-registry-main.surge.sh/v3'
+
   - id: ms-vscode/vscode-github-pullrequest/latest
     type: chePlugin
 
