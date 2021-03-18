@@ -120,19 +120,13 @@ commitChangeOrCreatePR()
 
 # unlike in che-plugin-registry, here we just need to update the VERSION file
 updateVersionFile () {
-  newVERSION="$1"
-  thisVERSION="$2" # if false, don't update VERSION file; otherwise use this value in VERSION
-  pwd
-
-  # for .z releases, VERSION files should not be updated in master branch (only in .z branch)
-  if [[ ${thisVERSION} != "false" ]]; then
-    # update VERSION file with VERSION or NEWVERSION
-    echo "${thisVERSION}" > VERSION
-  fi
+  thisVERSION="$1"
+  # update VERSION file with VERSION or NEWVERSION
+  echo "${thisVERSION}" > VERSION
 }
 
 # bump VERSION file to VERSION
-updateVersionFile "${VERSION}" "${VERSION}"
+updateVersionFile "${VERSION}"
 
 # commit change into branch
 commitChangeOrCreatePR "${VERSION}" "${BRANCH}" "pr-${BRANCH}-to-${VERSION}"
@@ -163,7 +157,7 @@ else
 fi
 
 # bump VERSION file to NEXTVERSION
-updateVersionFile "${VERSION}" "${NEXTVERSION}"
+updateVersionFile "${NEXTVERSION}"
 commitChangeOrCreatePR "${NEXTVERSION}" "${BASEBRANCH}" "pr-${BASEBRANCH}-to-${NEXTVERSION}"
 
 popd > /dev/null || exit
