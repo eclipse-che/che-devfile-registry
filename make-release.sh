@@ -34,11 +34,12 @@ performRelease()
   /bin/bash arbitrary-users-patch/build_images.sh --push
 
   #Build and push images
-  SHORT_SHA1=$(git rev-parse --short HEAD)
-  VERSION=$(head -n 1 VERSION)
+  PLATFORMS="$(cat PLATFORMS)"
   IMAGE=che-devfile-registry
+  VERSION=$(head -n 1 VERSION)
+  SHORT_SHA1=$(git rev-parse --short HEAD)
   DOCKERFILE_PATH=./build/dockerfiles/Dockerfile
-  docker buildx build --platform "$PLATFORMS" -t ${IMAGE} -f ${DOCKERFILE_PATH} --build-arg PATCHED_IMAGES_TAG="${VERSION}" --target registry .
+  docker buildx build --platform "${PLATFORMS}" -t ${IMAGE} -f ${DOCKERFILE_PATH} --build-arg PATCHED_IMAGES_TAG="${VERSION}" --target registry .
   docker tag ${IMAGE} "quay.io/eclipse/${IMAGE}:${SHORT_SHA1}"
   docker push "quay.io/eclipse/${IMAGE}:${SHORT_SHA1}"
   docker tag ${IMAGE} "quay.io/eclipse/${IMAGE}:${VERSION}"
