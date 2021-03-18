@@ -1,6 +1,6 @@
 #!/bin/bash
 # Release process automation script. 
-# Used to create branch/tag, update VERSION files 
+# Used to create branch/tag, update VERSION files
 # and and trigger release by force pushing changes to the release branch 
 
 # set to 1 to actually trigger changes in the release branch
@@ -8,6 +8,8 @@ TRIGGER_RELEASE=0
 NOCOMMIT=0
 TMP=""
 REPO=git@github.com:eclipse/che-devfile-registry
+REGISTRY=quay.io
+ORGANIZATION=eclipse
 
 while [[ "$#" -gt 0 ]]; do
   case $1 in
@@ -34,15 +36,12 @@ performRelease()
   /bin/bash arbitrary-users-patch/build_images.sh --push
 
   #Build and push images
-  SHORT_SHA1=$(git rev-parse --short HEAD)
-  VERSION=$(head -n 1 VERSION)
+  PLATFORMS="$(cat PLATFORMS)"
   IMAGE=che-devfile-registry
+  VERSION=$(head -n 1 VERSION)
+  SHORT_SHA1=$(git rev-parse --short HEAD)
   DOCKERFILE_PATH=./build/dockerfiles/Dockerfile
-  docker buildx build --platform "$PLATFORMS" -t ${IMAGE} -f ${DOCKERFILE_PATH} --build-arg PATCHED_IMAGES_TAG="${VERSION}" --target registry .
-  docker tag ${IMAGE} "quay.io/eclipse/${IMAGE}:${SHORT_SHA1}"
-  docker push "quay.io/eclipse/${IMAGE}:${SHORT_SHA1}"
-  docker tag ${IMAGE} "quay.io/eclipse/${IMAGE}:${VERSION}"
-  docker push "quay.io/eclipse/${IMAGE}:${VERSION}"
+  docker buildx build --push --platform "${PLATFORMS}" --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${VERSION}" --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${SHORT_SHA1}" -f ${DOCKERFILE_PATH} --build-arg PATCHED_IMAGES_TAG="${VERSION}" --target registry .
 }
 
 if [[ ! ${VERSION} ]]; then
@@ -60,41 +59,80 @@ else
   BASEBRANCH="${BRANCH}"
 fi
 
-# work in tmp dir
-if [[ $TMP ]] && [[ -d $TMP ]]; then
+fetchAndCheckout ()
+{
+  bBRANCH="$1"
+  git fetch origin "${bBRANCH}:${bBRANCH}"; git checkout "${bBRANCH}"
+}
+
+# work in tmp dir if not already checked out by GH action
+if [[ ! -d ${REPO##*/} ]]; then
+  if [[ ! $TMP ]] || [[ ! -d $TMP ]]; then TMP=$(mktemp -d); fi
   pushd "$TMP" > /dev/null || exit 1
   # get sources from ${BASEBRANCH} branch
   echo "Check out ${REPO} to ${TMP}/${REPO##*/}"
   git clone "${REPO}" -q
   cd "${REPO##*/}" || exit 1
 fi
-
-git fetch origin "${BASEBRANCH}":"${BASEBRANCH}"
-git checkout "${BASEBRANCH}"
+fetchAndCheckout "${BASEBRANCH}"
 
 # create new branch off ${BASEBRANCH} (or check out latest commits if branch already exists), then push to origin
 if [[ "${BASEBRANCH}" != "${BRANCH}" ]]; then
   git branch "${BRANCH}" || git checkout "${BRANCH}" && git pull origin "${BRANCH}"
   git push origin "${BRANCH}"
-  git fetch origin "${BRANCH}:${BRANCH}"
-  git checkout "${BRANCH}"
+  fetchAndCheckout "${BRANCH}"
 fi
 
-# change VERSION file
-echo "${VERSION}" > VERSION
+commitChangeOrCreatePR()
+{
+  if [[ ${NOCOMMIT} -eq 1 ]]; then
+    echo "[INFO] NOCOMMIT = 1; so nothing will be committed. Run this script with no flags for usage + list of flags/options."
+  else
+    aVERSION="$1"
+    aBRANCH="$2"
+    PR_BRANCH="$3"
+
+    if [[ ${PR_BRANCH} == *"add"* ]]; then
+      COMMIT_MSG="[release] Add ${aVERSION} plugins in ${aBRANCH}"
+    else 
+      COMMIT_MSG="[release] Bump to ${aVERSION} in ${aBRANCH}"
+    fi
+
+    # commit change into branch
+    git add -A || true
+    git commit -s -m "${COMMIT_MSG}"
+    git pull origin "${aBRANCH}"
+
+    PUSH_TRY="$(git push origin "${aBRANCH}")"
+    # shellcheck disable=SC2181
+    if [[ $? -gt 0 ]] || [[ $PUSH_TRY == *"protected branch hook declined"* ]]; then
+      # create pull request for master branch, as branch is restricted
+      git branch "${PR_BRANCH}"
+      git checkout "${PR_BRANCH}"
+      git pull origin "${PR_BRANCH}"
+      git push origin "${PR_BRANCH}"
+      lastCommitComment="$(git log -1 --pretty=%B)"
+      hub pull-request -f -m "${lastCommitComment}" -b "${aBRANCH}" -h "${PR_BRANCH}"
+    fi
+  fi
+}
+
+# unlike in che-plugin-registry, here we just need to update the VERSION file
+updateVersionFile () {
+  thisVERSION="$1"
+  # update VERSION file with VERSION or NEWVERSION
+  echo "${thisVERSION}" > VERSION
+}
+
+# bump VERSION file to VERSION
+updateVersionFile "${VERSION}"
 
 # commit change into branch
-if [[ ${NOCOMMIT} -eq 0 ]]; then
-  COMMIT_MSG="[release] Bump to ${VERSION} in ${BRANCH}"
-  git commit -s -m "${COMMIT_MSG}" VERSION
-  git pull origin "${BRANCH}"
-  git push origin "${BRANCH}"
-fi
+commitChangeOrCreatePR "${VERSION}" "${BRANCH}" "pr-${BRANCH}-to-${VERSION}"
 
 if [[ $TRIGGER_RELEASE -eq 1 ]]; then
   # push new branch to release branch to trigger CI build
-  git fetch origin "${BRANCH}:${BRANCH}"
-  git checkout "${BRANCH}"
+  fetchAndCheckout "${BRANCH}"
   performRelease
 
   # tag the release
@@ -104,8 +142,7 @@ if [[ $TRIGGER_RELEASE -eq 1 ]]; then
 fi
 
 # now update ${BASEBRANCH} to the new snapshot version
-git fetch origin "${BASEBRANCH}":"${BASEBRANCH}"
-git checkout "${BASEBRANCH}"
+fetchAndCheckout "${BASEBRANCH}"
 
 # change VERSION file + commit change into ${BASEBRANCH} branch
 if [[ "${BASEBRANCH}" != "${BRANCH}" ]]; then
@@ -118,28 +155,9 @@ else
   NEXTVERSION="${BASE}.${NEXT}-SNAPSHOT"
 fi
 
-# change VERSION file
-echo "${NEXTVERSION}" > VERSION
-if [[ ${NOCOMMIT} -eq 0 ]]; then
-  BRANCH=${BASEBRANCH}
-  # commit change into branch
-  COMMIT_MSG="[release] Bump to ${NEXTVERSION} in ${BRANCH}"
-  git commit -s -m "${COMMIT_MSG}" VERSION
-  git pull origin "${BRANCH}"
-
-  PUSH_TRY="$(git push origin "${BRANCH}")"
-  # shellcheck disable=SC2181
-  if [[ $? -gt 0 ]] || [[ $PUSH_TRY == *"protected branch hook declined"* ]]; then
-  PR_BRANCH=pr-master-to-${NEXTVERSION}
-    # create pull request for master branch, as branch is restricted
-    git branch "${PR_BRANCH}"
-    git checkout "${PR_BRANCH}"
-    git pull origin "${PR_BRANCH}"
-    git push origin "${PR_BRANCH}"
-    lastCommitComment="$(git log -1 --pretty=%B)"
-    hub pull-request -f -m "${lastCommitComment}" -b "${BRANCH}" -h "${PR_BRANCH}"
-  fi 
-fi
+# bump VERSION file to NEXTVERSION
+updateVersionFile "${NEXTVERSION}"
+commitChangeOrCreatePR "${NEXTVERSION}" "${BASEBRANCH}" "pr-${BASEBRANCH}-to-${NEXTVERSION}"
 
 popd > /dev/null || exit
 
