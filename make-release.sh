@@ -8,6 +8,8 @@ TRIGGER_RELEASE=0
 NOCOMMIT=0
 TMP=""
 REPO=git@github.com:eclipse/che-devfile-registry
+REGISTRY=quay.io
+ORGANIZATION=eclipse
 
 while [[ "$#" -gt 0 ]]; do
   case $1 in
@@ -39,11 +41,7 @@ performRelease()
   VERSION=$(head -n 1 VERSION)
   SHORT_SHA1=$(git rev-parse --short HEAD)
   DOCKERFILE_PATH=./build/dockerfiles/Dockerfile
-  docker buildx build --platform "${PLATFORMS}" -t ${IMAGE} -f ${DOCKERFILE_PATH} --build-arg PATCHED_IMAGES_TAG="${VERSION}" --target registry .
-  docker tag ${IMAGE} "quay.io/eclipse/${IMAGE}:${SHORT_SHA1}"
-  docker push "quay.io/eclipse/${IMAGE}:${SHORT_SHA1}"
-  docker tag ${IMAGE} "quay.io/eclipse/${IMAGE}:${VERSION}"
-  docker push "quay.io/eclipse/${IMAGE}:${VERSION}"
+  docker buildx build --push --platform "${PLATFORMS}" --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${VERSION}" --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${SHORT_SHA1}" -f ${DOCKERFILE_PATH} --build-arg PATCHED_IMAGES_TAG="${VERSION}" --target registry .
 }
 
 if [[ ! ${VERSION} ]]; then
