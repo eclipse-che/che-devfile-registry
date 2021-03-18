@@ -66,7 +66,7 @@ fetchAndCheckout ()
 }
 
 # work in tmp dir if --use-tmp-dir (not required when running as GH action)
-if [[ $TMP ]] && [[ -d $TMP ]]; then 
+if [[ $TMP ]] && [[ -d $TMP ]]; then
   pushd "$TMP" > /dev/null || exit 1
   # get sources from ${BASEBRANCH} branch
   echo "Check out ${REPO} to ${TMP}/${REPO##*/}"
@@ -158,9 +158,8 @@ fi
 updateVersionFile "${NEXTVERSION}"
 commitChangeOrCreatePR "${NEXTVERSION}" "${BASEBRANCH}" "pr-${BASEBRANCH}-to-${NEXTVERSION}"
 
-popd > /dev/null || exit
-
 # cleanup tmp dir
 if [[ $TMP ]] && [[ -d $TMP ]]; then
+  popd >/dev/null || true
   rm -fr "$TMP"
 fi
