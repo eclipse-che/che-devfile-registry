@@ -9,6 +9,7 @@ projects:
       type: git
       location: "https://github.com/quarkusio/quarkus-quickstarts.git"
       sparseCheckoutDir: getting-started-command-mode
+      branch: main
 components:
   -
     type: chePlugin
