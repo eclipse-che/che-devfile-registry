@@ -49,13 +49,6 @@ components:
   mountSources: true
 commands:
 -
-  name: 6. Start Artisan Web Server
-  actions:
-  - type: exec
-    component: php
-    command: "php artisan serve --host 0.0.0.0"
-    workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
--
   name: 1. Install dependencies
   actions:
   - type: exec
@@ -89,4 +82,11 @@ commands:
   - type: exec
     component: php
     command: "php artisan migrate"
+    workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
+-
+  name: 6. Start Artisan Web Server
+  actions:
+  - type: exec
+    component: php
+    command: "php artisan serve --host 0.0.0.0"
     workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
