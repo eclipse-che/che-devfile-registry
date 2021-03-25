@@ -85,7 +85,7 @@ commands:
           read -p 'Enter your name [Eclipse Che]: ' name;
           name=${name:-'Eclipse Che'};
           set -o xtrace;
-          ./getting-started-command-mode-1.0-SNAPSHOT-runner $name
+          ./getting-started-command-mode-1.0.0-SNAPSHOT-runner $name
         workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started-command-mode/target
   -
     name: Attach remote debugger
