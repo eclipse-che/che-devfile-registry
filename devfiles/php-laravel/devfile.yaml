@@ -49,44 +49,44 @@ components:
   mountSources: true
 commands:
 -
-  name: Start Artisan Web Server
-  actions:
-  - type: exec
-    component: php
-    command: "php artisan serve"
-    workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
--
-  name: Install dependencies
+  name: 1. Install dependencies
   actions:
   - type: exec
     component: php
     command: "composer install"
     workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
 -
-  name: Copy the example env file and make the required configuration changes in the .env file
+  name: 2. Copy the example env file and make the required configuration changes in the .env file
   actions:
   - type: exec
     component: php
     command: "cp .env.example .env"
     workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
 -
-  name: Generate a new application key
+  name: 3. Generate a new application key
   actions:
   - type: exec
     component: php
     command: "php artisan key:generate"
     workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
 -
-  name: Generate a new JWT authentication secret key
+  name: 4. Generate a new JWT authentication secret key
   actions:
   - type: exec
     component: php
-    command: "php artisan jwt:generate"
+    command: "php artisan jwt:secret"
     workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
 -
-  name: Run the database migrations
+  name: 5. Run the database migrations
   actions:
   - type: exec
     component: php
     command: "php artisan migrate"
+    workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
+-
+  name: 6. Start Artisan Web Server
+  actions:
+  - type: exec
+    component: php
+    command: "php artisan serve --host 0.0.0.0"
     workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
