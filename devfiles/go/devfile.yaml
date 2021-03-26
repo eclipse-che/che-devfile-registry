@@ -1,5 +1,7 @@
 ---
 apiVersion: 1.0.0
+attributes:
+  multiRoot: 'off'
 metadata:
   generateName: golang-
 projects:
