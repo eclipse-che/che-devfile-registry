@@ -35,9 +35,9 @@ Once the Quarkus server is started, the Che workspace will suggest you to open t
 
 
 ## Open GreetingService.java to make some live changes
-1. Open the file [GreetingService.java](didact://?commandId=vscode.open&projectFilePath=quarkus-quickstarts%2Fgetting-started%2Fsrc%2Fmain%2Fjava%2Forg%2Facme%2Fgetting%2Fstarted%2FGreetingService.java&number=2).
+1. Open the file [GreetingService.java](didact://?commandId=vscode.open&projectFilePath=getting-started%2Fsrc%2Fmain%2Fjava%2Forg%2Facme%2Fgetting%2Fstarted%2FGreetingService.java&number=2).
 2. You may need to wait for the Quarkus extension to be activated (see status bar).
-3. In [GreetingService.java](didact://?commandId=vscode.open&projectFilePath=quarkus-quickstarts%2Fgetting-started%2Fsrc%2Fmain%2Fjava%2Forg%2Facme%2Fgetting%2Fstarted%2FGreetingService.java&number=2) set the name in uppercase using the auto complete (`Ctrl-Space`).
+3. In [GreetingService.java](didact://?commandId=vscode.open&projectFilePath=getting-started%2Fsrc%2Fmain%2Fjava%2Forg%2Facme%2Fgetting%2Fstarted%2FGreetingService.java&number=2) set the name in uppercase using the auto complete (`Ctrl-Space`).
    ```
    public String greeting(String name) {
      return "hello " + name.toUpperCase();
@@ -49,7 +49,7 @@ Once the Quarkus server is started, the Che workspace will suggest you to open t
 Let's try to debug the application:
 
 1. Start the debugger by hitting `F5` or clicking [here](didact://?commandId=workbench.action.debug.start)
-2. Open the file [GreetingResource.java](didact://?commandId=vscode.open&projectFilePath=quarkus-quickstarts%2Fgetting-started%2Fsrc%2Fmain%2Fjava%2Forg%2Facme%2Fgetting%2Fstarted%2FGreetingResource.java&number=2).
+2. Open the file [GreetingResource.java](didact://?commandId=vscode.open&projectFilePath=getting-started%2Fsrc%2Fmain%2Fjava%2Forg%2Facme%2Fgetting%2Fstarted%2FGreetingResource.java&number=2).
 3. Add a break point at line 21
     ```
     return service.greeting(name);
