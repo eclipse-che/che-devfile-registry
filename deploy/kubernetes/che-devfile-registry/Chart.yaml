@@ -10,4 +10,4 @@
 apiVersion: "v1"
 name: "che-devfile-registry-service"
 version: "0.0.1"
-home: "https://github.com/eclipse/che-devfile-registry/"
+home: "https://github.com/eclipse-che/che-devfile-registry/"
