@@ -7,7 +7,7 @@
 TRIGGER_RELEASE=0 
 NOCOMMIT=0
 TMP=""
-REPO=git@github.com:eclipse/che-devfile-registry
+REPO=git@github.com:eclipse-che/che-devfile-registry
 REGISTRY=quay.io
 ORGANIZATION=eclipse
 

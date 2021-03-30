@@ -80,7 +80,7 @@ jobs:
       - name: Create failure MM message
         if: ${{ failure() }}
         run: |
-          echo "{\"text\":\":building_construction: Che Devfile Registry ${{ github.event.inputs.version }} release has failed: https://github.com/eclipse/che-devfile-registry/actions/workflows/release.yml\"}" > mattermost.json
+          echo "{\"text\":\":building_construction: Che Devfile Registry ${{ github.event.inputs.version }} release has failed: https://github.com/eclipse-che/che-devfile-registry/actions/workflows/release.yml\"}" > mattermost.json
       - name: Create success MM message
         run: |
           echo "{\"text\":\":building_construction: Che Devfile Registry ${{ github.event.inputs.version }} has been released: https://quay.io/eclipse/che-devfile-registry:${{ github.event.inputs.version }}\"}" > mattermost.json
