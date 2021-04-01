@@ -76,7 +76,6 @@ jobs:
           git config --global user.email "mkuznets@redhat.com"
 
           export GITHUB_TOKEN=${{ secrets.CHE_BOT_GITHUB_TOKEN }}
-          set -xe
           ./make-release.sh --version ${{ github.event.inputs.version}} --trigger-release
       - name: Create failure MM message
         if: ${{ failure() }}
