@@ -34,8 +34,8 @@ performRelease()
   #Build and push patched base images and happy path image
   TAG=$(head -n 1 VERSION)
   export TAG
-  ./arbitrary-users-patch/happy-path/build_happy_path_image.sh --push
-  ./arbitrary-users-patch/build_images.sh --push
+  ./arbitrary-users-patch/happy-path/build_happy_path_image.sh --push --rm
+  ./arbitrary-users-patch/build_images.sh --push --rm
 
   #Build and push images
   PLATFORMS="$(cat PLATFORMS)"
