@@ -12,6 +12,9 @@ set -e
 
 TOOLING="vim nano"
 
+# to avoid shellcheck complaints, but also not break if using "${TOOLING}" because of
+# ERROR: 'vim nano' is not a valid world dependency, format is name(@tag)([<>~=]version)
+# shellcheck disable=SC2086
 if command -v dnf 2> /dev/null; then
   dnf install -y ${TOOLING}
   dnf -y clean all
