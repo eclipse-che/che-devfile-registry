@@ -23,8 +23,13 @@ TAG=${TAG:-${DEFAULT_TAG}}
 NAME_FORMAT="${REGISTRY}/${ORGANIZATION}"
 
 PUSH_IMAGES=false
-if [ "$1" == "--push" ]; then
+if [ "$1" == "--push" ] || [ "$2" == "--push" ]; then
   PUSH_IMAGES=true
+fi
+
+RM_IMAGES=false
+if [ "$1" == "--rm" ] || [ "$2" == "--rm" ]; then
+  RM_IMAGES=true
 fi
 
 BUILT_IMAGES=""
@@ -34,8 +39,12 @@ while read -r line; do
   echo "Building ${NAME_FORMAT}/${base_image_name}:${TAG} based on $base_image ..."
   docker build -t "${NAME_FORMAT}/${base_image_name}:${TAG}" --no-cache --build-arg FROM_IMAGE="$base_image" "${SCRIPT_DIR}"/ | cat
   if ${PUSH_IMAGES}; then
-    echo "Pushing ${NAME_FORMAT}/${base_image_name}:${TAG}" to remote registry
+    echo "Pushing ${NAME_FORMAT}/${base_image_name}:${TAG} to remote registry"
     docker push "${NAME_FORMAT}/${base_image_name}:${TAG}" | cat
+  fi
+  if ${RM_IMAGES}; then # save disk space by deleting the image we just published
+    echo "Deleting ${NAME_FORMAT}/${base_image_name}:${TAG} from local registry"
+    docker rmi "${NAME_FORMAT}/${base_image_name}:${TAG}"
   fi
   BUILT_IMAGES="${BUILT_IMAGES}    ${NAME_FORMAT}/${base_image_name}:${TAG}\n"
 done < "${SCRIPT_DIR}"/base_images
