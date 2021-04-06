@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright (c) 2020-2021 Red Hat, Inc.
 # This program and the accompanying materials are made
@@ -10,19 +10,22 @@
 
 set -e
 
-TOOLING=(vim nano)
+TOOLING="vim nano"
 
+# to avoid shellcheck complaints, but also not break if using "${TOOLING}" because of
+# ERROR: 'vim nano' is not a valid world dependency, format is name(@tag)([<>~=]version)
+# shellcheck disable=SC2086
 if command -v dnf 2> /dev/null; then
-  dnf install -y "${TOOLING[@]}"
+  dnf install -y ${TOOLING}
   dnf -y clean all
 elif command -v yum 2> /dev/null; then
-  yum install -y "${TOOLING[@]}"
+  yum install -y ${TOOLING}
   yum -y clean all
 elif command -v apt-get 2> /dev/null; then
   apt-get update
-  apt-get install -y "${TOOLING[@]}"
+  apt-get install -y ${TOOLING}
   apt-get clean
   rm -rf /var/lib/apt/lists/*
 elif command -v apk 2> /dev/null; then
-  apk add --no-cache "${TOOLING[@]}"
+  apk add --no-cache ${TOOLING}
 fi
