@@ -34,19 +34,20 @@ fi
 
 BUILT_IMAGES=""
 while read -r line; do
-  base_image_name=$(echo "$line" | tr -s ' ' | cut -f 1 -d ' ')
-  base_image=$(echo "$line" | tr -s ' ' | cut -f 2 -d ' ')
-  echo "Building ${NAME_FORMAT}/${base_image_name}:${TAG} based on $base_image ..."
-  docker build -t "${NAME_FORMAT}/${base_image_name}:${TAG}" --no-cache --build-arg FROM_IMAGE="$base_image" "${SCRIPT_DIR}"/ | cat
+  dev_container_name=$(echo "$line" | tr -s ' ' | cut -f 1 -d ' ')
+  base_image_name=$(echo "$line" | tr -s ' ' | cut -f 2 -d ' ')
+  base_image_digest=$(echo "$line" | tr -s ' ' | cut -f 3 -d ' ')
+  echo "Building ${NAME_FORMAT}/${dev_container_name}:${TAG} based on $base_image_name ..."
+  docker build -t "${NAME_FORMAT}/${dev_container_name}:${TAG}" --no-cache --build-arg FROM_IMAGE="$base_image_digest" "${SCRIPT_DIR}"/ | cat
   if ${PUSH_IMAGES}; then
-    echo "Pushing ${NAME_FORMAT}/${base_image_name}:${TAG} to remote registry"
-    docker push "${NAME_FORMAT}/${base_image_name}:${TAG}" | cat
+    echo "Pushing ${NAME_FORMAT}/${dev_container_name}:${TAG} to remote registry"
+    docker push "${NAME_FORMAT}/${dev_container_name}:${TAG}" | cat
   fi
   if ${RM_IMAGES}; then # save disk space by deleting the image we just published
-    echo "Deleting ${NAME_FORMAT}/${base_image_name}:${TAG} from local registry"
-    docker rmi "${NAME_FORMAT}/${base_image_name}:${TAG}"
+    echo "Deleting ${NAME_FORMAT}/${dev_container_name}:${TAG} from local registry"
+    docker rmi "${NAME_FORMAT}/${dev_container_name}:${TAG}"
   fi
-  BUILT_IMAGES="${BUILT_IMAGES}    ${NAME_FORMAT}/${base_image_name}:${TAG}\n"
+  BUILT_IMAGES="${BUILT_IMAGES}    ${NAME_FORMAT}/${dev_container_name}:${TAG}\n"
 done < "${SCRIPT_DIR}"/base_images
 
 echo "Built images:"
