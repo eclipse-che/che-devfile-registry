@@ -16,7 +16,7 @@ on:
 
 jobs:
   shellcheck:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v1
 
@@ -26,7 +26,7 @@ jobs:
           find . -type f -name '*.sh' | xargs shellcheck --external-sources
 
   digest-validation:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v1
     - name: Run script which checks container image digest
@@ -34,9 +34,18 @@ jobs:
         sudo pip install yq
         /bin/bash .ci/devfile-images-check.sh
 
-  build:
+  build-dev-containers:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v1
 
-    runs-on: ubuntu-latest
+      - name: Build dev container images
+        run: ./arbitrary-users-patch/build_images.sh --rm
+
+  build-main-image:
+
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v1

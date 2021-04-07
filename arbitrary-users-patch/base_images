@@ -1,18 +1,17 @@
-che-antora-2.3          docker.io/antora/antora:2.3.3
-che-cpp-rhel7           registry.access.redhat.com/devtools/llvm-toolset-rhel7
-che-dotnet-2.2          mcr.microsoft.com/dotnet/core/sdk:2.2-stretch
-che-dotnet-3.1          mcr.microsoft.com/dotnet/core/sdk:3.1.301-buster
-che-golang-1.12         golang:1.12-stretch
-che-golang-1.14         golang:1.14-stretch
-che-java11-gradle       gradle:6.6.1-jdk11
-che-java11-maven        maven:3.6.3-jdk-11
-che-java8-maven         maven:3.6.1-jdk-8
-che-nodejs10-community  node:10.16
-che-nodejs12-community  node:12.18
-che-nodejs10-ubi        registry.access.redhat.com/ubi8/nodejs-10
-che-nodejs8-centos      registry.centos.org/che-stacks/centos-nodejs
-che-php-7               quay.io/eclipse/che-php-base:7.4
-che-python-3.6          centos/python-36-centos7:1
-che-python-3.8          python:3.8.6-slim
-che-quarkus             quay.io/quarkus/centos-quarkus-maven:21.0-java11
-che-rust-1.39           rust:1.39.0-slim
+che-antora-2.3          docker.io/antora/antora:2.3.3                           docker.io/antora/antora@sha256:fbf31b3be4e5dd215c82f9b5b403c5e746f68bcf50ced9b7d41b6d1414aa5714
+che-cpp-rhel7           registry.access.redhat.com/devtools/llvm-toolset-rhel7  registry.access.redhat.com/devtools/llvm-toolset-rhel7@sha256:24573aefd172be551ab4ae047a31f5ba5cd59f2e5bc207188f3b7045ac9d7c72
+che-dotnet-2.2          mcr.microsoft.com/dotnet/core/sdk:2.2-stretch           mcr.microsoft.com/dotnet/core/sdk@sha256:db9b38d066fdbdd5ac5ce862076c27e4ae17f2b57cbacd03bdc3b24e06696ae8
+che-dotnet-3.1          mcr.microsoft.com/dotnet/core/sdk:3.1.301-buster        mcr.microsoft.com/dotnet/core/sdk@sha256:c87fd21bdebb2c2d573ecd703981476e5b8ac6a0e96d134722bb672e1c231fea
+che-golang-1.12         docker.io/golang:1.12-stretch                           docker.io/golang@sha256:8b0f4fee390ca1308ef5c522accad9f7d98a4134fcde1b2cff33df1cbb1b3b97
+che-golang-1.14         docker.io/golang:1.14-stretch                           docker.io/golang@sha256:a60bc0c6be7e352336044e68db7089d8604864933fcbc0d7cb2285d60b0b2d98
+che-java11-gradle       docker.io/gradle:6.6.1-jdk11                            docker.io/gradle@sha256:c25f15608cd9bee8e290dd5654f9a784bea4505719fdedd0ad7ac640bed0fc50
+che-java11-maven        docker.io/maven:3.6.3-jdk-11                            docker.io/maven@sha256:1d29ccf46ef2a5e64f7de3d79a63f9bcffb4dc56be0ae3daed5ca5542b38aa2d
+che-java8-maven         docker.io/maven:3.6.1-jdk-8                             docker.io/maven@sha256:69b40237b342fee9bf996b81110f4dab250a4bc6a2ee52866965101eda066324
+che-nodejs10-community  docker.io/node:10.16                                    docker.io/node@sha256:f4b6f471cdd4b66b27eef899e7f8423ecd9fbfc863b2cb7a59978a7f64c8e0c3
+che-nodejs12-community  docker.io/node:12.18                                    docker.io/node@sha256:8cfe7e8dc60095a4f9d25a3f0f208503559fa033a15e2ddd87dee85bec101a2e
+che-nodejs10-ubi        registry.access.redhat.com/ubi8/nodejs-10               registry.access.redhat.com/ubi8/nodejs-10@sha256:4dcc1a1c4ca1f3c753e82c994805aa6b1ec10ecddbce5ee7f1a4ba5d3a83b6ab
+che-nodejs8-centos      registry.centos.org/che-stacks/centos-nodejs            registry.centos.org/che-stacks/centos-nodejs@sha256:d5cef8b16d9596ff334328b046894e0415e5be470a134357db590b4209922f99
+che-php-7               quay.io/eclipse/che-php-base:7.4                        quay.io/eclipse/che-php-base@sha256:76f9b832d3d4bb726a4528f60048211a5ab98af341cbb1cf4fb05714d6478e0b
+che-python-3.8          docker.io/python:3.8.6-slim                             docker.io/python@sha256:83323df595e261d5aabf0c96c5ae65dcaa42049495c86de21f54c39d61a824ff
+che-quarkus             quay.io/quarkus/centos-quarkus-maven:21.0-java11        quay.io/quarkus/centos-quarkus-maven@sha256:c6878af4497b9613fa381660799118aae4e7bc797c548df4e4617c0beda6d4a6
+che-rust-1.39           docker.io/rust:1.39.0-slim                              docker.io/rust@sha256:b47dd7b5f59bea2bc19ac18e81cc6b5b3cfe6c4e40082cab09604b296bca2652
