@@ -129,8 +129,23 @@ updateVersionFile () {
   echo "${thisVERSION}" > VERSION
 }
 
+# update all registryUrl instances to the latest version
+updateRegistryUrls () {
+  thisVERSION="$1"
+  # shellcheck disable=SC2207
+  devfiles=($(find . -type f -name "devfile.yaml"))
+  baseUrl="https://eclipse-che.github.io/che-plugin-registry/"
+  for devfile in "${devfiles[@]}"
+  do
+	  sed -i "$devfile" -e "s#registryUrl: \(['\"]*\)${baseUrl}\([0-9]\+\.[0-9]\+\.[0-9]\+\)/v3/\1#registryUrl: \1${baseUrl}${thisVERSION}/v3/\1#"
+  done
+}
+
 # bump VERSION file to VERSION
 updateVersionFile "${VERSION}"
+
+# bump registryUrl fields
+updateRegistryUrls "${VERSION}"
 
 # commit change into branch
 commitChangeOrCreatePR "${VERSION}" "${BRANCH}" "pr-${BRANCH}-to-${VERSION}"

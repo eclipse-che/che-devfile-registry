@@ -13,6 +13,7 @@ projects:
 components:
   -
     type: chePlugin
+    registryUrl: "https://eclipse-che.github.io/che-plugin-registry/7.29.0/v3/"
     id: redhat/quarkus-java11/latest
   -
     type: dockerimage
@@ -62,6 +63,7 @@ components:
       che.welcome.enable: false
       didact.openDefaultTutorialAtStartup: true
     type: chePlugin
+    registryUrl: "https://eclipse-che.github.io/che-plugin-registry/7.29.0/v3/"
     alias: didact-plugin
 
 commands:

@@ -12,10 +12,12 @@ projects:
 components:
   -
     type: chePlugin
+    registryUrl: "https://eclipse-che.github.io/che-plugin-registry/7.29.0/v3/"
     alias: omnisharp
     id: redhat-developer/che-omnisharp-plugin/latest
   -
     type: chePlugin
+    registryUrl: "https://eclipse-che.github.io/che-plugin-registry/7.29.0/v3/"
     alias: netcoredbg
     id: redhat-developer/netcoredbg-theia-plugin/latest
   -

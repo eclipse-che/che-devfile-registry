@@ -32,15 +32,15 @@ components:
 
   - id: eamodio/gitlens/latest
     type: chePlugin
-    registryUrl: 'https://che-plugin-registry-main.surge.sh/v3'
+    registryUrl: "https://eclipse-che.github.io/che-plugin-registry/7.29.0/v3/"
 
   - id: donjayamanne/githistory/latest
     type: chePlugin
-    registryUrl: 'https://che-plugin-registry-main.surge.sh/v3'
+    registryUrl: 'https://eclipse-che.github.io/che-plugin-registry/7.29.0/v3/'
 
   - id: timonwong/shellcheck/latest
     type: chePlugin
-    registryUrl: 'https://che-plugin-registry-main.surge.sh/v3'
+    registryUrl: 'https://eclipse-che.github.io/che-plugin-registry/7.29.0/v3/'
 
   - id: ms-vscode/vscode-github-pullrequest/latest
     type: chePlugin

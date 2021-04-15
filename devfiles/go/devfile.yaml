@@ -21,6 +21,7 @@ projects:
 components:
 -
   type: chePlugin
+  registryUrl: "https://eclipse-che.github.io/che-plugin-registry/7.29.0/v3/"
   id: golang/go/latest
   alias: go-plugin
   env:

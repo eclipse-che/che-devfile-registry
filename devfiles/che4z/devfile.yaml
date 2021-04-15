@@ -5,18 +5,23 @@ metadata:
 components:
   - 
     type: chePlugin
+    registryUrl: "https://eclipse-che.github.io/che-plugin-registry/7.29.0/v3/"
     id: broadcommfd/cobol-language-support/latest
   - 
     type: chePlugin
+    registryUrl: "https://eclipse-che.github.io/che-plugin-registry/7.29.0/v3/"
     id: broadcommfd/explorer-for-endevor/latest
   - 
     type: chePlugin
+    registryUrl: "https://eclipse-che.github.io/che-plugin-registry/7.29.0/v3/"
     id: broadcommfd/debugger-for-mainframe/latest
   - 
     type: chePlugin
+    registryUrl: "https://eclipse-che.github.io/che-plugin-registry/7.29.0/v3/"
     id: broadcommfd/hlasm-language-support/latest
   - 
     type: chePlugin
+    registryUrl: "https://eclipse-che.github.io/che-plugin-registry/7.29.0/v3/"
     id: zowe/vscode-extension-for-zowe/latest
   - 
     alias: zowe-cli
