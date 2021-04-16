@@ -14,11 +14,17 @@ BUILD_DIR=${BUILD_DIR:-$DEFAULT_BUILD_DIR}
 DEFAULT_REPO_DIR="/projects/che-devfile-registry"
 REPO_DIR=${REPO_DIR:-$DEFAULT_REPO_DIR}
 
+DEFAULT_BASE_IMAGES_SRC="$REPO_DIR/arbitrary-users-patch/base_images"
+BASE_IMAGES_SRC=${BASE_IMAGES_SRC:-$DEFAULT_BASE_IMAGES_SRC}
+
+DEFAULT_DEVFILES_SRC="$REPO_DIR/devfiles"
+DEVFILES_SRC=${DEVFILES_SRC:-$DEFAULT_DEVFILES_SRC}
+
 rm "$BUILD_DIR" -rf;
 
 cp -rf "$REPO_DIR"/build/scripts "$BUILD_DIR"
-cp -rf "$REPO_DIR"/arbitrary-users-patch/base_images "$BUILD_DIR"
-cp -rf "$REPO_DIR"/devfiles "$BUILD_DIR"/devfiles
+cp -rf "$BASE_IMAGES_SRC" "$BUILD_DIR"
+cp -rf "$DEVFILES_SRC" "$BUILD_DIR"/devfiles
 cd "$BUILD_DIR"
 ./check_mandatory_fields.sh devfiles
 ./index.sh > devfiles/index.json
