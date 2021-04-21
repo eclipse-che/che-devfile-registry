@@ -17,12 +17,15 @@ SURGE_DIR=${SURGE_DIR:-$DEFAULT_SURGE_DIR}
 DEFAULT_REPO_DIR="/projects/che-devfile-registry"
 REPO_DIR=${REPO_DIR:-$DEFAULT_REPO_DIR}
 
+DEFAULT_IMAGES_SRC="$REPO_DIR/images"
+IMAGES_SRC=${IMAGES_SRC:-$DEFAULT_IMAGES_SRC}
+
 rm "$SURGE_DIR" -rf;
 mkdir -p "$SURGE_DIR"/images
 cd "$SURGE_DIR"
 echo '*' > CORS
 cp -rf "$BUILD_DIR/devfiles" "$SURGE_DIR/devfiles"
-cp -rf "$REPO_DIR"/images/* "$SURGE_DIR/images"
+cp -rf "$IMAGES_SRC"/* "$SURGE_DIR/images"
 
 CHE_DEVFILE_REGISTRY_URL="https://$CHE_WORKSPACE_NAMESPACE-$CHE_WORKSPACE_NAME.surge.sh"
 DEVFILES_DIR=${SURGE_DIR}/devfiles

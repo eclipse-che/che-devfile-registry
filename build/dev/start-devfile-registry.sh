@@ -14,11 +14,15 @@ BUILD_DIR=${BUILD_DIR:-$DEFAULT_BUILD_DIR}
 DEFAULT_REPO_DIR="/projects/che-devfile-registry"
 REPO_DIR=${REPO_DIR:-$DEFAULT_REPO_DIR}
 
+DEFAULT_IMAGES_SRC="$REPO_DIR/images"
+IMAGES_SRC=${IMAGES_SRC:-$DEFAULT_IMAGES_SRC}
+
+
 rm -rf /usr/local/apache2/htdocs/devfiles
 rm -rf /usr/local/apache2/htdocs/images/* 
 
 cp -rf "$BUILD_DIR"/devfiles /usr/local/apache2/htdocs/devfiles
-cp -rf "$REPO_DIR"/images/* /usr/local/apache2/htdocs/images
+cp -rf "$IMAGES_SRC"/* /usr/local/apache2/htdocs/images
 CHE_DEVFILE_REGISTRY_URL=$(cat "$BUILD_DIR"/ENV_CHE_DEVFILE_REGISTRY_URL)
 export CHE_DEVFILE_REGISTRY_URL
 echo "$CHE_DEVFILE_REGISTRY_URL"
