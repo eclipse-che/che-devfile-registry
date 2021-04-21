@@ -10,8 +10,6 @@
 
 set -e
 
-. util.sh
-
 SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
 
 DEFAULT_REGISTRY="quay.io"
@@ -39,7 +37,6 @@ docker build -t "${NAME_FORMAT}/happy-path:${TAG}" --no-cache --build-arg TAG="$
 if ${PUSH_IMAGES}; then
     echo "Pushing ${NAME_FORMAT}/happy-path:${TAG}" to remote registry
     docker push "${NAME_FORMAT}/happy-path:${TAG}" | cat
-    verifyContainerExists "${NAME_FORMAT}/happy-path:${TAG}" 
 fi
 if ${RM_IMAGES}; then # save disk space by deleting the image we just published
   echo "Deleting${NAME_FORMAT}/happy-path:${TAG} from local registry"
