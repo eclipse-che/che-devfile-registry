@@ -42,6 +42,7 @@ while read -r line; do
   if ${PUSH_IMAGES}; then
     echo "Pushing ${NAME_FORMAT}/${dev_container_name}:${TAG} to remote registry"
     docker push "${NAME_FORMAT}/${dev_container_name}:${TAG}" | cat
+    verifyContainerExists "${NAME_FORMAT}/${dev_container_name}:${TAG}"
   fi
   if ${RM_IMAGES}; then # save disk space by deleting the image we just published
     echo "Deleting ${NAME_FORMAT}/${dev_container_name}:${TAG} from local registry"
