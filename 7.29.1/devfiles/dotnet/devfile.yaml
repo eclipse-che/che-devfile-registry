@@ -11,14 +11,14 @@ components:
   - type: chePlugin
     alias: omnisharp
     id: redhat-developer/che-omnisharp-plugin/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: chePlugin
     alias: netcoredbg
     id: redhat-developer/netcoredbg-theia-plugin/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: dockerimage
     alias: dotnet
-    image: quay.io/eclipse/che-dotnet-3.1:nightly
+    image: quay.io/eclipse/che-dotnet-3.1:7.29.1
     memoryLimit: 512Mi
     endpoints:
       - name: 5000-tcp

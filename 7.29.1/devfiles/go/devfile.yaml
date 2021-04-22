@@ -25,10 +25,10 @@ components:
       go.lintTool: golangci-lint
       go.lintFlags: --fast
       go.useLanguageServer: true
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: dockerimage
     # this version is used in the plugin
-    image: quay.io/eclipse/che-golang-1.14:nightly
+    image: quay.io/eclipse/che-golang-1.14:7.29.1
     alias: go-cli
     env:
       - name: GOPATH

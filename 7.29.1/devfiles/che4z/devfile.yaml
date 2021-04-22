@@ -4,19 +4,19 @@ metadata:
 components:
   - type: chePlugin
     id: broadcommfd/cobol-language-support/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: chePlugin
     id: broadcommfd/explorer-for-endevor/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: chePlugin
     id: broadcommfd/debugger-for-mainframe/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: chePlugin
     id: broadcommfd/hlasm-language-support/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: chePlugin
     id: zowe/vscode-extension-for-zowe/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - alias: zowe-cli
     type: kubernetes
     mountSources: true

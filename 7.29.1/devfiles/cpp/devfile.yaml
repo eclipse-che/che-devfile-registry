@@ -10,10 +10,10 @@ components:
   - type: chePlugin
     id: eclipse-cdt/cdt-vscode/latest
     alias: cpp-plugin
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: dockerimage
     alias: cpp-dev
-    image: quay.io/eclipse/che-cpp-rhel7:nightly
+    image: quay.io/eclipse/che-cpp-rhel7:7.29.1
     memoryLimit: 512Mi
     mountSources: true
 commands:

@@ -20,15 +20,15 @@ components:
     image: registry.access.redhat.com/ubi8-minimal:8.3
   - id: mads-hartmann/bash-ide-vscode/latest
     type: chePlugin
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - id: rogalmic/bash-debug/latest
     type: chePlugin
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - id: timonwong/shellcheck/latest
     preferences:
       shellcheck.executablePath: /bin/shellcheck
     type: chePlugin
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
 commands:
   - name: Run main.sh script
     actions:

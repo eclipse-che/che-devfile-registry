@@ -9,13 +9,13 @@ projects:
 components:
   - type: chePlugin
     id: redhat-developer/che-omnisharp-plugin/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: chePlugin
     id: redhat-developer/netcoredbg-theia-plugin/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: dockerimage
     alias: dotnet
-    image: quay.io/eclipse/che-dotnet-2.2:nightly
+    image: quay.io/eclipse/che-dotnet-2.2:7.29.1
     env:
       - name: HOME
         value: /home/user

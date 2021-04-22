@@ -9,10 +9,10 @@ projects:
 components:
   - type: chePlugin
     id: ms-python/python/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: dockerimage
     alias: python
-    image: quay.io/eclipse/che-python-3.8:nightly
+    image: quay.io/eclipse/che-python-3.8:7.29.1
     memoryLimit: 512Mi
     endpoints:
       - name: django

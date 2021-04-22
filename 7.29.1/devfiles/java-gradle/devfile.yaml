@@ -12,10 +12,10 @@ components:
     id: redhat/java/latest
     preferences:
       java.server.launchMode: Standard
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: dockerimage
     alias: gradle
-    image: quay.io/eclipse/che-java11-gradle:nightly
+    image: quay.io/eclipse/che-java11-gradle:7.29.1
     env:
       - name: GRADLE_USER_HOME
         value: /home/gradle/.gradle

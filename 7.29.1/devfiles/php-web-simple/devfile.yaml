@@ -9,13 +9,13 @@ projects:
 components:
   - type: chePlugin
     id: bmewburn/vscode-intelephense-client/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: chePlugin
     id: felixfbecker/php-debug/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: dockerimage
     alias: php
-    image: quay.io/eclipse/che-php-7:nightly
+    image: quay.io/eclipse/che-php-7:7.29.1
     memoryLimit: 512Mi
     mountSources: true
     endpoints:

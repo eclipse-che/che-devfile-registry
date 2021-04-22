@@ -11,10 +11,10 @@ projects:
 components:
   - type: chePlugin
     id: redhat/quarkus-java11/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: dockerimage
     alias: centos-quarkus-maven
-    image: quay.io/eclipse/che-quarkus:nightly
+    image: quay.io/eclipse/che-quarkus:7.29.1
     env:
       - name: JAVA_OPTS
         value: -XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom -Duser.home=/home/user

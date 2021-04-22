@@ -9,16 +9,16 @@ projects:
 components:
   - type: chePlugin
     id: redhat/vscode-xml/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: chePlugin
     id: redhat/vscode-apache-camel/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: chePlugin
     id: redhat/java8/latest
-    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.30.0/v3/
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.29.1/v3/
   - type: dockerimage
     alias: maven
-    image: quay.io/eclipse/che-java8-maven:nightly
+    image: quay.io/eclipse/che-java8-maven:7.29.1
     env:
       - name: MAVEN_CONFIG
         value: ""
