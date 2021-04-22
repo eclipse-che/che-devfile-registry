@@ -1,0 +1,8 @@
+---
+displayName: NodeJS React Web Application
+description: Stack for developing NodeJS React Web Application
+tags: ["NodeJS", "React", "Redux", "RealWorld"]
+icon: /images/nodejs.svg
+globalMemoryLimit: 1686Mi
+links:
+  self: /devfiles/nodejs-react/devfile.yaml

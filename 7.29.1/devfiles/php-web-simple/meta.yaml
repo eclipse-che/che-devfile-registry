@@ -1,0 +1,8 @@
+---
+displayName: "PHP Simple"
+description: PHP Stack with PHP 7.1 and simple web application
+tags: ["PHP", "Apache", "Debian"]
+icon: /images/php.svg
+globalMemoryLimit: 2430Mi
+links:
+  self: /devfiles/php-web-simple/devfile.yaml
