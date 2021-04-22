@@ -11,6 +11,8 @@ REPO=git@github.com:eclipse-che/che-devfile-registry
 REGISTRY=quay.io
 ORGANIZATION=eclipse
 
+SCRIPT_DIR=$(cd "$(dirname "$0")" || exit; pwd)
+
 while [[ "$#" -gt 0 ]]; do
   case $1 in
     '-t'|'--trigger-release') TRIGGER_RELEASE=1; NOCOMMIT=0; shift 0;;
