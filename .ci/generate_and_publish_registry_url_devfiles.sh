@@ -45,10 +45,10 @@ git config --global user.name "CHE Bot"
 mkdir -p /tmp/content/"${VERSION}"
 ./build.sh --tag gh-pages-generated
 podman rm -f devfileRegistry
-podman create --name devfileRegistry quay.io/eclipse/che-devfile-registry:gh-pages-generated
-podman cp devfileRegistry:/var/www/html/devfiles/ /tmp/content/"${VERSION}"
-podman cp devfileRegistry:/var/www/html/images/ /tmp/content/"${VERSION}"
-podman cp devfileRegistry:/var/www/html/README.md /tmp/content/"${VERSION}"
+docker create --name devfileRegistry quay.io/eclipse/che-devfile-registry:gh-pages-generated
+docker cp devfileRegistry:/var/www/html/devfiles/ /tmp/content/"${VERSION}"
+docker cp devfileRegistry:/var/www/html/images/ /tmp/content/"${VERSION}"
+docker cp devfileRegistry:/var/www/html/README.md /tmp/content/"${VERSION}"
 
 # Clone GitHub pages
 rm -rf ./gh-pages && mkdir gh-pages
