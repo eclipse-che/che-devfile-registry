@@ -14,6 +14,19 @@ set -e
 : "${GITHUB_ACTOR:?Variable not set or empty}"
 : "${GITHUB_TOKEN:?Variable not set or empty}"
 
+# Use BUILDER if it's set, otherwise auto-detect
+if [[ -z ${BUILDER} ]]; then
+    echo "BUILDER not specified, trying with podman"
+    BUILDER=$(command -v podman || true)
+    if [[ ! -x ${BUILDER} ]]; then
+        echo "[WARNING] podman is not installed, trying with docker"
+        BUILDER=$(command -v docker || true)
+        if [[ ! -x ${BUILDER} ]]; then
+            echo "[ERROR] neither docker nor podman are installed. Aborting"; exit 1
+        fi
+    fi
+fi
+
 # Get up to date source code using release tag
 mkdir /tmp/devfile-registry-gh-pages-publish/
 cd /tmp/devfile-registry-gh-pages-publish/
@@ -44,11 +57,11 @@ git config --global user.name "CHE Bot"
 # Make temporary directory and copy out devfiles and images
 mkdir -p /tmp/content/"${VERSION}"
 ./build.sh --tag gh-pages-generated
-podman rm -f devfileRegistry
-docker create --name devfileRegistry quay.io/eclipse/che-devfile-registry:gh-pages-generated
-docker cp devfileRegistry:/var/www/html/devfiles/ /tmp/content/"${VERSION}"
-docker cp devfileRegistry:/var/www/html/images/ /tmp/content/"${VERSION}"
-docker cp devfileRegistry:/var/www/html/README.md /tmp/content/"${VERSION}"
+${BUILDER} rm -f devfileRegistry
+${BUILDER} create --name devfileRegistry quay.io/eclipse/che-devfile-registry:gh-pages-generated
+${BUILDER} cp devfileRegistry:/var/www/html/devfiles/ /tmp/content/"${VERSION}"
+${BUILDER} cp devfileRegistry:/var/www/html/images/ /tmp/content/"${VERSION}"
+${BUILDER} cp devfileRegistry:/var/www/html/README.md /tmp/content/"${VERSION}"
 
 # Clone GitHub pages
 rm -rf ./gh-pages && mkdir gh-pages
