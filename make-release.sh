@@ -11,6 +11,8 @@ REPO=git@github.com:eclipse-che/che-devfile-registry
 REGISTRY=quay.io
 ORGANIZATION=eclipse
 
+SCRIPT_DIR=$(cd "$(dirname "$0")" || exit; pwd)
+
 while [[ "$#" -gt 0 ]]; do
   case $1 in
     '-t'|'--trigger-release') TRIGGER_RELEASE=1; NOCOMMIT=0; shift 0;;
@@ -35,12 +37,12 @@ verifyContainerExistsWithTimeout()
     count=1
     (( timeout_intervals=this_timeout*3 ))
     while [[ $count -le $timeout_intervals ]]; do # echo $count
-        sleep 20s
         echo "       [$count/$timeout_intervals] Verify ${1} exists..." 
         # check if the container exists
         verifyContainerExists "$1"
         if [[ ${containerExists} -eq 1 ]]; then break; fi
         (( count=count+1 ))
+        sleep 20s
     done
     # or report an error
     if [[ ${containerExists} -eq 0 ]]; then
@@ -82,8 +84,10 @@ checkRequiredImagesExist()
   TAG=$(head -n 1 VERSION)
   while read -r line; do
     IMAGE_NAME=$(echo "$line" | tr -s ' ' | cut -f 1 -d ' ')
-    verifyContainerExistsWithTimeout "${IMAGE_QUAY_PREFIX}/${IMAGE_NAME}:${TAG}" 1
-  done < "${SCRIPT_DIR}"/base_images  
+    # echo "Checking ${IMAGE_QUAY_PREFIX}/${IMAGE_NAME}:${TAG} ..."
+    verifyContainerExistsWithTimeout "${IMAGE_QUAY_PREFIX}/${IMAGE_NAME}:${TAG}" 1 &
+  done < "${SCRIPT_DIR}"/arbitrary-users-patch/base_images
+  wait
 }
 
 performRelease() 
