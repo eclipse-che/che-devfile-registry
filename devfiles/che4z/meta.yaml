@@ -1,6 +1,0 @@
----
-displayName: Mainframe Basic Stack
-description: Che4z Mainframe Basic Stack is an all-in-one extension pack for developers working with z/OS applications, suitable for all levels of mainframe experience, even beginners.
-tags: ["Che4z", "Zowe", "mainframe", "Endevor", "explorer", "dataset", "COBOL", "JCL", "zOS", "USS", "HLASM", "InterTest", "debug"]
-icon: /images/che4z.svg
-globalMemoryLimit: 3Gi

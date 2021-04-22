@@ -1,6 +1,0 @@
----
-displayName: Rust
-description: Rust Stack with Rust 1.39
-tags: ["Rust"]
-icon: /images/rust.svg
-globalMemoryLimit: 1686Mi

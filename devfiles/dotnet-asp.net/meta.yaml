@@ -1,6 +1,0 @@
----
-displayName: "ASP.NET Core Web Application"
-description: Stack for developing ASP.NET Core Web Application
-tags: ["Debian", "Dotnet", "C#", "ASP.NET"]
-icon: /images/dotnetcore.svg
-globalMemoryLimit: 2710Mi

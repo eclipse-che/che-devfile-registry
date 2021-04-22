@@ -1,6 +1,0 @@
----
-displayName: "PHP with MySQL"
-description: PHP Stack with MySQL and simple database application
-tags: ["PHP", "Apache", "MySQL", "Debian", "Centos"]
-icon: /images/php.svg
-globalMemoryLimit: 2686Mi

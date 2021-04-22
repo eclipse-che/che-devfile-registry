@@ -1,6 +1,0 @@
----
-displayName: NodeJS Angular Web Application
-description: Stack for developing NodeJS Angular Web Application
-tags: ["NodeJS", "Angular", "Alpine"]
-icon: /images/angular.svg
-globalMemoryLimit: 2686Mi

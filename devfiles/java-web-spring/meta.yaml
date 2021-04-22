@@ -1,6 +1,0 @@
----
-displayName: Java Spring Boot
-description: Java stack with OpenJDK 11 and Spring Boot Petclinic demo application
-tags: ["Java", "OpenJDK", "Maven", "Spring Boot"]
-icon: /images/springboot.svg
-globalMemoryLimit: 3072Mi

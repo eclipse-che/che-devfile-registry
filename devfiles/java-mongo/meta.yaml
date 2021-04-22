@@ -1,6 +1,0 @@
----
-displayName: Java with Spring Boot and MongoDB
-description: Java stack with OpenJDK 8, MongoDB and Spring Boot Guestbook demo application
-tags: ["Java", "OpenJDK", "Maven", "Spring Boot", "MongoDB"]
-icon: /images/java.svg
-globalMemoryLimit: 2884Mi

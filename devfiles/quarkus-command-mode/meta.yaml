@@ -1,6 +1,0 @@
----
-displayName: Quarkus CLI
-description: Quarkus stack with a command-mode sample
-tags: ["Java", "Quarkus", "OpenJDK", "Maven", "Debian"]
-icon: /images/quarkus.svg
-globalMemoryLimit: 2674Mi

@@ -1,6 +1,0 @@
----
-displayName: Python Django
-description: Python Stack with Python 3.8 and Django application
-tags: ["Centos", "Python", "pip"]
-icon: /images/python.svg
-globalMemoryLimit: 1686Mi

@@ -1,6 +1,0 @@
----
-displayName: Java Vert.x
-description: Java stack with OpenJDK 8 and Vert.x demo application
-tags: ["Java", "OpenJDK", "Maven", "Vertx"]
-icon: /images/vertx.svg
-globalMemoryLimit: 2674Mi
