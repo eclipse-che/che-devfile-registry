@@ -3,4 +3,3 @@ displayName: "PHP Symfony"
 description: PHP Stack with Symfony Demo Application https://symfony.com/
 tags: ["PHP", "Apache", "MySQL", "Symfony", "Debian", "Centos"]
 icon: /images/php.svg
-globalMemoryLimit: 2686Mi

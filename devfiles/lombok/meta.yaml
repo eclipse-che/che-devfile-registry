@@ -3,4 +3,3 @@ displayName: Java Lombok
 description: Java Stack with Lombok 1.18.18, OpenJDK 11 and Maven 3.6.0
 tags: ["Java", "OpenJDK", "Maven", "Debian", "Lombok"]
 icon: /images/lombok.svg
-globalMemoryLimit: 2674Mi
