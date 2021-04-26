@@ -63,6 +63,13 @@ ${BUILDER} cp devfileRegistry:/var/www/html/devfiles/ /tmp/content/"${VERSION}"
 ${BUILDER} cp devfileRegistry:/var/www/html/images/ /tmp/content/"${VERSION}"
 ${BUILDER} cp devfileRegistry:/var/www/html/README.md /tmp/content/"${VERSION}"
 
+# Run entrypoint
+CHE_DEVFILE_REGISTRY_URL="https://eclipse-che.github.io/che-devfile-registry/${VERSION}"
+DEVFILES_DIR=/tmp/content/"${VERSION}"/devfiles
+export CHE_DEVFILE_REGISTRY_URL
+export DEVFILES_DIR
+./build/dockerfiles/entrypoint.sh
+
 # Clone GitHub pages
 rm -rf ./gh-pages && mkdir gh-pages
 cd ./gh-pages
