@@ -3,4 +3,3 @@ displayName: ".NET Core"
 description: Stack with .Net 3.1
 tags: ["Debian", "Dotnet", "C#"]
 icon: /images/dotnetcore.svg
-globalMemoryLimit: 2710Mi
