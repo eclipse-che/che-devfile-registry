@@ -64,8 +64,8 @@ mv "${SCRIPT_DIR}"/base_images  "${SCRIPT_DIR}"/base_images.copy
 set +e
 hasChanges=$(git diff --exit-code "${SCRIPT_DIR}"/base_images)
 if [[ ${hasChanges} -eq 1 ]]; then
-  echo "[INFO] Changes detected, generating PR digests"
+  echo "[INFO] Changes detected, generating PR with new digests"
   createPR
 else
-  echo "[INFO] No changes detected for digests"
+  echo "[INFO] No changes detected for digests, do nothing"
 fi
