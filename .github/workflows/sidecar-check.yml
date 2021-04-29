@@ -1,0 +1,61 @@
+#
+# Copyright (c) 2020-2021 Red Hat, Inc.
+# This program and the accompanying materials are made
+# available under the terms of the Eclipse Public License 2.0
+# which is available at https://www.eclipse.org/legal/epl-2.0/
+#
+# SPDX-License-Identifier: EPL-2.0
+#
+
+name: Sidecar Digest validation
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "0 0 * * *"
+
+jobs:
+  build:
+    name: Validate digests for sidecar images
+    runs-on: ubuntu-20.04
+    steps:
+      -
+        name: "Checkout source code"
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      -
+        name: "Set up QEMU"
+        uses: docker/setup-qemu-action@v1
+      -
+        name: "Set up Docker Buildx"
+        uses: docker/setup-buildx-action@v1
+      -
+        name: "Docker quay.io Login"
+        uses: docker/login-action@v1
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+      - 
+        name: Login to docker.io
+        uses: docker/login-action@v1
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Install skopeo
+        run: |
+          . /etc/os-release
+          echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+          curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/Release.key | sudo apt-key add -
+          sudo apt-get update
+          sudo apt-get -y upgrade
+          sudo apt-get -y install skopeo
+      - 
+        name: Run the digest checking script
+        run: |
+          git config --global user.name "Mykhailo Kuznietsov"
+          git config --global user.email "mkuznets@redhat.com"
+          export GITHUB_TOKEN=${CHE_INCUBATOR_BOT_GITHUB_TOKEN}
+          ./arbitrary-users-patch/check_sidecar_images_digests.sh
