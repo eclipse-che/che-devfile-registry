@@ -27,14 +27,14 @@ SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
 REGISTRY="quay.io"
 ORGANIZATION="eclipse"
 NAME_FORMAT="${REGISTRY}/${ORGANIZATION}"
+MAIN_BRANCH="master"
 
 REGISTRY=${REGISTRY:-${DEFAULT_REGISTRY}}
 ORGANIZATION=${ORGANIZATION:-${DEFAULT_ORGANIZATION}}
 
 createPR() {
     set +e
-    aBRANCH="$1"
-    PR_BRANCH="$2"
+    PR_BRANCH="$1"
 
     COMMIT_MSG="[update] Update digests in base_images"
 
@@ -47,7 +47,7 @@ createPR() {
     git pull origin "${PR_BRANCH}"
     git push origin "${PR_BRANCH}"
     lastCommitComment="$(git log -1 --pretty=%B)"
-    hub pull-request -f -m "${lastCommitComment}" -b "${aBRANCH}" -h "${PR_BRANCH}"
+  hub pull-request -f -m "${lastCommitComment}" -b "${MAIN_BRANCH}" -h "${PR_BRANCH}"
     set -e
 }
 
@@ -76,7 +76,7 @@ if [[ $(git diff --exit-code "${SCRIPT_DIR}"/base_images) ]]; then
     git diff --exit-code "${SCRIPT_DIR}"/base_images
   else
     echo "[INFO] Changes detected, generating PR with new digests"
-    createPR
+    createPR "new-base-image-digests"
   fi
 else
   echo "[INFO] No changes detected for digests, do nothing"
