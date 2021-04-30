@@ -7,7 +7,7 @@ projects:
   name: crud-php
   source:
     type: git
-    location: "https://github.com/taniarascia/pdo.git"
+    location: "https://github.com/che-samples/php-mysql"
 components:
 -
   type: chePlugin

@@ -7,7 +7,7 @@ projects:
   name: java-guestbook
   source:
     type: git
-    location: "https://github.com/che-samples/java-guestbook.git"
+    location: "https://github.com/che-samples/java-guestbook"
 components:
 -
   type: chePlugin

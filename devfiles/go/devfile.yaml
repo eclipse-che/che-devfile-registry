@@ -9,14 +9,14 @@ projects:
   name: example
   source:
     type: git
-    location: https://github.com/golang/example.git
-  clonePath: src/github.com/golang/example/
+    location: https://github.com/che-samples/golang-example
+  clonePath: src/github.com/che-samples/golang-example
 -
   name: golang-echo-realworld-example-app
   source:
     type: git
-    location: https://github.com/xesina/golang-echo-realworld-example-app.git
-  clonePath: src/github.com/xesina/golang-echo-realworld-example-app
+    location: https://github.com/che-samples/golang-echo-realworld-example-app
+  clonePath: src/github.com/che-samples/golang-echo-realworld-example-app
 
 components:
 -

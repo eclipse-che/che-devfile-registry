@@ -7,7 +7,7 @@ projects:
   name: symfony-demo-application
   source:
     type: git
-    location: "https://github.com/symfony/demo.git"
+    location: "https://github.com/che-samples/php-symfony"
     branch: main
 components:
 -
