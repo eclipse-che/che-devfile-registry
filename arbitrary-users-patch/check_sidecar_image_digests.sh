@@ -14,6 +14,14 @@
 
 set -e
 
+
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    '-n'|'--no-op') NO_OP="true"; shift 0;;
+  esac
+  shift 1
+done
+
 SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
 
 REGISTRY="quay.io"
@@ -64,8 +72,13 @@ mv "${SCRIPT_DIR}"/base_images  "${SCRIPT_DIR}"/base_images.copy
 set +e
 hasChanges=$(git diff --exit-code "${SCRIPT_DIR}"/base_images)
 if [[ ${hasChanges} -eq 1 ]]; then
-  echo "[INFO] Changes detected, generating PR with new digests"
-  createPR
+  if [[ ${NO_OP} == "true" ]]; then
+    echo "[INFO] Changes detected, see base_images file changes:\n"
+    git diff --exit-code "${SCRIPT_DIR}"/base_images
+  else
+    echo "[INFO] Changes detected, generating PR with new digests"
+    createPR
+  fi
 else
   echo "[INFO] No changes detected for digests, do nothing"
 fi
