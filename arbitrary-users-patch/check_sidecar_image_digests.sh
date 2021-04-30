@@ -67,7 +67,7 @@ while read -r line; do
     echo "[INFO] Image ${base_image_name} has valid digest"
   fi
 done < "${SCRIPT_DIR}"/base_images
-mv "${SCRIPT_DIR}"/base_images  "${SCRIPT_DIR}"/base_images.copy
+mv "${SCRIPT_DIR}"/base_images.cope  "${SCRIPT_DIR}"/base_images
 
 set +e
 hasChanges=$(git diff --exit-code "${SCRIPT_DIR}"/base_images)
