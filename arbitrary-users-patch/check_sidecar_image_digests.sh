@@ -47,7 +47,7 @@ createPR() {
     git pull origin "${PR_BRANCH}"
     git push origin "${PR_BRANCH}"
     lastCommitComment="$(git log -1 --pretty=%B)"
-  hub pull-request -f -m "${lastCommitComment}" -b "${MAIN_BRANCH}" -h "${PR_BRANCH}"
+    hub pull-request -f -m "${lastCommitComment}" -b "${MAIN_BRANCH}" -h "${PR_BRANCH}"
     set -e
 }
 
