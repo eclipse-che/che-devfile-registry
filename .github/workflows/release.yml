@@ -23,7 +23,7 @@ on:
         description: If true, release will be performed (creating tag, building images)
         required: false
         default: 'true'
-      publisDevfilesToGhPages:
+      publishDevfilesToGhPages:
         description: If true, will generate and publish devfiles to GitHub pages
         required: false
         default: 'true'
@@ -91,7 +91,7 @@ jobs:
           ./make-release.sh --version ${{ github.event.inputs.version}} --trigger-release
 
       - name: Generate devfiles with registryUrls and publish to GH pages
-        if: github.event.inputs.publisDevfilesToGhPages == true
+        if: github.event.inputs.publishDevfilesToGhPages == true
         env:
           GITHUB_TOKEN: ${{ secrets.CHE_BOT_GITHUB_TOKEN }}
           VERSION: ${{ github.event.inputs.version}}
