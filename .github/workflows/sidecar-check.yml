@@ -57,5 +57,5 @@ jobs:
         run: |
           git config --global user.name "Mykhailo Kuznietsov"
           git config --global user.email "mkuznets@redhat.com"
-          export GITHUB_TOKEN=${CHE_INCUBATOR_BOT_GITHUB_TOKEN}
-          ./arbitrary-users-patch/check_sidecar_images_digests.sh
+          export GITHUB_TOKEN=${{ secrets.CHE_BOT_GITHUB_TOKEN }}
+          ./arbitrary-users-patch/check_sidecar_image_digests.sh
