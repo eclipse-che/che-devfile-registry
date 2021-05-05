@@ -14,7 +14,7 @@
 
 set -e
 
-
+NO_OP="false"
 while [[ "$#" -gt 0 ]]; do
   case $1 in
     '-n'|'--no-op') NO_OP="true"; shift 0;;
@@ -73,7 +73,7 @@ set +e
 if [[ $(git diff --exit-code "${SCRIPT_DIR}"/base_images) ]]; then
   if [[ ${NO_OP} == "true" ]]; then
     echo "[INFO] Changes detected, see base_images file changes:"
-    git diff --exit-code "${SCRIPT_DIR}"/base_images
+    git diff "${SCRIPT_DIR}"/base_images
   else
     echo "[INFO] Changes detected, generating PR with new digests"
     createPR "new-base-image-digests"
