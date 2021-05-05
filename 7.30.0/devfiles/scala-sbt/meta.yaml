@@ -1,0 +1,7 @@
+---
+displayName: Scala
+description: Scala Stack with OpenJDK 11 and sbt 1.x
+tags: ["Scala", "OpenJDK", "sbt", "Debian"]
+icon: /images/scala.svg
+links:
+  self: /devfiles/scala-sbt/devfile.yaml
