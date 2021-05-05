@@ -14,19 +14,27 @@
 
 set -e
 
+NO_OP="false"
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    '-n'|'--no-op') NO_OP="true"; shift 0;;
+  esac
+  shift 1
+done
+
 SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
 
 REGISTRY="quay.io"
 ORGANIZATION="eclipse"
 NAME_FORMAT="${REGISTRY}/${ORGANIZATION}"
+MAIN_BRANCH="master"
 
 REGISTRY=${REGISTRY:-${DEFAULT_REGISTRY}}
 ORGANIZATION=${ORGANIZATION:-${DEFAULT_ORGANIZATION}}
 
 createPR() {
     set +e
-    aBRANCH="$1"
-    PR_BRANCH="$2"
+    PR_BRANCH="$1"
 
     COMMIT_MSG="[update] Update digests in base_images"
 
@@ -39,7 +47,7 @@ createPR() {
     git pull origin "${PR_BRANCH}"
     git push origin "${PR_BRANCH}"
     lastCommitComment="$(git log -1 --pretty=%B)"
-    hub pull-request -f -m "${lastCommitComment}" -b "${aBRANCH}" -h "${PR_BRANCH}"
+    hub pull-request -f -m "${lastCommitComment}" -b "${MAIN_BRANCH}" -h "${PR_BRANCH}"
     set -e
 }
 
@@ -59,13 +67,17 @@ while read -r line; do
     echo "[INFO] Image ${base_image_name} has valid digest"
   fi
 done < "${SCRIPT_DIR}"/base_images
-mv "${SCRIPT_DIR}"/base_images  "${SCRIPT_DIR}"/base_images.copy
+mv "${SCRIPT_DIR}"/base_images.copy  "${SCRIPT_DIR}"/base_images
 
 set +e
-hasChanges=$(git diff --exit-code "${SCRIPT_DIR}"/base_images)
-if [[ ${hasChanges} -eq 1 ]]; then
-  echo "[INFO] Changes detected, generating PR with new digests"
-  createPR
+if [[ $(git diff --exit-code "${SCRIPT_DIR}"/base_images) ]]; then
+  if [[ ${NO_OP} == "true" ]]; then
+    echo "[INFO] Changes detected, see base_images file changes:"
+    git diff "${SCRIPT_DIR}"/base_images
+  else
+    echo "[INFO] Changes detected, generating PR with new digests"
+    createPR "new-base-image-digests"
+  fi
 else
   echo "[INFO] No changes detected for digests, do nothing"
 fi
