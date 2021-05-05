@@ -40,6 +40,7 @@ jobs:
           fetch-depth: 0
       - 
         name: Check existing tags
+        if: github.event.inputs.performRelease == 'true'
         run: |
           set +e
           RECREATE_TAGS=${{ github.event.inputs.forceRecreateTags }}
@@ -78,7 +79,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - 
         name: Perform a release
-        if: github.event.inputs.performRelease == true
+        if: github.event.inputs.performRelease == 'true'
         run: |
           git config --global user.name "Mykhailo Kuznietsov"
           git config --global user.email "mkuznets@redhat.com"
@@ -88,7 +89,7 @@ jobs:
 
       - name: Generate devfiles with registryUrls and publish to GH pages
         uses: mikefarah/yq@v4.7.1
-        if: github.event.inputs.publishDevfilesToGhPages == true
+        if: github.event.inputs.publishDevfilesToGhPages == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.CHE_BOT_GITHUB_TOKEN }}
           VERSION: ${{ github.event.inputs.version}}
