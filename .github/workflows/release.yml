@@ -92,7 +92,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.CHE_BOT_GITHUB_TOKEN }}
           VERSION: ${{ github.event.inputs.version}}
-        run: ./.ci/generate_and_publish_registry_url_devfiles.sh
+        with:
+          cmd: ./.ci/generate_and_publish_registry_url_devfiles.sh
 
       - name: Create failure MM message
         if: ${{ failure() }}
