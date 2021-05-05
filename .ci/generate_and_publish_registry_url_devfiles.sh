@@ -57,7 +57,6 @@ git config --global user.name "CHE Bot"
 # Make temporary directory and copy out devfiles and images
 mkdir -p /tmp/content/"${VERSION}"
 ./build.sh --tag gh-pages-generated
-${BUILDER} rm -f devfileRegistry
 ${BUILDER} create --name devfileRegistry quay.io/eclipse/che-devfile-registry:gh-pages-generated
 ${BUILDER} cp devfileRegistry:/var/www/html/devfiles/ /tmp/content/"${VERSION}"
 ${BUILDER} cp devfileRegistry:/var/www/html/images/ /tmp/content/"${VERSION}"
