@@ -76,10 +76,6 @@ jobs:
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      -
-        name: Set up yq
-        run: |
-          sudo pip install yq
       - 
         name: Perform a release
         if: github.event.inputs.performRelease == true
@@ -91,6 +87,7 @@ jobs:
           ./make-release.sh --version ${{ github.event.inputs.version}} --trigger-release
 
       - name: Generate devfiles with registryUrls and publish to GH pages
+        uses: mikefarah/yq@v4.7.1
         if: github.event.inputs.publishDevfilesToGhPages == true
         env:
           GITHUB_TOKEN: ${{ secrets.CHE_BOT_GITHUB_TOKEN }}
