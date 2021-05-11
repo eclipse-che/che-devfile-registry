@@ -1,7 +1,5 @@
 ---
 apiVersion: 1.0.0
-attributes:
-  multiRoot: 'off'
 metadata:
   generateName: golang-
 projects:
@@ -23,9 +21,6 @@ components:
   type: chePlugin
   id: golang/go/latest
   alias: go-plugin
-  env:
-    - value: 'off'
-      name: GO111MODULE
   preferences:
     go.lintTool: 'golangci-lint'
     go.lintFlags: '--fast'
