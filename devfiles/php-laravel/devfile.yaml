@@ -7,7 +7,7 @@ projects:
   name: laravel-realworld-example-app
   source:
     type: git
-    location: "https://github.com/gothinkster/laravel-realworld-example-app.git"
+    location: "https://github.com/che-samples/php-laravel"
 components:
 -
   type: chePlugin

@@ -7,7 +7,7 @@ projects:
     name: vertx-http-example
     source:
       type: git
-      location: "https://github.com/openshift-vertx-examples/vertx-http-example.git"
+      location: "https://github.com/che-samples/java-web-vertx"
 components:
   -
     type: chePlugin

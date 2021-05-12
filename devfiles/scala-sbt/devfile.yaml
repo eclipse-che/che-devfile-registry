@@ -7,7 +7,7 @@ projects:
     name: console-scala-simple
     source:
       type: git
-      location: "https://github.com/sideeffffect/console-scala-simple.git"
+      location: "https://github.com/che-samples/scala-sbt"
       branch: master
 components:
   -

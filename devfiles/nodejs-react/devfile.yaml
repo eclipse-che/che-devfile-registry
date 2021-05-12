@@ -7,7 +7,7 @@ projects:
     name: react-redux-realworld-example-app
     source:
       type: git
-      location: "https://github.com/gothinkster/react-redux-realworld-example-app"
+      location: "https://github.com/che-samples/nodejs-react-redux"
 components:
   -
     type: chePlugin

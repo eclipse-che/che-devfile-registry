@@ -7,7 +7,7 @@ projects:
     name: quarkus-quickstarts
     source:
       type: git
-      location: "https://github.com/quarkusio/quarkus-quickstarts.git"
+      location: "https://github.com/che-samples/quarkus-quickstarts"
       sparseCheckoutDir: getting-started-command-mode
       branch: main
 components:

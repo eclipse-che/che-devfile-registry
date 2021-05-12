@@ -7,7 +7,7 @@ projects:
     name: java-web-spring
     source:
       type: git
-      location: "https://github.com/spring-projects/spring-petclinic.git"
+      location: "https://github.com/che-samples/java-spring-petclinic"
       commitId: 4953f87917b449a404a7f1f4e2457836b9eafbbc
 components:
   -

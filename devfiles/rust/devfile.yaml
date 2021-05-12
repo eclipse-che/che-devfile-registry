@@ -4,7 +4,7 @@ metadata:
 projects:
   - name: HelloWorld-Rust
     source:
-      location: 'https://github.com/che-samples/helloworld-rust.git'
+      location: 'https://github.com/che-samples/helloworld-rust'
       type: git
       branch: master
 components:

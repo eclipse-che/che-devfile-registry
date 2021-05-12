@@ -7,14 +7,14 @@ projects:
   name: example
   source:
     type: git
-    location: https://github.com/golang/example.git
-  clonePath: src/github.com/golang/example/
+    location: https://github.com/che-samples/golang-example
+  clonePath: src/github.com/che-samples/example
 -
-  name: golang-echo-realworld-example-app
+  name: golang-echo-example
   source:
     type: git
-    location: https://github.com/xesina/golang-echo-realworld-example-app.git
-  clonePath: src/github.com/xesina/golang-echo-realworld-example-app
+    location: https://github.com/che-samples/golang-echo-example
+  clonePath: src/github.com/che-samples/golang-echo-example
 
 components:
 -
@@ -50,7 +50,7 @@ commands:
   - type: exec
     component: go-cli
     command: go get -d && go run main.go
-    workdir: ${CHE_PROJECTS_ROOT}/src/github.com/golang/example/outyet
+    workdir: ${CHE_PROJECTS_ROOT}/src/github.com/che-samples/example/outyet
 -
   name: '1.2 Stop outyet'
   actions:
@@ -63,35 +63,35 @@ commands:
   - type: exec
     component: go-cli
     command: go test
-    workdir: ${CHE_PROJECTS_ROOT}/src/github.com/golang/example/outyet
+    workdir: ${CHE_PROJECTS_ROOT}/src/github.com/che-samples/example/outyet
 -
   name: '2.1 xenisa :: install dependencies'
   actions:
   - type: exec
     component: go-cli
     command: go mod download
-    workdir: ${GOPATH}/src/github.com/xesina/golang-echo-realworld-example-app
+    workdir: ${GOPATH}/src/github.com/che-samples/golang-echo-example
 -
   name: '2.2 xenisa :: run'
   actions:
   - type: exec
     component: go-cli
     command: go run main.go
-    workdir: ${GOPATH}/src/github.com/xesina/golang-echo-realworld-example-app
+    workdir: ${GOPATH}/src/github.com/che-samples/golang-echo-example
 -
   name: '2.3 xenisa :: build'
   actions:
   - type: exec
     component: go-cli
     command: go build
-    workdir: ${GOPATH}/src/github.com/xesina/golang-echo-realworld-example-app
+    workdir: ${GOPATH}/src/github.com/che-samples/golang-echo-example
 -
   name: '2.4 xenisa :: test'
   actions:
   - type: exec
     component: go-cli
     command: go test ./...
-    workdir: ${GOPATH}/src/github.com/xesina/golang-echo-realworld-example-app
+    workdir: ${GOPATH}/src/github.com/che-samples/golang-echo-example
 -
   name: 'Run current file'
   actions:

@@ -1,13 +1,13 @@
 ---
 apiVersion: 1.0.0
 metadata:
-  generateName: angular-
+  generateName: nodejs-angular-
 projects:
   -
     name: angular-realworld-example-app
     source:
       type: git
-      location: "https://github.com/gothinkster/angular-realworld-example-app"
+      location: "https://github.com/che-samples/nodejs-angular"
 components:
   -
     type: chePlugin
