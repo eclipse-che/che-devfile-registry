@@ -19,6 +19,14 @@ on:
         description: If true, tags will be recreated. Use with caution
         required: false
         default: 'false'
+      performRelease:
+        description: If true, release will be performed (creating tag, building images)
+        required: false
+        default: 'true'
+      publishDevfilesToGhPages:
+        description: If true, will generate and publish devfiles to GitHub pages
+        required: false
+        default: 'true'
 
 jobs:
   build:
@@ -32,6 +40,7 @@ jobs:
           fetch-depth: 0
       - 
         name: Check existing tags
+        if: github.event.inputs.performRelease == 'true'
         run: |
           set +e
           RECREATE_TAGS=${{ github.event.inputs.forceRecreateTags }}
@@ -68,9 +77,14 @@ jobs:
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          
+      -
+        name: Set up yq
+        run: |
+          sudo wget https://github.com/mikefarah/yq/releases/download/v4.7.0/yq_linux_amd64 -O /usr/bin/yq
+          sudo chmod +x /usr/bin/yq
       - 
-        name: Build and push patched base images and happy path image
+        name: Perform a release
+        if: github.event.inputs.performRelease == 'true'
         run: |
           git config --global user.name "Mykhailo Kuznietsov"
           git config --global user.email "mkuznets@redhat.com"
@@ -79,6 +93,7 @@ jobs:
           ./make-release.sh --version ${{ github.event.inputs.version}} --trigger-release
 
       - name: Generate devfiles with registryUrls and publish to GH pages
+        if: github.event.inputs.publishDevfilesToGhPages == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.CHE_BOT_GITHUB_TOKEN }}
           VERSION: ${{ github.event.inputs.version}}
