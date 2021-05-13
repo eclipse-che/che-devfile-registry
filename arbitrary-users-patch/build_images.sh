@@ -15,10 +15,12 @@ SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
 DEFAULT_REGISTRY="quay.io"
 DEFAULT_ORGANIZATION="eclipse"
 DEFAULT_TAG="nightly"
+DEFAULT_BASE_IMAGES="${SCRIPT_DIR}/base_images"
 
 REGISTRY=${REGISTRY:-${DEFAULT_REGISTRY}}
 ORGANIZATION=${ORGANIZATION:-${DEFAULT_ORGANIZATION}}
 TAG=${TAG:-${DEFAULT_TAG}}
+BASE_IMAGES=${BASE_IMAGES:-${DEFAULT_BASE_IMAGES}}
 
 NAME_FORMAT="${REGISTRY}/${ORGANIZATION}"
 
@@ -48,7 +50,7 @@ while read -r line; do
     docker rmi "${NAME_FORMAT}/${dev_container_name}:${TAG}"
   fi
   BUILT_IMAGES="${BUILT_IMAGES}    ${NAME_FORMAT}/${dev_container_name}:${TAG}\n"
-done < "${SCRIPT_DIR}"/base_images
+done < "${BASE_IMAGES}"
 
 echo "Built images:"
 echo -e "$BUILT_IMAGES"
