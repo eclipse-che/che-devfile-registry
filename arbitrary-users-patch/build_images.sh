@@ -50,7 +50,7 @@ while read -r line; do
     docker rmi "${NAME_FORMAT}/${dev_container_name}:${TAG}"
   fi
   BUILT_IMAGES="${BUILT_IMAGES}    ${NAME_FORMAT}/${dev_container_name}:${TAG}\n"
-done < ${BASE_IMAGES}
+done < "${BASE_IMAGES}"
 
 echo "Built images:"
 echo -e "$BUILT_IMAGES"
