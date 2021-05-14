@@ -9,9 +9,9 @@ che-java11-maven        docker.io/maven:3.6.3-jdk-11                            
 che-java8-maven         docker.io/maven:3.6.1-jdk-8                             docker.io/maven@sha256:69b40237b342fee9bf996b81110f4dab250a4bc6a2ee52866965101eda066324
 che-nodejs10-community  docker.io/node:10.16                                    docker.io/node@sha256:f4b6f471cdd4b66b27eef899e7f8423ecd9fbfc863b2cb7a59978a7f64c8e0c3
 che-nodejs12-community  docker.io/node:12.18                                    docker.io/node@sha256:8cfe7e8dc60095a4f9d25a3f0f208503559fa033a15e2ddd87dee85bec101a2e
-che-nodejs10-ubi        registry.access.redhat.com/ubi8/nodejs-10               registry.access.redhat.com/ubi8/nodejs-10@sha256:59610c6b73172e4c7d3b0a84efeeecba478180fdfd8523e85c9674f88cca4adf
+che-nodejs10-ubi        registry.access.redhat.com/ubi8/nodejs-10               registry.access.redhat.com/ubi8/nodejs-10@
 che-nodejs8-centos      registry.centos.org/che-stacks/centos-nodejs            registry.centos.org/che-stacks/centos-nodejs@sha256:d5cef8b16d9596ff334328b046894e0415e5be470a134357db590b4209922f99
-che-php-7               quay.io/eclipse/che-php-base:7.4                        quay.io/eclipse/che-php-base@sha256:76f9b832d3d4bb726a4528f60048211a5ab98af341cbb1cf4fb05714d6478e0b
+che-php-7               quay.io/eclipse/che-php-base:7.4                        quay.io/eclipse/che-php-base@sha256:da8cc8cd3e6d4615d00e29ff303490e95709a03a60515f8d1c9642f0784695d4
 che-python-3.8          docker.io/python:3.8.6-slim                             docker.io/python@sha256:83323df595e261d5aabf0c96c5ae65dcaa42049495c86de21f54c39d61a824ff
 che-quarkus             quay.io/quarkus/centos-quarkus-maven:21.0-java11        quay.io/quarkus/centos-quarkus-maven@sha256:3eabe5970f2a677e415197e20b4c8a89b6b2ab22ad6f0128e22bc596f426d684
 che-rust-1.39           docker.io/rust:1.39.0-slim                              docker.io/rust@sha256:b47dd7b5f59bea2bc19ac18e81cc6b5b3cfe6c4e40082cab09604b296bca2652
