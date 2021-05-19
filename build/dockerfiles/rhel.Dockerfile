@@ -72,8 +72,8 @@ RUN chmod -R g+rwX /build/devfiles
 FROM registry.access.redhat.com/rhscl/httpd-24-rhel7:2.4-143.1619800879 AS registry
 
 # DOWNSTREAM: use RHEL8/httpd
-# https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/rhel8/httpd-24
-# FROM registry.redhat.io/rhel8/httpd-24:1-140 AS registry
+# https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/ubi8/httpd-24
+# FROM registry.redhat.io/ubi8/httpd-24:1-140 AS registry
 USER 0
 
 # latest httpd container doesn't include ssl cert, so generate one
