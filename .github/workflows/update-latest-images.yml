@@ -1,0 +1,66 @@
+name: Update base images
+
+
+on:
+  workflow_dispatch:
+    inputs:
+      params:
+        description: 'Additional parameters to updateBaseImages.sh'
+        default: ''
+        required: false
+
+jobs:
+  build:
+    name: Check if images need to be updated to latest version
+    runs-on: ubuntu-20.04
+    steps:
+      -
+        name: "Checkout source code"
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      -
+        name: "Set up QEMU"
+        uses: docker/setup-qemu-action@v1
+      -
+        name: "Set up Docker Buildx"
+        uses: docker/setup-buildx-action@v1
+      -
+        name: "Docker quay.io Login"
+        uses: docker/login-action@v1
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+      - 
+        name: Login to docker.io
+        uses: docker/login-action@v1
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - 
+        name: Login to registry.redhat.io 
+        uses: docker/login-action@v1
+        with:
+          registry: registry.redhat.io
+          username: ${{ secrets.REG_RH_IO_USERNAME }}
+          password: ${{ secrets.REG_RH_IO_PASSWORD }}
+      - name: Get latest images script
+        run: |
+          curl -sSLO https://raw.githubusercontent.com/redhat-developer/codeready-workspaces/crw-2-rhel-8/product/updateBaseImages.sh
+      - name: Install skopeo
+        run: |
+          . /etc/os-release
+          echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+          curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/Release.key | sudo apt-key add -
+          sudo apt-get update
+          sudo apt-get -y upgrade
+          sudo apt-get -y install skopeo
+      - 
+        name: Run the digest checking script
+        run: |
+          git config --global user.name "Mykhailo Kuznietsov"
+          git config --global user.email "mkuznets@redhat.com"
+          export GITHUB_TOKEN=${CHE_INCUBATOR_BOT_GITHUB_TOKEN}
+          ./updateBaseImages.sh -b main -maxdepth 5 -f *Dockerfile ${{ github.event.inputs.params }}
