@@ -18,6 +18,9 @@ components:
     image: quay.io/eclipse/che-python-3.8:nightly
     memoryLimit: 512Mi
     mountSources: true
+    volumes:
+      - name: venv
+        containerPath: /home/user/.venv
 commands:
   -
     name: run
@@ -25,13 +28,6 @@ commands:
       -
         type: exec
         component: python
-        command: '. ${CHE_PROJECTS_ROOT}/.venv/bin/activate &&  python hello-world.py'
+        command: '. ${HOME}/.venv/bin/activate &&  python hello-world.py'
         workdir: '${CHE_PROJECTS_ROOT}/python-hello-world'
-  -
-    name: set up venv
-    actions:
-      -
-        type: exec
-        workdir: '${CHE_PROJECTS_ROOT}/'
-        command: python -m venv /projects/.venv
-        component: python
+

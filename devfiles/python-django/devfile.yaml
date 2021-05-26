@@ -20,6 +20,9 @@ components:
       - name: 'django'
         port: 7000
     mountSources: true
+    volumes:
+      - name: venv
+        containerPath: /home/user/.venv
 commands:
   -
     name: install dependencies
@@ -27,7 +30,7 @@ commands:
       -
         type: exec
         component: python
-        command: '. ${CHE_PROJECTS_ROOT}/.venv/bin/activate &&  pip install -r requirements.txt && pip install ptvsd'
+        command: '. ${HOME}/.venv/bin/activate && pip install -r requirements.txt && pip install ptvsd'
         workdir: '${CHE_PROJECTS_ROOT}/django-realworld-example-app'
   - 
     name: migrate
@@ -35,7 +38,7 @@ commands:
       -
         type: exec
         component: python
-        command: '. ${CHE_PROJECTS_ROOT}/.venv/bin/activate &&  python manage.py migrate'
+        command: '. ${HOME}/.venv/bin/activate && python manage.py migrate'
         workdir: '${CHE_PROJECTS_ROOT}/django-realworld-example-app'
   - 
     name: run server
@@ -43,7 +46,7 @@ commands:
       -
         type: exec
         component: python
-        command: '. ${CHE_PROJECTS_ROOT}/.venv/bin/activate && export DEBUG_MODE=False && python manage.py runserver 0.0.0.0:7000'
+        command: '. ${HOME}/.venv/bin/activate && export DEBUG_MODE=False && python manage.py runserver 0.0.0.0:7000'
         workdir: '${CHE_PROJECTS_ROOT}/django-realworld-example-app'
   - 
     name: run server in debug mode
@@ -51,7 +54,7 @@ commands:
       -
         type: exec
         component: python
-        command: '. ${CHE_PROJECTS_ROOT}/.venv/bin/activate &&  export DEBUG_MODE=True && python manage.py runserver 0.0.0.0:7000 --noreload --nothreading'
+        command: '. ${HOME}/.venv/bin/activate &&  export DEBUG_MODE=True && python manage.py runserver 0.0.0.0:7000 --noreload --nothreading'
         workdir: '${CHE_PROJECTS_ROOT}/django-realworld-example-app'
   - 
     name: debug
@@ -75,11 +78,5 @@ commands:
             ]
           }]
         }
-  - 
-    name: set up venv
-    actions:
-      - type: exec
-        command: python -m venv /projects/.venv
-        component: python
-        workdir: '${CHE_PROJECTS_ROOT}/'
+
 
