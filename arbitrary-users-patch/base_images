@@ -1,5 +1,5 @@
 che-antora-2.3          docker.io/antora/antora:2.3.3                           docker.io/antora/antora@sha256:fbf31b3be4e5dd215c82f9b5b403c5e746f68bcf50ced9b7d41b6d1414aa5714
-che-cpp-rhel7           registry.access.redhat.com/devtools/llvm-toolset-rhel7  registry.access.redhat.com/devtools/llvm-toolset-rhel7@sha256:2c65fdfb180eefadb615a6a858ff06ce8541860be2b570716e854510a04cd329
+che-cpp-rhel7           registry.access.redhat.com/devtools/llvm-toolset-rhel7  registry.access.redhat.com/devtools/llvm-toolset-rhel7@
 che-dotnet-2.2          mcr.microsoft.com/dotnet/core/sdk:2.2-stretch           mcr.microsoft.com/dotnet/core/sdk@sha256:db9b38d066fdbdd5ac5ce862076c27e4ae17f2b57cbacd03bdc3b24e06696ae8
 che-dotnet-3.1          mcr.microsoft.com/dotnet/core/sdk:3.1.301-buster        mcr.microsoft.com/dotnet/core/sdk@sha256:c87fd21bdebb2c2d573ecd703981476e5b8ac6a0e96d134722bb672e1c231fea
 che-golang-1.12         docker.io/golang:1.12-stretch                           docker.io/golang@sha256:8b0f4fee390ca1308ef5c522accad9f7d98a4134fcde1b2cff33df1cbb1b3b97
