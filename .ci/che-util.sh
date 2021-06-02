@@ -30,7 +30,7 @@ function createTestWorkspaceAndRunTest() {
   -e TS_SELENIUM_LOAD_PAGE_TIMEOUT=420000 \
   -e TEST_SUITE="test-all-devfiles" \
   -e NODE_TLS_REJECT_UNAUTHORIZED=0 \
-  quay.io/eclipse/che-e2e:nightly || IS_TESTS_FAILED=true
+  quay.io/eclipse/che-e2e:next || IS_TESTS_FAILED=true
 
   export IS_TESTS_FAILED
 }

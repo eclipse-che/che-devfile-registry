@@ -4,7 +4,7 @@ metadata:
 
 components:
   - alias: che-devfile-registry-prod
-    image: 'quay.io/eclipse/che-devfile-registry:nightly'
+    image: 'quay.io/eclipse/che-devfile-registry:next'
     mountSources: true
     endpoints:
       - name: http

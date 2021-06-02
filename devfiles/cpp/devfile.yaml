@@ -14,7 +14,7 @@ components:
     alias: cpp-plugin
   - type: dockerimage
     alias: cpp-dev
-    image: quay.io/eclipse/che-cpp-rhel7:nightly
+    image: quay.io/eclipse/che-cpp-rhel7:next
     memoryLimit: 512Mi
     mountSources: true
 commands:

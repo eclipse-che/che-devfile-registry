@@ -12,7 +12,7 @@ set -e
 
 REGISTRY="quay.io"
 ORGANIZATION="eclipse"
-TAG="nightly"
+TAG="next"
 TARGET="registry" # or offline-registry
 USE_DIGESTS=false
 DOCKERFILE="./build/dockerfiles/Dockerfile"
@@ -23,7 +23,7 @@ Options:
     --help
         Print this message.
     --tag, -t [TAG]
-        Docker image tag to be used for image; default: 'nightly'
+        Docker image tag to be used for image; default: 'next'
     --registry, -r [REGISTRY]
         Docker registry to be used for image; default 'quay.io'
     --organization, -o [ORGANIZATION]
@@ -113,7 +113,7 @@ IMAGE="${REGISTRY}/${ORGANIZATION}/che-devfile-registry:${TAG}"
 VERSION=$(head -n 1 VERSION)
 case $VERSION in
   *SNAPSHOT)
-    echo "Snapshot version (${VERSION}) specified in $(find . -name VERSION): building nightly plugin registry."
+    echo "Snapshot version (${VERSION}) specified in $(find . -name VERSION): building next plugin registry."
     ${BUILDER} ${BUILD_COMMAND} \
         -t "${IMAGE}" \
         -f ${DOCKERFILE} \
