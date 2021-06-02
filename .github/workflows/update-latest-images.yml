@@ -71,4 +71,4 @@ jobs:
           git config --global user.email "mkuznets@redhat.com"
           export GITHUB_TOKEN=${CHE_BOT_GITHUB_TOKEN}
 
-          /tmp/updateBaseImages.sh -b ${{ github.event.inputs.params }} -maxdepth 3 -f *Dockerfile ${{ github.event.inputs.params }}
+          /tmp/updateBaseImages.sh -b ${{ github.event.inputs.branch }} -maxdepth 3 -f *Dockerfile ${{ github.event.inputs.params }}
