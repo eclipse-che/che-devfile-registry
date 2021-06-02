@@ -44,11 +44,15 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: registry.redhat.io
-          username: ${{ secrets.REG_RH_IO_USERNAME }}
-          password: ${{ secrets.REG_RH_IO_PASSWORD }}
+          username: ${{ secrets.CRW_BUILD_USER }}
+          password: ${{ secrets.CRW_BUILD_TOKEN }}
       - name: Get latest images script
         run: |
+
+          pushd /tmp >/dev/null || exit 1
           curl -sSLO https://raw.githubusercontent.com/redhat-developer/codeready-workspaces/crw-2-rhel-8/product/updateBaseImages.sh
+          sudo chmod +x updateBaseImages.sh
+          popd >/dev/null || exit 1
       - name: Install skopeo
         run: |
           . /etc/os-release
@@ -62,5 +66,6 @@ jobs:
         run: |
           git config --global user.name "Mykhailo Kuznietsov"
           git config --global user.email "mkuznets@redhat.com"
-          export GITHUB_TOKEN=${CHE_INCUBATOR_BOT_GITHUB_TOKEN}
-          ./updateBaseImages.sh -b main -maxdepth 5 -f *Dockerfile ${{ github.event.inputs.params }}
+          export GITHUB_TOKEN=${CHE_BOT_GITHUB_TOKEN}
+
+          /tmp/updateBaseImages.sh -b master -maxdepth 3 -f *Dockerfile ${{ github.event.inputs.params }}
