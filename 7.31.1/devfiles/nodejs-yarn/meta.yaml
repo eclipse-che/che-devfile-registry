@@ -1,0 +1,7 @@
+---
+displayName: NodeJS Web Application based on Yarn
+description: Stack for developing NodeJS Web Application based on Yarn 
+tags: ["NodeJS", "Alpine", "Yarn", "React"]
+icon: /images/nodejs.svg
+links:
+  self: /devfiles/nodejs-yarn/devfile.yaml

@@ -1,0 +1,7 @@
+---
+displayName: Python
+description: Python Stack with Python 3.8
+tags: ["Centos", "Python", "pip"]
+icon: /images/python.svg
+links:
+  self: /devfiles/python/devfile.yaml
