@@ -17,7 +17,7 @@ components:
     alias: nodejs
     # system limit for number of file watchers reached with
     # image: registry.access.redhat.com/ubi8/nodejs-10
-    image: quay.io/eclipse/che-nodejs8-centos:nightly
+    image: quay.io/eclipse/che-nodejs8-centos:next
     memoryLimit: 512Mi
     endpoints:
       - name: 'nodejs'

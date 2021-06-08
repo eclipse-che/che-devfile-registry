@@ -20,7 +20,7 @@ components:
   -
     type: dockerimage
     alias: nodejs
-    image: quay.io/eclipse/che-nodejs10-ubi:nightly
+    image: quay.io/eclipse/che-nodejs10-ubi:next
     env:
       # The values below are used to set up the environment for running the application
       - name: SECRET

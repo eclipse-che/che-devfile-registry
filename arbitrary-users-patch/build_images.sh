@@ -14,7 +14,7 @@ SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
 
 DEFAULT_REGISTRY="quay.io"
 DEFAULT_ORGANIZATION="eclipse"
-DEFAULT_TAG="nightly"
+DEFAULT_TAG="next"
 DEFAULT_BASE_IMAGES="${SCRIPT_DIR}/base_images"
 
 REGISTRY=${REGISTRY:-${DEFAULT_REGISTRY}}

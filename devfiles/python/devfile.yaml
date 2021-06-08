@@ -15,7 +15,7 @@ components:
   -
     type: dockerimage
     alias: python
-    image: quay.io/eclipse/che-python-3.8:nightly
+    image: quay.io/eclipse/che-python-3.8:next
     memoryLimit: 512Mi
     mountSources: true
     volumes:

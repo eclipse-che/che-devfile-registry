@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2020-2021 Red Hat, Inc.
+# Copyright (c) 2021 Red Hat, Inc.
 # This program and the accompanying materials are made
 # available under the terms of the Eclipse Public License 2.0
 # which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -15,24 +15,23 @@ on:
       - master
 
 jobs:
-  nightly-build-publish:
+  next-build-publish:
     runs-on: ubuntu-20.04
     steps:
       - 
         name: Clone source code
         uses: actions/checkout@v1
         with:
-          fetch-depth: 1
+          fetch-depth: 0
       - 
         name: Prepare
         id: prep
         run: |
+          set -e
           SHORT_SHA1=$(git rev-parse --short HEAD)
           echo ::set-output name=short_sha1::${SHORT_SHA1}
-          # VERSION file contains 7.yy.0-SNAPSHOT but for nightlies we want just a nightly tag
-          # VERSION=$(head -n 1 VERSION)
-          # echo ::set-output name=version::${VERSION}
-          echo ::set-output name=version::nightly
+
+          echo ::set-output name=version::next
           IMAGE=che-devfile-registry
           echo ::set-output name=image::${IMAGE}
           PLATFORMS=$(cat PLATFORMS)
@@ -60,13 +59,13 @@ jobs:
 
       - name: Build and push base images
         run: ./arbitrary-users-patch/build_images.sh --push --rm
-        env:
-          TAG: nightly
+        env: 
+          TAG: next
 
       - name: Build and push happy path image
         run: ./arbitrary-users-patch/happy-path/build_happy_path_image.sh --push --rm
-        env:
-          TAG: nightly
+        env: 
+          TAG: next
       -
         name: "Build and push"
         uses: docker/build-push-action@v2

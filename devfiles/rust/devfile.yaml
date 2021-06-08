@@ -12,7 +12,7 @@ components:
     memoryLimit: 512Mi
     type: dockerimage
     alias: rust
-    image: quay.io/eclipse/che-rust-1.39:nightly
+    image: quay.io/eclipse/che-rust-1.39:next
   - type: chePlugin
     id: rust-lang/rust/latest
 commands:

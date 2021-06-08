@@ -138,9 +138,9 @@ parameters:
   displayName: Eclipse Che devfile registry image
   description: Che devfile registry Docker image. Defaults to quay.io/eclipse/che-devfile-registry
 - name: IMAGE_TAG
-  value: nightly
+  value: next
   displayName: Eclipse Che devfile registry version
-  description: Eclipse Che devfile registry version which defaults to nightly
+  description: Eclipse Che devfile registry version which defaults to next
 - name: MEMORY_LIMIT
   value: 256Mi
   displayName: Memory Limit
