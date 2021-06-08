@@ -1,3 +1,7 @@
+![Nightly Build Status](https://github.com/eclipse/che-devfile-registry/actions/workflows/next-build.yml/badge.svg)
+![Next Build Status](https://github.com/eclipse/che-devfile-registry/actions/workflows/nightly-build-publish.yml/badge.svg)
+![Release Build Status](https://github.com/eclipse/che-devfile-registry/actions/workflows/release.yml/badge.svg)
+
 # Eclipse Che devfile registry
 
 This repository holds ready-to-use Devfiles for different languages and technologies.
