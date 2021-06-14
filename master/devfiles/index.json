@@ -84,6 +84,19 @@
     }
   },
   {
+    "displayName": ".NET Core",
+    "description": "Stack with .Net 3.1",
+    "tags": [
+      "Debian",
+      "Dotnet",
+      "C#"
+    ],
+    "icon": "/images/dotnetcore.svg",
+    "links": {
+      "self": "/devfiles/dotnet/devfile.yaml"
+    }
+  },
+  {
     "displayName": "Java Lombok",
     "description": "Java Stack with Lombok 1.18.18, OpenJDK 11 and Maven 3.6.0",
     "tags": [
@@ -96,19 +109,6 @@
     "icon": "/images/lombok.svg",
     "links": {
       "self": "/devfiles/java-lombok/devfile.yaml"
-    }
-  },
-  {
-    "displayName": ".NET Core",
-    "description": "Stack with .Net 3.1",
-    "tags": [
-      "Debian",
-      "Dotnet",
-      "C#"
-    ],
-    "icon": "/images/dotnetcore.svg",
-    "links": {
-      "self": "/devfiles/dotnet/devfile.yaml"
     }
   },
   {
@@ -277,20 +277,6 @@
     }
   },
   {
-    "displayName": "C/C++",
-    "description": "Stack with C/C++ and Clang 8",
-    "tags": [
-      "C/C++",
-      "clang",
-      "g++",
-      "gdb"
-    ],
-    "icon": "/images/cpp.svg",
-    "links": {
-      "self": "/devfiles/cpp/devfile.yaml"
-    }
-  },
-  {
     "displayName": "Java with Spring Boot and MySQL",
     "description": "Java stack with OpenJDK 8, MySQL and Spring Boot Petclinic demo application",
     "tags": [
@@ -303,6 +289,20 @@
     "icon": "/images/springboot.svg",
     "links": {
       "self": "/devfiles/java-mysql/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "C/C++",
+    "description": "Stack with C/C++ and Clang 8",
+    "tags": [
+      "C/C++",
+      "clang",
+      "g++",
+      "gdb"
+    ],
+    "icon": "/images/cpp.svg",
+    "links": {
+      "self": "/devfiles/cpp/devfile.yaml"
     }
   },
   {
