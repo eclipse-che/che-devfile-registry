@@ -8,7 +8,7 @@ on:
         required: false
       branch:
         description: 'Project branch'
-        default: 'master'
+        default: 'main'
         required: true
 
 jobs:
