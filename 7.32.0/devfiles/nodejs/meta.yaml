@@ -1,0 +1,13 @@
+{
+  "displayName": "NodeJS Express Web Application",
+  "description": "Stack with NodeJS 10",
+  "tags": [
+    "NodeJS",
+    "Express",
+    "ubi8"
+  ],
+  "icon": "/images/nodejs.svg",
+  "links": {
+    "self": "/devfiles/nodejs/devfile.yaml"
+  }
+}
