@@ -110,7 +110,7 @@ performRelease()
   VERSION=$(head -n 1 VERSION)
   SHORT_SHA1=$(git rev-parse --short HEAD)
   DOCKERFILE_PATH=./build/dockerfiles/Dockerfile
-  docker buildx build --push --platform "${PLATFORMS}" --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${VERSION}" --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${SHORT_SHA1}" -f ${DOCKERFILE_PATH} --build-arg PATCHED_IMAGES_TAG="${VERSION}" --target registry .
+  docker buildx build --push --platform "${PLATFORMS}" --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${VERSION}" --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${SHORT_SHA1}" --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:latest" -f ${DOCKERFILE_PATH} --build-arg PATCHED_IMAGES_TAG="${VERSION}" --target registry .
 
   set +xe
 }
