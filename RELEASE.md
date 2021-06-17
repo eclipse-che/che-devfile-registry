@@ -2,19 +2,19 @@
 
 Below are the steps needed to do a release. But rather than doing them by hand, you can run this script:
 
-https://github.com/eclipse-che/che-devfile-registry/blob/master/make-release.sh
+https://github.com/eclipse-che/che-devfile-registry/blob/main/make-release.sh
 
-HOWEVER, because the master branch is protected from commits, the above script will not be able to commit an update to the VERSION file. Instead it must produce a PR.
+HOWEVER, because the main branch is protected from commits, the above script will not be able to commit an update to the VERSION file. Instead it must produce a PR.
 
 ```
-remote: error: GH006: Protected branch update failed for refs/heads/master.
+remote: error: GH006: Protected branch update failed for refs/heads/main.
 remote: error: At least 1 approving review is required by reviewers with write access.
 To github.com:eclipse-che/che-devfile-registry
- ! [remote rejected] master -> master (protected branch hook declined)
+ ! [remote rejected] main -> main (protected branch hook declined)
 ```
 
 - create a branch for the release e.g. `7.8.x`
-- provide a [PR](https://github.com/eclipse-che/che-devfile-registry/pull/171) with bumping the [VERSION](https://github.com/eclipse-che/che-devfile-registry/blob/master/VERSION) file to the `7.8.x` branch
+- provide a [PR](https://github.com/eclipse-che/che-devfile-registry/pull/171) with bumping the [VERSION](https://github.com/eclipse-che/che-devfile-registry/blob/main/VERSION) file to the `7.8.x` branch
 - [![Release Build Status](https://ci.centos.org/buildStatus/icon?subject=release&job=devtools-che-devfile-registry-release/)](https://ci.centos.org/job/devtools-che-devfile-registry-release/) CI is triggered based on the changes in the [`release`](https://github.com/eclipse-che/che-devfile-registry/tree/release) branch (not `7.8.x`).
 
 In order to trigger the CI once the [PR](https://github.com/eclipse-che/che-devfile-registry/pull/171) is merged to the `7.8.x` one needs to:
@@ -36,7 +36,7 @@ git tag 7.8.0
 git push origin 7.8.0
 ```
 
-After the release, the `VERSION` file should be bumped in the master branch, e.g. to `7.9.0-SNAPSHOT`.
+After the release, the `VERSION` file should be bumped in the main branch, e.g. to `7.9.0-SNAPSHOT`.
 
 ## Service / Bugfix  Release
 

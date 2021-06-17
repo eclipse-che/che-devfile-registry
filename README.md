@@ -6,6 +6,10 @@
 
 This repository holds ready-to-use Devfiles for different languages and technologies.
 
+The contents of the devfile registry are published to [GitHub pages](https://eclipse-che.github.io/che-devfile-registry/main/) on every commit. Furthermore, every version is also published to GitHub pages at release time. As an example the `7.31.2` version of the devfile registry was published [here](https://eclipse-che.github.io/che-devfile-registry/7.31.2/).
+
+All published versions of the devfile registry explicitly use plugins from the [che-plugin-registry](https://github.com/eclipse-che/che-plugin-registry) by specifying the `registryUrl` field.
+
 ## Build registry container image
 
 This repository contains a `build.sh` script at its root that can be used to build the registry:
