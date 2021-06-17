@@ -140,8 +140,8 @@ if [ -n "$PUBLIC_URL" ]; then
   sed -i "s|{{ DEVFILE_REGISTRY_URL }}|${PUBLIC_URL}|" "${devfiles[@]}" "${metas[@]}" "$INDEX_JSON"
 
   # Add PUBLIC_URL at the begining of 'icon' and 'self' fields
-  sed -i-backup "s|\"icon\": \"/images/|\"icon\": \"${PUBLIC_URL}/images/|" "$INDEX_JSON"
-  sed -i-backup "s|\"self\": \"/devfiles/|\"self\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
+  sed -i "s|\"icon\": \"/images/|\"icon\": \"${PUBLIC_URL}/images/|" "$INDEX_JSON"
+  sed -i "s|\"self\": \"/devfiles/|\"self\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
 else
   if grep -q '{{ DEVFILE_REGISTRY_URL }}' "${devfiles[@]}"; then
     echo "WARNING: environment variable 'CHE_DEVFILE_REGISTRY_URL' not configured" \
@@ -156,8 +156,8 @@ else
     sed -i "s|{{ DEVFILE_REGISTRY_URL }}|${URL}|" "${devfiles[@]}" "${metas[@]}" "$INDEX_JSON"
 
     # Add URL at the begining of 'icon' and 'self' fields
-    sed -i-backup "s|\"icon\": \"/images/|\"icon\": \"${URL}/images/|" "$INDEX_JSON"
-    sed -i-backup "s|\"self\": \"/devfiles/|\"self\": \"${URL}/devfiles/|" "$INDEX_JSON"
+    sed -i "s|\"icon\": \"/images/|\"icon\": \"${URL}/images/|" "$INDEX_JSON"
+    sed -i "s|\"self\": \"/devfiles/|\"self\": \"${URL}/devfiles/|" "$INDEX_JSON"
   fi
 fi
 
