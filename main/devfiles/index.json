@@ -11,9 +11,9 @@
       "Red Hat Fuse",
       "Spring Boot"
     ],
-    "icon": "/images/camelk.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/camelk.svg",
     "links": {
-      "self": "/devfiles/apache-camel-springboot/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-springboot/devfile.yaml"
     }
   },
   {
@@ -22,9 +22,9 @@
     "tags": [
       "Rust"
     ],
-    "icon": "/images/rust.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/rust.svg",
     "links": {
-      "self": "/devfiles/rust/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devfile.yaml"
     }
   },
   {
@@ -37,9 +37,9 @@
       "Debian",
       "Centos"
     ],
-    "icon": "/images/php.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/php.svg",
     "links": {
-      "self": "/devfiles/php-mysql/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-mysql/devfile.yaml"
     }
   },
   {
@@ -51,9 +51,9 @@
       "Maven",
       "Vertx"
     ],
-    "icon": "/images/vertx.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/vertx.svg",
     "links": {
-      "self": "/devfiles/java-web-vertx/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-web-vertx/devfile.yaml"
     }
   },
   {
@@ -64,9 +64,9 @@
       "Express",
       "ubi8"
     ],
-    "icon": "/images/nodejs.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
-      "self": "/devfiles/nodejs/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs/devfile.yaml"
     }
   },
   {
@@ -78,9 +78,9 @@
       "Yarn",
       "React"
     ],
-    "icon": "/images/nodejs.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
-      "self": "/devfiles/nodejs-yarn/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-yarn/devfile.yaml"
     }
   },
   {
@@ -93,9 +93,9 @@
       "Debian",
       "Lombok"
     ],
-    "icon": "/images/lombok.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/lombok.svg",
     "links": {
-      "self": "/devfiles/java-lombok/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devfile.yaml"
     }
   },
   {
@@ -106,9 +106,9 @@
       "Dotnet",
       "C#"
     ],
-    "icon": "/images/dotnetcore.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/dotnetcore.svg",
     "links": {
-      "self": "/devfiles/dotnet/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet/devfile.yaml"
     }
   },
   {
@@ -121,9 +121,9 @@
       "Centos",
       "Debian"
     ],
-    "icon": "/images/php.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/php.svg",
     "links": {
-      "self": "/devfiles/php-laravel/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-laravel/devfile.yaml"
     }
   },
   {
@@ -133,9 +133,9 @@
       "Bash",
       "Shell"
     ],
-    "icon": "/images/che.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/che.svg",
     "links": {
-      "self": "/devfiles/bash/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/bash/devfile.yaml"
     }
   },
   {
@@ -156,9 +156,9 @@
       "InterTest",
       "debug"
     ],
-    "icon": "/images/che4z.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/che4z.svg",
     "links": {
-      "self": "/devfiles/che4z/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/che4z/devfile.yaml"
     }
   },
   {
@@ -169,9 +169,9 @@
       "Angular",
       "Alpine"
     ],
-    "icon": "/images/angular.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/angular.svg",
     "links": {
-      "self": "/devfiles/nodejs-angular/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devfile.yaml"
     }
   },
   {
@@ -185,9 +185,9 @@
       "ubi8",
       "Centos"
     ],
-    "icon": "/images/nodejs.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
-      "self": "/devfiles/nodejs-mongo/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devfile.yaml"
     }
   },
   {
@@ -199,9 +199,9 @@
       "Redux",
       "RealWorld"
     ],
-    "icon": "/images/nodejs.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
-      "self": "/devfiles/nodejs-react/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-react/devfile.yaml"
     }
   },
   {
@@ -215,9 +215,9 @@
       "Debian",
       "Centos"
     ],
-    "icon": "/images/php.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/php.svg",
     "links": {
-      "self": "/devfiles/php-symfony/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-symfony/devfile.yaml"
     }
   },
   {
@@ -227,9 +227,9 @@
       "Debian",
       "Go"
     ],
-    "icon": "/images/go.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/go.svg",
     "links": {
-      "self": "/devfiles/go/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/go/devfile.yaml"
     }
   },
   {
@@ -242,9 +242,9 @@
       "Maven",
       "Debian"
     ],
-    "icon": "/images/quarkus.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/quarkus.svg",
     "links": {
-      "self": "/devfiles/quarkus-command-mode/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus-command-mode/devfile.yaml"
     }
   },
   {
@@ -257,9 +257,9 @@
       "Spring Boot",
       "MongoDB"
     ],
-    "icon": "/images/java.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/java.svg",
     "links": {
-      "self": "/devfiles/java-mongo/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mongo/devfile.yaml"
     }
   },
   {
@@ -271,9 +271,9 @@
       "Gradle",
       "Ubuntu"
     ],
-    "icon": "/images/java.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/java.svg",
     "links": {
-      "self": "/devfiles/java-gradle/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-gradle/devfile.yaml"
     }
   },
   {
@@ -285,9 +285,9 @@
       "g++",
       "gdb"
     ],
-    "icon": "/images/cpp.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/cpp.svg",
     "links": {
-      "self": "/devfiles/cpp/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/cpp/devfile.yaml"
     }
   },
   {
@@ -300,9 +300,9 @@
       "Spring Boot",
       "MySQL"
     ],
-    "icon": "/images/springboot.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/springboot.svg",
     "links": {
-      "self": "/devfiles/java-mysql/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mysql/devfile.yaml"
     }
   },
   {
@@ -314,9 +314,9 @@
       "Maven",
       "Debian"
     ],
-    "icon": "/images/java.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/java.svg",
     "links": {
-      "self": "/devfiles/java-maven/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-maven/devfile.yaml"
     }
   },
   {
@@ -329,9 +329,9 @@
       "Maven",
       "Debian"
     ],
-    "icon": "/images/quarkus.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/quarkus.svg",
     "links": {
-      "self": "/devfiles/quarkus/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devfile.yaml"
     }
   },
   {
@@ -342,9 +342,9 @@
       "Python",
       "pip"
     ],
-    "icon": "/images/python.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/python.svg",
     "links": {
-      "self": "/devfiles/python/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python/devfile.yaml"
     }
   },
   {
@@ -355,9 +355,9 @@
       "Apache",
       "Debian"
     ],
-    "icon": "/images/php.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/php.svg",
     "links": {
-      "self": "/devfiles/php-web-simple/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-web-simple/devfile.yaml"
     }
   },
   {
@@ -369,9 +369,9 @@
       "C#",
       "ASP.NET"
     ],
-    "icon": "/images/dotnetcore.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/dotnetcore.svg",
     "links": {
-      "self": "/devfiles/dotnet-asp.net/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devfile.yaml"
     }
   },
   {
@@ -382,9 +382,9 @@
       "Red Hat Fuse",
       "Integration"
     ],
-    "icon": "/images/camelk.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/camelk.svg",
     "links": {
-      "self": "/devfiles/apache-camel-k/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-k/devfile.yaml"
     }
   },
   {
@@ -396,10 +396,10 @@
       "Maven",
       "Spring Boot"
     ],
-    "icon": "/images/springboot.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/springboot.svg",
     "links": {
       "v2": "https://github.com/che-samples/java-spring-petclinic/tree/devfilev2",
-      "self": "/devfiles/java-web-spring/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-web-spring/devfile.yaml"
     }
   },
   {
@@ -410,9 +410,9 @@
       "Python",
       "pip"
     ],
-    "icon": "/images/python.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/python.svg",
     "links": {
-      "self": "/devfiles/python-django/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python-django/devfile.yaml"
     }
   },
   {
@@ -424,9 +424,9 @@
       "sbt",
       "Debian"
     ],
-    "icon": "/images/scala.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/scala.svg",
     "links": {
-      "self": "/devfiles/scala-sbt/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/scala-sbt/devfile.yaml"
     }
   }
 ]

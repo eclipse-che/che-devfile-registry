@@ -6,6 +6,9 @@ components:
     id: broadcommfd/cobol-language-support/latest
     registryUrl: https://eclipse-che.github.io/che-plugin-registry/main/v3/
   - type: chePlugin
+    id: broadcommfd/ccf/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/main/v3/
+  - type: chePlugin
     id: broadcommfd/explorer-for-endevor/latest
     registryUrl: https://eclipse-che.github.io/che-plugin-registry/main/v3/
   - type: chePlugin
