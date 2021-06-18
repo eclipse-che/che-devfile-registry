@@ -10,6 +10,7 @@
   ],
   "icon": "/images/quarkus.svg",
   "links": {
+    "v2": "https://github.com/che-samples/java-spring-petclinic/tree/devfilev2",
     "self": "/devfiles/quarkus/devfile.yaml"
   }
 }
