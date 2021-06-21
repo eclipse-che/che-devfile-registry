@@ -4,4 +4,4 @@ description: Quarkus stack with a default REST endpoint application sample
 tags: ["Java", "Quarkus", "OpenJDK", "Maven", "Debian"]
 icon: /images/quarkus.svg
 links:
-  v2: https://github.com/che-samples/java-spring-petclinic/tree/devfilev2
+  v2: https://github.com/che-samples/quarkus-quickstarts/tree/devfilev2
