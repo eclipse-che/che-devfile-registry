@@ -331,7 +331,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/quarkus.svg",
     "links": {
-      "v2": "https://github.com/che-samples/java-spring-petclinic/tree/devfilev2",
+      "v2": "https://github.com/che-samples/quarkus-quickstarts/tree/devfilev2",
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devfile.yaml"
     }
   },
