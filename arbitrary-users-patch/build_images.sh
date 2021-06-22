@@ -25,14 +25,17 @@ BASE_IMAGES=${BASE_IMAGES:-${DEFAULT_BASE_IMAGES}}
 NAME_FORMAT="${REGISTRY}/${ORGANIZATION}"
 
 PUSH_IMAGES=false
-if [ "$1" == "--push" ] || [ "$2" == "--push" ]; then
-  PUSH_IMAGES=true
-fi
-
 RM_IMAGES=false
-if [ "$1" == "--rm" ] || [ "$2" == "--rm" ]; then
-  RM_IMAGES=true
-fi
+PUSH_LATEST=false
+
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    '--push') PUSH_IMAGES=true; shift 0;;
+    '--rm') RM_IMAGES=true; shift 0;;
+    '--latest') PUSH_LATEST=true; shift 0;;
+  esac
+  shift 1
+done
 
 BUILT_IMAGES=""
 while read -r line; do
@@ -44,6 +47,11 @@ while read -r line; do
   if ${PUSH_IMAGES}; then
     echo "Pushing ${NAME_FORMAT}/${dev_container_name}:${TAG} to remote registry"
     docker push "${NAME_FORMAT}/${dev_container_name}:${TAG}" | cat
+    if ${PUSH_LATEST}; then
+      echo "Pushing  ${NAME_FORMAT}/${dev_container_name}:latest to remote registry"
+      docker tag "${NAME_FORMAT}/${dev_container_name}:${TAG}" "${NAME_FORMAT}/${dev_container_name}:latest"
+      docker push "${NAME_FORMAT}/${dev_container_name}:latest" | cat
+    fi
   fi
   if ${RM_IMAGES}; then # save disk space by deleting the image we just published
     echo "Deleting ${NAME_FORMAT}/${dev_container_name}:${TAG} from local registry"
