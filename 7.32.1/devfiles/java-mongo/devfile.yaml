@@ -1,0 +1,116 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: java-mongo-
+projects:
+  - name: java-guestbook
+    source:
+      type: git
+      location: https://github.com/che-samples/java-guestbook
+components:
+  - type: chePlugin
+    id: redhat/java8/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.32.1/v3/
+  - type: dockerimage
+    alias: maven
+    image: quay.io/eclipse/che-java8-maven:7.32.1
+    env:
+      - name: MAVEN_CONFIG
+        value: ""
+      - name: JAVA_OPTS
+        value: -XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom -Duser.home=/home/user
+      - name: MAVEN_OPTS
+        value: $(JAVA_OPTS)
+    memoryLimit: 512Mi
+    mountSources: true
+    endpoints:
+      - name: java-guestbook-backend
+        attributes:
+          discoverable: "true"
+          public: "false"
+        port: 8080
+      - name: java-guestbook
+        attributes:
+          discoverable: "true"
+          public: "true"
+        port: 8443
+      - name: debug
+        attributes:
+          public: "false"
+        port: 5005
+    volumes:
+      - name: m2
+        containerPath: /home/user/.m2
+  - type: dockerimage
+    alias: mongo
+    image: quay.io/eclipse/che--centos--mongodb-36-centos7:latest-a915db7beca87198fcd7860086989fe8a327a1a4f6508025b64ab28fcc7423b2
+    env:
+      - name: MONGODB_USER
+        value: user
+      - name: MONGODB_PASSWORD
+        value: password
+      - name: MONGODB_DATABASE
+        value: guestbook
+      - name: MONGODB_ADMIN_PASSWORD
+        value: password
+    memoryLimit: 300Mi
+    endpoints:
+      - name: java-guestbook-mongodb
+        attributes:
+          discoverable: "true"
+          public: "false"
+        port: 27017
+    volumes:
+      - name: mongodb_data
+        containerPath: /var/lib/mongodb/data
+    mountSources: true
+commands:
+  - name: maven build backend
+    actions:
+      - type: exec
+        component: maven
+        command: mvn clean install
+        workdir: ${CHE_PROJECTS_ROOT}/java-guestbook/backend
+  - name: maven build frontend
+    actions:
+      - type: exec
+        component: maven
+        command: mvn clean install
+        workdir: ${CHE_PROJECTS_ROOT}/java-guestbook/frontend
+  - name: run backend
+    actions:
+      - type: exec
+        component: maven
+        command: |
+          java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006,quiet=y \
+          -jar target/backend-1.0.jar
+        workdir: ${CHE_PROJECTS_ROOT}/java-guestbook/backend
+  - name: run frontend
+    actions:
+      - type: exec
+        component: maven
+        command: |
+          java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005,quiet=y \
+          -jar target/frontend-1.0.jar
+        workdir: ${CHE_PROJECTS_ROOT}/java-guestbook/frontend
+  - name: Debug remote
+    actions:
+      - type: vscode-launch
+        referenceContent: |
+          {
+          "version": "0.2.0",
+          "configurations": [
+            {
+              "type": "java",
+              "name": "Debug (Attach) - Backend",
+              "request": "attach",
+              "hostName": "localhost",
+              "port": 5006
+            },
+            {
+              "type": "java",
+              "name": "Debug (Attach) - Frontend",
+              "request": "attach",
+              "hostName": "localhost",
+              "port": 5005
+            }]
+          }
