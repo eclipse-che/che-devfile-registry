@@ -8,6 +8,9 @@ components:
     id: broadcommfd/cobol-language-support/latest
   - 
     type: chePlugin
+    id: broadcommfd/ccf/latest
+  - 
+    type: chePlugin
     id: broadcommfd/explorer-for-endevor/latest
   - 
     type: chePlugin
