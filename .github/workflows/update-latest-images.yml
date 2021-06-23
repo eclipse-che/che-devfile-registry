@@ -26,6 +26,16 @@ jobs:
           registry: registry.redhat.io
           username: ${{ secrets.CRW_BUILD_USER }}
           password: ${{ secrets.CRW_BUILD_TOKEN }}
+      - name: Login to registry.redhat.io
+        uses: docker/login-action@v1
+        with:
+          registry: registry.redhat.io
+          username: ${{ secrets.CRW_BUILD_USER }}
+          password: ${{ secrets.CRW_BUILD_TOKEN }}
+      - name: Install yq
+        run: |
+          sudo pip install yq
+
       - name: Install skopeo
         run: |
           . /etc/os-release
