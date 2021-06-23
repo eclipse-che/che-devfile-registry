@@ -31,13 +31,13 @@ jobs:
           checkVersion() {
             if [[  "$1" = "$(echo -e "$1\n$2" | sort -V | head -n1)" ]]; then
               # echo "[INFO] $3 version $2 >= $1, can proceed."
-            true
+              true
             else 
               echo "[INFO] Installing $3 version >= $1 ..."
-              if [[ "$1" == "yq" ]]; then 
-                pip install "$1"
+              if [[ "$3" == "yq" ]]; then 
+                pip install "$3"
               else 
-                sudo apt-get -y install "$1"
+                sudo apt-get -y install "$3"
               fi
             fi
           }
