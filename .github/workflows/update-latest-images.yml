@@ -47,7 +47,7 @@ jobs:
       - name: Get + run base image check
         run: |
           pushd /tmp >/dev/null || exit 1
-          GITHUB_TOKEN: ${{ secrets.CHE_BOT_GITHUB_TOKEN }}
+          export GITHUB_TOKEN: ${{ secrets.CHE_BOT_GITHUB_TOKEN }}
           curl -sSLO https://raw.githubusercontent.com/redhat-developer/codeready-workspaces/crw-2-rhel-8/product/updateBaseImages.sh && \
           chmod +x updateBaseImages.sh
           popd >/dev/null || exit 1
