@@ -10,6 +10,8 @@ on:
         description: 'Project branch'
         default: 'main'
         required: true
+  schedule:
+  - cron: "0 0 * * 6"
 
 jobs:
   build:
