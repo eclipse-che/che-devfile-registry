@@ -53,4 +53,4 @@ jobs:
           popd >/dev/null || exit 1
           git config --global user.name "Mykhailo Kuznietsov"
           git config --global user.email "mkuznets@redhat.com"
-          bash -x /tmp/updateBaseImages.sh -b ${{ github.event.inputs.branch }} -maxdepth 3 -f *Dockerfile ${{ github.event.inputs.params }}
+          /tmp/updateBaseImages.sh -b ${{ github.event.inputs.branch }} -maxdepth 3 -f *Dockerfile ${{ github.event.inputs.params }}
