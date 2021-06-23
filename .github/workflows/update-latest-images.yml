@@ -39,7 +39,11 @@ jobs:
               curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/Release.key | sudo apt-key add -
               sudo apt-get update
               sudo apt-get -y upgrade
-              sudo apt-get -y install $1
+              if [[ "$1" == "yq" ]]; then 
+                pip install "$1"
+              else 
+                sudo apt-get -y install "$1"
+              fi
             fi
           }
           checkVersion 1.1 "$(skopeo --version | sed -e "s/skopeo version //")" skopeo
