@@ -53,5 +53,4 @@ jobs:
           popd >/dev/null || exit 1
           git config --global user.name "Mykhailo Kuznietsov"
           git config --global user.email "mkuznets@redhat.com"
-          export GITHUB_TOKEN=${CHE_BOT_GITHUB_TOKEN}
           bash -x /tmp/updateBaseImages.sh -b ${{ github.event.inputs.branch }} -maxdepth 3 -f *Dockerfile ${{ github.event.inputs.params }}
