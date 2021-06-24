@@ -11,7 +11,7 @@ projects:
 components:
   -
     type: chePlugin
-    id: che-incubator/typescript/latest
+    id: vscode/typescript-language-features/latest
   - 
     type: chePlugin
     id: ms-vscode/node-debug2/latest
