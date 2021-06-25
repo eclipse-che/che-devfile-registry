@@ -1,5 +1,16 @@
 [
   {
+    "displayName": "Rust",
+    "description": "Rust Stack with Rust 1.39",
+    "tags": [
+      "Rust"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/rust.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devfile.yaml"
+    }
+  },
+  {
     "displayName": "Apache Camel based on Spring Boot",
     "description": "Stack with environment ready to develop Integration projects with Apache Camel based on Spring Boot.",
     "tags": [
@@ -14,17 +25,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/camelk.svg",
     "links": {
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-springboot/devfile.yaml"
-    }
-  },
-  {
-    "displayName": "Rust",
-    "description": "Rust Stack with Rust 1.39",
-    "tags": [
-      "Rust"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/rust.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devfile.yaml"
     }
   },
   {
@@ -84,6 +84,19 @@
     }
   },
   {
+    "displayName": ".NET Core",
+    "description": "Stack with .Net 3.1",
+    "tags": [
+      "Debian",
+      "Dotnet",
+      "C#"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/dotnetcore.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet/devfile.yaml"
+    }
+  },
+  {
     "displayName": "Java Lombok",
     "description": "Java Stack with Lombok 1.18.18, OpenJDK 11 and Maven 3.6.0",
     "tags": [
@@ -96,19 +109,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/lombok.svg",
     "links": {
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devfile.yaml"
-    }
-  },
-  {
-    "displayName": ".NET Core",
-    "description": "Stack with .Net 3.1",
-    "tags": [
-      "Debian",
-      "Dotnet",
-      "C#"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/dotnetcore.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet/devfile.yaml"
     }
   },
   {
@@ -175,6 +175,20 @@
     }
   },
   {
+    "displayName": "NodeJS React Web Application",
+    "description": "Stack for developing NodeJS React Web Application",
+    "tags": [
+      "NodeJS",
+      "React",
+      "Redux",
+      "RealWorld"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-react/devfile.yaml"
+    }
+  },
+  {
     "displayName": "NodeJS MongoDB Web Application",
     "description": "Stack with NodeJS 10 and MongoDB 3.4",
     "tags": [
@@ -188,20 +202,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devfile.yaml"
-    }
-  },
-  {
-    "displayName": "NodeJS React Web Application",
-    "description": "Stack for developing NodeJS React Web Application",
-    "tags": [
-      "NodeJS",
-      "React",
-      "Redux",
-      "RealWorld"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-react/devfile.yaml"
     }
   },
   {
@@ -349,19 +349,6 @@
     }
   },
   {
-    "displayName": "PHP Simple",
-    "description": "PHP Stack with PHP 7.1 and simple web application",
-    "tags": [
-      "PHP",
-      "Apache",
-      "Debian"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/php.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-web-simple/devfile.yaml"
-    }
-  },
-  {
     "displayName": "ASP.NET Core Web Application",
     "description": "Stack for developing ASP.NET Core Web Application",
     "tags": [
@@ -373,6 +360,19 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/dotnetcore.svg",
     "links": {
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "PHP Simple",
+    "description": "PHP Stack with PHP 7.1 and simple web application",
+    "tags": [
+      "PHP",
+      "Apache",
+      "Debian"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/php.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-web-simple/devfile.yaml"
     }
   },
   {
