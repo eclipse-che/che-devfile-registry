@@ -80,5 +80,9 @@ cd ./che-devfile-registry
 # Copy generated devfiles and commit + push
 cp -rf /tmp/content/"${VERSION}" ./
 git add ./"${VERSION}"
-git commit -m "Publish devfile registry $VERSION - $(date)" -s
-git push "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/eclipse-che/che-devfile-registry.git" gh-pages
+if git diff --quiet; then
+    echo "No changes made, nothing to publish."
+else
+    git commit -m "Publish devfile registry $VERSION - $(date)" -s
+    git push "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/eclipse-che/che-devfile-registry.git" gh-pages
+fi
