@@ -13,5 +13,5 @@ che-nodejs10-ubi        registry.access.redhat.com/ubi8/nodejs-10               
 che-nodejs8-centos      registry.centos.org/che-stacks/centos-nodejs            registry.centos.org/che-stacks/centos-nodejs@sha256:d5cef8b16d9596ff334328b046894e0415e5be470a134357db590b4209922f99
 che-php-7               quay.io/eclipse/che-php-base:7.4-9c00f7a                quay.io/eclipse/che-php-base@sha256:da8cc8cd3e6d4615d00e29ff303490e95709a03a60515f8d1c9642f0784695d4
 che-python-3.8          docker.io/python:3.8.6-slim                             docker.io/python@sha256:83323df595e261d5aabf0c96c5ae65dcaa42049495c86de21f54c39d61a824ff
-che-quarkus             quay.io/quarkus/centos-quarkus-maven:21.0-java11        quay.io/quarkus/centos-quarkus-maven@sha256:a1192e703e92191d2dbcf8a8be3431c16c1d8b44da6d3aa9043ed6b708300399
+che-quarkus             quay.io/quarkus/centos-quarkus-maven:21.0-java11        quay.io/quarkus/centos-quarkus-maven@sha256:d6669ace62afdfbfc456edd9487e0b1cf1e1edbb69c88b608c5644d97bc4875e
 che-rust-1.39           docker.io/rust:1.39.0-slim                              docker.io/rust@sha256:b47dd7b5f59bea2bc19ac18e81cc6b5b3cfe6c4e40082cab09604b296bca2652
