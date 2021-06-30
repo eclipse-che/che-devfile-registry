@@ -15,9 +15,11 @@
 set -e
 
 NO_OP="false"
+BUGFIX_BRANCH=""
 while [[ "$#" -gt 0 ]]; do
   case $1 in
     '-n'|'--no-op') NO_OP="true"; shift 0;;
+    '-bb'|'--bugfix-branch') BUGFIX_BRANCH=$2; shift 1;;
   esac
   shift 1
 done
@@ -36,18 +38,27 @@ createPR() {
     set +e
     PR_BRANCH="$1"
 
-    COMMIT_MSG="[update] Update digests in base_images"
+    COMMIT_MSG="chore: Update digests in base_images"
 
     # commit change into branch
     git add "${SCRIPT_DIR}"/base_images
     git commit -sm "${COMMIT_MSG}"
 
     git branch "${PR_BRANCH}"
-    git checkout "${PR_BRANCH}"
+    git checkout "${PR_BRANCH}" 
     git pull origin "${PR_BRANCH}"
     git push origin "${PR_BRANCH}"
     lastCommitComment="$(git log -1 --pretty=%B)"
+    
     hub pull-request -f -m "${lastCommitComment}" -b "${MAIN_BRANCH}" -h "${PR_BRANCH}"
+
+    if [[ ! -z ${BUGFIX_BRANCH} ]]; then
+      lastCommitId="$(git log --format=\"%H\" -n 1)"
+      git checkout ${BUGFIX_BRANCH}
+      git branch "${PR_BRANCH}-bugfix-branch"
+      git checkout -b "${PR_BRANCH}-bugfix-branch"
+      hub pull-request -f -m "${lastCommitComment}" -b "${MAIN_BRANCH}" -h "${PR_BRANCH}-bugfix-branch"
+    fi
     set -e
 }
 
@@ -77,6 +88,7 @@ if [[ $(git diff --exit-code "${SCRIPT_DIR}"/base_images) ]]; then
   else
     echo "[INFO] Changes detected, generating PR with new digests"
     createPR "new-base-image-digests"
+    create
   fi
 else
   echo "[INFO] No changes detected for digests, do nothing"

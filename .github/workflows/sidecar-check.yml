@@ -72,4 +72,5 @@ jobs:
           git config --global user.name "Mykhailo Kuznietsov"
           git config --global user.email "mkuznets@redhat.com"
           export GITHUB_TOKEN=${{ secrets.CHE_BOT_GITHUB_TOKEN }}
-          ./arbitrary-users-patch/check_sidecar_image_digests.sh
+          BUGFIX_BRANCH="$(git branch -a | grep "remotes/origin/7.*" | cut -d '/' -f 3 | sort --version-sort | tail -n1)"
+          ./arbitrary-users-patch/check_sidecar_image_digests.sh --bugfix-branch ${BUGFIX_BRANCH}
