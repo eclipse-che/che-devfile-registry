@@ -52,11 +52,12 @@ createPR() {
     
     hub pull-request -f -m "${lastCommitComment}" -b "${MAIN_BRANCH}" -h "${PR_BRANCH}"
 
-    if [[ ! -z ${BUGFIX_BRANCH} ]]; then
+    if [[ -n ${BUGFIX_BRANCH} ]]; then
       lastCommitId="$(git log --format=\"%H\" -n 1)"
-      git checkout ${BUGFIX_BRANCH}
+      git checkout "${BUGFIX_BRANCH}"
       git branch "${PR_BRANCH}-bugfix-branch"
-      git checkout -b "${PR_BRANCH}-bugfix-branch"
+      git checkout "${PR_BRANCH}-bugfix-branch"
+      git cherry-pick "${lastCommitId}"
       hub pull-request -f -m "${lastCommitComment}" -b "${MAIN_BRANCH}" -h "${PR_BRANCH}-bugfix-branch"
     fi
     set -e
