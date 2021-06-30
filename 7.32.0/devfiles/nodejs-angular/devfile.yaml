@@ -13,7 +13,7 @@ components:
   - type: dockerimage
     alias: nodejs
     image: quay.io/eclipse/che-nodejs10-community:7.32.0
-    memoryLimit: 1Gi
+    memoryLimit: 2Gi
     endpoints:
       - name: angular
         port: 4200
