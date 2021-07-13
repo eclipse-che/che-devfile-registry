@@ -145,8 +145,7 @@ if [ -n "$PUBLIC_URL" ]; then
 else
   if grep -q '{{ DEVFILE_REGISTRY_URL }}' "${devfiles[@]}"; then
     echo "WARNING: environment variable 'CHE_DEVFILE_REGISTRY_URL' not configured" \
-         "This may cause issues with importing" \
-         "projects in a workspace."
+         "This may cause issues with importing projects in a workspace."
     # Experimental workaround -- detect service IP for che-devfile-registry
     # Depends on service used being named 'che-devfile-registry' and only works
     # within the cluster (i.e. browser-side retrieval won't work)
