@@ -145,7 +145,7 @@ if [ -n "$PUBLIC_URL" ]; then
 else
   if grep -q '{{ DEVFILE_REGISTRY_URL }}' "${devfiles[@]}"; then
     echo "WARNING: environment variable 'CHE_DEVFILE_REGISTRY_URL' not configured" \
-         "for an offline build of this registry. This may cause issues with importing" \
+         "This may cause issues with importing" \
          "projects in a workspace."
     # Experimental workaround -- detect service IP for che-devfile-registry
     # Depends on service used being named 'che-devfile-registry' and only works
@@ -154,10 +154,6 @@ else
     SERVICE_PORT=$(env | grep DEVFILE_REGISTRY_SERVICE_PORT= | cut -d '=' -f 2)
     URL="http://${SERVICE_HOST}:${SERVICE_PORT}"
     sed -i "s|{{ DEVFILE_REGISTRY_URL }}|${URL}|" "${devfiles[@]}" "${metas[@]}" "$INDEX_JSON"
-
-    # Add URL at the begining of 'icon' and 'self' fields
-    sed -i "s|\"icon\": \"/images/|\"icon\": \"${URL}/images/|" "$INDEX_JSON"
-    sed -i "s|\"self\": \"/devfiles/|\"self\": \"${URL}/devfiles/|" "$INDEX_JSON"
   fi
 fi
 
