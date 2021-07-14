@@ -36,7 +36,7 @@ components:
            spec:
             containers:
              -
-              image: 'ca-docker-brightside-docker.bintray.io/cli-mainframe-basic-stack:2020-05-26T14-11-41'
+              image: 'brightside-docker.packages.broadcom.com/cli-mainframe-basic-stack:dev-2021-06-08T16-15-00'
               env:
                - name: ZOWE_CLI_HOME
                  value: /projects/.zowe
@@ -47,7 +47,7 @@ components:
             initContainers:
              -
               name: plugin-container
-              image: 'ca-docker-brightside-docker.bintray.io/cli-mainframe-basic-plugins:2020-05-26T14-11-41'
+              image: 'brightside-docker.packages.broadcom.com/cli-mainframe-basic-plugins:dev-2021-06-08T16-15-00'
               command: ["/bin/sh", "-c", "if [ -z \"$(ls -1A /projects/.zowe)\" ]; then mkdir /projects/.zowe && cp -r /.zowe_init/* /projects/.zowe; fi"]
               volumeMounts:
                - mountPath: /projects
