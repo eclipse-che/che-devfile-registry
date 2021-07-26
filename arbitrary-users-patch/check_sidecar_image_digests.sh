@@ -36,7 +36,7 @@ createPR() {
     set +e
     PR_BRANCH="$1"
 
-    COMMIT_MSG="[update] Update digests in base_images"
+    COMMIT_MSG="chore: Update digests in base_images"
 
     # commit change into branch
     git add "${SCRIPT_DIR}"/base_images
@@ -58,6 +58,10 @@ while read -r line; do
   base_image_digest=$(echo "$line" | tr -s ' ' | cut -f 3 -d ' ' )
   echo "Checking ${NAME_FORMAT}/${dev_container_name} based on $base_image_name ..."
   latest_digest="$(skopeo inspect --tls-verify=false docker://"${base_image_name}" 2>/dev/null | jq -r '.Digest')"
+  if [ -z $latest_digest ]; then
+    echo "[ERROR] Empty digest for image $base_image_name"
+    skopeo inspect --tls-verify=false docker://"${base_image_name}" || true
+  fi
   echo "latest digest ---> ${latest_digest}"
   latest_digest="${base_image_name%:*}@${latest_digest}"
   if [[ "${latest_digest}" != "${base_image_digest}" ]]; then
