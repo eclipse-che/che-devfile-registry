@@ -80,7 +80,7 @@ cd ./che-devfile-registry
 # Copy generated devfiles and commit + push
 cp -rf /tmp/content/"${VERSION}" ./
 git add ./"${VERSION}"
-if git diff --quiet; then
+if git diff --staged --quiet; then
     echo "No changes made, nothing to publish."
 else
     git commit -m "Publish devfile registry $VERSION - $(date)" -s
