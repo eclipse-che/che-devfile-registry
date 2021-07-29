@@ -84,19 +84,6 @@
     }
   },
   {
-    "displayName": ".NET Core",
-    "description": "Stack with .Net 3.1",
-    "tags": [
-      "Debian",
-      "Dotnet",
-      "C#"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/dotnetcore.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet/devfile.yaml"
-    }
-  },
-  {
     "displayName": "Java Lombok",
     "description": "Java Stack with Lombok 1.18.18, OpenJDK 11 and Maven 3.6.0",
     "tags": [
@@ -109,6 +96,19 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/lombok.svg",
     "links": {
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devfile.yaml"
+    }
+  },
+  {
+    "displayName": ".NET Core",
+    "description": "Stack with .Net 3.1",
+    "tags": [
+      "Debian",
+      "Dotnet",
+      "C#"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/dotnetcore.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet/devfile.yaml"
     }
   },
   {
