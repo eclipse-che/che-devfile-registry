@@ -10,11 +10,11 @@ projects:
 components:
   - type: chePlugin
     id: redhat/vscode-xml/latest
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - type: chePlugin
     id: redhat/vscode-apache-camel/latest
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - alias: vscode-camelk
     type: chePlugin
     id: redhat/vscode-camelk/latest
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/

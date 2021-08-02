@@ -9,10 +9,10 @@ projects:
 components:
   - type: chePlugin
     id: bmewburn/vscode-intelephense-client/latest
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - type: chePlugin
     id: felixfbecker/php-debug/latest
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - type: dockerimage
     alias: php
     image: quay.io/eclipse/che-php-7:7.34.0

@@ -15,7 +15,7 @@ components:
     image: quay.io/eclipse/che-rust-1.39:7.34.0
   - type: chePlugin
     id: rust-lang/rust/latest
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
 commands:
   - name: build
     actions:

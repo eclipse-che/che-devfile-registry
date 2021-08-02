@@ -10,7 +10,7 @@ projects:
 components:
   - type: chePlugin
     id: scalameta/metals/latest
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - type: dockerimage
     alias: sbt
     image: quay.io/eclipse/che-java11-maven:7.34.0

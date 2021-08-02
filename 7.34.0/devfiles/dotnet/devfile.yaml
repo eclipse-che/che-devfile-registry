@@ -11,11 +11,11 @@ components:
   - type: chePlugin
     alias: omnisharp
     id: redhat-developer/che-omnisharp-plugin/latest
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - type: chePlugin
     alias: netcoredbg
     id: redhat-developer/netcoredbg-theia-plugin/latest
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - type: dockerimage
     alias: dotnet
     image: quay.io/eclipse/che-dotnet-3.1:7.34.0

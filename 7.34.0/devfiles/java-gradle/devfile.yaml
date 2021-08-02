@@ -12,7 +12,7 @@ components:
     id: redhat/java/latest
     preferences:
       java.server.launchMode: Standard
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - type: dockerimage
     alias: gradle
     image: quay.io/eclipse/che-java11-gradle:7.34.0

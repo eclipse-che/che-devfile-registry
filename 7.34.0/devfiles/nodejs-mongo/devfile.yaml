@@ -9,12 +9,12 @@ projects:
 components:
   - type: chePlugin
     id: vscode/typescript-language-features/latest
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - type: chePlugin
     id: ms-vscode/node-debug2/latest
     preferences:
       debug.node.useV3: false
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - type: dockerimage
     alias: nodejs
     image: quay.io/eclipse/che-nodejs10-ubi:7.34.0

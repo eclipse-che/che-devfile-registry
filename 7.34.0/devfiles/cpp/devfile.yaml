@@ -10,7 +10,7 @@ components:
   - type: chePlugin
     id: eclipse-cdt/cdt-vscode/latest
     alias: cpp-plugin
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - type: dockerimage
     alias: cpp-dev
     image: quay.io/eclipse/che-cpp-rhel7:7.34.0

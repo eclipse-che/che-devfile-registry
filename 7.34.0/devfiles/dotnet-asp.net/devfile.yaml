@@ -9,10 +9,10 @@ projects:
 components:
   - type: chePlugin
     id: redhat-developer/che-omnisharp-plugin/latest
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - type: chePlugin
     id: redhat-developer/netcoredbg-theia-plugin/latest
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - type: dockerimage
     alias: dotnet
     image: quay.io/eclipse/che-dotnet-2.2:7.34.0

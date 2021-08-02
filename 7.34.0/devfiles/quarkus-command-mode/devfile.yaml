@@ -11,7 +11,7 @@ projects:
 components:
   - type: chePlugin
     id: redhat/quarkus-java11/latest
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - type: dockerimage
     alias: centos-quarkus-maven
     image: quay.io/eclipse/che-quarkus:7.34.0

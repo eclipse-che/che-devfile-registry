@@ -13,7 +13,7 @@ components:
     preferences:
       java.server.launchMode: Standard
       java.jdt.ls.vmargs: -javaagent:/lombok.jar
-    registryUrl: ""
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.34.0/v3/
   - type: dockerimage
     alias: maven
     image: quay.io/eclipse/che-java11-maven:7.34.0
