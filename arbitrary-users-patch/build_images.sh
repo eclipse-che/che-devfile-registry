@@ -39,11 +39,19 @@ done
 
 BUILT_IMAGES=""
 while read -r line; do
+
+  # skip empty lines
+  [[ -z ${line} ]] && continue
+
+  # skip comments ( line starts with '#' )
+  [[ $(echo ${line} | cut -c 1) == '#' ]] && continue
+
   dev_container_name=$(echo "$line" | tr -s ' ' | cut -f 1 -d ' ')
-  base_image_name=$(echo "$line" | tr -s ' ' | cut -f 2 -d ' ')
-  base_image_digest=$(echo "$line" | tr -s ' ' | cut -f 3 -d ' ')
-  echo "Building ${NAME_FORMAT}/${dev_container_name}:${TAG} based on $base_image_name ..."
-  docker build -t "${NAME_FORMAT}/${dev_container_name}:${TAG}" --no-cache --build-arg FROM_IMAGE="$base_image_digest" "${SCRIPT_DIR}"/ | cat
+  base_image=$(echo "$line" | tr -s ' ' | cut -f 2 -d ' ')
+
+  echo "Building ${NAME_FORMAT}/${dev_container_name}:${TAG} based on $base_image ..."
+  docker build -t "${NAME_FORMAT}/${dev_container_name}:${TAG}" --no-cache --build-arg FROM_IMAGE="$base_image" "${SCRIPT_DIR}"/ | cat
+
   if ${PUSH_IMAGES}; then
     echo "Pushing ${NAME_FORMAT}/${dev_container_name}:${TAG} to remote registry"
     docker push "${NAME_FORMAT}/${dev_container_name}:${TAG}" | cat
@@ -60,5 +68,5 @@ while read -r line; do
   BUILT_IMAGES="${BUILT_IMAGES}    ${NAME_FORMAT}/${dev_container_name}:${TAG}\n"
 done < "${BASE_IMAGES}"
 
-echo "Built images:"
+echo -e "\nBuilt images:"
 echo -e "$BUILT_IMAGES"
