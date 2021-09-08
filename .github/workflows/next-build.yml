@@ -56,11 +56,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # - name: Build and push base images
-      #   run: ./arbitrary-users-patch/build_images.sh --push --rm
-      #   env: 
-      #     TAG: next
-
       - name: Build and push happy path image
         run: ./arbitrary-users-patch/happy-path/build_happy_path_image.sh --push --rm
         env: 
