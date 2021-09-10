@@ -40,15 +40,14 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 print_usage() {
-  echo "Usage: $0 [OPTIONS]"
+  echo "Usage: build.sh [OPTIONS]"
   echo "Dockerfile Build Tool"
-  echo
-  echo "  -i, --image=IMAGE     image to build"
-  echo "  -a, --all             build all images"
+  echo "  -i, --image=IMAGE           image to build"
+  echo "  -a, --all                   build all images"
   echo
   echo "Examples:"
-  echo "  $0 -i quarkus         build che-quarkus image"
-  echo "  $0 -a                 build all images"
+  echo "  build.sh -i quarkus         build che-quarkus image"
+  echo "  build.sh -a                 build all images"
   echo
 }
 
@@ -66,16 +65,12 @@ TAG=$(git rev-parse --short HEAD)
 
 
 build_image() {
-  echo
   local IMAGE="$1"
-  # echo "> build image ${IMAGE}"
 
   # Compute Docker image name
   local IMAGE_NAME="${ORGANIZATION}/${PREFIX}-${IMAGE}:${TAG}"
-  # echo "> image name ${IMAGE_NAME}"
 
   local DIR=${BASE_DIR}/${IMAGE}
-  # echo "> dir ${DIR}"
 
   # Check for directory
   if [ ! -d ${DIR} ]; then
@@ -92,14 +87,13 @@ build_image() {
   printf "Building Docker Image ${GREEN}${IMAGE_NAME}${NC} from ${BLUE}${DIR}${NC} directory\n"
 
   # Replace macros in Dockerfiles
-  # content_docker=$(cat ${DOCKERFILE})
   local content_docker=$(cat ${DIR}/Dockerfile)
 
   echo "${content_docker}" > ${DIR}/.Dockerfile
 
   # grab includes
   local to_include=$(sed -n 's/.*\#{INCLUDE:\(.*\)\}/\1/p' ${DIR}/.Dockerfile)
-  echo && echo ${to_include}
+  # echo && echo ${to_include}
 
   # perform includes (not use sed {r} to be portable)
   echo "$to_include" | while IFS= read -r filename_to_include ; do
@@ -115,22 +109,17 @@ build_image() {
       echo "$content_to_include" >> ${DIR}/.Dockerfile2
       tail -n +${tail_line} "${DIR}/.Dockerfile" >> ${DIR}/.Dockerfile2
 
-      # (head -n ${head_line} "${DIR}/.Dockerfile" && echo "$content_to_include" && tail -n +${tail_line} "${DIR}/.Dockerfile") > ${DIR}/.Dockerfile2
       mv ${DIR}/.Dockerfile2 ${DIR}/.Dockerfile
     fi
   done
 
   # Build .Dockerfile
   cd "${DIR}/.."
-  echo "> Current dir $(pwd)"
-  # docker build --cache-from ${IMAGE_NAME} -f ${DIR}/.Dockerfile -t ${IMAGE_NAME} .
+  docker build --cache-from ${IMAGE_NAME} -f ${DIR}/.Dockerfile -t ${IMAGE_NAME} .
   rm ${DIR}/.Dockerfile
-
 }
 
 build_all() {
-  echo ">>> build all"
-
   for directory in $(ls "${BASE_DIR}") ; do
     if [ -e ${BASE_DIR}/${directory}/Dockerfile ] ; then
       build_image ${directory}
@@ -143,5 +132,3 @@ if [[ ${BUILD_ALL} == "true" ]]; then
 else
   build_image ${BUILD_IMAGE}
 fi
-
-exit 0
