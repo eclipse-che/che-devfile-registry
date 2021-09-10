@@ -47,10 +47,10 @@ while read -r line; do
   [[ $(echo ${line} | cut -c 1) == '#' ]] && continue
 
   dev_container_name=$(echo "$line" | tr -s ' ' | cut -f 1 -d ' ')
-  base_image=$(echo "$line" | tr -s ' ' | cut -f 2 -d ' ')
+  base_image_name=$(echo "$line" | tr -s ' ' | cut -f 2 -d ' ')
   base_image_digest=$(echo "$line" | tr -s ' ' | cut -f 3 -d ' ')
 
-  echo "Building ${NAME_FORMAT}/${dev_container_name}:${TAG} based on $base_image ..."
+  echo "Building ${NAME_FORMAT}/${dev_container_name}:${TAG} based on $base_image_name ..."
   docker build -t "${NAME_FORMAT}/${dev_container_name}:${TAG}" --no-cache --build-arg FROM_IMAGE="$base_image_digest" "${SCRIPT_DIR}"/ | cat
 
   if ${PUSH_IMAGES}; then
