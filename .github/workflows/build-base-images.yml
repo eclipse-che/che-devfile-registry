@@ -9,15 +9,20 @@
 
 name: Base Images Build/Push
 
+# temporary commented to test how action works for pull requests
+# on:
+#   push:
+#     paths:
+#       - 'dockerfiles/**'
+#     branches:
+#       - main
+
 on:
-  push:
-    paths:
-      - 'arbitrary-users-patch/Dockerfile'
-      - 'arbitrary-users-patch/base_images'
-      - 'arbitrary-users-patch/entrypoint.sh'
-      - 'arbitrary-users-patch/install-editor-tooling.sh'
-    branches:
+  pull_request:
+    branches: 
       - main
+    paths:
+      - 'dockerfiles/**'
 
 jobs:
   next-build-publish:
@@ -42,7 +47,5 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and push base images
-        run: ./arbitrary-users-patch/build_images.sh --push --rm
-        env: 
-          TAG: next
+      - name: Build base images
+        run: ./dockerfiles/build.sh -a
