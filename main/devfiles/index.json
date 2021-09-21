@@ -1,5 +1,16 @@
 [
   {
+    "displayName": "Rust",
+    "description": "Rust Stack with Rust 1.39",
+    "tags": [
+      "Rust"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/rust.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devfile.yaml"
+    }
+  },
+  {
     "displayName": "Apache Camel based on Spring Boot",
     "description": "Stack with environment ready to develop Integration projects with Apache Camel based on Spring Boot.",
     "tags": [
@@ -14,17 +25,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/camelk.svg",
     "links": {
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-springboot/devfile.yaml"
-    }
-  },
-  {
-    "displayName": "Rust",
-    "description": "Rust Stack with Rust 1.39",
-    "tags": [
-      "Rust"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/rust.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devfile.yaml"
     }
   },
   {
@@ -66,6 +66,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
+      "v2": "https://github.com/che-samples/web-nodejs-sample/tree/devfilev2",
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs/devfile.yaml"
     }
   },
@@ -201,6 +202,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
+      "v2": "https://github.com/che-samples/nodejs-mongodb-sample/tree/devfilev2",
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devfile.yaml"
     }
   },
@@ -277,6 +279,20 @@
     }
   },
   {
+    "displayName": "C/C++",
+    "description": "Stack with C/C++ and Clang 8",
+    "tags": [
+      "C/C++",
+      "clang",
+      "g++",
+      "gdb"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/cpp.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/cpp/devfile.yaml"
+    }
+  },
+  {
     "displayName": "Java with Spring Boot and MySQL",
     "description": "Java stack with OpenJDK 8, MySQL and Spring Boot Petclinic demo application",
     "tags": [
@@ -289,20 +305,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/springboot.svg",
     "links": {
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mysql/devfile.yaml"
-    }
-  },
-  {
-    "displayName": "C/C++",
-    "description": "Stack with C/C++ and Clang 8",
-    "tags": [
-      "C/C++",
-      "clang",
-      "g++",
-      "gdb"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/cpp.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/cpp/devfile.yaml"
     }
   },
   {

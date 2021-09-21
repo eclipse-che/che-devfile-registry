@@ -8,6 +8,7 @@
   ],
   "icon": "/images/nodejs.svg",
   "links": {
+    "v2": "https://github.com/che-samples/web-nodejs-sample/tree/devfilev2",
     "self": "/devfiles/nodejs/devfile.yaml"
   }
 }
