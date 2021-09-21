@@ -3,3 +3,5 @@ displayName: NodeJS Express Web Application
 description: Stack with NodeJS 10
 tags: ["NodeJS", "Express", "ubi8"]
 icon: /images/nodejs.svg
+links:
+  v2: https://github.com/che-samples/web-nodejs-sample/tree/devfilev2
