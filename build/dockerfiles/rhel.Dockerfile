@@ -8,6 +8,7 @@
 #
 # Contributors:
 #   Red Hat, Inc. - initial API and implementation
+#   IBM Corporation - implementation
 #
 
 # Builder: check meta.yamls and create index.json
@@ -77,7 +78,10 @@ RUN chmod +x /usr/share/container-scripts/httpd/pre-init/40-ssl-certs.sh && \
 RUN yum update -y systemd && yum clean all && rm -rf /var/cache/yum && \
     echo "Installed Packages" && rpm -qa | sort -V && echo "End Of Installed Packages"
 
-# BEGIN these steps might not be required
+RUN sed -i /etc/httpd/conf.d/ssl.conf \
+    -e "s,.*SSLProtocol.*,SSLProtocol all -SSLv3," \
+    -e "s,.*SSLCipherSuite.*,SSLCipherSuite HIGH:!aNULL:!MD5,"
+        
 RUN sed -i /etc/httpd/conf/httpd.conf \
     -e "s,Listen 80,Listen 8080," \
     -e "s,logs/error_log,/dev/stderr," \
@@ -85,7 +89,6 @@ RUN sed -i /etc/httpd/conf/httpd.conf \
     -e "s,AllowOverride None,AllowOverride All," && \
     chmod a+rwX /etc/httpd/conf /run/httpd /etc/httpd/logs/
 STOPSIGNAL SIGWINCH
-# END these steps might not be required
 
 WORKDIR /var/www/html
 
