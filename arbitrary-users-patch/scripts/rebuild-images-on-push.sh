@@ -27,6 +27,10 @@ ROOT_DIR=$(cd ${BASE_DIR}/../..; pwd)
 
 cd "${ROOT_DIR}"
 
+# COMMIT_SHA
+DEFAULT_COMMIT_SHA=$(git rev-parse --short HEAD)
+COMMIT_SHA=${COMMIT_SHA:-$DEFAULT_COMMIT_SHA}
+
 echo "> git log ----------------------------------------------------------"
 GIT_LOG=$(git log --pretty=oneline -n10)
 echo "${GIT_LOG}"
@@ -37,15 +41,14 @@ EASY_CHANGE=$(git show --pretty="format:" --name-only)
 echo "${EASY_CHANGE}"
 echo "--------------------------------------------------------------------"
 
+# SHORT_SHA1=$(git rev-parse --short HEAD)
+# echo "COMMIT SHA V1: ${SHORT_SHA1}"
 
-SHORT_SHA1=$(git rev-parse --short HEAD)
-echo "COMMIT SHA V1: ${SHORT_SHA1}"
-
-SHORT_SHA1=$(git log -n1 --format="%h")
-echo "COMMIT SHA V2: ${SHORT_SHA1}"
+# SHORT_SHA1=$(git log -n1 --format="%h")
+# echo "COMMIT SHA V2: ${SHORT_SHA1}"
 
 echo "> changes in -------------------------------------------------------"
-CHANGES=$(git show --pretty="format:" --name-only ${SHORT_SHA1})
+CHANGES=$(git show --pretty="format:" --name-only ${COMMIT_SHA})
 echo "${CHANGES}"
 echo "--------------------------------------------------------------------"
 
@@ -54,7 +57,7 @@ echo "--------------------------------------------------------------------"
 #     dockerfiles/entrypoint.sh
 #     dockerfiles/install-editor-tooling.sh
 set +e
-CHANGES=$(git show --pretty="format:" --name-only ${SHORT_SHA1} | grep -E "dockerfiles/base.dockerfile|dockerfiles/entrypoint.sh|dockerfiles/install-editor-tooling.sh")
+CHANGES=$(git show --pretty="format:" --name-only ${COMMIT_SHA} | grep -E "dockerfiles/base.dockerfile|dockerfiles/entrypoint.sh|dockerfiles/install-editor-tooling.sh")
 set -e
 
 if [ ! -z "${CHANGES}" ]; then
@@ -65,7 +68,7 @@ fi
 
 # rebuild specific image
 set +e
-CHANGES=$(git show --pretty="format:" --name-only ${SHORT_SHA1} | grep "dockerfiles/")
+CHANGES=$(git show --pretty="format:" --name-only ${COMMIT_SHA} | grep "dockerfiles/")
 set -e
 
 if [ ! -z "${CHANGES}" ]; then
