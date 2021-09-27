@@ -26,7 +26,9 @@ BASE_DIR=$(cd "$(dirname "$0")"; pwd)
 ROOT_DIR=$(cd ${BASE_DIR}/../..; pwd)
 
 SHORT_SHA1=$(git rev-parse --short HEAD)
-SHORT_SHA1=a24f127
+echo "> changes in -------------------------------------------------------"
+git show --pretty="format:" --name-only ${SHORT_SHA1}
+echo "--------------------------------------------------------------------"
 
 # rebuild all the images if changes in
 #     dockerfiles/base.dockerfile
