@@ -16,5 +16,3 @@ ARG BASE_IMAGE="docker.io/python:3.8.6-slim"
 FROM docker.io/python@sha256:83323df595e261d5aabf0c96c5ae65dcaa42049495c86de21f54c39d61a824ff
 
 #{INCLUDE:../base.dockerfile}
-
-#test
