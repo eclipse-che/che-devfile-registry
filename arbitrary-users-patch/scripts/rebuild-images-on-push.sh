@@ -27,7 +27,8 @@ ROOT_DIR=$(cd ${BASE_DIR}/../..; pwd)
 
 cd "${ROOT_DIR}"
 
-SHORT_SHA1=$(git rev-parse --short HEAD)
+# SHORT_SHA1=$(git rev-parse --short HEAD)
+SHORT_SHA1=$(git log -n1 --format="%h")
 echo "COMMIT SHA: ${SHORT_SHA1}"
 echo "> changes in -------------------------------------------------------"
 CHANGES=$(git show --pretty="format:" --name-only ${SHORT_SHA1})
