@@ -32,6 +32,12 @@ GIT_LOG=$(git log --pretty=oneline -n10)
 echo "${GIT_LOG}"
 echo "--------------------------------------------------------------------"
 
+echo "> easy change ------------------------------------------------------"
+EASY_CHANGE=$(git show --pretty="format:" --name-only)
+echo "${EASY_CHANGE}"
+echo "--------------------------------------------------------------------"
+
+
 SHORT_SHA1=$(git rev-parse --short HEAD)
 echo "COMMIT SHA V1: ${SHORT_SHA1}"
 
