@@ -27,6 +27,11 @@ ROOT_DIR=$(cd ${BASE_DIR}/../..; pwd)
 
 cd "${ROOT_DIR}"
 
+echo "> git log ----------------------------------------------------------"
+GIT_LOG=$(git log --pretty=oneline -n10)
+echo "${GIT_LOG}"
+echo "--------------------------------------------------------------------"
+
 SHORT_SHA1=$(git rev-parse --short HEAD)
 echo "COMMIT SHA V1: ${SHORT_SHA1}"
 
