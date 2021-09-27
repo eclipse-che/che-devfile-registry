@@ -27,7 +27,8 @@ ROOT_DIR=$(cd ${BASE_DIR}/../..; pwd)
 
 SHORT_SHA1=$(git rev-parse --short HEAD)
 echo "> changes in -------------------------------------------------------"
-git show --pretty="format:" --name-only ${SHORT_SHA1}
+CHANGES=$(git show --pretty="format:" --name-only ${SHORT_SHA1})
+echo "${CHANGES}"
 echo "--------------------------------------------------------------------"
 
 # rebuild all the images if changes in
