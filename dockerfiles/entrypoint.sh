@@ -8,6 +8,7 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
+
 # Ensure $HOME exists when starting
 if [ ! -d "${HOME}" ]; then
   mkdir -p "${HOME}"
