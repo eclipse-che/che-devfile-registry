@@ -9,7 +9,7 @@
 
 name: Base Images Build/Push
 
-# temporary commented to test how action works for pull requests
+# enable this to test how action works for pull requests
 # on:
 #   push:
 #     paths:
@@ -17,6 +17,7 @@ name: Base Images Build/Push
 #     branches:
 #       - main
 
+# enable this to test how action works for pull requests
 on:
   pull_request:
     branches: 
@@ -47,5 +48,5 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build base images
-        run: ./dockerfiles/build.sh -a
+      - name: Rebuild base images
+        run: ./arbitrary-users-patch/scripts/rebuild-images-on-push.sh
