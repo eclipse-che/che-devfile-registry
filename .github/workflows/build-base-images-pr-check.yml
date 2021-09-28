@@ -17,7 +17,7 @@ on:
       - 'dockerfiles/**'
 
 jobs:
-  rebuild-images-on-push:
+  rebuild-images-pr-check:
     runs-on: ubuntu-20.04
     steps:
       - name: Clone source code

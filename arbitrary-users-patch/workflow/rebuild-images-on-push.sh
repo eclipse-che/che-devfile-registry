@@ -99,4 +99,8 @@ if [ ! -z "${CHANGES}" ]; then
   if [ ! -z "${BUILT_IMAGES}" ]; then
     echo -e "\nBuilt image(s): \n${BUILT_IMAGES}"
   fi
+
+  exit 0
 fi
+
+echo "It is not needed to rebuild base images"
