@@ -12,15 +12,23 @@
 set -e
 set -u
 
-BASE_DIR=""
+DEFAULT_REGISTRY="quay.io"
+DEFAULT_ORGANIZATION="eclipse"
+# DEFAULT_TAG="next"
+DEFAULT_TAG=$(git rev-parse --short HEAD)
 
-ORGANIZATION="eclipse"
-PREFIX="che"
-TAG="next"
+REGISTRY=${REGISTRY:-${DEFAULT_REGISTRY}}
+ORGANIZATION=${ORGANIZATION:-${DEFAULT_ORGANIZATION}}
+PREFIX="che-"
+TAG=${TAG:-${DEFAULT_TAG}}
 
-BUILD_IMAGE=""
+# build params
+IMAGE_TO_BUILD=""
 BUILD_ALL=false
+PUSH_IMAGES=false
+REMOVE_IMAGES=false
 
+# colors
 BLUE='\033[1;34m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -33,8 +41,10 @@ UNDERLINE='\033[4m'
 # Prepare params
 while [[ "$#" -gt 0 ]]; do
   case $1 in
-    '-i'|'--image') BUILD_IMAGE="$2"; shift 1;;
+    '-i'|'--image') IMAGE_TO_BUILD="$2"; shift 1;;
     '-a'|'--all') BUILD_ALL=true; shift 0;;
+    '-p'|'--push') PUSH_IMAGES=true; shift 0;;
+    '-r'|'--rm') REMOVE_IMAGES=true; shift 0;;
   esac
   shift 1
 done
@@ -44,6 +54,8 @@ print_usage() {
   echo "Dockerfile Build Tool"
   echo "  -i, --image=IMAGE           image to build"
   echo "  -a, --all                   build all images"
+  echo "  -p, --push                  push images after build"
+  echo "  -r, --rm                    remove built images"
   echo
   echo "Examples:"
   echo "  build.sh -i quarkus         build che-quarkus image"
@@ -52,7 +64,7 @@ print_usage() {
 }
 
 # Print usage if options are not provided
-if [[ ${BUILD_ALL} == "false" ]] && [[ ! ${BUILD_IMAGE} ]]; then
+if [[ ${BUILD_ALL} == "false" ]] && [[ ! ${IMAGE_TO_BUILD} ]]; then
   print_usage
   exit 1
 fi
@@ -60,15 +72,13 @@ fi
 # Compute directory
 BASE_DIR=$(cd "$(dirname "$0")"; pwd)
 
-# Compute tag
-TAG=$(git rev-parse --short HEAD)
-
+BUILT_IMAGES=""
 
 build_image() {
   local IMAGE="$1"
 
   # Compute Docker image name
-  local IMAGE_NAME="${ORGANIZATION}/${PREFIX}-${IMAGE}:${TAG}"
+  local IMAGE_NAME="${REGISTRY}/${ORGANIZATION}/${PREFIX}${IMAGE}:${TAG}"
 
   local DIR=${BASE_DIR}/${IMAGE}
 
@@ -117,6 +127,17 @@ build_image() {
   cd "${DIR}/.."
   docker build --cache-from ${IMAGE_NAME} -f ${DIR}/.Dockerfile -t ${IMAGE_NAME} .
   rm ${DIR}/.Dockerfile
+
+  if ${PUSH_IMAGES}; then
+    echo "Pushing ${IMAGE_NAME} to remote registry"
+    docker push "${IMAGE_NAME}" | cat
+  fi
+
+  if ${REMOVE_IMAGES}; then # save disk space by deleting the image we just built/published
+    echo "Deleting ${IMAGE_NAME} from local registry"
+    docker rmi "${IMAGE_NAME}"
+  fi
+  BUILT_IMAGES="${BUILT_IMAGES}    ${IMAGE_NAME}\n"
 }
 
 build_all() {
@@ -129,6 +150,10 @@ build_all() {
 
 if [[ ${BUILD_ALL} == "true" ]]; then
   build_all
+
+  if [ ! -z "${BUILT_IMAGES}" ]; then
+    echo -e "\nBuilt image(s): \n${BUILT_IMAGES}"
+  fi
 else
-  build_image ${BUILD_IMAGE}
+  build_image ${IMAGE_TO_BUILD}
 fi
