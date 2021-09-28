@@ -19,7 +19,6 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v1
-
       - name: Shellcheck
         run: |
           find . -type f -name '*.sh' | wc -l
@@ -29,52 +28,50 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v1
+
     - name: Run script which checks container image digest
       run: |
         sudo pip install yq
         /bin/bash .ci/devfile-images-check.sh
 
-  build-dev-containers:
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v1
+  # build-dev-containers:
+  #   runs-on: ubuntu-20.04
+  #   steps:
+  #     - name: Checkout source code
+  #       uses: actions/checkout@v1
 
-      - name: Build dev container images
-        run: ./arbitrary-users-patch/build_images.sh --rm
+  #     - name: Build dev container images
+  #       run: ./arbitrary-users-patch/build_images.sh --rm
 
   build-main-image:
-
     runs-on: ubuntu-20.04
-
     steps:
     - uses: actions/checkout@v1
 
-    - 
-      name: Prepare
+    - name: Prepare
       id: prep
       run: |
         PLATFORMS=$(cat PLATFORMS)
         echo ::set-output name=platforms::${PLATFORMS}
-        
+
     - name: Set up Docker Buildx
       id: buildx
       uses: docker/setup-buildx-action@v1
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
-      
+
     - name: Cache docker layers
       uses: actions/cache@v1
       with:
         path: ./caches
         key: v1-${{ github.head_ref }}
-        
+
     - name: Load docker layer cache
       run: |
         set +o pipefail
         docker load -i ./caches/app.tar | true
-    
+
     - name: Build devfile registry
       uses: docker/build-push-action@v2
       with:
@@ -86,7 +83,7 @@ jobs:
         cache-from: "type=local,src=/tmp/.buildx-cache"
         cache-to: "type=local,dest=/tmp/.buildx-cache"
         push: false
-    
+
     - name: Build offline devfile registry
       uses: docker/build-push-action@v2
       with:

@@ -9,15 +9,6 @@
 #
 # See: https://sipb.mit.edu/doc/safe-shell/
 
-# Checks for changes in the latest commit
-#
-# Rebuilds all the images if following files were changed
-#     dockerfiles/base.dockerfile
-#     dockerfiles/entrypoint.sh
-#     dockerfiles/install-editor-tooling.sh
-#
-# Fetch changed files in `./dockerfiles/` directory, rebuilds necessary images
-
 set -e
 set -u
 
@@ -54,17 +45,12 @@ echo "${GIT_LOG}"
 echo "--------------------------------------------------------------------"
 echo
 
-echo "> easy change ------------------------------------------------------"
-EASY_CHANGE=$(git show --pretty="format:" --name-only)
-echo "${EASY_CHANGE}"
-echo "--------------------------------------------------------------------"
-echo
-
 echo "> changes in ${COMMIT_SHA} -----------------------------------------------"
 CHANGES=$(git show --pretty="format:" --name-only ${COMMIT_SHA})
 echo "${CHANGES}"
 echo "--------------------------------------------------------------------"
 echo
+
 
 # rebuild all the images if changes in
 #     dockerfiles/base.dockerfile
