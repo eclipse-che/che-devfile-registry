@@ -13,6 +13,6 @@
 
 ARG BASE_IMAGE="docker.io/antora/antora:2.3.3"
 
-FROM docker.io/antora/antora@sha256:fbf31b3be4e5dd215c82f9b5b403c5e746f68bcf50ced9b7d41b6d1414aa5714
+FROM docker.io/antora/antora@sha256:6f063be7055ca3ff5ca6694eea958072fe6732911f844b0ba5853f6e0a06ccf7
 
 #{INCLUDE:../base.dockerfile}

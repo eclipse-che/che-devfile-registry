@@ -19,7 +19,6 @@ DEFAULT_TAG=$(git rev-parse --short HEAD)
 
 REGISTRY=${REGISTRY:-${DEFAULT_REGISTRY}}
 ORGANIZATION=${ORGANIZATION:-${DEFAULT_ORGANIZATION}}
-PREFIX="che-"
 TAG=${TAG:-${DEFAULT_TAG}}
 
 # build params
@@ -78,12 +77,12 @@ build_image() {
   local IMAGE="$1"
 
   # Compute Docker image name
-  local IMAGE_NAME="${REGISTRY}/${ORGANIZATION}/${PREFIX}${IMAGE}:${TAG}"
+  local IMAGE_NAME="${REGISTRY}/${ORGANIZATION}/che-${IMAGE}:${TAG}"
 
   local DIR=${BASE_DIR}/${IMAGE}
 
   # Check for directory
-  if [ ! -d ${DIR} ]; then
+  if [ ! -d "${DIR}" ]; then
     printf "\n${RED}ERROR:${NC} Directory ${DIR} does not exist\n\n"
     exit 2
   fi
