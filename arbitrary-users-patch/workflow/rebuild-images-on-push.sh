@@ -36,7 +36,11 @@ done
 BASE_DIR=$(cd "$(dirname "$0")"; pwd)
 ROOT_DIR=$(cd ${BASE_DIR}/../..; pwd)
 
+echo "> ROOT DIR ${ROOT_DIR}"
 cd "${ROOT_DIR}"
+echo "===================================================================="
+ls -la
+echo "===================================================================="
 
 # COMMIT_SHA
 DEFAULT_COMMIT_SHA=$(git rev-parse --short HEAD)
