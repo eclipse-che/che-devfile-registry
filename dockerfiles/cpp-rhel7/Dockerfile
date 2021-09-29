@@ -7,10 +7,6 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-# che-cpp-rhel7
-# registry.access.redhat.com/devtools/llvm-toolset-rhel7
-# registry.access.redhat.com/devtools/llvm-toolset-rhel7@sha256:2c65fdfb180eefadb615a6a858ff06ce8541860be2b570716e854510a04cd329
-
 ARG BASE_IMAGE="registry.access.redhat.com/devtools/llvm-toolset-rhel7"
 
 FROM registry.access.redhat.com/devtools/llvm-toolset-rhel7@sha256:2c65fdfb180eefadb615a6a858ff06ce8541860be2b570716e854510a04cd329
