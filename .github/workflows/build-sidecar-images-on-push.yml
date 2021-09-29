@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-name: Rebuild Base Images / Push to Master
+name: Rebuild Sidecar Images / Push to Master
 
 on:
   push:
@@ -39,5 +39,5 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Rebuild base images
-        run: ./arbitrary-users-patch/workflow/rebuild-images-on-push.sh --push --rm
+      - name: Rebuild sidecar images
+        run: ./build/workflow/build-sidecar-images-on-push.sh --push --rm

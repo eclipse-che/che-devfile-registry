@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-name: Base Image Digest validation
+name: Sidecar Digest validation
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ on:
 
 jobs:
   build:
-    name: Validate digests for base images
+    name: Validate digests for sidecar images
     runs-on: ubuntu-20.04
     steps:
       - name: "Checkout source code"

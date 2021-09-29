@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-name: Rebuild Base Images / PR check
+name: Rebuild Sidecar Images / PR check
 
 on:
   pull_request:
@@ -25,7 +25,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Rebuild base images
-        run: ./arbitrary-users-patch/workflow/rebuild-images-on-push.sh --rm
+      - name: Rebuild sidecar images
+        run: ./build/workflow/build-sidecar-images-on-push.sh --rm
         env:
           COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
