@@ -15,6 +15,9 @@ set -u
 REGISTRY="quay.io"
 ORGANIZATION="eclipse"
 
+BRANCH_NAME="new-base-image-digests"
+COMMIT_MSG="[update] Update digests in base_images"
+
 # colors
 BLUE='\033[1;34m'
 GREEN='\033[0;32m'
@@ -25,22 +28,29 @@ NC='\033[0m'
 BOLD='\033[1m'
 UNDERLINE='\033[4m'
 
+PULL_REQUEST=false
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    '--pr') PULL_REQUEST=true; shift 0;;
+  esac
+  shift 1
+done
 
 
-echo "> check sidecar image digects..."
+echo "> checking sidecar image digects..."
 
 # Compute directory
 BASE_DIR=$(cd "$(dirname "$0")"; pwd)
-ROOT_DIR=$(cd ${BASE_DIR}/../../dockerfiles; pwd)
+ROOT_DIR=$(cd "${BASE_DIR}/../../dockerfiles"; pwd)
 
 cd "${ROOT_DIR}"
 
-echo
-echo "===================================================================="
-echo "> ROOT DIR ${ROOT_DIR}"
-ls -la
-echo "===================================================================="
-echo
+# echo
+# echo "===================================================================="
+# echo "> ROOT DIR ${ROOT_DIR}"
+# ls -la
+# echo "===================================================================="
+# echo
 
 UPDATED=""
 
@@ -68,10 +78,10 @@ check_image_digest() {
 
 
   if [[ "${latest_digest}" != "${base_image_digest}" ]]; then
-    echo -e "Detected newer image digest for ${BLUE}${base_image_name}${NC}"
+    echo -e "\n${RED}Detected newer image digest${NC} for ${BLUE}${base_image_name}${NC}"
     
-    cp "${ROOT_DIR}/${image}/Dockerfile" "${ROOT_DIR}/${image}/Dockerfile.copy"
-    sed -i "s|FROM ${base_image_digest}$|FROM ${latest_digest}|" "${ROOT_DIR}/${image}/Dockerfile.copy"
+    # cp "${ROOT_DIR}/${image}/Dockerfile" "${ROOT_DIR}/${image}/Dockerfile.copy"
+    sed -i "s|FROM ${base_image_digest}$|FROM ${latest_digest}|" "${ROOT_DIR}/${image}/Dockerfile"
 
     UPDATED="${UPDATED}    ${image_name}\n"
   else
@@ -79,14 +89,34 @@ check_image_digest() {
   fi
 }
 
-for directory in $(ls "${ROOT_DIR}") ; do
-  if [ -e ${ROOT_DIR}/${directory}/Dockerfile ] ; then
-    check_image_digest ${directory}
-  fi
-done
+create_pr() {
+  echo
+  echo "> create PR"
+  echo
+
+  CHANGES=$(git diff --name-only | grep "dockerfiles/")
+  echo -e ">changes\n${CHANGES}"
+  # git add "${SCRIPT_DIR}"/base_images
+
+  for change in ${CHANGES} ; do
+    echo ">> change ${change}"
+  done
+
+}
+
+# for directory in $(ls "${ROOT_DIR}") ; do
+#   if [ -e "${ROOT_DIR}/${directory}/Dockerfile" ] ; then
+#     check_image_digest ${directory}
+#   fi
+# done
+UPDATED="${UPDATED}    quay.io/eclipse/che-antora-2.3"
 
 echo
 
 if [ ! -z "${UPDATED}" ]; then
-  echo -e "\nUpdated(s): \n${UPDATED}"
+  echo -e "Updated(s): \n${UPDATED}\n"
+
+  if ${PULL_REQUEST}; then
+    create_pr
+  fi
 fi
