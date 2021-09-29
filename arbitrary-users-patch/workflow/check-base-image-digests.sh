@@ -15,8 +15,8 @@ set -u
 REGISTRY="quay.io"
 ORGANIZATION="eclipse"
 
-BRANCH_NAME="new-base-image-digests"
-COMMIT_MSG="[update] Update digests in base_images"
+BRANCH_NAME="update-base-images"
+COMMIT_MSG="chore(digests): update dockerfile base images"
 MAIN_BRANCH="main"
 
 
@@ -47,15 +47,13 @@ ROOT_DIR=$(cd "${BASE_DIR}/../.."; pwd)
 
 cd "${ROOT_DIR}"
 
-# echo
-# echo "===================================================================="
-# echo "> ROOT DIR ${ROOT_DIR}"
-# ls -la
-# echo "===================================================================="
-# echo
+echo "> ROOT DIR ${ROOT_DIR}"
 
 UPDATED=""
 
+#
+# checks digest for image
+#
 check_image_digest() {
   echo
   local image="$1"
@@ -71,18 +69,12 @@ check_image_digest() {
 
   echo -e "Checking ${GREEN}${image_name}${NC} based on ${BLUE}${base_image_name}${NC} ..."
 
-  # echo "> digest ${base_image_digest}"
-
   local latest_digest="$(skopeo inspect --tls-verify=false docker://"${base_image_name}" 2>/dev/null | jq -r '.Digest')"
   latest_digest="${base_image_name%:*}@${latest_digest}"
-
-  # echo "> latest_digest [${latest_digest}]"
-
 
   if [[ "${latest_digest}" != "${base_image_digest}" ]]; then
     echo -e "\n${RED}Detected newer image digest${NC} for ${BLUE}${base_image_name}${NC}"
     
-    # cp "${ROOT_DIR}/dockerfiles/${image}/Dockerfile" "${ROOT_DIR}/dockerfiles/${image}/Dockerfile.copy"
     sed -i "s|FROM ${base_image_digest}$|FROM ${latest_digest}|" "${ROOT_DIR}/dockerfiles/${image}/Dockerfile"
 
     UPDATED="${UPDATED}    ${image_name}\n"
@@ -91,45 +83,54 @@ check_image_digest() {
   fi
 }
 
+#
+# creates pull request with changes
+#
 create_pr() {
-  echo
-  echo "> create PR"
-  echo
-
-  CHANGES=$(git diff --name-only | grep "dockerfiles/")
-  echo -e ">changes\n${CHANGES}\n"
-
-  echo "> current dir $(pwd)"
-
-  set +e
+  local changes=$(git diff --name-only | grep "dockerfiles/")
 
   # commit change into branch
-
-  git check -B ${BRANCH_NAME}
-
-  for change in ${CHANGES} ; do
+  for change in ${changes} ; do
     git add "${change}"
   done
 
   git commit -sm "${COMMIT_MSG}"
-  git push origin "${BRANCH_NAME}"
 
-  lastCommitComment="$(git log -1 --pretty=%B)"
-  hub pull-request -f -m "${lastCommitComment}" -b "${MAIN_BRANCH}" -h "${BRANCH_NAME}"
-  set -e
+  # get last commit sha
+  local commit_sha=$(git rev-parse --short HEAD)
+
+  # compute branch name
+  local branch="${BRANCH_NAME}-${commit_sha}"
+  
+  # create and push new branch
+  git checkout -B "${branch}"
+  git push origin "${branch}"
+
+  # create pull request
+  local commit_comment="$(git log -1 --pretty=%B)"
+  hub pull-request -f -m "${commit_comment}" -b "${MAIN_BRANCH}" -h "${branch}"
 }
 
-# for directory in $(ls "${ROOT_DIR}/dockerfiles") ; do
-#   if [ -e "${ROOT_DIR}/dockerfiles/${directory}/Dockerfile" ] ; then
-#     check_image_digest ${directory}
-#   fi
-# done
-UPDATED="${UPDATED}    quay.io/eclipse/che-antora-2.3"
+# scan ./dockerfiles/ directory
+for directory in $(ls "${ROOT_DIR}/dockerfiles") ; do
+  if [ -e "${ROOT_DIR}/dockerfiles/${directory}/Dockerfile" ] ; then
+    # update Dockerfiles if parent image uses new digest
+    check_image_digest ${directory}
+  fi
+done
 
 echo
 
+# creates Pull Request with changes
 if [ ! -z "${UPDATED}" ]; then
   echo -e "Updated(s): \n${UPDATED}\n"
+
+  echo
+  echo "===================================================================="
+  echo "> git status"
+  git status
+  echo "===================================================================="
+  echo
 
   if ${PULL_REQUEST}; then
     create_pr
