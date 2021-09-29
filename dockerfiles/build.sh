@@ -14,7 +14,6 @@ set -u
 
 DEFAULT_REGISTRY="quay.io"
 DEFAULT_ORGANIZATION="eclipse"
-# DEFAULT_TAG="next"
 DEFAULT_TAG=$(git rev-parse --short HEAD)
 
 REGISTRY=${REGISTRY:-${DEFAULT_REGISTRY}}
@@ -79,37 +78,36 @@ build_image() {
   # Compute Docker image name
   local IMAGE_NAME="${REGISTRY}/${ORGANIZATION}/che-${IMAGE}:${TAG}"
 
-  local DIR=${BASE_DIR}/${IMAGE}
+  local DIR="${BASE_DIR}/${IMAGE}"
 
   # Check for directory
   if [ ! -d "${DIR}" ]; then
-    printf "\n${RED}ERROR:${NC} Directory ${DIR} does not exist\n\n"
+    echo -e "\n${RED}ERROR:${NC} Directory ${DIR} does not exist\n"
     exit 2
   fi
 
   # Check for the Dockerfile
   if [ ! -e ${DIR}/Dockerfile ]; then
-    printf "\n${RED}ERROR:${NC} No Dockerfile in directory ${DIR}\n\n"
+    echo -e "\n${RED}ERROR:${NC} No Dockerfile in directory ${DIR}\n"
     exit 2
   fi
 
-  printf "Building Docker Image ${GREEN}${IMAGE_NAME}${NC} from ${BLUE}${DIR}${NC} directory\n"
+  echo -e "\nBuilding Docker Image ${GREEN}${IMAGE_NAME}${NC} from ${BLUE}${DIR}${NC} directory"
 
   # Replace macros in Dockerfiles
-  local content_docker=$(cat ${DIR}/Dockerfile)
+  local content_docker=$(cat "${DIR}/Dockerfile")
 
-  echo "${content_docker}" > ${DIR}/.Dockerfile
+  echo "${content_docker}" > "${DIR}/.Dockerfile"
 
   # grab includes
-  local to_include=$(sed -n 's/.*\#{INCLUDE:\(.*\)\}/\1/p' ${DIR}/.Dockerfile)
-  # echo && echo ${to_include}
+  local to_include=$(sed -n 's/.*\#{INCLUDE:\(.*\)\}/\1/p' "${DIR}/.Dockerfile")
 
   # perform includes (not use sed {r} to be portable)
   echo "$to_include" | while IFS= read -r filename_to_include ; do
     if [ ! -z "$filename_to_include" ]; then
       # trim argument
       local filename_to_include=$(echo $filename_to_include | xargs)
-      local line_to_insert=$(grep -n "\#{INCLUDE:${filename_to_include}}" ${DIR}/.Dockerfile | cut -d ":" -f 1 | head -n 1) 
+      local line_to_insert=$(grep -n "\#{INCLUDE:${filename_to_include}}" "${DIR}/.Dockerfile" | cut -d ":" -f 1 | head -n 1) 
       local head_line=$(($line_to_insert - 1))
       local tail_line=$(($line_to_insert + 1))
       local content_to_include=$(cat "${DIR}/$filename_to_include")
@@ -118,14 +116,14 @@ build_image() {
       echo "$content_to_include" >> ${DIR}/.Dockerfile2
       tail -n +${tail_line} "${DIR}/.Dockerfile" >> ${DIR}/.Dockerfile2
 
-      mv ${DIR}/.Dockerfile2 ${DIR}/.Dockerfile
+      mv "${DIR}/.Dockerfile2" "${DIR}/.Dockerfile"
     fi
   done
 
   # Build .Dockerfile
   cd "${DIR}/.."
-  docker build --cache-from ${IMAGE_NAME} -f ${DIR}/.Dockerfile -t ${IMAGE_NAME} .
-  rm ${DIR}/.Dockerfile
+  docker build --cache-from ${IMAGE_NAME} -f "${DIR}/.Dockerfile" -t ${IMAGE_NAME} .
+  rm "${DIR}/.Dockerfile"
 
   if ${PUSH_IMAGES}; then
     echo "Pushing ${IMAGE_NAME} to remote registry"

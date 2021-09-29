@@ -13,7 +13,7 @@
 
 ARG BASE_IMAGE="quay.io/quarkus/centos-quarkus-maven:21.0-java11"
 
-FROM quay.io/quarkus/centos-quarkus-maven@sha256:c472acf9e8ef7f722469a8dc37a7a2dfed220cfb22b9fe36a051fe80c153448f-just-a-comment
+FROM quay.io/quarkus/centos-quarkus-maven@sha256:c472acf9e8ef7f722469a8dc37a7a2dfed220cfb22b9fe36a051fe80c153448f
 
 #{INCLUDE:../base.dockerfile}
 

@@ -75,12 +75,18 @@ CHANGES=$(git show --pretty="format:" --name-only ${COMMIT_SHA} | grep "dockerfi
 set -e
 
 if [ ! -z "${CHANGES}" ]; then
-  echo -e "\nRebuild SPECIFIC images:"
+  echo -e "\nRebuild SPECIFIC images..."
 
   BUILT_IMAGES=""
 
   for change in ${CHANGES} ; do
     name=$(echo "${change}" | cut -d"/" -f2)
+
+    # Check for directory and for the Dockerfile
+    if [ ! -d "./dockerfiles/${name}" ] || [ ! -e "./dockerfiles/${name}/Dockerfile" ]; then
+      continue
+    fi
+
     ./dockerfiles/build.sh --image ${name} ${PUSH} ${REMOVE}
     BUILT_IMAGES="${BUILT_IMAGES}    ${name}\n"
   done
