@@ -26,6 +26,6 @@ jobs:
           fetch-depth: 0
 
       - name: Rebuild sidecar images
-        run: ./build/workflow/build-sidecar-images-on-push.sh --rm
+        run: ./build/workflows/build-sidecar-images-on-push.sh --rm
         env:
           COMMIT_SHA: ${{ github.event.pull_request.head.sha }}

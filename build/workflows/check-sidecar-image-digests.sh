@@ -111,7 +111,9 @@ create_pr() {
   hub pull-request -f -m "${commit_comment}" -b "${MAIN_BRANCH}" -h "${branch}"
 }
 
+#
 # scan ./dockerfiles/ directory
+#
 for directory in $(ls "${ROOT_DIR}/dockerfiles") ; do
   if [ -e "${ROOT_DIR}/dockerfiles/${directory}/Dockerfile" ] ; then
     # update Dockerfiles if parent image uses new digest
@@ -121,7 +123,9 @@ done
 
 echo
 
+#
 # creates Pull Request with changes
+#
 if [ ! -z "${UPDATED}" ]; then
   echo -e "Updated(s): \n${UPDATED}\n"
 
