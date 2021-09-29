@@ -34,14 +34,18 @@ jobs:
         sudo pip install yq
         /bin/bash .ci/devfile-images-check.sh
 
-  # build-dev-containers:
-  #   runs-on: ubuntu-20.04
-  #   steps:
-  #     - name: Checkout source code
-  #       uses: actions/checkout@v1
+  build-sidecar-images:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Clone source code
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 0
 
-  #     - name: Build dev container images
-  #       run: ./arbitrary-users-patch/build_images.sh --rm
+      - name: Rebuild sidecar images
+        run: ./build/workflows/build-sidecar-images-on-push.sh --rm
+        env:
+          COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
 
   build-main-image:
     runs-on: ubuntu-20.04
