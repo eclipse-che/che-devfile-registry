@@ -29,13 +29,6 @@ ROOT_DIR=$(cd ${BASE_DIR}/../..; pwd)
 
 cd "${ROOT_DIR}"
 
-echo
-echo "===================================================================="
-echo "> ROOT DIR ${ROOT_DIR}"
-ls -la
-echo "===================================================================="
-echo
-
 # COMMIT_SHA
 DEFAULT_COMMIT_SHA=$(git rev-parse --short HEAD)
 # DEFAULT_COMMIT_SHA=$(git log -n1 --format="%h")
@@ -48,7 +41,8 @@ echo "${GIT_LOG}"
 echo "--------------------------------------------------------------------"
 echo
 
-echo "> changes in ${COMMIT_SHA} -----------------------------------------------"
+echo "--------------------------------------------------------------------"
+echo "> changes in ${COMMIT_SHA}"
 CHANGES=$(git show --pretty="format:" --name-only ${COMMIT_SHA})
 echo "${CHANGES}"
 echo "--------------------------------------------------------------------"
