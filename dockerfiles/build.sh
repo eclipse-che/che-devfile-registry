@@ -14,10 +14,12 @@ set -u
 
 DEFAULT_REGISTRY="quay.io"
 DEFAULT_ORGANIZATION="eclipse"
+DEFAULT_PREFIX="che-"
 DEFAULT_TAG=$(git rev-parse --short HEAD)
 
 REGISTRY=${REGISTRY:-${DEFAULT_REGISTRY}}
 ORGANIZATION=${ORGANIZATION:-${DEFAULT_ORGANIZATION}}
+PREFIX=${PREFIX:-${DEFAULT_PREFIX}}
 TAG=${TAG:-${DEFAULT_TAG}}
 
 # build params
@@ -36,7 +38,23 @@ NC='\033[0m'
 BOLD='\033[1m'
 UNDERLINE='\033[4m'
 
-# Prepare params
+
+USAGE="
+Dockerfile Build Script
+
+Usage: ./build.sh [OPTIONS]
+  --image, -i [IMAGE]               image to build
+  --all, -a                         build all images
+  --push, -p                        push images after build
+  --rm, -r                          remove built images
+
+Examples:
+
+  build.sh --image quarkus          build che-quarkus image
+  build.sh --all                    build all images
+"
+
+# Check params
 while [[ "$#" -gt 0 ]]; do
   case $1 in
     '-i'|'--image') IMAGE_TO_BUILD="$2"; shift 1;;
@@ -47,23 +65,9 @@ while [[ "$#" -gt 0 ]]; do
   shift 1
 done
 
-print_usage() {
-  echo "Usage: build.sh [OPTIONS]"
-  echo "Dockerfile Build Tool"
-  echo "  -i, --image=IMAGE           image to build"
-  echo "  -a, --all                   build all images"
-  echo "  -p, --push                  push images after build"
-  echo "  -r, --rm                    remove built images"
-  echo
-  echo "Examples:"
-  echo "  build.sh -i quarkus         build che-quarkus image"
-  echo "  build.sh -a                 build all images"
-  echo
-}
-
 # Print usage if options are not provided
 if [[ ${BUILD_ALL} == "false" ]] && [[ ! ${IMAGE_TO_BUILD} ]]; then
-  print_usage
+  echo "${USAGE}"
   exit 1
 fi
 
@@ -76,7 +80,7 @@ build_image() {
   local IMAGE="$1"
 
   # Compute Docker image name
-  local IMAGE_NAME="${REGISTRY}/${ORGANIZATION}/che-${IMAGE}:${TAG}"
+  local IMAGE_NAME="${REGISTRY}/${ORGANIZATION}/${PREFIX}${IMAGE}:${TAG}"
 
   local DIR="${BASE_DIR}/${IMAGE}"
 

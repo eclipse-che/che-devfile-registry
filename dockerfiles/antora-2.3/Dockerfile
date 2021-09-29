@@ -7,10 +7,6 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-# che-antora-2.3
-# docker.io/antora/antora:2.3.3
-# docker.io/antora/antora@sha256:fbf31b3be4e5dd215c82f9b5b403c5e746f68bcf50ced9b7d41b6d1414aa5714
-
 ARG BASE_IMAGE="docker.io/antora/antora:2.3.3"
 
 FROM docker.io/antora/antora@sha256:fbf31b3be4e5dd215c82f9b5b403c5e746f68bcf50ced9b7d41b6d1414aa5714
