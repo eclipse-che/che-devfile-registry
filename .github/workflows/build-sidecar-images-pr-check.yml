@@ -7,7 +7,8 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-name: Rebuild Sidecar Images / PR check
+# name: Rebuild Sidecar Images / PR check
+name: PR Checks
 
 on:
   pull_request:
@@ -17,7 +18,8 @@ on:
       - 'dockerfiles/**'
 
 jobs:
-  rebuild-images-pr-check:
+
+  build-sidecar-images:
     runs-on: ubuntu-20.04
     steps:
       - name: Clone source code
