@@ -27,6 +27,7 @@ IMAGE_TO_BUILD=""
 BUILD_ALL=false
 PUSH_IMAGES=false
 REMOVE_IMAGES=false
+UPDATE_DEVFILES=false
 
 # colors
 BLUE='\033[1;34m'
@@ -47,6 +48,7 @@ Usage: ./build.sh [OPTIONS]
   --all, -a                         build all images
   --push, -p                        push images after build
   --rm, -r                          remove built images
+  --update-devfiles                 bump devfiles to new tags
 
 Examples:
 
@@ -61,6 +63,7 @@ while [[ "$#" -gt 0 ]]; do
     '-a'|'--all') BUILD_ALL=true; shift 0;;
     '-p'|'--push') PUSH_IMAGES=true; shift 0;;
     '-r'|'--rm') REMOVE_IMAGES=true; shift 0;;
+    '--update-devfiles') UPDATE_DEVFILES=true; shift 0;;
   esac
   shift 1
 done
@@ -72,17 +75,41 @@ if [[ ${BUILD_ALL} == "false" ]] && [[ ! ${IMAGE_TO_BUILD} ]]; then
 fi
 
 # Compute directory
-BASE_DIR=$(cd "$(dirname "$0")"; pwd)
+DOCKERFILES_DIR=$(cd "$(dirname "$0")"; pwd)
+DEVFILES_DIR=$(cd "${DOCKERFILES_DIR}/../devfiles"; pwd)
 
 BUILT_IMAGES=""
 
+update_devfiles() {
+  local image="$1"
+
+  for directory in $(ls "${DEVFILES_DIR}") ; do
+    local devfile="${DEVFILES_DIR}/${directory}/devfile.yaml";
+    if [ -e "${devfile}" ] ; then
+      local changes=$(cat "${devfile}" | grep "image: ${image}:")
+
+      if [ ! -z "${changes}" ]; then
+        changes="${changes//image: /}"
+
+        for change in ${changes} ; do
+          local replace_from="image: ${change}"
+          local replace_to="image: ${image}:${TAG}"
+          sed -i "s|${replace_from}$|${replace_to}|" "${devfile}"
+        done
+      fi
+
+    fi
+  done
+}
+
 build_image() {
   local IMAGE="$1"
+  
+  local DIR="${DOCKERFILES_DIR}/${IMAGE}"
 
   # Compute Docker image name
-  local IMAGE_NAME="${REGISTRY}/${ORGANIZATION}/${PREFIX}${IMAGE}:${TAG}"
-
-  local DIR="${BASE_DIR}/${IMAGE}"
+  local BASE_NAME="${REGISTRY}/${ORGANIZATION}/${PREFIX}${IMAGE}"
+  local IMAGE_NAME="${BASE_NAME}:${TAG}"
 
   # Check for directory
   if [ ! -d "${DIR}" ]; then
@@ -138,12 +165,17 @@ build_image() {
     echo "Deleting ${IMAGE_NAME} from local registry"
     docker rmi "${IMAGE_NAME}"
   fi
+
+  if ${UPDATE_DEVFILES}; then
+    update_devfiles "${BASE_NAME}"
+  fi
+
   BUILT_IMAGES="${BUILT_IMAGES}    ${IMAGE_NAME}\n"
 }
 
 build_all() {
-  for directory in $(ls "${BASE_DIR}") ; do
-    if [ -e ${BASE_DIR}/${directory}/Dockerfile ] ; then
+  for directory in $(ls "${DOCKERFILES_DIR}") ; do
+    if [ -e ${DOCKERFILES_DIR}/${directory}/Dockerfile ] ; then
       build_image ${directory}
     fi
   done
