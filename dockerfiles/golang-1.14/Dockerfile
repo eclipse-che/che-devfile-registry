@@ -7,10 +7,6 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-# che-golang-1.14
-# docker.io/golang:1.14-stretch
-# docker.io/golang@sha256:a60bc0c6be7e352336044e68db7089d8604864933fcbc0d7cb2285d60b0b2d98
-
 ARG BASE_IMAGE="docker.io/golang:1.14-stretch"
 
 FROM docker.io/golang@sha256:a60bc0c6be7e352336044e68db7089d8604864933fcbc0d7cb2285d60b0b2d98

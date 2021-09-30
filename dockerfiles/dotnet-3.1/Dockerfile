@@ -7,10 +7,6 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-# che-dotnet-3.1
-# mcr.microsoft.com/dotnet/core/sdk:3.1.301-buster
-# mcr.microsoft.com/dotnet/core/sdk@sha256:c87fd21bdebb2c2d573ecd703981476e5b8ac6a0e96d134722bb672e1c231fea
-
 ARG BASE_IMAGE="mcr.microsoft.com/dotnet/core/sdk:3.1.301-buster"
 
 FROM mcr.microsoft.com/dotnet/core/sdk@sha256:c87fd21bdebb2c2d573ecd703981476e5b8ac6a0e96d134722bb672e1c231fea

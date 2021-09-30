@@ -7,10 +7,6 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-# che-nodejs8-centos
-# registry.centos.org/che-stacks/centos-nodejs
-# registry.centos.org/che-stacks/centos-nodejs@sha256:d5cef8b16d9596ff334328b046894e0415e5be470a134357db590b4209922f99
-
 ARG BASE_IMAGE="registry.centos.org/che-stacks/centos-nodejs"
 
 FROM registry.centos.org/che-stacks/centos-nodejs@sha256:d5cef8b16d9596ff334328b046894e0415e5be470a134357db590b4209922f99

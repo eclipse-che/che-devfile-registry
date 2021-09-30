@@ -7,10 +7,6 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-# che-java8-maven
-# docker.io/maven:3.6.1-jdk-8
-# docker.io/maven@sha256:69b40237b342fee9bf996b81110f4dab250a4bc6a2ee52866965101eda066324
-
 ARG BASE_IMAGE="docker.io/maven:3.6.1-jdk-8"
 
 FROM docker.io/maven@sha256:69b40237b342fee9bf996b81110f4dab250a4bc6a2ee52866965101eda066324
