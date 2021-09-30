@@ -7,10 +7,6 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-# che-nodejs10-ubi
-# registry.access.redhat.com/ubi8/nodejs-10
-# registry.access.redhat.com/ubi8/nodejs-10@sha256:59610c6b73172e4c7d3b0a84efeeecba478180fdfd8523e85c9674f88cca4adf
-
 ARG BASE_IMAGE="registry.access.redhat.com/ubi8/nodejs-10"
 
 FROM registry.access.redhat.com/ubi8/nodejs-10@sha256:59610c6b73172e4c7d3b0a84efeeecba478180fdfd8523e85c9674f88cca4adf
