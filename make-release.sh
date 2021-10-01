@@ -98,9 +98,6 @@ performRelease()
   TAG=$(head -n 1 VERSION)
   export TAG
 
-  # Build and push base images
-  # ./arbitrary-users-patch/build_images.sh --push --rm
-
   # Build and push happy path image, which depends on the above
   ./arbitrary-users-patch/happy-path/build_happy_path_image.sh --push --rm
   
