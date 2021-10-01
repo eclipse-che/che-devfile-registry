@@ -99,7 +99,7 @@ performRelease()
   export TAG
 
   # Build and push happy path image, which depends on the above
-  ./arbitrary-users-patch/happy-path/build_happy_path_image.sh --push --rm
+  ./happy-path/build_happy_path_image.sh --push --rm
   
   checkRequiredImagesExist
 
