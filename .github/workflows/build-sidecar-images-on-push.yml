@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-name: Rebuild Sidecar Images / Push to Master
+name: Rebuild Sidecar Images / Push to Main
 
 on:
   push:
