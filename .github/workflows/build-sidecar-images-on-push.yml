@@ -54,13 +54,13 @@ jobs:
           ./build/workflows/build-sidecar-images-on-push.sh --rm --update-devfiles
           ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
 
+      # REMOVE SETTING ENVIRONMENT VARIABLE BEFORE MERGING TO MASTER !!
       - name: Bump devfiles to new sidecar tags
         run: |
           git config --global user.name "Mykhailo Kuznietsov"
           git config --global user.email "mkuznets@redhat.com"
           export GITHUB_TOKEN=${{ secrets.CHE_BOT_GITHUB_TOKEN }}
           ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
-        # REMOVE THIS BEFORE MERGING TO MASTER
         env:
           COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
 
