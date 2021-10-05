@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Clone source code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
@@ -43,4 +43,8 @@ jobs:
         run: ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles
 
       - name: Bump devfiles to new sidecar tags
-        run: ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
+        run: |
+          git config --global user.name "Mykhailo Kuznietsov"
+          git config --global user.email "mkuznets@redhat.com"
+          export GITHUB_TOKEN=${{ secrets.CHE_BOT_GITHUB_TOKEN }}
+          ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
