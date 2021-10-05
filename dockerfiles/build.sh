@@ -40,10 +40,10 @@ USAGE="
 Dockerfile Build Script
 
 Usage: ./build.sh [OPTIONS]
-  --image, -i [IMAGE]               image to build
-  --all, -a                         build all images
-  --push, -p                        push images after build
-  --rm, -r                          remove built images
+  --image [IMAGE]                   image to build
+  --all                             build all images
+  --push                            push images after build
+  --rm                              remove built images
   --update-devfiles                 bump devfiles to new tags
 
 Examples:
@@ -171,6 +171,11 @@ build_image() {
   fi
 
   if ${UPDATE_DEVFILES}; then
+    echo "> git status -------------------------------------------------------"
+    git status
+    echo "--------------------------------------------------------------------"
+    echo
+
     update_devfiles "${BASE_NAME}"
   fi
 

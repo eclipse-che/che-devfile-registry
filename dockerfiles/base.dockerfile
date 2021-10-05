@@ -15,3 +15,4 @@ CMD ["tail", "-f", "/dev/null"]
 
 LABEL "che.base.image" ${BASE_IMAGE}
 
+

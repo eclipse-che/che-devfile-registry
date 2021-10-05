@@ -30,6 +30,11 @@ if ! ${PULL_REQUEST}; then
   exit 1
 fi
 
+echo "> bump devfiles :: git status --------------------------------------"
+git status
+echo "--------------------------------------------------------------------"
+echo
+
 # Compute directory
 BASE_DIR=$(cd "$(dirname "$0")"; pwd)
 ROOT_DIR=$(cd "${BASE_DIR}/../.."; pwd)

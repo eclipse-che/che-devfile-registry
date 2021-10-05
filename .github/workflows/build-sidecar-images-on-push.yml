@@ -9,12 +9,17 @@
 
 name: Rebuild Sidecar Images / Push to Main
 
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - 'dockerfiles/**'
+
 on:
-  push:
-    branches:
+  pull_request:
+    branches: 
       - main
-    paths:
-      - 'dockerfiles/**'
 
 jobs:
   rebuild-images-on-push:
@@ -39,8 +44,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Rebuild sidecar images
-        run: ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles
+      # - name: Rebuild sidecar images
+      #   run: |
+      #     ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles
+      #     ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
 
-      - name: Bump devfiles to new sidecar tags
-        run: ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
+      - name: Rebuild sidecar images
+        run: |
+          ./build/workflows/build-sidecar-images-on-push.sh --rm --update-devfiles
+          ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
