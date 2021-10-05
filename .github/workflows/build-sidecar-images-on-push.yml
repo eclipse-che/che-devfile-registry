@@ -9,17 +9,12 @@
 
 name: Rebuild Sidecar Images / Push to Main
 
-# on:
-#   push:
-#     branches:
-#       - main
-#     paths:
-#       - 'dockerfiles/**'
-
 on:
-  pull_request:
-    branches: 
+  push:
+    branches:
       - main
+    paths:
+      - 'dockerfiles/**'
 
 jobs:
   rebuild-images-on-push:
@@ -44,35 +39,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-#      - name: Rebuild sidecar images
-#        run: |
-#          ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles
-#          ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
-
-#      REMOVE SETTING ENVIRONMENT VARIABLE BEFORE MERGING TO MASTER !!
       - name: Rebuild sidecar images
-        run: |
-          ./build/workflows/build-sidecar-images-on-push.sh --rm --update-devfiles
-        env:
-          COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+        run: ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles
 
-#      REMOVE SETTING ENVIRONMENT VARIABLE BEFORE MERGING TO MASTER !!
       - name: Bump devfiles to new sidecar tags
         run: |
           git config --global user.name "Mykhailo Kuznietsov"
           git config --global user.email "mkuznets@redhat.com"
           export GITHUB_TOKEN=${{ secrets.CHE_BOT_GITHUB_TOKEN }}
           ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
-        env:
-          COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
-
-#      - name: Rebuild sidecar images
-#        run: |
-#          git config --global user.name "Mykhailo Kuznietsov"
-#          git config --global user.email "mkuznets@redhat.com"
-#          export GITHUB_TOKEN=${{ secrets.CHE_BOT_GITHUB_TOKEN }}
-#
-#          ./build/workflows/build-sidecar-images-on-push.sh --rm --update-devfiles
-#          ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
-#        env:
-#          COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
