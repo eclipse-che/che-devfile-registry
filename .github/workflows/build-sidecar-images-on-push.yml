@@ -53,3 +53,5 @@ jobs:
         run: |
           ./build/workflows/build-sidecar-images-on-push.sh --rm --update-devfiles
           ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
+        env:
+          COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
