@@ -49,9 +49,12 @@ jobs:
 #          ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles
 #          ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
 
+#      REMOVE SETTING ENVIRONMENT VARIABLE BEFORE MERGING TO MASTER !!
       - name: Rebuild sidecar images
         run: |
           ./build/workflows/build-sidecar-images-on-push.sh --rm --update-devfiles
+        env:
+          COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
 
 #      REMOVE SETTING ENVIRONMENT VARIABLE BEFORE MERGING TO MASTER !!
       - name: Bump devfiles to new sidecar tags
