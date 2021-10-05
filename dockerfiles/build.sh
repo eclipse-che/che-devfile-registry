@@ -40,10 +40,10 @@ USAGE="
 Dockerfile Build Script
 
 Usage: ./build.sh [OPTIONS]
-  --image, -i [IMAGE]               image to build
-  --all, -a                         build all images
-  --push, -p                        push images after build
-  --rm, -r                          remove built images
+  --image [IMAGE]                   image to build
+  --all                             build all images
+  --push                            push images after build
+  --rm                              remove built images
   --update-devfiles                 bump devfiles to new tags
 
 Examples:
@@ -63,6 +63,13 @@ while [[ "$#" -gt 0 ]]; do
   esac
   shift 1
 done
+
+echo "> Start with:"
+echo "    IMAGE_TO_BUILD: ${IMAGE_TO_BUILD}"
+echo "    BUILD_ALL: ${BUILD_ALL}"
+echo "    PUSH_IMAGES: ${PUSH_IMAGES}"
+echo "    REMOVE_IMAGES: ${REMOVE_IMAGES}"
+echo "    UPDATE_DEVFILES: ${UPDATE_DEVFILES}"
 
 # Print usage if options are not provided
 if [[ ${BUILD_ALL} == "false" ]] && [[ ! ${IMAGE_TO_BUILD} ]]; then
@@ -171,6 +178,11 @@ build_image() {
   fi
 
   if ${UPDATE_DEVFILES}; then
+    echo "> git status -------------------------------------------------------"
+    git status
+    echo "--------------------------------------------------------------------"
+    echo
+
     update_devfiles "${BASE_NAME}"
   fi
 

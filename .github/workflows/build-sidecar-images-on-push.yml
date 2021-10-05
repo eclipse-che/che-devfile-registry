@@ -9,19 +9,24 @@
 
 name: Rebuild Sidecar Images / Push to Main
 
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - 'dockerfiles/**'
+
 on:
-  push:
-    branches:
+  pull_request:
+    branches: 
       - main
-    paths:
-      - 'dockerfiles/**'
 
 jobs:
   rebuild-images-on-push:
     runs-on: ubuntu-20.04
     steps:
       - name: Clone source code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
@@ -39,8 +44,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Rebuild sidecar images
-        run: ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles
+      # - name: Rebuild sidecar images
+      #   run: |
+      #     ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles
+      #     ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
 
-      - name: Bump devfiles to new sidecar tags
-        run: ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
+      - name: Rebuild sidecar images
+        run: |
+          git config --global user.name "Mykhailo Kuznietsov"
+          git config --global user.email "mkuznets@redhat.com"
+          export GITHUB_TOKEN=${{ secrets.CHE_BOT_GITHUB_TOKEN }}
+
+          ./build/workflows/build-sidecar-images-on-push.sh --rm --update-devfiles
+          ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
+        env:
+          COMMIT_SHA: ${{ github.event.pull_request.head.sha }}

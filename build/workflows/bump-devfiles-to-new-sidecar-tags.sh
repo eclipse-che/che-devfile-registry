@@ -30,6 +30,11 @@ if ! ${PULL_REQUEST}; then
   exit 1
 fi
 
+echo "> bump devfiles :: git status --------------------------------------"
+git status
+echo "--------------------------------------------------------------------"
+echo
+
 # Compute directory
 BASE_DIR=$(cd "$(dirname "$0")"; pwd)
 ROOT_DIR=$(cd "${BASE_DIR}/../.."; pwd)
@@ -64,8 +69,12 @@ git status
 
 # commoit changes
 git commit -sm "${COMMIT_MSG}"
+
+echo "> pushing devfiles to ${BRANCH}"
 git push origin "${BRANCH}"
 
 # create pull request
+echo "> creating a pull request"
+
 COMMIT_COMMENT="$(git log -1 --pretty=%B)"
 hub pull-request -f -m "${COMMIT_COMMENT}" -b "${MAIN_BRANCH}" -h "${BRANCH}"
