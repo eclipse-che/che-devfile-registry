@@ -64,6 +64,12 @@ while [[ "$#" -gt 0 ]]; do
   shift 1
 done
 
+echo "> Start with:"
+echo "    IMAGE_TO_BUILD: ${IMAGE_TO_BUILD}"
+echo "    BUILD_ALL: ${BUILD_ALL}"
+echo "    PUSH_IMAGES: ${PUSH_IMAGES}"
+echo "    REMOVE_IMAGES: ${REMOVE_IMAGES}"
+
 # Print usage if options are not provided
 if [[ ${BUILD_ALL} == "false" ]] && [[ ! ${IMAGE_TO_BUILD} ]]; then
   echo "${USAGE}"
