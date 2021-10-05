@@ -13,3 +13,4 @@ FROM docker.io/maven@sha256:69b40237b342fee9bf996b81110f4dab250a4bc6a2ee52866965
 
 #{INCLUDE:../base.dockerfile}
 
+
