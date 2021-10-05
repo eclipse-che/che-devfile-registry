@@ -21,7 +21,7 @@ components:
   -
     type: dockerimage
     alias: maven
-    image: quay.io/eclipse/che-java8-maven:next
+    image: quay.io/eclipse/che-java8-maven:5643aa0
     env:
       - name: MAVEN_CONFIG
         value: ""
