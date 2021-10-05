@@ -69,6 +69,7 @@ echo "    IMAGE_TO_BUILD: ${IMAGE_TO_BUILD}"
 echo "    BUILD_ALL: ${BUILD_ALL}"
 echo "    PUSH_IMAGES: ${PUSH_IMAGES}"
 echo "    REMOVE_IMAGES: ${REMOVE_IMAGES}"
+echo "    UPDATE_DEVFILES: ${UPDATE_DEVFILES}"
 
 # Print usage if options are not provided
 if [[ ${BUILD_ALL} == "false" ]] && [[ ! ${IMAGE_TO_BUILD} ]]; then

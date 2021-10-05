@@ -69,8 +69,12 @@ git status
 
 # commoit changes
 git commit -sm "${COMMIT_MSG}"
+
+echo "> pushing devfiles to ${BRANCH}"
 git push origin "${BRANCH}"
 
 # create pull request
+echo "> creating a pull request"
+
 COMMIT_COMMENT="$(git log -1 --pretty=%B)"
 hub pull-request -f -m "${COMMIT_COMMENT}" -b "${MAIN_BRANCH}" -h "${BRANCH}"

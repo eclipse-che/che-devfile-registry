@@ -51,10 +51,11 @@ jobs:
 
       - name: Rebuild sidecar images
         run: |
-          ./build/workflows/build-sidecar-images-on-push.sh --rm --update-devfiles
           git config --global user.name "Mykhailo Kuznietsov"
           git config --global user.email "mkuznets@redhat.com"
           export GITHUB_TOKEN=${{ secrets.CHE_BOT_GITHUB_TOKEN }}
+
+          ./build/workflows/build-sidecar-images-on-push.sh --rm --update-devfiles
           ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
         env:
           COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
