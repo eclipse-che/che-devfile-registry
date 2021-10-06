@@ -48,11 +48,11 @@ jobs:
 
       - name: Rebuild sidecar images
         run: |
+          EXTRA_ARG=""
           if [[ "${{ github.event.inputs.rebuild_all }}" == "true" ]]; then
-            ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles --rebuild-all
-          else
-            ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles
+            EXTRA_ARG="--rebuild-all"
           fi
+          ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles ${EXTRA_ARG}
 
       - name: Bump devfiles to new sidecar tags
         run: |
