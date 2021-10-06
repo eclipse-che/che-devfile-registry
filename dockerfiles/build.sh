@@ -195,3 +195,9 @@ if [[ ${BUILD_ALL} == "true" ]]; then
 else
   build_image "${IMAGE_TO_BUILD}"
 fi
+
+if ${UPDATE_DEVFILES}; then
+  echo "> git status ----------------------------------------------------------"
+  git status
+  echo "-----------------------------------------------------------------------"
+fi
