@@ -60,7 +60,7 @@ set -e
 
 if [ -n "${CHANGES}" ]; then
   echo -e "\nRebuild ALL images"
-  ./dockerfiles/build.sh --all ${PUSH} ${REMOVE}
+  ./dockerfiles/build.sh --all ${PUSH} ${REMOVE} ${UPDATE_DEVFILES}
   exit 0
 fi
 
