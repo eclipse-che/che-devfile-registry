@@ -55,10 +55,10 @@ Examples:
 # Check params
 while [[ "$#" -gt 0 ]]; do
   case $1 in
-    '-i'|'--image') IMAGE_TO_BUILD="$2"; shift 1;;
-    '-a'|'--all') BUILD_ALL=true; shift 0;;
-    '-p'|'--push') PUSH_IMAGES=true; shift 0;;
-    '-r'|'--rm') REMOVE_IMAGES=true; shift 0;;
+    '--image') IMAGE_TO_BUILD="$2"; shift 1;;
+    '--all') BUILD_ALL=true; shift 0;;
+    '--push') PUSH_IMAGES=true; shift 0;;
+    '--rm') REMOVE_IMAGES=true; shift 0;;
     '--update-devfiles') UPDATE_DEVFILES=true; shift 0;;
   esac
   shift 1

@@ -16,6 +16,13 @@ on:
     paths:
       - 'dockerfiles/**'
 
+  workflow_dispatch:
+    inputs:
+      rebuild_all:
+        description: 'Rebuild all sidecar images:'
+        required: true
+        default: "false"
+
 jobs:
   rebuild-images-on-push:
     runs-on: ubuntu-20.04
@@ -40,7 +47,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Rebuild sidecar images
-        run: ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles
+        run: |
+          if [[ "${{ github.event.inputs.rebuild_all }}" == "true" ]]; then
+            ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles --rebuild-all
+          else
+            ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles
+          fi
 
       - name: Bump devfiles to new sidecar tags
         run: |

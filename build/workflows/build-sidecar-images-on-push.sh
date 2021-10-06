@@ -15,12 +15,14 @@ set -u
 PUSH=""
 REMOVE=""
 UPDATE_DEVFILES=""
+REBUILD_ALL=false
 
 while [[ "$#" -gt 0 ]]; do
   case $1 in
     '--push') PUSH="--push"; shift 0;;
     '--rm') REMOVE="--rm"; shift 0;;
     '--update-devfiles') UPDATE_DEVFILES="--update-devfiles"; shift 0;;
+    '--rebuild-all') REBUILD_ALL=true; shift 0;;
   esac
   shift 1
 done
@@ -58,7 +60,7 @@ set +e
 CHANGES=$(git show --pretty="format:" --name-only "${COMMIT_SHA}" | grep -E "dockerfiles/base.dockerfile|dockerfiles/entrypoint.sh|dockerfiles/install-editor-tooling.sh")
 set -e
 
-if [ -n "${CHANGES}" ]; then
+if [ -n "${CHANGES}" ] || ${REBUILD_ALL}; then
   echo -e "\nRebuild ALL images"
   ./dockerfiles/build.sh --all ${PUSH} ${REMOVE} ${UPDATE_DEVFILES}
   exit 0
