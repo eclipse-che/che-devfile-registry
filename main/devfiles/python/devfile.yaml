@@ -12,7 +12,7 @@ components:
     registryUrl: https://eclipse-che.github.io/che-plugin-registry/main/v3/
   - type: dockerimage
     alias: python
-    image: quay.io/eclipse/che-python-3.8:next
+    image: quay.io/eclipse/che-python-3.8:ce0526f
     memoryLimit: 512Mi
     mountSources: true
     volumes:

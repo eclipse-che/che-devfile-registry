@@ -12,7 +12,7 @@ components:
     registryUrl: https://eclipse-che.github.io/che-plugin-registry/main/v3/
   - type: dockerimage
     alias: nodejs
-    image: quay.io/eclipse/che-nodejs10-community:next
+    image: quay.io/eclipse/che-nodejs10-community:ce0526f
     memoryLimit: 2Gi
     endpoints:
       - name: angular

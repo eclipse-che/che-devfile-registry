@@ -15,7 +15,7 @@ components:
     registryUrl: https://eclipse-che.github.io/che-plugin-registry/main/v3/
   - type: dockerimage
     alias: dotnet
-    image: quay.io/eclipse/che-dotnet-2.2:next
+    image: quay.io/eclipse/che-dotnet-2.2:ce0526f
     env:
       - name: HOME
         value: /home/user

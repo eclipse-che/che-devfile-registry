@@ -15,7 +15,7 @@ components:
     registryUrl: https://eclipse-che.github.io/che-plugin-registry/main/v3/
   - type: dockerimage
     alias: gradle
-    image: quay.io/eclipse/che-java11-gradle:next
+    image: quay.io/eclipse/che-java11-gradle:ce0526f
     env:
       - name: GRADLE_USER_HOME
         value: /home/gradle/.gradle

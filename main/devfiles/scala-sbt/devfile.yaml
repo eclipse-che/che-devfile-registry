@@ -13,7 +13,7 @@ components:
     registryUrl: https://eclipse-che.github.io/che-plugin-registry/main/v3/
   - type: dockerimage
     alias: sbt
-    image: quay.io/eclipse/che-java11-maven:next
+    image: quay.io/eclipse/che-java11-maven:ce0526f
     env:
       - name: SBT_OPTS
         value: -J-XX:MaxRAMPercentage=80 -J-XX:+UseParallelGC -J-XX:MinHeapFreeRatio=10 -J-XX:MaxHeapFreeRatio=20 -J-XX:GCTimeRatio=4 -J-XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -J-Xms20m -Djava.security.egd=file:/dev/./urandom -Duser.home=/home/user

@@ -13,7 +13,7 @@ components:
     registryUrl: https://eclipse-che.github.io/che-plugin-registry/main/v3/
   - type: dockerimage
     alias: cpp-dev
-    image: quay.io/eclipse/che-cpp-rhel7:next
+    image: quay.io/eclipse/che-cpp-rhel7:ce0526f
     memoryLimit: 512Mi
     mountSources: true
 commands:

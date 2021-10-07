@@ -18,7 +18,7 @@ components:
     registryUrl: https://eclipse-che.github.io/che-plugin-registry/main/v3/
   - type: dockerimage
     alias: maven
-    image: quay.io/eclipse/che-java8-maven:next
+    image: quay.io/eclipse/che-java8-maven:ce0526f
     env:
       - name: MAVEN_CONFIG
         value: ""

@@ -17,7 +17,7 @@ components:
     registryUrl: https://eclipse-che.github.io/che-plugin-registry/main/v3/
   - type: dockerimage
     alias: nodejs
-    image: quay.io/eclipse/che-nodejs10-ubi:next
+    image: quay.io/eclipse/che-nodejs10-ubi:ce0526f
     env:
       # The values below are used to set up the environment for running the application
       - name: SECRET

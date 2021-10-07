@@ -15,7 +15,7 @@ components:
     registryUrl: https://eclipse-che.github.io/che-plugin-registry/main/v3/
   - type: dockerimage
     alias: php
-    image: quay.io/eclipse/che-php-7:next
+    image: quay.io/eclipse/che-php-7:ce0526f
     memoryLimit: 512Mi
     endpoints:
       - name: 8000-tcp
