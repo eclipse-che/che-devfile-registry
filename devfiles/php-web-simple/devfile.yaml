@@ -18,7 +18,7 @@ components:
 -
   type: dockerimage
   alias: php
-  image: quay.io/eclipse/che-php-7:next
+  image: quay.io/eclipse/che-php-7:ce0526f
   memoryLimit: 512Mi
   mountSources: true
   endpoints:

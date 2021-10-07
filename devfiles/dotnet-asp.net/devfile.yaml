@@ -18,7 +18,7 @@ components:
   -
     type: dockerimage
     alias: dotnet
-    image: quay.io/eclipse/che-dotnet-2.2:next
+    image: quay.io/eclipse/che-dotnet-2.2:ce0526f
     env:
       - name: HOME
         value: /home/user
