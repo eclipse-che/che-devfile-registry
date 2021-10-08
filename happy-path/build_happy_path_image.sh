@@ -36,16 +36,19 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 # Build image for happy-path tests with precashed mvn dependencies
-docker build -t "${NAME_FORMAT}/happy-path:${TAG}" --no-cache --build-arg TAG="${TAG}" "${SCRIPT_DIR}"/  | cat
+docker build -t "${NAME_FORMAT}/happy-path:${TAG}" --no-cache --build-arg TAG="${TAG}" "${SCRIPT_DIR}"/
+
 if ${PUSH_IMAGES}; then
     echo "Pushing ${NAME_FORMAT}/happy-path:${TAG}" to remote registry
-    docker push "${NAME_FORMAT}/happy-path:${TAG}" | cat
+    docker push "${NAME_FORMAT}/happy-path:${TAG}"
+
     if ${PUSH_LATEST}; then
       echo "Pushing  ${NAME_FORMAT}/happy-path:latest to remote registry"
       docker tag "${NAME_FORMAT}/happy-path:${TAG}" "${NAME_FORMAT}/happy-path:latest"
-      docker push "${NAME_FORMAT}/happy-path:latest" | cat
+      docker push "${NAME_FORMAT}/happy-path:latest"
     fi
 fi
+
 if ${RM_IMAGES}; then # save disk space by deleting the image we just published
   echo "Deleting${NAME_FORMAT}/happy-path:${TAG} from local registry"
   docker rmi "${NAME_FORMAT}/happy-path:${TAG}"

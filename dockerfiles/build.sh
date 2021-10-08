@@ -162,7 +162,7 @@ build_image() {
 
   if ${PUSH_IMAGES}; then
     echo "Pushing ${IMAGE_NAME} to remote registry"
-    docker push "${IMAGE_NAME}" | cat
+    docker push "${IMAGE_NAME}"
   fi
 
   if ${REMOVE_IMAGES}; then # save disk space by deleting the image we just built/published

@@ -9,22 +9,12 @@
 FROM docker.io/alpine:3.11.5 AS builder
 RUN apk add --no-cache py-pip jq bash wget git skopeo && pip install yq
 
-# Registry, organization, and tag to use for base images in dockerfiles. Devfiles
-# will be rewritten during build to use these values for base images.
-ARG PATCHED_IMAGES_REG="quay.io"
-ARG PATCHED_IMAGES_ORG="eclipse"
-ARG PATCHED_IMAGES_TAG="next"
-ARG USE_DIGESTS=false
-
-COPY ./build/scripts ./arbitrary-users-patch/base_images /build/
+COPY ./build/scripts /build/
 COPY ./devfiles /build/devfiles
 WORKDIR /build/
-RUN TAG=${PATCHED_IMAGES_TAG} \
-    ORGANIZATION=${PATCHED_IMAGES_ORG} \
-    REGISTRY=${PATCHED_IMAGES_REG} \
-    ./update_devfile_patched_image_tags.sh
+
 RUN ./check_mandatory_fields.sh devfiles
-RUN if [[ ${USE_DIGESTS} == "true" ]]; then ./write_image_digests.sh devfiles; fi
+
 RUN ./index.sh > /build/devfiles/index.json
 RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
 RUN chmod -R g+rwX /build/devfiles

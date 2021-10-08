@@ -67,7 +67,7 @@ jobs:
           context: .
           file: ./build/dockerfiles/Dockerfile
           platforms: ${{ steps.package.outputs.content }}
-          tags:  quay.io/eclipse/${{ steps.prep.outputs.image }}:${{ steps.prep.outputs.version }},quay.io/eclipse/${{ steps.prep.outputs.image }}:${{ steps.prep.outputs.short_sha1 }}
+          tags: quay.io/eclipse/${{ steps.prep.outputs.image }}:${{ steps.prep.outputs.version }},quay.io/eclipse/${{ steps.prep.outputs.image }}:${{ steps.prep.outputs.short_sha1 }}
           push: true
 
       - name: Set up yq
