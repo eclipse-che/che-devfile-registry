@@ -28,8 +28,8 @@ components:
 -
   type: dockerimage
   # this version is used in the plugin
-  # Built from https://github.com/eclipse-che/che-devfile-registry/tree/main/arbitrary-users-patch/base_images
-  image: quay.io/eclipse/che-golang-1.17:TODO-SET-TAG-HERE
+  # TODO 20610 - move to golang-1.17 once it exists
+  image: quay.io/eclipse/che-golang-1.14:ce0526f
   alias: go-cli
   env:
     - name: GOPATH
