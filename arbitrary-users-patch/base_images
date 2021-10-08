@@ -2,8 +2,7 @@ che-antora-2.3          docker.io/antora/antora:2.3.3                           
 che-cpp-rhel7           registry.access.redhat.com/devtools/llvm-toolset-rhel7  registry.access.redhat.com/devtools/llvm-toolset-rhel7@sha256:2c65fdfb180eefadb615a6a858ff06ce8541860be2b570716e854510a04cd329
 che-dotnet-2.2          mcr.microsoft.com/dotnet/core/sdk:2.2-stretch           mcr.microsoft.com/dotnet/core/sdk@sha256:db9b38d066fdbdd5ac5ce862076c27e4ae17f2b57cbacd03bdc3b24e06696ae8
 che-dotnet-3.1          mcr.microsoft.com/dotnet/core/sdk:3.1.301-buster        mcr.microsoft.com/dotnet/core/sdk@sha256:c87fd21bdebb2c2d573ecd703981476e5b8ac6a0e96d134722bb672e1c231fea
-che-golang-1.12         docker.io/golang:1.12-stretch                           docker.io/golang@sha256:8b0f4fee390ca1308ef5c522accad9f7d98a4134fcde1b2cff33df1cbb1b3b97
-che-golang-1.14         docker.io/golang:1.14-stretch                           docker.io/golang@sha256:a60bc0c6be7e352336044e68db7089d8604864933fcbc0d7cb2285d60b0b2d98
+che-golang-1.17         docker.io/golang:1.17-stretch                           docker.io/golang@sha256:dd2513467a4f00f108165141bf25bc4f89e3340ca8da8276cd3d0e8707ddaab6
 che-java11-gradle       docker.io/gradle:6.6.1-jdk11                            docker.io/gradle@sha256:c25f15608cd9bee8e290dd5654f9a784bea4505719fdedd0ad7ac640bed0fc50
 che-java11-maven        docker.io/maven:3.6.3-jdk-11                            docker.io/maven@sha256:1d29ccf46ef2a5e64f7de3d79a63f9bcffb4dc56be0ae3daed5ca5542b38aa2d
 che-java8-maven         docker.io/maven:3.6.1-jdk-8                             docker.io/maven@sha256:69b40237b342fee9bf996b81110f4dab250a4bc6a2ee52866965101eda066324
