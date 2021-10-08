@@ -23,8 +23,7 @@ components:
     registryUrl: https://eclipse-che.github.io/che-plugin-registry/main/v3/
   - type: dockerimage
     # this version is used in the plugin
-    # TODO 20610 - move to golang-1.17 once it exists
-    image: quay.io/eclipse/che-golang-1.14:ce0526f
+    image: quay.io/eclipse/che-golang-1.17:6e0c053
     alias: go-cli
     env:
       - name: GOPATH
