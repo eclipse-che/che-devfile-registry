@@ -103,7 +103,6 @@ else
 fi
 
 IMAGE="${REGISTRY}/${ORGANIZATION}/che-devfile-registry:${TAG}"
-VERSION=$(head -n 1 VERSION)
 
 ${BUILDER} ${BUILD_COMMAND} \
     -t "${IMAGE}" \
