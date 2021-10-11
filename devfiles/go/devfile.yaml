@@ -28,7 +28,7 @@ components:
 -
   type: dockerimage
   # this version is used in the plugin
-  image: quay.io/eclipse/che-golang-1.14:ce0526f
+  image: quay.io/eclipse/che-golang-1.17:6e0c053
   alias: go-cli
   env:
     - name: GOPATH
