@@ -31,32 +31,42 @@ usage ()
 
 verifyContainerExistsWithTimeout()
 {
-  this_containerURL=$1
+  local container_to_check=$1
   this_timeout=$2
   containerExists=0
   count=1
   (( timeout_intervals=this_timeout*3 ))
   while [[ $count -le $timeout_intervals ]]; do # echo $count
-    echo "       [$count/$timeout_intervals] Verify ${1} exists..." 
+    echo "       [$count/$timeout_intervals] Verify ${container_to_check} exists..." 
     # check if the container exists
-    verifyContainerExists "$1"
+    verifyContainerExists "${container_to_check}"
 
-    if [[ ${containerExists} -eq 1 ]]; then break; fi
+    # container exists
+    if [[ ${containerExists} -eq 1 ]]; then
+      exit 0
+    fi
 
-    # -1 indicates, that server replied with "UNKNOWN MANIFEST"
-    if [[ ${containerExists} -eq -1 ]]; then break; fi
+    # -1 indicates, that server didn't found the container and replied with message "UNKNOWN MANIFEST"
+    if [[ ${containerExists} -eq -1 ]]; then
+      echo "[ERROR] UNKNOWN MANIFEST: container ${container_to_check} is not found!"
+      exit 1
+    fi
 
     (( count=count+1 ))
     sleep 20s
   done
 
   # or report an error
-  if [[ ${containerExists} -ne 1 ]]; then
-    echo "[ERROR] Did not find ${1} after ${this_timeout} minutes - script must exit!"
-    exit 1;
-  fi
+  echo "[ERROR] Did not find ${container_to_check} after ${this_timeout} minutes - script must exit!"
+  exit 1
 }
 
+#
+# Checks the container existence
+#
+# Returns
+#   1: found; 0: not found; -1: unknown manifest 
+#
 verifyContainerExists()
 {
   this_containerURL="${1}"
