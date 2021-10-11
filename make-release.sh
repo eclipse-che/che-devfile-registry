@@ -155,6 +155,19 @@ performRelease()
   set +xe
 }
 
+fetchAndCheckout ()
+{
+  bBRANCH="$1"
+  git fetch origin "${bBRANCH}:${bBRANCH}"; git checkout "${bBRANCH}"
+}
+
+# unlike in che-plugin-registry, here we just need to update the VERSION file
+updateVersionFile () {
+  thisVERSION="$1"
+  # update VERSION file with VERSION or NEWVERSION
+  echo "${thisVERSION}" > VERSION
+}
+
 if [[ ! ${VERSION} ]]; then
   usage
   exit 1
@@ -169,12 +182,6 @@ if [[ ${VERSION} == *".0" ]]; then
 else 
   BASEBRANCH="${BRANCH}"
 fi
-
-fetchAndCheckout ()
-{
-  bBRANCH="$1"
-  git fetch origin "${bBRANCH}:${bBRANCH}"; git checkout "${bBRANCH}"
-}
 
 # work in tmp dir if --use-tmp-dir (not required when running as GH action)
 if [[ $TMP ]] && [[ -d $TMP ]]; then
@@ -225,13 +232,6 @@ commitChangeOrCreatePR()
       hub pull-request -f -m "${lastCommitComment}" -b "${aBRANCH}" -h "${PR_BRANCH}"
     fi
   fi
-}
-
-# unlike in che-plugin-registry, here we just need to update the VERSION file
-updateVersionFile () {
-  thisVERSION="$1"
-  # update VERSION file with VERSION or NEWVERSION
-  echo "${thisVERSION}" > VERSION
 }
 
 # bump VERSION file to VERSION
