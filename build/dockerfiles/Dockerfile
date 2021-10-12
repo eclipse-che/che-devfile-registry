@@ -9,11 +9,15 @@
 FROM docker.io/alpine:3.11.5 AS builder
 RUN apk add --no-cache py-pip jq bash wget git skopeo && pip install yq
 
+ARG USE_DIGESTS=false
+
 COPY ./build/scripts /build/
 COPY ./devfiles /build/devfiles
 WORKDIR /build/
 
 RUN ./check_mandatory_fields.sh devfiles
+
+RUN if [[ ${USE_DIGESTS} == "true" ]]; then ./write_image_digests.sh devfiles; fi
 
 RUN ./index.sh > /build/devfiles/index.json
 RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
