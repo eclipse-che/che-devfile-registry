@@ -23,8 +23,6 @@ USER 0
 ARG BOOTSTRAP=false
 ENV BOOTSTRAP=${BOOTSTRAP}
 
-ARG USE_DIGESTS=false
-
 # to get all the python deps pre-fetched so we can build in Brew:
 # 1. extract files in the container to your local filesystem
 #    find v3 -type f -exec dos2unix {} \;
@@ -49,8 +47,6 @@ COPY ./devfiles /build/devfiles
 WORKDIR /build/
 
 RUN ./check_mandatory_fields.sh devfiles
-
-RUN if [[ ${USE_DIGESTS} == "true" ]]; then ./write_image_digests.sh devfiles; fi
 
 RUN ./index.sh > /build/devfiles/index.json
 RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt

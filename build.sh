@@ -14,7 +14,6 @@ REGISTRY="quay.io"
 ORGANIZATION="eclipse"
 TAG="next"
 TARGET="registry" # or offline-registry
-USE_DIGESTS=false
 DOCKERFILE="./build/dockerfiles/Dockerfile"
 
 USAGE="
@@ -28,8 +27,6 @@ Options:
         Docker registry to be used for image; default 'quay.io'
     --organization, -o [ORGANIZATION]
         Docker image organization to be used for image; default: 'eclipse'
-    --use-digests
-        Build registry to use images pinned by digest instead of tag
     --offline
         Build offline version of registry, with all artifacts included
         cached in the registry; disabled by default.
@@ -56,10 +53,6 @@ function parse_arguments() {
             -o|--organization)
             ORGANIZATION="$2"
             shift; shift;
-            ;;
-            --use-digests)
-            USE_DIGESTS=true
-            shift
             ;;
             --offline)
             TARGET="offline-registry"
@@ -114,5 +107,4 @@ IMAGE="${REGISTRY}/${ORGANIZATION}/che-devfile-registry:${TAG}"
 ${BUILDER} ${BUILD_COMMAND} \
     -t "${IMAGE}" \
     -f "${DOCKERFILE}" \
-    --build-arg "USE_DIGESTS=${USE_DIGESTS}" \
     --target "${TARGET}" .
