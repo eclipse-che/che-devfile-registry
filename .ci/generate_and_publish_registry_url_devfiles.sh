@@ -7,7 +7,6 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 
-
 set -e
 
 : "${VERSION:?Variable not set or empty}"

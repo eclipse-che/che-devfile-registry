@@ -31,62 +31,96 @@ usage ()
 
 verifyContainerExistsWithTimeout()
 {
-    this_containerURL=$1
-    this_timeout=$2
-    containerExists=0
-    count=1
-    (( timeout_intervals=this_timeout*3 ))
-    while [[ $count -le $timeout_intervals ]]; do # echo $count
-        echo "       [$count/$timeout_intervals] Verify ${1} exists..." 
-        # check if the container exists
-        verifyContainerExists "$1"
-        if [[ ${containerExists} -eq 1 ]]; then break; fi
-        (( count=count+1 ))
-        sleep 20s
-    done
-    # or report an error
-    if [[ ${containerExists} -eq 0 ]]; then
-        echo "[ERROR] Did not find ${1} after ${this_timeout} minutes - script must exit!"
-        exit 1;
+  local container_to_check=$1
+  this_timeout=$2
+  containerExists=0
+  count=1
+  (( timeout_intervals=this_timeout*3 ))
+  while [[ $count -le $timeout_intervals ]]; do # echo $count
+    echo "       [$count/$timeout_intervals] Verify ${container_to_check} exists..." 
+    # check if the container exists
+    verifyContainerExists "${container_to_check}"
+
+    # container exists
+    if [[ ${containerExists} -eq 1 ]]; then
+      exit 0
     fi
+
+    # -1 indicates, that server didn't found the container and replied with message "UNKNOWN MANIFEST"
+    if [[ ${containerExists} -eq -1 ]]; then
+      echo "[ERROR] UNKNOWN MANIFEST: container ${container_to_check} is not found!"
+      exit 1
+    fi
+
+    (( count=count+1 ))
+    sleep 20s
+  done
+
+  # or report an error
+  echo "[ERROR] Did not find ${container_to_check} after ${this_timeout} minutes - script must exit!"
+  exit 1
 }
 
+#
+# Checks the container existence
+#
+# Returns
+#   1: found; 0: not found; -1: unknown manifest 
+#
 verifyContainerExists()
 {
-    this_containerURL="${1}"
-    this_image=""; this_tag=""
-    this_image=${this_containerURL#*/}
-    this_tag=${this_image##*:}
-    this_image=${this_image%%:*}
-    this_url="https://quay.io/v2/${this_image}/manifests/${this_tag}"
-    # echo $this_url
+  this_containerURL="${1}"
+  this_image=""; this_tag=""
+  this_image=${this_containerURL#*/}
+  this_tag=${this_image##*:}
+  this_image=${this_image%%:*}
+  this_url="https://quay.io/v2/${this_image}/manifests/${this_tag}"
 
-    # get result=tag if tag found, result="null" if not
-    result="$(curl -sSL "${this_url}"  -H "Accept: application/vnd.docker.distribution.manifest.list.v2+json" 2>&1 || true)"
-    if [[ $(echo "$result" | jq -r '.schemaVersion' || true) == "1" ]] && [[ $(echo "$result" | jq -r '.tag' || true) == "$this_tag" ]]; then
-        echo "[INFO] Found ${this_containerURL} (tag = $this_tag)"
-        containerExists=1
-    elif [[ $(echo "$result" | jq -r '.schemaVersion' || true) == "2" ]]; then
-        arches=$(echo "$result" | jq -r '.manifests[].platform.architecture')
-        if [[ $arches ]]; then
-            echo "[INFO] Found ${this_containerURL} (arches = $arches)"
-        fi
-        containerExists=1
-    else
-        # echo "[INFO] Did not find ${this_containerURL}"
-        containerExists=0
+  # get result=tag if tag found, result="null" if not
+  result="$(curl -sSL "${this_url}"  -H "Accept: application/vnd.docker.distribution.manifest.list.v2+json" 2>&1 || true)"
+
+  if [ -n "${result}" ]; then
+    error=$(echo "${result}" | jq -r '.errors[0].code')
+    if [[ ${error} == "MANIFEST_UNKNOWN" ]]; then
+      containerExists=-1
+      return
     fi
+
+    if [[ $(echo "$result" | jq -r '.schemaVersion' || true) == "1" ]] && [[ $(echo "$result" | jq -r '.tag' || true) == "$this_tag" ]]; then
+      echo "[INFO] Found ${this_containerURL} (tag = $this_tag)"
+      containerExists=1
+      return
+    elif [[ $(echo "$result" | jq -r '.schemaVersion' || true) == "2" ]]; then
+      arches=$(echo "$result" | jq -r '.manifests[].platform.architecture')
+      if [[ $arches ]]; then
+          echo "[INFO] Found ${this_containerURL} (arches = $arches)"
+      fi
+      containerExists=1
+      return
+    fi
+  fi
+
+  containerExists=0
 }
 
 checkRequiredImagesExist()
 {
-  IMAGE_QUAY_PREFIX="quay.io/eclipse"
-  TAG=$(head -n 1 VERSION)
-  while read -r line; do
-    IMAGE_NAME=$(echo "$line" | tr -s ' ' | cut -f 1 -d ' ')
-    # echo "Checking ${IMAGE_QUAY_PREFIX}/${IMAGE_NAME}:${TAG} ..."
-    verifyContainerExistsWithTimeout "${IMAGE_QUAY_PREFIX}/${IMAGE_NAME}:${TAG}" 1 &
-  done < "${SCRIPT_DIR}"/arbitrary-users-patch/base_images
+  readarray -d '' devfiles < <(find devfiles -name 'devfile.yaml' -print0)
+  for devfile in "${devfiles[@]}"; do
+      devfile="${SCRIPT_DIR}/${devfile}"
+      if [ -e "${devfile}" ] ; then
+        local images
+        images=$(grep "image: quay.io/" < "${devfile}")
+        if [ -n "${images}" ]; then
+          images="${images//image: /}"
+          for image in ${images} ; do
+            verifyContainerExistsWithTimeout "${image}" 1 &
+          done
+        fi
+
+      fi
+  done
+
   wait
 }
 
@@ -109,9 +143,29 @@ performRelease()
   VERSION=$(head -n 1 VERSION)
   SHORT_SHA1=$(git rev-parse --short HEAD)
   DOCKERFILE_PATH=./build/dockerfiles/Dockerfile
-  docker buildx build --push --platform "${PLATFORMS}" --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${VERSION}" --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${SHORT_SHA1}" --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:latest" -f ${DOCKERFILE_PATH} --build-arg PATCHED_IMAGES_TAG="${VERSION}" --target registry .
+  docker buildx build \
+    --push \
+    --platform "${PLATFORMS}" \
+    --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${VERSION}" \
+    --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${SHORT_SHA1}" \
+    --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:latest" \
+    -f "${DOCKERFILE_PATH}" \
+    --target registry .
 
   set +xe
+}
+
+fetchAndCheckout ()
+{
+  bBRANCH="$1"
+  git fetch origin "${bBRANCH}:${bBRANCH}"; git checkout "${bBRANCH}"
+}
+
+# unlike in che-plugin-registry, here we just need to update the VERSION file
+updateVersionFile () {
+  thisVERSION="$1"
+  # update VERSION file with VERSION or NEWVERSION
+  echo "${thisVERSION}" > VERSION
 }
 
 if [[ ! ${VERSION} ]]; then
@@ -128,12 +182,6 @@ if [[ ${VERSION} == *".0" ]]; then
 else 
   BASEBRANCH="${BRANCH}"
 fi
-
-fetchAndCheckout ()
-{
-  bBRANCH="$1"
-  git fetch origin "${bBRANCH}:${bBRANCH}"; git checkout "${bBRANCH}"
-}
 
 # work in tmp dir if --use-tmp-dir (not required when running as GH action)
 if [[ $TMP ]] && [[ -d $TMP ]]; then
@@ -184,13 +232,6 @@ commitChangeOrCreatePR()
       hub pull-request -f -m "${lastCommitComment}" -b "${aBRANCH}" -h "${PR_BRANCH}"
     fi
   fi
-}
-
-# unlike in che-plugin-registry, here we just need to update the VERSION file
-updateVersionFile () {
-  thisVERSION="$1"
-  # update VERSION file with VERSION or NEWVERSION
-  echo "${thisVERSION}" > VERSION
 }
 
 # bump VERSION file to VERSION

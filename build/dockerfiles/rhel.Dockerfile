@@ -22,8 +22,6 @@ USER 0
 
 ARG BOOTSTRAP=false
 ENV BOOTSTRAP=${BOOTSTRAP}
-ARG USE_DIGESTS=false
-ENV USE_DIGESTS=${USE_DIGESTS}
 
 # to get all the python deps pre-fetched so we can build in Brew:
 # 1. extract files in the container to your local filesystem
@@ -44,21 +42,12 @@ COPY ./build/dockerfiles/content_set*.repo /etc/yum.repos.d/
 COPY ./build/dockerfiles/rhel.install.sh /tmp
 RUN /tmp/rhel.install.sh && rm -f /tmp/rhel.install.sh
 
-COPY ./build/scripts ./arbitrary-users-patch/base_images /build/
+COPY ./build/scripts /build/
 COPY ./devfiles /build/devfiles
 WORKDIR /build/
 
-# Registry, organization, and tag to use for base images in dockerfiles. Devfiles
-# will be rewritten during build to use these values for base images.
-ARG PATCHED_IMAGES_REG="quay.io"
-ARG PATCHED_IMAGES_ORG="eclipse"
-ARG PATCHED_IMAGES_TAG="next"
-RUN TAG=${PATCHED_IMAGES_TAG} \
-    ORGANIZATION=${PATCHED_IMAGES_ORG} \
-    REGISTRY=${PATCHED_IMAGES_REG} \
-    ./update_devfile_patched_image_tags.sh
 RUN ./check_mandatory_fields.sh devfiles
-RUN if [[ ${USE_DIGESTS} == "true" ]]; then ./write_image_digests.sh devfiles; fi
+
 RUN ./index.sh > /build/devfiles/index.json
 RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
 RUN chmod -R g+rwX /build/devfiles
