@@ -9,6 +9,6 @@
 
 ARG BASE_IMAGE="docker.io/golang:1.17-stretch"
 
-FROM docker.io/golang@sha256:1f6116d1d6c7876de164df30382e0ad81d6f562854a06b6910bdb2561d9fca12
+FROM docker.io/golang@sha256:38d9a2c838f33fff7e1272c28b48f69738598d3f2bd7189afc4ddf2268966d31
 
 #{INCLUDE:../base.dockerfile}
