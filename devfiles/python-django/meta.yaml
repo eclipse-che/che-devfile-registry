@@ -3,3 +3,5 @@ displayName: Python Django
 description: Python Stack with Python 3.8 and Django application
 tags: ["Centos", "Python", "pip"]
 icon: /images/python.svg
+links:
+  v2: https://github.com/che-samples/django-realworld-example-app/tree/devfile2
