@@ -416,6 +416,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/python.svg",
     "links": {
+      "v2": "https://github.com/che-samples/django-realworld-example-app/tree/devfile2",
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python-django/devfile.yaml"
     }
   },
