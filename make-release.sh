@@ -37,13 +37,13 @@ verifyContainerExistsWithTimeout()
   count=1
   (( timeout_intervals=this_timeout*3 ))
   while [[ $count -le $timeout_intervals ]]; do # echo $count
-    echo "       [$count/$timeout_intervals] Verify ${container_to_check} exists..." 
+    echo "[INFO] [$count/$timeout_intervals] Verify ${container_to_check} exists..." 
     # check if the container exists
     verifyContainerExists "${container_to_check}"
 
     # container exists
     if [[ ${containerExists} -eq 1 ]]; then
-      exit 0
+      return
     fi
 
     # -1 indicates, that server didn't found the container and replied with message "UNKNOWN MANIFEST"
@@ -114,14 +114,12 @@ checkRequiredImagesExist()
         if [ -n "${images}" ]; then
           images="${images//image: /}"
           for image in ${images} ; do
-            verifyContainerExistsWithTimeout "${image}" 1 &
+            verifyContainerExistsWithTimeout "${image}" 1
           done
         fi
 
       fi
   done
-
-  wait
 }
 
 performRelease() 
@@ -135,9 +133,11 @@ performRelease()
   # Build and push happy path image, which depends on the above
   ./happy-path/build_happy_path_image.sh --push --rm
   
+  echo "[INFO] Checking images..."
   checkRequiredImagesExist
 
   #Build and push images
+  echo "[INFO] Build Revfile Registry Image..."
   PLATFORMS="$(cat PLATFORMS)"
   IMAGE=che-devfile-registry
   VERSION=$(head -n 1 VERSION)
