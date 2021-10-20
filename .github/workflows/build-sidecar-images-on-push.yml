@@ -52,11 +52,11 @@ jobs:
           if [[ "${{ github.event.inputs.rebuild_all }}" == "true" ]]; then
             EXTRA_ARG="--rebuild-all"
           fi
-          ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles ${EXTRA_ARG}
+          ./build/workflows/build-sidecar-images-on-push.sh --push --rm --update-devfiles --update-happypath ${EXTRA_ARG}
 
-      - name: Bump devfiles to new sidecar tags
+      - name: Bump to new sidecar tags
         run: |
           git config --global user.name "Mykhailo Kuznietsov"
           git config --global user.email "mkuznets@redhat.com"
           export GITHUB_TOKEN=${{ secrets.CHE_BOT_GITHUB_TOKEN }}
-          ./build/workflows/bump-devfiles-to-new-sidecar-tags.sh --pr
+          ./build/workflows/bump-to-new-sidecar-tags.sh --pr

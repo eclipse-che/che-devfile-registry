@@ -28,6 +28,7 @@ BUILD_ALL=false
 PUSH_IMAGES=false
 REMOVE_IMAGES=false
 UPDATE_DEVFILES=false
+UPDATE_HAPPYPATH=false
 
 # colors
 BLUE='\033[1;34m'
@@ -45,6 +46,7 @@ Usage: ./build.sh [OPTIONS]
   --push                            push images after build
   --rm                              remove built images
   --update-devfiles                 bump devfiles to new tags
+  --update-happypath                bump happy path dockerfile to new base image tag
 
 Examples:
 
@@ -60,6 +62,7 @@ while [[ "$#" -gt 0 ]]; do
     '--push') PUSH_IMAGES=true; shift 0;;
     '--rm') REMOVE_IMAGES=true; shift 0;;
     '--update-devfiles') UPDATE_DEVFILES=true; shift 0;;
+    '--update-happypath') UPDATE_HAPPYPATH=true; shift 0;;
   esac
   shift 1
 done
@@ -73,6 +76,7 @@ fi
 # Compute directory
 DOCKERFILES_DIR=$(cd "$(dirname "$0")"; pwd)
 DEVFILES_DIR=$(cd "${DOCKERFILES_DIR}/../devfiles"; pwd)
+HAPPYPATH_DIR=$(cd "${DOCKERFILES_DIR}/../happy-path"; pwd)
 
 BUILT_IMAGES=""
 
@@ -100,6 +104,27 @@ update_devfiles() {
 
     fi
   done
+}
+
+update_happypath() {
+  local image="$1"
+
+  local dockerfile="${HAPPYPATH_DIR}/Dockerfile";
+
+  local changes
+  set +e
+  changes=$(grep "FROM ${image}:" < "${dockerfile}")
+  set -e
+
+  if [ -n "${changes}" ]; then
+    changes="${changes//FROM /}"
+
+    for change in ${changes} ; do
+      local replace_from="FROM ${change}"
+      local replace_to="FROM ${image}:${TAG}"
+      sed -i "s|${replace_from}$|${replace_to}|" "${dockerfile}"
+    done
+  fi
 }
 
 build_image() {
@@ -172,6 +197,10 @@ build_image() {
 
   if ${UPDATE_DEVFILES}; then
     update_devfiles "${BASE_NAME}"
+  fi
+
+  if ${UPDATE_HAPPYPATH}; then
+    update_happypath "${BASE_NAME}"
   fi
 
   BUILT_IMAGES="${BUILT_IMAGES}    ${IMAGE_NAME}\n"

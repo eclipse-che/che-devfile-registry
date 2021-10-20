@@ -15,6 +15,7 @@ set -u
 PUSH=""
 REMOVE=""
 UPDATE_DEVFILES=""
+UPDATE_HAPPYPATH=""
 REBUILD_ALL=false
 
 while [[ "$#" -gt 0 ]]; do
@@ -22,6 +23,7 @@ while [[ "$#" -gt 0 ]]; do
     '--push') PUSH="--push"; shift 0;;
     '--rm') REMOVE="--rm"; shift 0;;
     '--update-devfiles') UPDATE_DEVFILES="--update-devfiles"; shift 0;;
+    '--update-happypath') UPDATE_HAPPYPATH="--update-happypath"; shift 0;;
     '--rebuild-all') REBUILD_ALL=true; shift 0;;
   esac
   shift 1
@@ -62,7 +64,7 @@ set -e
 
 if [ -n "${CHANGES}" ] || ${REBUILD_ALL}; then
   echo -e "\nRebuild ALL images"
-  ./dockerfiles/build.sh --all ${PUSH} ${REMOVE} ${UPDATE_DEVFILES}
+  ./dockerfiles/build.sh --all ${PUSH} ${REMOVE} ${UPDATE_DEVFILES} ${UPDATE_HAPPYPATH}
   exit 0
 fi
 
@@ -82,7 +84,7 @@ if [ -n "${CHANGES}" ]; then
       continue
     fi
 
-    ./dockerfiles/build.sh --image "${name}" ${PUSH} ${REMOVE} ${UPDATE_DEVFILES}
+    ./dockerfiles/build.sh --image "${name}" ${PUSH} ${REMOVE} ${UPDATE_DEVFILES} ${UPDATE_HAPPYPATH}
     BUILT_IMAGES="${BUILT_IMAGES}    ${name}\n"
   done
 
