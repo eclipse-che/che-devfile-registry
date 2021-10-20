@@ -110,7 +110,9 @@ checkRequiredImagesExist()
       devfile="${SCRIPT_DIR}/${devfile}"
       if [ -e "${devfile}" ] ; then
         local images
+        set +e
         images=$(grep "image: quay.io/" < "${devfile}")
+        set -e
         if [ -n "${images}" ]; then
           images="${images//image: /}"
           for image in ${images} ; do
