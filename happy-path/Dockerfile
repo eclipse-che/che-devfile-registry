@@ -1,5 +1,4 @@
-ARG TAG
-FROM quay.io/eclipse/che-java11-maven:${TAG}
+FROM quay.io/eclipse/che-java11-maven:ce0526f
 
 USER root
 
