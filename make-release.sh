@@ -139,7 +139,8 @@ performRelease()
   checkRequiredImagesExist
 
   #Build and push images
-  echo "[INFO] Build Revfile Registry Image..."
+  echo "[INFO] Building Devfile Registry Image..."
+
   PLATFORMS="$(cat PLATFORMS)"
   IMAGE=che-devfile-registry
   VERSION=$(head -n 1 VERSION)

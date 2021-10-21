@@ -12,8 +12,8 @@
 set -e
 set -u
 
-BRANCH_NAME="bump-devfiles"
-COMMIT_MSG="chore(digests): bump devfiles to new sidecar tags"
+BRANCH_NAME="bump-to-new-sidecar-tags"
+COMMIT_MSG="chore(sidecars): bump to new sidecar tags"
 MAIN_BRANCH="main"
 
 PULL_REQUEST=false
@@ -26,11 +26,11 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 if ! ${PULL_REQUEST}; then
-  echo "To create a pull request with changes run './bump-devfiles-to-new-sidecar-tags.sh --pr'"
+  echo "To create a pull request with changes run './bump-to-new-sidecar-tags.sh --pr'"
   exit 1
 fi
 
-echo "> bump devfiles :: git status --------------------------------------"
+echo "> bump to new sidecar tags :: git status ---------------------------"
 git status
 echo "--------------------------------------------------------------------"
 echo
@@ -42,11 +42,11 @@ ROOT_DIR=$(cd "${BASE_DIR}/../.."; pwd)
 cd "${ROOT_DIR}"
 
 set +e
-CHANGES=$(git status | grep "devfiles/")
+CHANGES=$(git status | grep -E "devfiles/|happy-path/Dockerfile")
 set -e
 
 if [ -z "${CHANGES}" ]; then
-  echo "All the devfiles are up to date."
+  echo "Everything is up to date."
   exit 0
 fi
 
@@ -67,10 +67,10 @@ done
 
 git status
 
-# commoit changes
+# commit changes
 git commit -sm "${COMMIT_MSG}"
 
-echo "> pushing devfiles to ${BRANCH}"
+echo "> pushing updates to ${BRANCH}"
 git push origin "${BRANCH}"
 
 # create pull request
