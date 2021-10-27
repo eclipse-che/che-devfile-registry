@@ -1,0 +1,102 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: quarkus-
+projects:
+  - name: quarkus-quickstarts
+    source:
+      type: git
+      location: https://github.com/che-samples/quarkus-quickstarts
+      sparseCheckoutDir: getting-started
+      branch: main
+components:
+  - type: chePlugin
+    id: redhat/quarkus-java11/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.38.1/v3/
+  - type: dockerimage
+    alias: centos-quarkus-maven
+    image: quay.io/eclipse/che-quarkus:ce0526f
+    env:
+      - name: JAVA_OPTS
+        value: -XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom -Duser.home=/home/user
+      - name: MAVEN_OPTS
+        value: $(JAVA_OPTS)
+      - name: QUARKUS_HTTP_HOST
+        value: 0.0.0.0
+    memoryLimit: 4G
+    mountSources: true
+    volumes:
+      - name: m2
+        containerPath: /home/user/.m2
+    endpoints:
+      - name: hello-greeting-endpoint
+        port: 8080
+        attributes:
+          path: /hello/greeting/che-user
+      - name: debug
+        port: 5005
+        attributes:
+          public: "false"
+  - type: dockerimage
+    alias: ubi-minimal
+    image: registry.access.redhat.com/ubi8/ubi-minimal
+    memoryLimit: 32M
+    mountSources: true
+    endpoints:
+      - name: hello-greeting-endpoint
+        port: 8080
+        attributes:
+          path: /hello/greeting/che-user
+    command:
+      - tail
+    args:
+      - -f
+      - /dev/null
+  - id: redhat/vscode-didact/latest
+    preferences:
+      didact.defaultUrl: 'https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/quarkus/didact.md'
+      che.welcome.enable: false
+      didact.openDefaultTutorialAtStartup: true
+    type: chePlugin
+    alias: didact-plugin
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.38.1/v3/
+commands:
+  - name: Package
+    actions:
+      - type: exec
+        component: centos-quarkus-maven
+        command: ./mvnw package
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
+  - name: Start Development mode (Hot reload + debug)
+    actions:
+      - type: exec
+        component: centos-quarkus-maven
+        command: ./mvnw compile quarkus:dev
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
+  - name: Package Native
+    actions:
+      - type: exec
+        component: centos-quarkus-maven
+        command: ./mvnw package -Dnative -Dmaven.test.skip -Dquarkus.native.native-image-xmx=2G
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started
+  - name: Start Native
+    actions:
+      - type: exec
+        component: ubi-minimal
+        command: ./getting-started-1.0.0-SNAPSHOT-runner
+        workdir: ${CHE_PROJECTS_ROOT}/quarkus-quickstarts/getting-started/target
+  - name: Attach remote debugger
+    actions:
+      - type: vscode-launch
+        referenceContent: |
+          {
+            "version": "0.2.0",
+            "configurations": [
+              {
+                "type": "java",
+                "request": "attach",
+                "name": "Attach to Remote Quarkus App",
+                "hostName": "localhost",
+                "port": 5005
+              }
+            ]
+          }

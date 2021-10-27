@@ -1,0 +1,437 @@
+[
+  {
+    "displayName": "Rust",
+    "description": "Rust Stack with Rust 1.39",
+    "tags": [
+      "Rust"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/rust.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/rust/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Apache Camel based on Spring Boot",
+    "description": "Stack with environment ready to develop Integration projects with Apache Camel based on Spring Boot.",
+    "tags": [
+      "Java",
+      "OpenJDK",
+      "Maven",
+      "Debian",
+      "Apache Camel",
+      "Red Hat Fuse",
+      "Spring Boot"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/camelk.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/apache-camel-springboot/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "PHP with MySQL",
+    "description": "PHP Stack with MySQL and simple database application",
+    "tags": [
+      "PHP",
+      "Apache",
+      "MySQL",
+      "Debian",
+      "Centos"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/php.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/php-mysql/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Java Vert.x",
+    "description": "Java stack with OpenJDK 8 and Vert.x demo application",
+    "tags": [
+      "Java",
+      "OpenJDK",
+      "Maven",
+      "Vertx"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/vertx.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/java-web-vertx/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "NodeJS Express Web Application",
+    "description": "Stack with NodeJS 10",
+    "tags": [
+      "NodeJS",
+      "Express",
+      "ubi8"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/nodejs.svg",
+    "links": {
+      "v2": "https://github.com/che-samples/web-nodejs-sample/tree/devfilev2",
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/nodejs/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "NodeJS Web Application based on Yarn",
+    "description": "Stack for developing NodeJS Web Application based on Yarn",
+    "tags": [
+      "NodeJS",
+      "Alpine",
+      "Yarn",
+      "React"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/nodejs.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/nodejs-yarn/devfile.yaml"
+    }
+  },
+  {
+    "displayName": ".NET Core",
+    "description": "Stack with .Net 3.1",
+    "tags": [
+      "Debian",
+      "Dotnet",
+      "C#"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/dotnetcore.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/dotnet/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Java Lombok",
+    "description": "Java Stack with Lombok 1.18.18, OpenJDK 11 and Maven 3.6.0",
+    "tags": [
+      "Java",
+      "OpenJDK",
+      "Maven",
+      "Debian",
+      "Lombok"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/lombok.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/java-lombok/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "PHP Laravel with MySQL",
+    "description": "PHP Stack with Laravel and MySQL real world application",
+    "tags": [
+      "PHP",
+      "Apache",
+      "MySQL",
+      "Centos",
+      "Debian"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/php.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/php-laravel/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Bash",
+    "description": "Stack with environment ready to develop bash scripts.",
+    "tags": [
+      "Bash",
+      "Shell"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/che.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/bash/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Mainframe Basic Stack",
+    "description": "Che4z Mainframe Basic Stack is an all-in-one extension pack for developers working with z/OS applications, suitable for all levels of mainframe experience, even beginners.",
+    "tags": [
+      "Che4z",
+      "Zowe",
+      "mainframe",
+      "Endevor",
+      "explorer",
+      "dataset",
+      "COBOL",
+      "JCL",
+      "zOS",
+      "USS",
+      "HLASM",
+      "InterTest",
+      "debug"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/che4z.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/che4z/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "NodeJS Angular Web Application",
+    "description": "Stack for developing NodeJS Angular Web Application",
+    "tags": [
+      "NodeJS",
+      "Angular",
+      "Alpine"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/angular.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/nodejs-angular/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "NodeJS MongoDB Web Application",
+    "description": "Stack with NodeJS 10 and MongoDB 3.4",
+    "tags": [
+      "NodeJS",
+      "Express",
+      "MongoDB",
+      "RealWorld",
+      "ubi8",
+      "Centos"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/nodejs.svg",
+    "links": {
+      "v2": "https://github.com/che-samples/nodejs-mongodb-sample/tree/devfilev2",
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/nodejs-mongo/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "NodeJS React Web Application",
+    "description": "Stack for developing NodeJS React Web Application",
+    "tags": [
+      "NodeJS",
+      "React",
+      "Redux",
+      "RealWorld"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/nodejs.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/nodejs-react/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "PHP Symfony",
+    "description": "PHP Stack with Symfony Demo Application https://symfony.com/",
+    "tags": [
+      "PHP",
+      "Apache",
+      "MySQL",
+      "Symfony",
+      "Debian",
+      "Centos"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/php.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/php-symfony/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Go",
+    "description": "Stack with Go 1.14",
+    "tags": [
+      "Debian",
+      "Go"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/go.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/go/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Quarkus CLI",
+    "description": "Quarkus stack with a command-mode sample",
+    "tags": [
+      "Java",
+      "Quarkus",
+      "OpenJDK",
+      "Maven",
+      "Debian"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/quarkus.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/quarkus-command-mode/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Java with Spring Boot and MongoDB",
+    "description": "Java stack with OpenJDK 8, MongoDB and Spring Boot Guestbook demo application",
+    "tags": [
+      "Java",
+      "OpenJDK",
+      "Maven",
+      "Spring Boot",
+      "MongoDB"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/java.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/java-mongo/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Java Gradle",
+    "description": "Java Stack with OpenJDK 11 and Gradle 6.2.1",
+    "tags": [
+      "Java",
+      "OpenJDK",
+      "Gradle",
+      "Ubuntu"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/java.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/java-gradle/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "C/C++",
+    "description": "Stack with C/C++ and Clang 8",
+    "tags": [
+      "C/C++",
+      "clang",
+      "g++",
+      "gdb"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/cpp.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/cpp/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Java with Spring Boot and MySQL",
+    "description": "Java stack with OpenJDK 8, MySQL and Spring Boot Petclinic demo application",
+    "tags": [
+      "Java",
+      "OpenJDK",
+      "Maven",
+      "Spring Boot",
+      "MySQL"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/springboot.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/java-mysql/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Java Maven",
+    "description": "Java Stack with OpenJDK 11 and Maven 3.6.0",
+    "tags": [
+      "Java",
+      "OpenJDK",
+      "Maven",
+      "Debian"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/java.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/java-maven/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Quarkus REST API",
+    "description": "Quarkus stack with a default REST endpoint application sample",
+    "tags": [
+      "Java",
+      "Quarkus",
+      "OpenJDK",
+      "Maven",
+      "Debian"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/quarkus.svg",
+    "links": {
+      "v2": "https://github.com/che-samples/quarkus-quickstarts/tree/devfilev2",
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/quarkus/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Python",
+    "description": "Python Stack with Python 3.8",
+    "tags": [
+      "Centos",
+      "Python",
+      "pip"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/python.svg",
+    "links": {
+      "v2": "https://github.com/che-samples/python-hello-world/tree/devfilev2",
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/python/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "PHP Simple",
+    "description": "PHP Stack with PHP 7.1 and simple web application",
+    "tags": [
+      "PHP",
+      "Apache",
+      "Debian"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/php.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/php-web-simple/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "ASP.NET Core Web Application",
+    "description": "Stack for developing ASP.NET Core Web Application",
+    "tags": [
+      "Debian",
+      "Dotnet",
+      "C#",
+      "ASP.NET"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/dotnetcore.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/dotnet-asp.net/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Apache Camel K",
+    "description": "Stack with tooling ready to develop Integration projects with Apache Camel K",
+    "tags": [
+      "Apache Camel K",
+      "Red Hat Fuse",
+      "Integration"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/camelk.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/apache-camel-k/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Java Spring Boot",
+    "description": "Java stack with OpenJDK 11 and Spring Boot Petclinic demo application",
+    "tags": [
+      "Java",
+      "OpenJDK",
+      "Maven",
+      "Spring Boot"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/springboot.svg",
+    "links": {
+      "v2": "https://github.com/che-samples/java-spring-petclinic/tree/devfilev2",
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/java-web-spring/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Python Django",
+    "description": "Python Stack with Python 3.8 and Django application",
+    "tags": [
+      "Centos",
+      "Python",
+      "pip"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/python.svg",
+    "links": {
+      "v2": "https://github.com/che-samples/django-realworld-example-app/tree/devfile2",
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/python-django/devfile.yaml"
+    }
+  },
+  {
+    "displayName": "Scala",
+    "description": "Scala Stack with OpenJDK 11 and sbt 1.x",
+    "tags": [
+      "Scala",
+      "OpenJDK",
+      "sbt",
+      "Debian"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/images/scala.svg",
+    "links": {
+      "self": "https://eclipse-che.github.io/che-devfile-registry/7.38.1/devfiles/scala-sbt/devfile.yaml"
+    }
+  }
+]
