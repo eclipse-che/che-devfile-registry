@@ -1,0 +1,73 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: php-web-simple-
+projects:
+  - name: php-web-simple
+    source:
+      type: git
+      location: https://github.com/che-samples/web-php-simple
+components:
+  - type: chePlugin
+    id: bmewburn/vscode-intelephense-client/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.38.2/v3/
+  - type: chePlugin
+    id: felixfbecker/php-debug/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.38.2/v3/
+  - type: dockerimage
+    alias: php
+    image: quay.io/eclipse/che-php-7:ce0526f
+    memoryLimit: 512Mi
+    mountSources: true
+    endpoints:
+      - name: 8080-tcp
+        port: 8080
+    volumes:
+      - name: composer
+        containerPath: /home/user/.composer
+      - name: symfony
+        containerPath: /home/user/.symfony
+commands:
+  - name: Start Apache Web Server
+    actions:
+      - type: exec
+        component: php
+        command: service apache2 start
+  - name: Stop Apache Web Server
+    actions:
+      - type: exec
+        component: php
+        command: service apache2 stop
+  - name: Restart Apache Web Server
+    actions:
+      - type: exec
+        component: php
+        command: service apache2 restart
+  - name: Configure Apache Web Server DocumentRoot
+    actions:
+      - type: exec
+        component: php
+        command: |
+          if grep -q '/projects$' /etc/apache2/sites-available/000-default.conf; then
+            sed -i 's|DocumentRoot /projects|DocumentRoot /projects/php-web-simple|' /etc/apache2/sites-available/000-default.conf
+          else
+            echo "DocumentRoot already configured!"
+          fi
+  - name: Debug current file
+    actions:
+      - type: vscode-launch
+        referenceContent: |
+          {
+            "version": "0.2.0",
+            "configurations": [
+              {
+                "name": "Launch currently open script",
+                "type": "php",
+                "request": "launch",
+                "program": "${file}",
+                "stopOnEntry": true,
+                "cwd": "${fileDirname}",
+                "port": 9000,
+                "runtimeExecutable": "php"
+              }
+            ]
+          }
