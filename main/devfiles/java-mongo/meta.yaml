@@ -10,6 +10,7 @@
   ],
   "icon": "/images/java.svg",
   "links": {
+    "v2": "https://github.com/che-samples/java-guestbook/tree/devfilev2",
     "self": "/devfiles/java-mongo/devfile.yaml"
   }
 }
