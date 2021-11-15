@@ -3,3 +3,5 @@ displayName: NodeJS Web Application based on Yarn
 description: Stack for developing NodeJS Web Application based on Yarn 
 tags: ["NodeJS", "Alpine", "Yarn", "React"]
 icon: /images/nodejs.svg
+links:
+  v2: https://github.com/che-samples/react-web-app/tree/devfilev2
