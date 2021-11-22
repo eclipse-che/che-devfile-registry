@@ -11,11 +11,11 @@
 mkdir /build/out/
 for dir in /build/devfiles/*/
 do
-  devfile=$(cat ${dir}meta.yaml | yq -r '."links"."v2"')
-  if [ $devfile != null ]; then
+  devfile=$(cat ${dir}meta.yaml | grep "v2:")
+  if [ -n "$devfile" ]; then
     dir=${dir%/}
     dir=/build/out/${dir##*/}
     mkdir ${dir}
-    npx @eclipse-che/che-theia-devworkspace-handler --devfile-url:$devfile --output-file:${dir}/meta.yaml
+    npx @eclipse-che/che-theia-devworkspace-handler --devfile-url:${devfile##*v2: } --output-file:${dir}/meta.yaml
   fi
 done
