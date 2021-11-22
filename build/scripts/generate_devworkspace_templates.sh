@@ -16,6 +16,6 @@ do
     dir=${dir%/}
     dir=/build/out/${dir##*/}
     mkdir ${dir}
-    npx @eclipse-che/che-theia-devworkspace-handler --devfile-url:${devfile##*v2: } --output-file:${dir}/meta.yaml
+    npx @eclipse-che/che-theia-devworkspace-handler --devfile-url:${devfile##*v2: } --output-file:${dir}/devWorkspace.yaml
   fi
 done
