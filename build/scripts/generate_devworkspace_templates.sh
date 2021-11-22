@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright (c) 2019-2021 Red Hat, Inc.
 # This program and the accompanying materials are made
@@ -8,6 +8,7 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
+npm install -g @eclipse-che/che-theia-devworkspace-handler@0.0.1-1637592995
 mkdir /build/out/
 for dir in /build/devfiles/*/
 do
