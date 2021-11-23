@@ -3,3 +3,5 @@ displayName: NodeJS React Web Application
 description: Stack for developing NodeJS React Web Application
 tags: ["NodeJS", "React", "Redux", "RealWorld"]
 icon: /images/nodejs.svg
+links:
+  v2: https://github.com/che-samples/nodejs-react-redux/tree/devfilev2
