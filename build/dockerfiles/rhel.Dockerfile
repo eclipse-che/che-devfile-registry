@@ -53,7 +53,7 @@ RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
 RUN chmod -R g+rwX /build/devfiles
 
 
-FROM registry.access.redhat.com/ubi8/nodejs-14-minimal:1-31 as dwtemplates
+FROM registry.access.redhat.com/ubi8/nodejs-16-minimal:1-6 as dwtemplates
 USER 0
 
 COPY ./build/scripts /build/
