@@ -19,7 +19,7 @@ RUN ./index.sh > /build/devfiles/index.json
 RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
 RUN chmod -R g+rwX /build/devfiles
 
-FROM docker.io/node:lts-alpine3.14 as dwtemplates
+FROM docker.io/node:16.13.0-alpine3.14 as dwtemplates
 COPY ./build/scripts /build/
 COPY ./devfiles /build/devfiles
 WORKDIR /build/
