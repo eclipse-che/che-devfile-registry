@@ -38,6 +38,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/angular.svg",
     "links": {
+      "v2": "https://github.com/che-samples/nodejs-angular/tree/devfilev2",
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devfile.yaml"
     }
   },
@@ -136,6 +137,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/cpp.svg",
     "links": {
+      "v2": "https://github.com/che-samples/cpp-hello-world/tree/devfilev2",
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/cpp/devfile.yaml"
     }
   },
@@ -164,6 +166,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
+      "v2": "https://github.com/che-samples/nodejs-react-redux/tree/devfilev2",
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-react/devfile.yaml"
     }
   },

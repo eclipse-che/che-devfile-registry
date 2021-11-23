@@ -9,6 +9,7 @@
   ],
   "icon": "/images/cpp.svg",
   "links": {
+    "v2": "https://github.com/che-samples/cpp-hello-world/tree/devfilev2",
     "self": "/devfiles/cpp/devfile.yaml"
   }
 }

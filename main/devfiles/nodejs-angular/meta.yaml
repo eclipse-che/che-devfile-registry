@@ -8,6 +8,7 @@
   ],
   "icon": "/images/angular.svg",
   "links": {
+    "v2": "https://github.com/che-samples/nodejs-angular/tree/devfilev2",
     "self": "/devfiles/nodejs-angular/devfile.yaml"
   }
 }
