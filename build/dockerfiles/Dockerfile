@@ -19,6 +19,12 @@ RUN ./index.sh > /build/devfiles/index.json
 RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
 RUN chmod -R g+rwX /build/devfiles
 
+FROM docker.io/node:16.13.0-alpine3.14 as dwtemplates
+COPY ./build/scripts /build/
+COPY ./devfiles /build/devfiles
+WORKDIR /build/
+RUN ./generate_devworkspace_templates.sh
+
 FROM docker.io/httpd:2.4.43-alpine AS registry
 RUN apk add --no-cache bash && \
     # Allow htaccess
@@ -31,6 +37,7 @@ RUN apk add --no-cache bash && \
     apk add --no-cache coreutils
 COPY .htaccess README.md /usr/local/apache2/htdocs/
 COPY --from=builder /build/devfiles /usr/local/apache2/htdocs/devfiles
+COPY --from=dwtemplates /build/out /usr/local/apache2/htdocs/devfiles
 COPY ./images /usr/local/apache2/htdocs/images
 COPY ./build/dockerfiles/entrypoint.sh /usr/bin/
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
