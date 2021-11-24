@@ -10,6 +10,10 @@
   "icon": "/images/cpp.svg",
   "links": {
     "v2": "https://github.com/che-samples/cpp-hello-world/tree/devfilev2",
-    "self": "/devfiles/cpp/devfile.yaml"
+    "self": "/devfiles/cpp/devfile.yaml",
+    "devWorkspaces": {
+      "eclipse/che-theia/latest": "/devfiles/cpp/devworkspace-che-theia-latest.yaml",
+      "eclipse/che-theia/next": "/devfiles/cpp/devworkspace-che-theia-next.yaml"
+    }
   }
 }

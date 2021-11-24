@@ -10,6 +10,10 @@
   "icon": "/images/scala.svg",
   "links": {
     "v2": "https://github.com/che-samples/scala-sbt/tree/devfilev2",
-    "self": "/devfiles/scala-sbt/devfile.yaml"
+    "self": "/devfiles/scala-sbt/devfile.yaml",
+    "devWorkspaces": {
+      "eclipse/che-theia/latest": "/devfiles/scala-sbt/devworkspace-che-theia-latest.yaml",
+      "eclipse/che-theia/next": "/devfiles/scala-sbt/devworkspace-che-theia-next.yaml"
+    }
   }
 }

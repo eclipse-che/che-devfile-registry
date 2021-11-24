@@ -11,6 +11,10 @@
   "icon": "/images/quarkus.svg",
   "links": {
     "v2": "https://github.com/che-samples/quarkus-quickstarts/tree/devfilev2",
-    "self": "/devfiles/quarkus/devfile.yaml"
+    "self": "/devfiles/quarkus/devfile.yaml",
+    "devWorkspaces": {
+      "eclipse/che-theia/latest": "/devfiles/quarkus/devworkspace-che-theia-latest.yaml",
+      "eclipse/che-theia/next": "/devfiles/quarkus/devworkspace-che-theia-next.yaml"
+    }
   }
 }

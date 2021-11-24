@@ -10,6 +10,10 @@
   "icon": "/images/springboot.svg",
   "links": {
     "v2": "https://github.com/che-samples/java-spring-petclinic/tree/devfilev2",
-    "self": "/devfiles/java-web-spring/devfile.yaml"
+    "self": "/devfiles/java-web-spring/devfile.yaml",
+    "devWorkspaces": {
+      "eclipse/che-theia/latest": "/devfiles/java-web-spring/devworkspace-che-theia-latest.yaml",
+      "eclipse/che-theia/next": "/devfiles/java-web-spring/devworkspace-che-theia-next.yaml"
+    }
   }
 }

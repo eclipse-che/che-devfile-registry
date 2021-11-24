@@ -8,6 +8,10 @@
   "icon": "/images/go.svg",
   "links": {
     "v2": "https://github.com/che-samples/golang-echo-example/tree/devfile2",
-    "self": "/devfiles/go/devfile.yaml"
+    "self": "/devfiles/go/devfile.yaml",
+    "devWorkspaces": {
+      "eclipse/che-theia/latest": "/devfiles/go/devworkspace-che-theia-latest.yaml",
+      "eclipse/che-theia/next": "/devfiles/go/devworkspace-che-theia-next.yaml"
+    }
   }
 }

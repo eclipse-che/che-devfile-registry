@@ -10,7 +10,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/python.svg",
     "links": {
       "v2": "https://github.com/che-samples/python-hello-world/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/python/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/python/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
@@ -25,7 +29,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
       "v2": "https://github.com/che-samples/react-web-app/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-yarn/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-yarn/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/nodejs-yarn/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/nodejs-yarn/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
@@ -39,7 +47,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/angular.svg",
     "links": {
       "v2": "https://github.com/che-samples/nodejs-angular/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/nodejs-angular/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/nodejs-angular/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
@@ -56,7 +68,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
       "v2": "https://github.com/che-samples/nodejs-mongodb-sample/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/nodejs-mongo/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/nodejs-mongo/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
@@ -70,7 +86,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/python.svg",
     "links": {
       "v2": "https://github.com/che-samples/django-realworld-example-app/tree/devfile2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python-django/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python-django/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/python-django/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/python-django/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
@@ -138,7 +158,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/cpp.svg",
     "links": {
       "v2": "https://github.com/che-samples/cpp-hello-world/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/cpp/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/cpp/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/cpp/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/cpp/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
@@ -167,7 +191,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
       "v2": "https://github.com/che-samples/nodejs-react-redux/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-react/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-react/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/nodejs-react/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/nodejs-react/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
@@ -204,7 +232,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
       "v2": "https://github.com/che-samples/web-nodejs-sample/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/nodejs/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/nodejs/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
@@ -234,7 +266,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/quarkus.svg",
     "links": {
       "v2": "https://github.com/che-samples/quarkus-quickstarts/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/quarkus/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/quarkus/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
@@ -277,7 +313,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/java.svg",
     "links": {
       "v2": "https://github.com/che-samples/java-guestbook/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mongo/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mongo/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/java-mongo/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/java-mongo/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
@@ -292,7 +332,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/scala.svg",
     "links": {
       "v2": "https://github.com/che-samples/scala-sbt/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/scala-sbt/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/scala-sbt/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/scala-sbt/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/scala-sbt/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
@@ -367,7 +411,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/springboot.svg",
     "links": {
       "v2": "https://github.com/che-samples/java-spring-petclinic/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-web-spring/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-web-spring/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/java-web-spring/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/java-web-spring/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
@@ -424,7 +472,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/go.svg",
     "links": {
       "v2": "https://github.com/che-samples/golang-echo-example/tree/devfile2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/go/devfile.yaml"
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/go/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/go/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/go/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
