@@ -9,6 +9,7 @@
   ],
   "icon": "/images/scala.svg",
   "links": {
+    "v2": "https://github.com/che-samples/scala-sbt/tree/devfilev2",
     "self": "/devfiles/scala-sbt/devfile.yaml"
   }
 }

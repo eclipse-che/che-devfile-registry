@@ -291,6 +291,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/scala.svg",
     "links": {
+      "v2": "https://github.com/che-samples/scala-sbt/tree/devfilev2",
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/scala-sbt/devfile.yaml"
     }
   },
