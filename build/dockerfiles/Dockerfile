@@ -37,7 +37,7 @@ RUN apk add --no-cache bash && \
     apk add --no-cache coreutils
 COPY .htaccess README.md /usr/local/apache2/htdocs/
 COPY --from=builder /build/devfiles /usr/local/apache2/htdocs/devfiles
-COPY --from=dwtemplates /build/out /usr/local/apache2/htdocs/devfiles/v2/che-theia/
+COPY --from=dwtemplates /build/out /usr/local/apache2/htdocs/devfiles
 COPY ./images /usr/local/apache2/htdocs/images
 COPY ./build/dockerfiles/entrypoint.sh /usr/bin/
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
