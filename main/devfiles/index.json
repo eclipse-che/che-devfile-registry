@@ -302,7 +302,12 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/php.svg",
     "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-symfony/devfile.yaml"
+      "v2": "https://github.com/che-samples/php-symfony/tree/devfilev2",
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-symfony/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/php-symfony/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/php-symfony/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {

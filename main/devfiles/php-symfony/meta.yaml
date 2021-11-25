@@ -11,6 +11,11 @@
   ],
   "icon": "/images/php.svg",
   "links": {
-    "self": "/devfiles/php-symfony/devfile.yaml"
+    "v2": "https://github.com/che-samples/php-symfony/tree/devfilev2",
+    "self": "/devfiles/php-symfony/devfile.yaml",
+    "devWorkspaces": {
+      "eclipse/che-theia/latest": "/devfiles/php-symfony/devworkspace-che-theia-latest.yaml",
+      "eclipse/che-theia/next": "/devfiles/php-symfony/devworkspace-che-theia-next.yaml"
+    }
   }
 }
