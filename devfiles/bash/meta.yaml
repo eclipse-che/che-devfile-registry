@@ -3,3 +3,5 @@ displayName: Bash
 description: Stack with environment ready to develop bash scripts.
 tags: ["Bash", "Shell"]
 icon: /images/che.svg
+links:
+  v2: https://github.com/che-samples/bash/tree/devfilev2
