@@ -117,7 +117,12 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/che.svg",
     "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/bash/devfile.yaml"
+      "v2": "https://github.com/che-samples/bash/tree/devfilev2",
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/bash/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "/devfiles/bash/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "/devfiles/bash/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
