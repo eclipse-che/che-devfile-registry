@@ -139,9 +139,11 @@ if [ -n "$PUBLIC_URL" ]; then
   PUBLIC_URL=${PUBLIC_URL%/}
   sed -i "s|{{ DEVFILE_REGISTRY_URL }}|${PUBLIC_URL}|" "${devfiles[@]}" "${metas[@]}" "$INDEX_JSON"
 
-  # Add PUBLIC_URL at the begining of 'icon' and 'self' fields
+  # Add PUBLIC_URL at the begining of 'icon' field and links ('self', 'eclipse/che-theia/latest' and 'eclipse/che-theia/next')
   sed -i "s|\"icon\": \"/images/|\"icon\": \"${PUBLIC_URL}/images/|" "$INDEX_JSON"
   sed -i "s|\"self\": \"/devfiles/|\"self\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
+  sed -i "s|\"eclipse/che-theia/latest\": \"/devfiles/|\"eclipse/che-theia/latest\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
+  sed -i "s|\"eclipse/che-theia/next\": \"/devfiles/|\"eclipse/che-theia/next\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
 else
   if grep -q '{{ DEVFILE_REGISTRY_URL }}' "${devfiles[@]}"; then
     echo "WARNING: environment variable 'CHE_DEVFILE_REGISTRY_URL' not configured" \
