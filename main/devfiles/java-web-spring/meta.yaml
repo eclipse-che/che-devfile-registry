@@ -2,6 +2,7 @@
   "displayName": "Java Spring Boot",
   "description": "Java stack with OpenJDK 11 and Spring Boot Petclinic demo application",
   "tags": [
+    "community",
     "Java",
     "OpenJDK",
     "Maven",

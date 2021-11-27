@@ -2,6 +2,7 @@
   "displayName": "PHP with MySQL",
   "description": "PHP Stack with MySQL and simple database application",
   "tags": [
+    "community",
     "PHP",
     "Apache",
     "MySQL",

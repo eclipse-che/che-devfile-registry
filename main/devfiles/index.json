@@ -3,6 +3,7 @@
     "displayName": "Python",
     "description": "Python Stack with Python 3.8",
     "tags": [
+      "community",
       "Centos",
       "Python",
       "pip"
@@ -21,6 +22,7 @@
     "displayName": "NodeJS Web Application based on Yarn",
     "description": "Stack for developing NodeJS Web Application based on Yarn",
     "tags": [
+      "community",
       "NodeJS",
       "Alpine",
       "Yarn",
@@ -40,6 +42,7 @@
     "displayName": "NodeJS Angular Web Application",
     "description": "Stack for developing NodeJS Angular Web Application",
     "tags": [
+      "community",
       "NodeJS",
       "Angular",
       "Alpine"
@@ -58,6 +61,7 @@
     "displayName": "NodeJS MongoDB Web Application",
     "description": "Stack with NodeJS 10 and MongoDB 3.4",
     "tags": [
+      "community",
       "NodeJS",
       "Express",
       "MongoDB",
@@ -79,6 +83,7 @@
     "displayName": "Python Django",
     "description": "Python Stack with Python 3.8 and Django application",
     "tags": [
+      "community",
       "Centos",
       "Python",
       "pip"
@@ -97,6 +102,7 @@
     "displayName": "PHP with MySQL",
     "description": "PHP Stack with MySQL and simple database application",
     "tags": [
+      "community",
       "PHP",
       "Apache",
       "MySQL",
@@ -112,6 +118,7 @@
     "displayName": "Bash",
     "description": "Stack with environment ready to develop bash scripts.",
     "tags": [
+      "community",
       "Bash",
       "Shell"
     ],
@@ -129,6 +136,7 @@
     "displayName": "Apache Camel K",
     "description": "Stack with tooling ready to develop Integration projects with Apache Camel K",
     "tags": [
+      "community",
       "Apache Camel K",
       "Red Hat Fuse",
       "Integration"
@@ -142,6 +150,7 @@
     "displayName": "PHP Simple",
     "description": "PHP Stack with PHP 7.1 and simple web application",
     "tags": [
+      "community",
       "PHP",
       "Apache",
       "Debian"
@@ -155,6 +164,7 @@
     "displayName": "C/C++",
     "description": "Stack with C/C++ and Clang 8",
     "tags": [
+      "community",
       "C/C++",
       "clang",
       "g++",
@@ -174,6 +184,7 @@
     "displayName": "ASP.NET Core Web Application",
     "description": "Stack for developing ASP.NET Core Web Application",
     "tags": [
+      "community",
       "Debian",
       "Dotnet",
       "C#",
@@ -188,6 +199,7 @@
     "displayName": "NodeJS React Web Application",
     "description": "Stack for developing NodeJS React Web Application",
     "tags": [
+      "community",
       "NodeJS",
       "React",
       "Redux",
@@ -207,6 +219,7 @@
     "displayName": "Mainframe Basic Stack",
     "description": "Che4z Mainframe Basic Stack is an all-in-one extension pack for developers working with z/OS applications, suitable for all levels of mainframe experience, even beginners.",
     "tags": [
+      "community",
       "Che4z",
       "Zowe",
       "mainframe",
@@ -230,6 +243,7 @@
     "displayName": "NodeJS Express Web Application",
     "description": "Stack with NodeJS 10",
     "tags": [
+      "community",
       "NodeJS",
       "Express",
       "ubi8"
@@ -248,6 +262,7 @@
     "displayName": "Java Maven",
     "description": "Java Stack with OpenJDK 11 and Maven 3.6.0",
     "tags": [
+      "community",
       "Java",
       "OpenJDK",
       "Maven",
@@ -262,6 +277,7 @@
     "displayName": "Quarkus REST API",
     "description": "Quarkus stack with a default REST endpoint application sample",
     "tags": [
+      "community",
       "Java",
       "Quarkus",
       "OpenJDK",
@@ -282,6 +298,7 @@
     "displayName": "Rust",
     "description": "Rust Stack with Rust 1.39",
     "tags": [
+      "community",
       "Rust"
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/rust.svg",
@@ -293,6 +310,7 @@
     "displayName": "PHP Symfony",
     "description": "PHP Stack with Symfony Demo Application https://symfony.com/",
     "tags": [
+      "community",
       "PHP",
       "Apache",
       "MySQL",
@@ -314,6 +332,7 @@
     "displayName": "Java with Spring Boot and MongoDB",
     "description": "Java stack with OpenJDK 8, MongoDB and Spring Boot Guestbook demo application",
     "tags": [
+      "community",
       "Java",
       "OpenJDK",
       "Maven",
@@ -334,6 +353,7 @@
     "displayName": "Scala",
     "description": "Scala Stack with OpenJDK 11 and sbt 1.x",
     "tags": [
+      "community",
       "Scala",
       "OpenJDK",
       "sbt",
@@ -353,6 +373,7 @@
     "displayName": ".NET Core",
     "description": "Stack with .Net 3.1",
     "tags": [
+      "community",
       "Debian",
       "Dotnet",
       "C#"
@@ -366,6 +387,7 @@
     "displayName": "Java with Spring Boot and MySQL",
     "description": "Java stack with OpenJDK 8, MySQL and Spring Boot Petclinic demo application",
     "tags": [
+      "community",
       "Java",
       "OpenJDK",
       "Maven",
@@ -381,6 +403,7 @@
     "displayName": "Apache Camel based on Spring Boot",
     "description": "Stack with environment ready to develop Integration projects with Apache Camel based on Spring Boot.",
     "tags": [
+      "community",
       "Java",
       "OpenJDK",
       "Maven",
@@ -398,6 +421,7 @@
     "displayName": "Quarkus CLI",
     "description": "Quarkus stack with a command-mode sample",
     "tags": [
+      "community",
       "Java",
       "Quarkus",
       "OpenJDK",
@@ -413,6 +437,7 @@
     "displayName": "Java Spring Boot",
     "description": "Java stack with OpenJDK 11 and Spring Boot Petclinic demo application",
     "tags": [
+      "community",
       "Java",
       "OpenJDK",
       "Maven",
@@ -432,6 +457,7 @@
     "displayName": "Java Gradle",
     "description": "Java Stack with OpenJDK 11 and Gradle 6.2.1",
     "tags": [
+      "community",
       "Java",
       "OpenJDK",
       "Gradle",
@@ -446,6 +472,7 @@
     "displayName": "PHP Laravel with MySQL",
     "description": "PHP Stack with Laravel and MySQL real world application",
     "tags": [
+      "community",
       "PHP",
       "Apache",
       "MySQL",
@@ -461,6 +488,7 @@
     "displayName": "Java Lombok",
     "description": "Java Stack with Lombok 1.18.18, OpenJDK 11 and Maven 3.6.0",
     "tags": [
+      "community",
       "Java",
       "OpenJDK",
       "Maven",
@@ -476,6 +504,7 @@
     "displayName": "Go",
     "description": "Stack with Go 1.14",
     "tags": [
+      "community",
       "Debian",
       "Go"
     ],
@@ -493,6 +522,7 @@
     "displayName": "Java Vert.x",
     "description": "Java stack with OpenJDK 8 and Vert.x demo application",
     "tags": [
+      "community",
       "Java",
       "OpenJDK",
       "Maven",

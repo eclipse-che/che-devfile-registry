@@ -2,6 +2,7 @@
   "displayName": "C/C++",
   "description": "Stack with C/C++ and Clang 8",
   "tags": [
+    "community",
     "C/C++",
     "clang",
     "g++",

@@ -2,6 +2,7 @@
   "displayName": "NodeJS Express Web Application",
   "description": "Stack with NodeJS 10",
   "tags": [
+    "community",
     "NodeJS",
     "Express",
     "ubi8"

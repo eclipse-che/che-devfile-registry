@@ -2,6 +2,7 @@
   "displayName": "ASP.NET Core Web Application",
   "description": "Stack for developing ASP.NET Core Web Application",
   "tags": [
+    "community",
     "Debian",
     "Dotnet",
     "C#",

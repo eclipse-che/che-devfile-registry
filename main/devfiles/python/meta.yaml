@@ -2,6 +2,7 @@
   "displayName": "Python",
   "description": "Python Stack with Python 3.8",
   "tags": [
+    "community",
     "Centos",
     "Python",
     "pip"

@@ -2,6 +2,7 @@
   "displayName": "Java Lombok",
   "description": "Java Stack with Lombok 1.18.18, OpenJDK 11 and Maven 3.6.0",
   "tags": [
+    "community",
     "Java",
     "OpenJDK",
     "Maven",

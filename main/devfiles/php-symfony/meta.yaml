@@ -2,6 +2,7 @@
   "displayName": "PHP Symfony",
   "description": "PHP Stack with Symfony Demo Application https://symfony.com/",
   "tags": [
+    "community",
     "PHP",
     "Apache",
     "MySQL",

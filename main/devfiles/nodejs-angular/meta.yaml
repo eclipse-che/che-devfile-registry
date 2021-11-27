@@ -2,6 +2,7 @@
   "displayName": "NodeJS Angular Web Application",
   "description": "Stack for developing NodeJS Angular Web Application",
   "tags": [
+    "community",
     "NodeJS",
     "Angular",
     "Alpine"
