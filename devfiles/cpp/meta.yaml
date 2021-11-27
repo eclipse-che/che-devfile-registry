@@ -1,7 +1,7 @@
 ---
 displayName: C/C++
 description: Stack with C/C++ and Clang 8
-tags: ["C/C++", "clang", "g++", "gdb"]
+tags: ["community", "C/C++", "clang", "g++", "gdb"]
 icon: /images/cpp.svg
 links:
   v2: https://github.com/che-samples/cpp-hello-world/tree/devfilev2

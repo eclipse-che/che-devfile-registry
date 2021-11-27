@@ -1,7 +1,7 @@
 ---
 displayName: "PHP Symfony"
 description: PHP Stack with Symfony Demo Application https://symfony.com/
-tags: ["PHP", "Apache", "MySQL", "Symfony", "Debian", "Centos"]
+tags: ["community", "PHP", "Apache", "MySQL", "Symfony", "Debian", "Centos"]
 icon: /images/php.svg
 links:
   v2: https://github.com/che-samples/php-symfony/tree/devfilev2

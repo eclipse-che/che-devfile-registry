@@ -1,5 +1,5 @@
 ---
 displayName: "ASP.NET Core Web Application"
 description: Stack for developing ASP.NET Core Web Application
-tags: ["Debian", "Dotnet", "C#", "ASP.NET"]
+tags: ["community", "Debian", "Dotnet", "C#", "ASP.NET"]
 icon: /images/dotnetcore.svg
