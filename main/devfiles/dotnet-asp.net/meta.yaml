@@ -10,6 +10,11 @@
   ],
   "icon": "/images/dotnetcore.svg",
   "links": {
-    "self": "/devfiles/dotnet-asp.net/devfile.yaml"
+    "v2": "https://github.com/che-samples/aspnetcore-realworld-example-app/tree/devfilev2",
+    "self": "/devfiles/dotnet-asp.net/devfile.yaml",
+    "devWorkspaces": {
+      "eclipse/che-theia/latest": "/devfiles/dotnet-asp.net/devworkspace-che-theia-latest.yaml",
+      "eclipse/che-theia/next": "/devfiles/dotnet-asp.net/devworkspace-che-theia-next.yaml"
+    }
   }
 }

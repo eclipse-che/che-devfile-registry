@@ -192,7 +192,12 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/dotnetcore.svg",
     "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devfile.yaml"
+      "v2": "https://github.com/che-samples/aspnetcore-realworld-example-app/tree/devfilev2",
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
