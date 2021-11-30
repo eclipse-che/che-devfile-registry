@@ -502,7 +502,12 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/lombok.svg",
     "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devfile.yaml"
+      "v2": "https://github.com/che-samples/lombok-project-sample/tree/devfilev2",
+      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devfile.yaml",
+      "devWorkspaces": {
+        "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devworkspace-che-theia-latest.yaml",
+        "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devworkspace-che-theia-next.yaml"
+      }
     }
   },
   {
