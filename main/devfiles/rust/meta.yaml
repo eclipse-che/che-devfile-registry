@@ -1,12 +1,8 @@
-{
-  "displayName": "Rust",
-  "description": "Rust Stack with Rust 1.39",
-  "tags": [
-    "community",
-    "Rust"
-  ],
-  "icon": "/images/rust.svg",
-  "links": {
-    "self": "/devfiles/rust/devfile.yaml"
-  }
-}
+displayName: Rust
+description: Rust Stack with Rust 1.39
+tags:
+  - community
+  - Rust
+icon: /images/rust.svg
+links:
+  self: /devfiles/rust/devfile.yaml

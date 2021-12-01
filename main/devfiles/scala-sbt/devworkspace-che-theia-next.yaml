@@ -214,7 +214,7 @@ spec:
         attributes:
           che-theia.eclipse.org/vscode-extensions:
             - >-
-              https://github.com/scalameta/metals-vscode/releases/download/v1.10.11/scalameta.metals-1.10.11.vsix
+              https://github.com/scalameta/metals-vscode/releases/download/v1.10.15/scalameta.metals-1.10.15.vsix
           app.kubernetes.io/name: tools
       - name: sbt
         volume:

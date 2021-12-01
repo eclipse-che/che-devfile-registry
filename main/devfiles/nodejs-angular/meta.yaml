@@ -1,19 +1,14 @@
-{
-  "displayName": "NodeJS Angular Web Application",
-  "description": "Stack for developing NodeJS Angular Web Application",
-  "tags": [
-    "community",
-    "NodeJS",
-    "Angular",
-    "Alpine"
-  ],
-  "icon": "/images/angular.svg",
-  "links": {
-    "v2": "https://github.com/che-samples/nodejs-angular/tree/devfilev2",
-    "self": "/devfiles/nodejs-angular/devfile.yaml",
-    "devWorkspaces": {
-      "eclipse/che-theia/latest": "/devfiles/nodejs-angular/devworkspace-che-theia-latest.yaml",
-      "eclipse/che-theia/next": "/devfiles/nodejs-angular/devworkspace-che-theia-next.yaml"
-    }
-  }
-}
+displayName: NodeJS Angular Web Application
+description: Stack for developing NodeJS Angular Web Application
+tags:
+  - community
+  - NodeJS
+  - Angular
+  - Alpine
+icon: /images/angular.svg
+links:
+  v2: https://github.com/che-samples/nodejs-angular/tree/devfilev2
+  self: /devfiles/nodejs-angular/devfile.yaml
+  devWorkspaces:
+    eclipse/che-theia/latest: /devfiles/nodejs-angular/devworkspace-che-theia-latest.yaml
+    eclipse/che-theia/next: /devfiles/nodejs-angular/devworkspace-che-theia-next.yaml
