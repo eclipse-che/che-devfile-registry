@@ -1,0 +1,14 @@
+{
+  "displayName": ".NET Core",
+  "description": "Stack with .Net 3.1",
+  "tags": [
+    "community",
+    "Debian",
+    "Dotnet",
+    "C#"
+  ],
+  "icon": "/images/dotnetcore.svg",
+  "links": {
+    "self": "/devfiles/dotnet/devfile.yaml"
+  }
+}

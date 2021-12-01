@@ -1,0 +1,20 @@
+{
+  "displayName": "ASP.NET Core Web Application",
+  "description": "Stack for developing ASP.NET Core Web Application",
+  "tags": [
+    "community",
+    "Debian",
+    "Dotnet",
+    "C#",
+    "ASP.NET"
+  ],
+  "icon": "/images/dotnetcore.svg",
+  "links": {
+    "v2": "https://github.com/che-samples/aspnetcore-realworld-example-app/tree/devfilev2",
+    "self": "/devfiles/dotnet-asp.net/devfile.yaml",
+    "devWorkspaces": {
+      "eclipse/che-theia/latest": "/devfiles/dotnet-asp.net/devworkspace-che-theia-latest.yaml",
+      "eclipse/che-theia/next": "/devfiles/dotnet-asp.net/devworkspace-che-theia-next.yaml"
+    }
+  }
+}
