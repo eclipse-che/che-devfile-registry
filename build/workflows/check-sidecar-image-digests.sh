@@ -71,16 +71,26 @@ check_image_digest() {
 
   local latest_digest
   latest_digest="$(skopeo inspect --tls-verify=false docker://"${base_image_name}" 2>/dev/null | jq -r '.Digest')"
-  latest_digest="${base_image_name%:*}@${latest_digest}"
+  if [[ ! $latest_digest ]]; then # try again -- might have had a transient error resolving the digest from the registry
+    sleep 30s
+    latest_digest="$(skopeo inspect --tls-verify=false docker://"${base_image_name}" 2>/dev/null | jq -r '.Digest')"
+  fi
+  if [[ ! $latest_digest ]]; then # if still missing after second attempt, skip
+    echo -e "\n${RED}ERROR: Could not resolve latest digest for${NC}: ${BLUE}${base_image_name}${NC}"
+  else 
+    latest_digest="${base_image_name%:*}@${latest_digest}"
 
-  if [[ "${latest_digest}" != "${base_image_digest}" ]]; then
-    echo -e "\n${RED}Detected newer image digest${NC} for ${BLUE}${base_image_name}${NC}"
-    
-    sed -i "s|FROM ${base_image_digest}$|FROM ${latest_digest}|" "${ROOT_DIR}/dockerfiles/${image}/Dockerfile"
+    if [[ "${latest_digest}" != "${base_image_digest}" ]]; then
+      echo -e "\n${BLUE}Detected newer image digest${NC}:"
+      echo -e "${RED}- ${base_image_digest}${NC}"
+      echo -e "${GREEN}+ ${latest_digest}${NC}"
+      
+      sed -i "s|FROM ${base_image_digest}$|FROM ${latest_digest}|" "${ROOT_DIR}/dockerfiles/${image}/Dockerfile"
 
-    UPDATED="${UPDATED}    ${image_name}\n"
-  else
-    echo -e "Image ${BLUE}${base_image_name}${NC} has valid digest"
+      UPDATED="${UPDATED}    ${image_name}\n"
+    else
+      echo -e "Image ${BLUE}${base_image_name}${NC} has valid digest"
+    fi
   fi
 }
 
