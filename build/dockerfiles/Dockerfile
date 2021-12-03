@@ -6,7 +6,7 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 #
-FROM docker.io/alpine:3.11.5 AS builder
+FROM docker.io/node:16.13.0-alpine3.14 AS builder
 RUN apk add --no-cache py-pip jq bash wget git skopeo && pip install yq
 
 COPY ./build/scripts /build/
@@ -17,13 +17,8 @@ RUN ./check_mandatory_fields.sh devfiles
 
 RUN ./index.sh > /build/devfiles/index.json
 RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
-RUN chmod -R g+rwX /build/devfiles
-
-FROM docker.io/node:16.13.0-alpine3.14 as dwtemplates
-COPY ./build/scripts /build/
-COPY ./devfiles /build/devfiles
-WORKDIR /build/
 RUN ./generate_devworkspace_templates.sh
+RUN chmod -R g+rwX /build/devfiles
 
 FROM docker.io/httpd:2.4.43-alpine AS registry
 RUN apk add --no-cache bash && \
@@ -37,12 +32,11 @@ RUN apk add --no-cache bash && \
     apk add --no-cache coreutils
 COPY .htaccess README.md /usr/local/apache2/htdocs/
 COPY --from=builder /build/devfiles /usr/local/apache2/htdocs/devfiles
-COPY --from=dwtemplates /build/out /usr/local/apache2/htdocs/devfiles
+COPY --from=builder /build/out /usr/local/apache2/htdocs/devfiles
 COPY ./images /usr/local/apache2/htdocs/images
 COPY ./build/dockerfiles/entrypoint.sh /usr/bin/
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 CMD ["httpd-foreground"]
-
 
 # Offline registry: download project zips and place them in /build/resources
 FROM builder AS offline-builder
