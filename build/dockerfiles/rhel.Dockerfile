@@ -12,8 +12,8 @@
 #
 
 # Builder: check meta.yamls and create index.json
-# https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/ubi8-minimal
-FROM registry.access.redhat.com/ubi8-minimal:8.4-212 as builder
+# https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/ubi8/nodejs-16-minimal
+FROM registry.access.redhat.com/ubi8/nodejs-16-minimal:1-6 as builder
 USER 0
 
 ################# 
@@ -50,16 +50,8 @@ RUN ./check_mandatory_fields.sh devfiles
 
 RUN ./index.sh > /build/devfiles/index.json
 RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
-RUN chmod -R g+rwX /build/devfiles
-
-
-FROM registry.access.redhat.com/ubi8/nodejs-16-minimal:1-6 as dwtemplates
-USER 0
-
-COPY ./build/scripts /build/
-COPY ./devfiles /build/devfiles
-WORKDIR /build/
 RUN ./generate_devworkspace_templates.sh
+RUN chmod -R g+rwX /build/devfiles
 
 ################# 
 # PHASE TWO: configure registry image
@@ -93,7 +85,7 @@ WORKDIR /var/www/html
 RUN mkdir -m 777 /var/www/html/devfiles
 COPY .htaccess README.md /var/www/html/
 COPY --from=builder /build/devfiles /var/www/html/devfiles
-COPY --from=dwtemplates /build/out /var/www/html/devfiles
+COPY --from=builder /build/out /var/www/html/devfiles
 COPY ./images /var/www/html/images
 COPY ./build/dockerfiles/rhel.entrypoint.sh ./build/dockerfiles/entrypoint.sh /usr/local/bin/
 RUN chmod g+rwX /usr/local/bin/entrypoint.sh /usr/local/bin/rhel.entrypoint.sh
