@@ -8,7 +8,7 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-npm install -g @eclipse-che/che-theia-devworkspace-handler@0.0.1-1637592995
+npm install -g @eclipse-che/che-theia-devworkspace-handler@0.0.1-1638274327
 mkdir /build/out/
 for dir in /build/devfiles/*/
 do
