@@ -7,6 +7,9 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 FROM docker.io/node:16.13.0-alpine3.14 AS builder
+
+ARG VERSION
+
 RUN apk add --no-cache py-pip jq bash wget git skopeo && pip install yq
 
 COPY ./build/scripts /build/
@@ -17,7 +20,7 @@ RUN ./check_mandatory_fields.sh devfiles
 
 RUN ./index.sh > /build/devfiles/index.json
 RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
-RUN ./generate_devworkspace_templates.sh
+RUN ./generate_devworkspace_templates.sh $VERSION
 RUN chmod -R g+rwX /build/devfiles
 
 FROM docker.io/httpd:2.4.43-alpine AS registry
