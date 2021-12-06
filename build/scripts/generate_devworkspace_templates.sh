@@ -15,9 +15,6 @@ do
   devfile=$(grep "v2:" "${dir}"meta.yaml)
   if [ -n "$devfile" ]; then
     devfile=${devfile##*v2: }
-    dir=${dir%/}
-    dir=/build/out/${dir##*/}
-    mkdir "${dir}"
     npx @eclipse-che/che-theia-devworkspace-handler --devfile-url:"${devfile}" --output-file:"${dir}"/devworkspace-che-theia-next.yaml
     npx @eclipse-che/che-theia-devworkspace-handler --devfile-url:"${devfile}" --editor:eclipse/che-theia/latest \
     --output-file:"${dir}"/devworkspace-che-theia-latest.yaml
