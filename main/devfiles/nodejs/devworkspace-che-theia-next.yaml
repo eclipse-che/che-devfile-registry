@@ -150,6 +150,13 @@ spec:
     - name: remote-endpoint
       volume:
         ephemeral: true
+  projects:
+    - name: web-nodejs-sample
+      git:
+        remotes:
+          origin: https://github.com/che-samples/web-nodejs-sample.git
+        checkoutFrom:
+          revision: devfilev2
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace

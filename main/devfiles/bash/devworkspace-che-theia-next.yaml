@@ -155,6 +155,13 @@ spec:
     - name: remote-endpoint
       volume:
         ephemeral: true
+  projects:
+    - name: bash
+      git:
+        remotes:
+          origin: https://github.com/che-samples/bash.git
+        checkoutFrom:
+          revision: devfilev2
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
