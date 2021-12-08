@@ -19,6 +19,7 @@ RUN ./index.sh > /build/devfiles/index.json
 RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
 RUN ./generate_devworkspace_templates.sh
 RUN chmod -R g+rwX /build/devfiles
+RUN chmod -R g+rwX /build/resources
 
 FROM docker.io/httpd:2.4.43-alpine AS registry
 RUN apk add --no-cache bash && \
