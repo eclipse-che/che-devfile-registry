@@ -155,11 +155,8 @@ spec:
         ephemeral: true
   projects:
     - name: scala-sbt
-      git:
-        remotes:
-          origin: https://github.com/che-samples/scala-sbt.git
-        checkoutFrom:
-          revision: devfilev2
+      zip:
+        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/scala-sbt.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace

@@ -145,11 +145,8 @@ spec:
         ephemeral: true
   projects:
     - name: nodejs-react-redux
-      git:
-        remotes:
-          origin: https://github.com/che-samples/nodejs-react-redux.git
-        checkoutFrom:
-          revision: devfilev2
+      zip:
+        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/nodejs-react-redux.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace

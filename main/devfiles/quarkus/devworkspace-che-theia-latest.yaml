@@ -145,11 +145,8 @@ spec:
         ephemeral: true
   projects:
     - name: quarkus-quickstarts
-      git:
-        remotes:
-          origin: https://github.com/che-samples/quarkus-quickstarts.git
-        checkoutFrom:
-          revision: devfilev2
+      zip:
+        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/quarkus-quickstarts.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace

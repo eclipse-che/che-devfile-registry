@@ -152,11 +152,8 @@ spec:
         ephemeral: true
   projects:
     - name: golang-echo-example
-      git:
-        remotes:
-          origin: https://github.com/che-samples/golang-echo-example.git
-        checkoutFrom:
-          revision: devfile2
+      zip:
+        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/golang-echo-example.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace

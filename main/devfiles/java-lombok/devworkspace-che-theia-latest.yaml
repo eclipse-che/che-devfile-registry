@@ -145,11 +145,8 @@ spec:
         ephemeral: true
   projects:
     - name: lombok-project-sample
-      git:
-        remotes:
-          origin: https://github.com/che-samples/lombok-project-sample.git
-        checkoutFrom:
-          revision: devfilev2
+      zip:
+        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/lombok-project-sample.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace

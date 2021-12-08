@@ -152,11 +152,8 @@ spec:
         ephemeral: true
   projects:
     - name: java-guestbook
-      git:
-        remotes:
-          origin: https://github.com/che-samples/java-guestbook.git
-        checkoutFrom:
-          revision: devfilev2
+      zip:
+        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/java-guestbook.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace

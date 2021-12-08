@@ -152,11 +152,8 @@ spec:
         ephemeral: true
   projects:
     - name: react-web-app
-      git:
-        remotes:
-          origin: https://github.com/che-samples/react-web-app.git
-        checkoutFrom:
-          revision: devfilev2
+      zip:
+        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/react-web-app.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace

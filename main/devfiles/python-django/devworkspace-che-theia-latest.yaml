@@ -145,11 +145,10 @@ spec:
         ephemeral: true
   projects:
     - name: django-realworld-example-app
-      git:
-        remotes:
-          origin: https://github.com/che-samples/django-realworld-example-app.git
-        checkoutFrom:
-          revision: devfile2
+      zip:
+        location: >-
+          {{ DEVFILE_REGISTRY_URL
+          }}/resources/v2/django-realworld-example-app.zip
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace

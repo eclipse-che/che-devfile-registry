@@ -152,11 +152,8 @@ spec:
         ephemeral: true
   projects:
     - name: cpp-hello-world
-      git:
-        remotes:
-          origin: https://github.com/che-samples/cpp-hello-world.git
-        checkoutFrom:
-          revision: devfilev2
+      zip:
+        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/cpp-hello-world.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace

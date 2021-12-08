@@ -145,11 +145,8 @@ spec:
         ephemeral: true
   projects:
     - name: nodejs-angular
-      git:
-        remotes:
-          origin: https://github.com/che-samples/nodejs-angular.git
-        checkoutFrom:
-          revision: devfilev2
+      zip:
+        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/nodejs-angular.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace

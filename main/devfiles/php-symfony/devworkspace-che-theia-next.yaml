@@ -152,11 +152,8 @@ spec:
         ephemeral: true
   projects:
     - name: php-symfony
-      git:
-        remotes:
-          origin: https://github.com/che-samples/php-symfony.git
-        checkoutFrom:
-          revision: devfilev2
+      zip:
+        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/php-symfony.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
