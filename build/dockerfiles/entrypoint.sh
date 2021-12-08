@@ -116,6 +116,7 @@ fi
 # The below command will fail if any path contains whitespace
 readarray -t devfiles < <(find "${DEVFILES_DIR}" -name 'devfile.yaml')
 readarray -t metas < <(find "${DEVFILES_DIR}" -name 'meta.yaml')
+readarray -t templates < <(find "${DEVFILES_DIR}" -name 'devworkspace-che-theia-*.yaml')
 for devfile in "${devfiles[@]}"; do
   echo "Checking devfile $devfile"
   # Need to update each field separately in case they are not defined.
@@ -137,7 +138,7 @@ done
 if [ -n "$PUBLIC_URL" ]; then
   echo "Updating devfiles to point at internal project zip files"
   PUBLIC_URL=${PUBLIC_URL%/}
-  sed -i "s|{{ DEVFILE_REGISTRY_URL }}|${PUBLIC_URL}|" "${devfiles[@]}" "${metas[@]}" "$INDEX_JSON"
+  sed -i "s|{{ DEVFILE_REGISTRY_URL }}|${PUBLIC_URL}|" "${devfiles[@]}" "${metas[@]}" "${templates[@]}" "$INDEX_JSON"
 
   # Add PUBLIC_URL at the begining of 'icon' field and links ('self', 'eclipse/che-theia/latest' and 'eclipse/che-theia/next')
   sed -i "s|\"icon\": \"/images/|\"icon\": \"${PUBLIC_URL}/images/|" "$INDEX_JSON"
@@ -154,7 +155,7 @@ else
     SERVICE_HOST=$(env | grep DEVFILE_REGISTRY_SERVICE_HOST= | cut -d '=' -f 2)
     SERVICE_PORT=$(env | grep DEVFILE_REGISTRY_SERVICE_PORT= | cut -d '=' -f 2)
     URL="http://${SERVICE_HOST}:${SERVICE_PORT}"
-    sed -i "s|{{ DEVFILE_REGISTRY_URL }}|${URL}|" "${devfiles[@]}" "${metas[@]}" "$INDEX_JSON"
+    sed -i "s|{{ DEVFILE_REGISTRY_URL }}|${URL}|" "${devfiles[@]}" "${metas[@]}" "${templates[@]}" "$INDEX_JSON"
   fi
 fi
 
