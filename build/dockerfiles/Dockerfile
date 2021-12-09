@@ -22,6 +22,7 @@ RUN ./index.sh > /build/devfiles/index.json
 RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
 RUN ./generate_devworkspace_templates.sh $VERSION
 RUN chmod -R g+rwX /build/devfiles
+RUN chmod -R g+rwX /build/resources
 
 FROM docker.io/httpd:2.4.43-alpine AS registry
 RUN apk add --no-cache bash && \
@@ -35,6 +36,7 @@ RUN apk add --no-cache bash && \
     apk add --no-cache coreutils
 COPY .htaccess README.md /usr/local/apache2/htdocs/
 COPY --from=builder /build/devfiles /usr/local/apache2/htdocs/devfiles
+COPY --from=builder /build/resources /usr/local/apache2/htdocs/resources
 COPY ./images /usr/local/apache2/htdocs/images
 COPY ./build/dockerfiles/entrypoint.sh /usr/bin/
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
