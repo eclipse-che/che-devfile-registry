@@ -63,8 +63,10 @@ ${BUILDER} cp devfileRegistry:/var/www/html/README.md /tmp/content/"${VERSION}"
 
 # Run entrypoint
 CHE_DEVFILE_REGISTRY_URL="https://eclipse-che.github.io/che-devfile-registry/${VERSION}"
+CHE_DEVFILE_REGISTRY_INTERNAL_URL="https://eclipse-che.github.io/che-devfile-registry/${VERSION}"
 DEVFILES_DIR=/tmp/content/"${VERSION}"/devfiles
 export CHE_DEVFILE_REGISTRY_URL
+export CHE_DEVFILE_REGISTRY_INTERNAL_URL
 export DEVFILES_DIR
 ./build/dockerfiles/entrypoint.sh
 

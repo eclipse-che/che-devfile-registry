@@ -30,6 +30,7 @@ REGISTRY=${CHE_DEVFILE_IMAGES_REGISTRY_URL}
 ORGANIZATION=${CHE_DEVFILE_IMAGES_REGISTRY_ORGANIZATION}
 TAG=${CHE_DEVFILE_IMAGES_REGISTRY_TAG}
 PUBLIC_URL=${CHE_DEVFILE_REGISTRY_URL}
+INTERNAL_URL=${CHE_DEVFILE_REGISTRY_INTERNAL_URL}
 
 DEFAULT_DEVFILES_DIR="/var/www/html/devfiles"
 DEVFILES_DIR="${DEVFILES_DIR:-${DEFAULT_DEVFILES_DIR}}"
@@ -134,6 +135,12 @@ for devfile in "${devfiles[@]}"; do
     sed -i -E "s|image:$IMAGE_REGEX|image:\1\2/\3/\4:${TAG}\7|" "$devfile"
   fi
 done
+
+if [ -n "$INTERNAL_URL" ]; then
+  INTERNAL_URL=${INTERNAL_URL%/}
+  echo "Updating internal URL in files to ${INTERNAL_URL}"
+  sed -i "s|{{ INTERNAL_URL }}|${INTERNAL_URL}|" "${devfiles[@]}" "${metas[@]}" "${templates[@]}" "$INDEX_JSON"
+fi
 
 if [ -n "$PUBLIC_URL" ]; then
   echo "Updating devfiles to point at internal project zip files"
