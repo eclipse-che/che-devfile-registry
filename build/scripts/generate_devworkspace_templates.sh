@@ -28,12 +28,12 @@ do
 
     npm_config_yes=true npx @eclipse-che/che-theia-devworkspace-handler --devfile-url:"${devfile_url}" \
     --output-file:"${dir}"/devworkspace-che-theia-next.yaml \
-    --project."${name}={{ DEVFILE_REGISTRY_URL }}/resources/v2/${name}.zip"
+    --project."${name}={{ INTERNAL_URL }}/resources/v2/${name}.zip"
 
     npm_config_yes=true npx @eclipse-che/che-theia-devworkspace-handler --devfile-url:"${devfile_url}" \
     --editor:eclipse/che-theia/latest \
     --output-file:"${dir}"/devworkspace-che-theia-latest.yaml \
-    --project."${name}={{ DEVFILE_REGISTRY_URL }}/resources/v2/${name}.zip"
+    --project."${name}={{ INTERNAL_URL }}/resources/v2/${name}.zip"
 
     # When release is happend, we need to replace tags of images in che-theia editor
     if [ -n "$VERSION" ]; then
