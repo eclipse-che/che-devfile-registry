@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-python-django
+  name: theia-ide-rust
 spec:
   commands:
     - id: init-container-command
@@ -144,44 +144,35 @@ spec:
       volume:
         ephemeral: true
   projects:
-    - name: django-realworld-example-app
+    - name: helloworld-rust
       zip:
-        location: >-
-          {{ DEVFILE_REGISTRY_URL
-          }}/resources/v2/django-realworld-example-app.zip
+        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/helloworld-rust.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
 metadata:
-  name: python-django
+  name: rust
 spec:
   started: true
   template:
     attributes:
       che-theia.eclipse.org/sidecar-policy: USE_DEV_CONTAINER
     components:
-      - name: python
+      - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-b452131
-          endpoints:
-            - exposure: public
-              name: django
-              targetPort: 7000
-              path: /api
-          volumeMounts:
-            - name: venv
-              path: /home/user/.venv
-            - path: /remote-endpoint
-              name: remote-endpoint
-            - path: /plugins
-              name: plugins
-          memoryLimit: 512Mi
-          mountSources: true
+          image: quay.io/devfile/universal-developer-image:ubi8-bcb429e
+          memoryLimit: 1Gi
+          cpuLimit: 1000m
           env:
             - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
               value: /remote-endpoint/plugin-remote-endpoint
             - name: THEIA_PLUGINS
-              value: local-dir:///plugins/sidecars/python
+              value: local-dir:///plugins/sidecars/tools
+          volumeMounts:
+            - path: /remote-endpoint
+              name: remote-endpoint
+            - path: /plugins
+              name: plugins
           args:
             - sh
             - '-c'
@@ -189,51 +180,26 @@ spec:
         attributes:
           che-theia.eclipse.org/vscode-extensions:
             - >-
-              https://github.com/microsoft/vscode-python/releases/download/2020.7.94776/ms-python-release.vsix
-          app.kubernetes.io/name: python
-      - name: venv
-        volume:
-          size: 1G
-      - name: theia-ide-python-django
+              https://github.com/rust-lang/vscode-rust/releases/download/v0.7.8/rust.vsix
+          app.kubernetes.io/name: tools
+      - name: theia-ide-rust
         plugin:
           kubernetes:
-            name: theia-ide-python-django
+            name: theia-ide-rust
     commands:
-      - id: dependencies
+      - id: build
         exec:
-          label: Install dependencies
-          component: python
-          workingDir: ${PROJECTS_ROOT}/django-realworld-example-app
-          commandLine: >-
-            python3 -m venv .venv && . .venv/bin/activate && pip3 install -r
-            requirements.txt && pip3 install ptvsd
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/helloworld-rust
+          commandLine: cargo build
           group:
             kind: build
-      - id: migrate
-        exec:
-          label: Migrate
-          component: python
-          workingDir: ${PROJECTS_ROOT}/django-realworld-example-app
-          commandLine: . .venv/bin/activate && python3 manage.py migrate
-          group:
-            kind: build
+            isDefault: true
       - id: run
         exec:
-          label: Run the server
-          component: python
-          workingDir: ${PROJECTS_ROOT}/django-realworld-example-app
-          commandLine: >-
-            . .venv/bin/activate && export DEBUG_MODE=False && python3 manage.py
-            runserver 0.0.0.0:7000
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/helloworld-rust
+          commandLine: cargo run
           group:
             kind: run
-      - id: debug
-        exec:
-          label: Run the server in debug mode
-          component: python
-          workingDir: ${PROJECTS_ROOT}/django-realworld-example-app
-          commandLine: >-
-            . .venv/bin/activate &&  export DEBUG_MODE=True && python3 manage.py
-            runserver 0.0.0.0:7000 --noreload --nothreading
-          group:
-            kind: debug
+            isDefault: true
