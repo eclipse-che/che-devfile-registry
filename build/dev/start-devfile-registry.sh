@@ -24,7 +24,9 @@ rm -rf /usr/local/apache2/htdocs/images/*
 cp -rf "$BUILD_DIR"/devfiles /usr/local/apache2/htdocs/devfiles
 cp -rf "$IMAGES_SRC"/* /usr/local/apache2/htdocs/images
 CHE_DEVFILE_REGISTRY_URL=$(cat "$BUILD_DIR"/ENV_CHE_DEVFILE_REGISTRY_URL)
+CHE_DEVFILE_REGISTRY_INTERNAL_URL="${CHE_DEVFILE_REGISTRY_URL}"
 export CHE_DEVFILE_REGISTRY_URL
+export CHE_DEVFILE_REGISTRY_INTERNAL_URL
 echo "$CHE_DEVFILE_REGISTRY_URL"
 /projects/che-devfile-registry/build/dockerfiles/entrypoint.sh echo "Starting Apache ..."
 httpd-foreground

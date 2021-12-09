@@ -28,9 +28,11 @@ cp -rf "$BUILD_DIR/devfiles" "$SURGE_DIR/devfiles"
 cp -rf "$IMAGES_SRC"/* "$SURGE_DIR/images"
 
 CHE_DEVFILE_REGISTRY_URL="https://$CHE_WORKSPACE_NAMESPACE-$CHE_WORKSPACE_NAME.surge.sh"
+CHE_DEVFILE_REGISTRY_INTERNAL_URL="https://$CHE_WORKSPACE_NAMESPACE-$CHE_WORKSPACE_NAME.surge.sh"
 DEVFILES_DIR=${SURGE_DIR}/devfiles
 
 export CHE_DEVFILE_REGISTRY_URL
+export CHE_DEVFILE_REGISTRY_INTERNAL_URL
 export DEVFILES_DIR
 "$REPO_DIR/build/dockerfiles/entrypoint.sh" echo "done running entrypoint.sh to publish to surge"
 
