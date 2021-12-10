@@ -8,4 +8,8 @@ tags:
   - Integration
 icon: /images/camelk.svg
 links:
+  v2: https://github.com/che-samples/apache-camel-k/tree/devfilev2
   self: /devfiles/apache-camel-k/devfile.yaml
+  devWorkspaces:
+    eclipse/che-theia/latest: /devfiles/apache-camel-k/devworkspace-che-theia-latest.yaml
+    eclipse/che-theia/next: /devfiles/apache-camel-k/devworkspace-che-theia-next.yaml
