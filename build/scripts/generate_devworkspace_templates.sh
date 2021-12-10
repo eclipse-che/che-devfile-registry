@@ -15,7 +15,7 @@ VERSION="${1%/}"
 # shellcheck disable=SC1091
 source ./clone_and_zip.sh
 
-npm install -g @eclipse-che/che-theia-devworkspace-handler@0.0.1-1638890256
+npm install -g @eclipse-che/che-theia-devworkspace-handler@0.0.1-1639071223
 mkdir -p /build/resources/v2/
 for dir in /build/devfiles/*/
 do
