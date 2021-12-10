@@ -150,10 +150,6 @@ spec:
     - name: remote-endpoint
       volume:
         ephemeral: true
-  projects:
-    - name: php-symfony
-      zip:
-        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/php-symfony.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
@@ -257,3 +253,7 @@ spec:
           commandLine: $HOME/.symfony/bin/symfony server:stop
           group:
             kind: run
+    projects:
+      - name: php-symfony
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/php-symfony.zip'

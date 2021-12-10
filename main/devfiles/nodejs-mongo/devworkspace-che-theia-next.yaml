@@ -150,10 +150,6 @@ spec:
     - name: remote-endpoint
       volume:
         ephemeral: true
-  projects:
-    - name: nodejs-mongodb-sample
-      zip:
-        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/nodejs-mongodb-sample.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
@@ -237,3 +233,7 @@ spec:
           commandLine: npm install && node --inspect=9229 app.js
           group:
             kind: run
+    projects:
+      - name: nodejs-mongodb-sample
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/nodejs-mongodb-sample.zip'

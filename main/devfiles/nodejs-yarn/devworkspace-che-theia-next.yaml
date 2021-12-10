@@ -150,10 +150,6 @@ spec:
     - name: remote-endpoint
       volume:
         ephemeral: true
-  projects:
-    - name: react-web-app
-      zip:
-        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/react-web-app.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
@@ -244,3 +240,7 @@ spec:
           commandLine: yarn test
           group:
             kind: test
+    projects:
+      - name: react-web-app
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/react-web-app.zip'

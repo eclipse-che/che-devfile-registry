@@ -143,10 +143,6 @@ spec:
     - name: remote-endpoint
       volume:
         ephemeral: true
-  projects:
-    - name: aspnetcore-realworld-example-app
-      zip:
-        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/aspnetcore-realworld-example-app.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
@@ -224,3 +220,7 @@ spec:
           commandLine: dotnet run --project src/Conduit/Conduit.csproj
           group:
             kind: run
+    projects:
+      - name: aspnetcore-realworld-example-app
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/aspnetcore-realworld-example-app.zip'

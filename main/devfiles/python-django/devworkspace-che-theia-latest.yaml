@@ -143,10 +143,6 @@ spec:
     - name: remote-endpoint
       volume:
         ephemeral: true
-  projects:
-    - name: django-realworld-example-app
-      zip:
-        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/django-realworld-example-app.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
@@ -235,3 +231,7 @@ spec:
             runserver 0.0.0.0:7000 --noreload --nothreading
           group:
             kind: debug
+    projects:
+      - name: django-realworld-example-app
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/django-realworld-example-app.zip'

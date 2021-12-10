@@ -150,10 +150,6 @@ spec:
     - name: remote-endpoint
       volume:
         ephemeral: true
-  projects:
-    - name: nodejs-react-redux
-      zip:
-        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/nodejs-react-redux.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
@@ -217,3 +213,7 @@ spec:
           commandLine: npm start
           group:
             kind: run
+    projects:
+      - name: nodejs-react-redux
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/nodejs-react-redux.zip'

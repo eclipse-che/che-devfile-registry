@@ -155,10 +155,6 @@ spec:
     - name: remote-endpoint
       volume:
         ephemeral: true
-  projects:
-    - name: bash
-      zip:
-        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/bash.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
@@ -208,3 +204,7 @@ spec:
           group:
             kind: run
             isDefault: true
+    projects:
+      - name: bash
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/bash.zip'

@@ -153,10 +153,6 @@ spec:
     - name: remote-endpoint
       volume:
         ephemeral: true
-  projects:
-    - name: scala-sbt
-      zip:
-        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/scala-sbt.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
@@ -280,3 +276,7 @@ spec:
           commandLine: ./sbt +test
           group:
             kind: run
+    projects:
+      - name: scala-sbt
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/scala-sbt.zip'

@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-spring-petclinic
+  name: theia-ide-apache-camel-springboot
 spec:
   commands:
     - id: init-container-command
@@ -147,16 +147,14 @@ spec:
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
 metadata:
-  name: spring-petclinic
+  name: apache-camel-springboot
 spec:
   started: true
   template:
-    attributes:
-      che-theia.eclipse.org/sidecar-policy: USE_DEV_CONTAINER
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-d433ed6
+          image: quay.io/devfile/universal-developer-image:ubi8-d3eab13
           memoryLimit: 3Gi
           endpoints:
             - exposure: none
@@ -186,6 +184,10 @@ spec:
         attributes:
           che-theia.eclipse.org/vscode-extensions:
             - >-
+              https://github.com/redhat-developer/codeready-workspaces-vscode-extensions/releases/download/v069c634/vscode-xml-0.17.0.vsix
+            - >-
+              https://download.jboss.org/jbosstools/vscode/stable/vscode-apache-camel/vscode-apache-camel-0.1.1-1280.vsix
+            - >-
               https://download.jboss.org/jbosstools/static/jdt.ls/stable/java-0.75.0-60.vsix
             - >-
               https://download.jboss.org/jbosstools/vscode/3rdparty/vscode-java-debug/vscode-java-debug-0.26.0.vsix
@@ -197,93 +199,30 @@ spec:
       - name: m2
         volume:
           size: 1G
-      - name: mysql
-        container:
-          image: >-
-            quay.io/eclipse/che--centos--mysql-57-centos7:latest-e08ee4d43b7356607685b69bde6335e27cf20c020f345b6c6c59400183882764
-          memoryLimit: 300Mi
-          endpoints:
-            - exposure: none
-              name: db
-              protocol: tcp
-              targetPort: 3306
-          env:
-            - name: MYSQL_USER
-              value: petclinic
-            - name: MYSQL_PASSWORD
-              value: petclinic
-            - name: MYSQL_DATABASE
-              value: petclinic
-            - name: PS1
-              value: $(echo ${0})\\$
-      - name: theia-ide-spring-petclinic
+      - name: theia-ide-apache-camel-springboot
         plugin:
           kubernetes:
-            name: theia-ide-spring-petclinic
+            name: theia-ide-apache-camel-springboot
     commands:
-      - id: prepare-database
+      - id: build-the-project
         exec:
-          component: mysql
-          workingDir: ${PROJECTS_ROOT}/java-spring-petclinic
-          commandLine: >
-            /opt/rh/rh-mysql57/root/usr/bin/mysql -u root <
-            ${PROJECTS_ROOT}/java-spring-petclinic/src/main/resources/db/mysql/user.sql
-            && \
-
-            /opt/rh/rh-mysql57/root/usr/bin/mysql -u root petclinic <
-            ${PROJECTS_ROOT}/java-spring-petclinic/src/main/resources/db/mysql/schema.sql
-            && \
-
-            /opt/rh/rh-mysql57/root/usr/bin/mysql -u root petclinic <
-            ${PROJECTS_ROOT}/java-spring-petclinic/src/main/resources/db/mysql/data.sql
-            && \
-
-            echo -e "\e[32mDone.\e[0m Database petclinic was configured"
-          group:
-            kind: run
-            isDefault: true
-      - id: build
-        exec:
+          commandLine: JAVA_HOME=$JAVA_HOME_8 mvn clean install
           component: tools
-          workingDir: ${PROJECTS_ROOT}/java-spring-petclinic
-          commandLine: mvn clean install
-          group:
-            kind: build
-            isDefault: true
-      - id: run-with-hsqldb
+          workingDir: ${PROJECTS_ROOT}/fuse-rest-http-booster
+      - id: run-the-services
         exec:
+          commandLine: JAVA_HOME=$JAVA_HOME_8 mvn spring-boot:run -DskipTests
           component: tools
-          workingDir: ${PROJECTS_ROOT}/java-spring-petclinic
-          commandLine: java -jar target/*.jar
-          group:
-            kind: run
-            isDefault: true
-      - id: run-with-mysql
+          workingDir: ${PROJECTS_ROOT}/fuse-rest-http-booster
+      - id: run-the-services-debug
         exec:
-          component: tools
-          workingDir: ${PROJECTS_ROOT}/java-spring-petclinic
-          commandLine: >
-            java -jar -Dspring-boot.run.profiles=mysql \
-
-            -Xdebug
-            -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 \
-
-            target/*.jar
-          group:
-            kind: run
-            isDefault: true
-      - id: run-debug
-        exec:
-          component: tools
-          workingDir: ${PROJECTS_ROOT}/java-spring-petclinic
           commandLine: >-
-            java -jar -Xdebug
-            -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005
-            target/*.jar
-          group:
-            kind: run
-            isDefault: true
+            JAVA_HOME=$JAVA_HOME_8 mvn spring-boot:run -DskipTests
+            -Drun.jvmArguments="-Xdebug
+            -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/fuse-rest-http-booster
     projects:
-      - name: java-spring-petclinic
+      - name: fuse-rest-http-booster
         zip:
-          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/java-spring-petclinic.zip'
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/fuse-rest-http-booster.zip'

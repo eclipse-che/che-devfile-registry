@@ -150,10 +150,6 @@ spec:
     - name: remote-endpoint
       volume:
         ephemeral: true
-  projects:
-    - name: web-nodejs-sample
-      zip:
-        location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/web-nodejs-sample.zip'
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
@@ -238,3 +234,7 @@ spec:
             echo 'Done.'
           group:
             kind: run
+    projects:
+      - name: web-nodejs-sample
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/web-nodejs-sample.zip'
