@@ -4,7 +4,7 @@ quay.io/eclipse/che--centos--mysql-57-centos7:latest-e08ee4d43b7356607685b69bde6
 quay.io/eclipse/che-cpp-rhel7:ce0526f
 quay.io/eclipse/che-dotnet-2.2:ce0526f
 quay.io/eclipse/che-dotnet-3.1:ce0526f
-quay.io/eclipse/che-golang-1.17:4101ac8
+quay.io/eclipse/che-golang-1.17:790736a
 quay.io/eclipse/che-java11-gradle:ce0526f
 quay.io/eclipse/che-java11-maven:ce0526f
 quay.io/eclipse/che-java8-maven:ce0526f
