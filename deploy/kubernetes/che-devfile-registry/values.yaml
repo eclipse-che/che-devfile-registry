@@ -21,6 +21,8 @@ cheDevfileImagesOverride:
   # Override for image tags used images referenced in devfiles
   # tag: ""
 
+affinity: {}
+
 global:
   ingressDomain: 192.168.99.100.nip.io
   ingress:
