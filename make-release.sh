@@ -147,6 +147,7 @@ performRelease()
   SHORT_SHA1=$(git rev-parse --short HEAD)
   DOCKERFILE_PATH=./build/dockerfiles/Dockerfile
   docker buildx build \
+    --build-arg VERSION="${VERSION}" \
     --push \
     --platform "${PLATFORMS}" \
     --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${VERSION}" \
