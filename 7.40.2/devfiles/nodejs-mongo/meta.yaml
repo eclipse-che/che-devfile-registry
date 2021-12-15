@@ -1,0 +1,17 @@
+displayName: NodeJS MongoDB Web Application
+description: Stack with NodeJS 10 and MongoDB 3.4
+tags:
+  - community
+  - NodeJS
+  - Express
+  - MongoDB
+  - RealWorld
+  - ubi8
+  - Centos
+icon: /images/nodejs.svg
+links:
+  v2: https://github.com/che-samples/nodejs-mongodb-sample/tree/devfilev2
+  self: /devfiles/nodejs-mongo/devfile.yaml
+  devWorkspaces:
+    eclipse/che-theia/latest: /devfiles/nodejs-mongo/devworkspace-che-theia-latest.yaml
+    eclipse/che-theia/next: /devfiles/nodejs-mongo/devworkspace-che-theia-next.yaml

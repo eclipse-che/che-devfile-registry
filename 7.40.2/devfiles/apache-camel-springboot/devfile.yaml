@@ -1,0 +1,76 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: apache-camel-springboot-
+projects:
+  - name: fuse-rest-http-booster
+    source:
+      type: git
+      location: https://github.com/che-samples/fuse-rest-http-booster
+components:
+  - type: chePlugin
+    id: redhat/vscode-xml/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.40.2/v3/
+  - type: chePlugin
+    id: redhat/vscode-apache-camel/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.40.2/v3/
+  - type: chePlugin
+    id: redhat/java8/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.40.2/v3/
+  - type: dockerimage
+    alias: maven
+    image: quay.io/eclipse/che-java8-maven:ce0526f
+    env:
+      - name: MAVEN_CONFIG
+        value: ""
+      - name: MAVEN_OPTS
+        value: -XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
+      - name: JAVA_OPTS
+        value: -XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
+      - name: JAVA_TOOL_OPTIONS
+        value: -XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
+    volumes:
+      - name: m2
+        containerPath: /home/user/.m2
+    memoryLimit: 512Mi
+    endpoints:
+      - name: 8080-tcp
+        port: 8080
+      - name: debug
+        port: 5005
+        attributes:
+          public: "false"
+    mountSources: true
+commands:
+  - name: build the project
+    actions:
+      - type: exec
+        component: maven
+        command: mvn clean install
+        workdir: ${CHE_PROJECTS_ROOT}/fuse-rest-http-booster
+  - name: run the services
+    actions:
+      - type: exec
+        component: maven
+        command: mvn spring-boot:run -DskipTests
+        workdir: ${CHE_PROJECTS_ROOT}/fuse-rest-http-booster
+  - name: run the services (debugging enabled)
+    actions:
+      - type: exec
+        component: maven
+        command: mvn spring-boot:run -DskipTests -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+        workdir: ${CHE_PROJECTS_ROOT}/fuse-rest-http-booster
+  - name: Debug remote java application
+    actions:
+      - type: vscode-launch
+        referenceContent: |
+          {
+          "version": "0.2.0",
+          "configurations": [
+            {
+              "type": "java",
+              "name": "Debug (Attach) - Remote",
+              "request": "attach",
+              "hostName": "localhost",
+              "port": 5005
+            }]
+          }
