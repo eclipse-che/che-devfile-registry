@@ -158,8 +158,6 @@ metadata:
 spec:
   started: true
   template:
-    attributes:
-      che-theia.eclipse.org/sidecar-policy: USE_DEV_CONTAINER
     components:
       - name: cpp-dev
         container:

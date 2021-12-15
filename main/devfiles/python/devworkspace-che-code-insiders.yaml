@@ -1,0 +1,94 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-python-hello-world
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+  events:
+    preStart:
+      - init-container-command
+  components:
+    - name: checode
+      volume: {}
+    - name: che-code-injector
+      container:
+        image: quay.io/che-incubator/che-code:insiders
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 128Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: python-hello-world
+spec:
+  started: true
+  template:
+    components:
+      - name: python
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-3735d4f
+          volumeMounts:
+            - name: venv
+              path: /home/user/.venv
+            - name: checode
+              path: /checode
+          memoryLimit: 1.61G
+          mountSources: true
+          command:
+            - /checode/entrypoint-volume.sh
+          endpoints:
+            - name: che-code
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+                contributed-by: che-code.eclipse.org
+              targetPort: 3100
+              exposure: public
+              path: '?tkn=eclipse-che'
+              secure: false
+              protocol: https
+          memoryRequest: 256Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+        attributes:
+          che-code.eclipse.org/contribute-entry-point: true
+          che-code.eclipse.org/contribute-volume-mount/checode: /checode
+          che-code.eclipse.org/contribute-endpoint/che-code: 3100
+          che-code.eclipse.org/contribute-memoryLimit: true
+          che-code.eclipse.org/original-memoryLimit: 512Mi
+          che-code.eclipse.org/contribute-memoryRequest: true
+          che-code.eclipse.org/contribute-cpuLimit: true
+          che-code.eclipse.org/contribute-cpuRequest: true
+          che-code.eclipse.org/contributed-container: python
+      - name: venv
+        volume:
+          size: 1G
+      - name: che-code-python-hello-world
+        plugin:
+          kubernetes:
+            name: che-code-python-hello-world
+    commands:
+      - id: run
+        exec:
+          label: Run the application
+          component: python
+          workingDir: ${PROJECTS_ROOT}/python-hello-world
+          commandLine: python3 hello-world.py
+          group:
+            kind: run
+    projects:
+      - name: python-hello-world
+        zip:
+          location: '{{ INTERNAL_URL }}/resources/v2/python-hello-world.zip'

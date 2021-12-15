@@ -1,0 +1,168 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-java-guestbook
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+  events:
+    preStart:
+      - init-container-command
+  components:
+    - name: checode
+      volume: {}
+    - name: che-code-injector
+      container:
+        image: quay.io/che-incubator/che-code:insiders
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 128Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: java-guestbook
+spec:
+  started: true
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-d433ed6
+          memoryLimit: 4Gi
+          endpoints:
+            - name: java-guestbook-backend
+              exposure: public
+              protocol: http
+              targetPort: 8080
+            - name: java-guestbook
+              exposure: public
+              protocol: tcp
+              targetPort: 8443
+            - name: debug
+              exposure: none
+              protocol: tcp
+              targetPort: 5005
+            - name: che-code
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+                contributed-by: che-code.eclipse.org
+              targetPort: 3100
+              exposure: public
+              path: '?tkn=eclipse-che'
+              secure: false
+              protocol: https
+          volumeMounts:
+            - name: m2
+              path: /home/user/.m2
+            - name: checode
+              path: /checode
+          command:
+            - /checode/entrypoint-volume.sh
+          memoryRequest: 256Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+        attributes:
+          che-code.eclipse.org/contribute-entry-point: true
+          che-code.eclipse.org/contribute-volume-mount/checode: /checode
+          che-code.eclipse.org/contribute-endpoint/che-code: 3100
+          che-code.eclipse.org/contribute-memoryLimit: true
+          che-code.eclipse.org/original-memoryLimit: 3Gi
+          che-code.eclipse.org/contribute-memoryRequest: true
+          che-code.eclipse.org/contribute-cpuLimit: true
+          che-code.eclipse.org/contribute-cpuRequest: true
+          che-code.eclipse.org/contributed-container: tools
+      - name: mongo
+        container:
+          image: >-
+            quay.io/eclipse/che--centos--mongodb-36-centos7:latest-ffdf2431bbc6d9a9d2a03e95bbbe8adb49ab9eac301f268a35038c84288259c1
+          memoryLimit: 300Mi
+          env:
+            - name: MONGODB_USER
+              value: user
+            - name: MONGODB_PASSWORD
+              value: password
+            - name: MONGODB_DATABASE
+              value: guestbook
+            - name: MONGODB_ADMIN_PASSWORD
+              value: password
+          endpoints:
+            - name: java-guestbook-mongodb
+              exposure: none
+              protocol: tcp
+              targetPort: 27017
+          volumeMounts:
+            - name: mongodbdata
+              path: /var/lib/mongodb/data
+      - name: m2
+        volume:
+          size: 1G
+      - name: mongodbdata
+        volume:
+          size: 1G
+      - name: che-code-java-guestbook
+        plugin:
+          kubernetes:
+            name: che-code-java-guestbook
+    commands:
+      - id: maven-build-backend
+        exec:
+          label: build backend
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/java-guestbook/backend
+          commandLine: mvn clean install
+          group:
+            kind: build
+            isDefault: true
+      - id: maven-build-frontend
+        exec:
+          label: build frontend
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/java-guestbook/frontend
+          commandLine: mvn clean install
+          group:
+            kind: build
+            isDefault: true
+      - id: run-backend
+        exec:
+          label: run backend
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/java-guestbook/backend
+          commandLine: >
+            java
+            -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006,quiet=y
+            \
+
+            -jar target/backend-1.0.jar
+          group:
+            kind: run
+            isDefault: true
+      - id: run-frontend
+        exec:
+          label: run frontend
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/java-guestbook/frontend
+          commandLine: >
+            java
+            -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005,quiet=y
+            \
+
+            -jar target/frontend-1.0.jar
+          group:
+            kind: run
+            isDefault: true
+    projects:
+      - name: java-guestbook
+        zip:
+          location: '{{ INTERNAL_URL }}/resources/v2/java-guestbook.zip'

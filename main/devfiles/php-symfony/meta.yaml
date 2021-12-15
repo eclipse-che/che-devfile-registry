@@ -15,3 +15,4 @@ links:
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/php-symfony/devworkspace-che-theia-latest.yaml
     eclipse/che-theia/next: /devfiles/php-symfony/devworkspace-che-theia-next.yaml
+    che-incubator/che-code/insiders: /devfiles/php-symfony/devworkspace-che-code-insiders.yaml

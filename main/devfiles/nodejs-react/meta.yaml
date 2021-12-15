@@ -13,3 +13,4 @@ links:
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/nodejs-react/devworkspace-che-theia-latest.yaml
     eclipse/che-theia/next: /devfiles/nodejs-react/devworkspace-che-theia-next.yaml
+    che-incubator/che-code/insiders: /devfiles/nodejs-react/devworkspace-che-code-insiders.yaml

@@ -10,3 +10,4 @@ links:
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/rust/devworkspace-che-theia-latest.yaml
     eclipse/che-theia/next: /devfiles/rust/devworkspace-che-theia-next.yaml
+    che-incubator/che-code/insiders: /devfiles/rust/devworkspace-che-code-insiders.yaml

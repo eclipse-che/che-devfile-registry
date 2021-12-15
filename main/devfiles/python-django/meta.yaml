@@ -12,3 +12,4 @@ links:
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/python-django/devworkspace-che-theia-latest.yaml
     eclipse/che-theia/next: /devfiles/python-django/devworkspace-che-theia-next.yaml
+    che-incubator/che-code/insiders: /devfiles/python-django/devworkspace-che-code-insiders.yaml
