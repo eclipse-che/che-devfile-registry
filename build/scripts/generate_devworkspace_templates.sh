@@ -11,11 +11,12 @@
 set -e
 
 VERSION="${1%/}"
+CHE_THEIA_DEVWORKSPACE_HANDLER_VERSION=0.0.1-1639071223
+CHE_CODE_DEVWORKSPACE_HANDLER_VERSION=1.64.0-dev-13e9298
 
 # shellcheck disable=SC1091
 source ./clone_and_zip.sh
 
-npm install -g @eclipse-che/che-theia-devworkspace-handler@0.0.1-1639071223
 mkdir -p /build/resources/v2/
 for dir in /build/devfiles/*/
 do
@@ -26,13 +27,18 @@ do
     devfile_repo=${devfile_url%/tree*}
     name=$(basename "${devfile_repo}")
 
-    npm_config_yes=true npx @eclipse-che/che-theia-devworkspace-handler --devfile-url:"${devfile_url}" \
+    npm_config_yes=true npx @eclipse-che/che-theia-devworkspace-handler@${CHE_THEIA_DEVWORKSPACE_HANDLER_VERSION} --devfile-url:"${devfile_url}" \
     --output-file:"${dir}"/devworkspace-che-theia-next.yaml \
     --project."${name}={{ INTERNAL_URL }}/resources/v2/${name}.zip"
 
-    npm_config_yes=true npx @eclipse-che/che-theia-devworkspace-handler --devfile-url:"${devfile_url}" \
+    npm_config_yes=true npx @eclipse-che/che-theia-devworkspace-handler@${CHE_THEIA_DEVWORKSPACE_HANDLER_VERSION} --devfile-url:"${devfile_url}" \
     --editor:eclipse/che-theia/latest \
     --output-file:"${dir}"/devworkspace-che-theia-latest.yaml \
+    --project."${name}={{ INTERNAL_URL }}/resources/v2/${name}.zip"
+
+    npm_config_yes=true npx @eclipse-che/che-code-devworkspace-handler@${CHE_CODE_DEVWORKSPACE_HANDLER_VERSION} --devfile-url:"${devfile_url}" \
+    --editor-entry:che-incubator/che-code/insiders \
+    --output-file:"${dir}"/devworkspace-che-code-insiders.yaml \
     --project."${name}={{ INTERNAL_URL }}/resources/v2/${name}.zip"
 
     # When release is happend, we need to replace tags of images in che-theia editor
