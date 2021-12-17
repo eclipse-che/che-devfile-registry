@@ -108,4 +108,4 @@ spec:
     projects:
       - name: fuse-rest-http-booster
         zip:
-          location: '{{ INTERNAL_URL }}/resources/v2/fuse-rest-http-booster.zip'
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/fuse-rest-http-booster.zip'

@@ -94,4 +94,4 @@ spec:
     projects:
       - name: helloworld-rust
         zip:
-          location: '{{ INTERNAL_URL }}/resources/v2/helloworld-rust.zip'
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/helloworld-rust.zip'

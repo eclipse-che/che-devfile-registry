@@ -132,4 +132,4 @@ spec:
     projects:
       - name: golang-echo-example
         zip:
-          location: '{{ INTERNAL_URL }}/resources/v2/golang-echo-example.zip'
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/golang-echo-example.zip'

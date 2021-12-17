@@ -165,4 +165,4 @@ spec:
     projects:
       - name: java-guestbook
         zip:
-          location: '{{ INTERNAL_URL }}/resources/v2/java-guestbook.zip'
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/java-guestbook.zip'

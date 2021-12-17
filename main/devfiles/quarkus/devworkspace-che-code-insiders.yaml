@@ -140,4 +140,4 @@ spec:
     projects:
       - name: quarkus-quickstarts
         zip:
-          location: '{{ INTERNAL_URL }}/resources/v2/quarkus-quickstarts.zip'
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/quarkus-quickstarts.zip'

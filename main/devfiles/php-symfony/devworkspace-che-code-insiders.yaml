@@ -138,4 +138,4 @@ spec:
     projects:
       - name: php-symfony
         zip:
-          location: '{{ INTERNAL_URL }}/resources/v2/php-symfony.zip'
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/php-symfony.zip'

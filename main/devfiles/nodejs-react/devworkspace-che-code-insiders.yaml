@@ -98,4 +98,4 @@ spec:
     projects:
       - name: nodejs-react-redux
         zip:
-          location: '{{ INTERNAL_URL }}/resources/v2/nodejs-react-redux.zip'
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/nodejs-react-redux.zip'
