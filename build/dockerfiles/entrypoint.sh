@@ -117,7 +117,7 @@ fi
 # The below command will fail if any path contains whitespace
 readarray -t devfiles < <(find "${DEVFILES_DIR}" -name 'devfile.yaml')
 readarray -t metas < <(find "${DEVFILES_DIR}" -name 'meta.yaml')
-readarray -t templates < <(find "${DEVFILES_DIR}" -name 'devworkspace-che-theia-*.yaml')
+readarray -t templates < <(find "${DEVFILES_DIR}" -name 'devworkspace-che-*.yaml')
 for devfile in "${devfiles[@]}"; do
   echo "Checking devfile $devfile"
   # Need to update each field separately in case they are not defined.
