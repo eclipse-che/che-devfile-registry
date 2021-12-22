@@ -9,6 +9,6 @@
 
 ARG BASE_IMAGE="docker.io/rust:1.57-slim-bullseye"
 
-FROM docker.io/rust@sha256:43d8c9a7e8f0784372a4c0009b064b9f40051f4f950c7c96b9650ad8b445add4
+FROM docker.io/rust@sha256:3ebdf35cd5bae1e205a23810da2b6613e3895af6c3c8a3d2ceb4d23c14d5c91c
 
 #{INCLUDE:../base.dockerfile}
