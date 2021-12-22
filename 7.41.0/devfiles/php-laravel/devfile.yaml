@@ -1,0 +1,82 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: php-laravel-
+projects:
+  - name: laravel-realworld-example-app
+    source:
+      type: git
+      location: https://github.com/che-samples/php-laravel
+components:
+  - type: chePlugin
+    id: bmewburn/vscode-intelephense-client/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.41.0/v3/
+  - type: chePlugin
+    id: felixfbecker/php-debug/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.41.0/v3/
+  - type: dockerimage
+    alias: php
+    image: quay.io/eclipse/che-php-7:ce0526f
+    memoryLimit: 512Mi
+    endpoints:
+      - name: 8000-tcp
+        port: 8000
+    mountSources: true
+    volumes:
+      - name: composer
+        containerPath: /home/user/.composer
+  - type: dockerimage
+    alias: mysql
+    image: quay.io/eclipse/che--centos--mysql-57-centos7:latest-e08ee4d43b7356607685b69bde6335e27cf20c020f345b6c6c59400183882764
+    env:
+      - name: MYSQL_USER
+        value: homestead
+      - name: MYSQL_PASSWORD
+        value: secret
+      - name: MYSQL_ROOT_PASSWORD
+        value: secret
+      - name: MYSQL_DATABASE
+        value: homestead
+    memoryLimit: 256Mi
+    endpoints:
+      - name: db
+        port: 3306
+        attributes:
+          discoverable: "true"
+    mountSources: true
+commands:
+  - name: 1. Install dependencies
+    actions:
+      - type: exec
+        component: php
+        command: composer install
+        workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
+  - name: 2. Copy the example env file and make the required configuration changes in the .env file
+    actions:
+      - type: exec
+        component: php
+        command: cp .env.example .env
+        workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
+  - name: 3. Generate a new application key
+    actions:
+      - type: exec
+        component: php
+        command: php artisan key:generate
+        workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
+  - name: 4. Generate a new JWT authentication secret key
+    actions:
+      - type: exec
+        component: php
+        command: php artisan jwt:secret
+        workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
+  - name: 5. Run the database migrations
+    actions:
+      - type: exec
+        component: php
+        command: php artisan migrate
+        workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app
+  - name: 6. Start Artisan Web Server
+    actions:
+      - type: exec
+        component: php
+        command: php artisan serve --host 0.0.0.0
+        workdir: ${CHE_PROJECTS_ROOT}/laravel-realworld-example-app

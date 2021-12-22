@@ -1,0 +1,16 @@
+displayName: Java Spring Boot
+description: Java stack with OpenJDK 11 and Spring Boot Petclinic demo application
+tags:
+  - community
+  - Java
+  - OpenJDK
+  - Maven
+  - Spring Boot
+icon: /images/springboot.svg
+links:
+  v2: https://github.com/che-samples/java-spring-petclinic/tree/devfilev2
+  self: /devfiles/java-web-spring/devfile.yaml
+  devWorkspaces:
+    eclipse/che-theia/latest: /devfiles/java-web-spring/devworkspace-che-theia-latest.yaml
+    eclipse/che-theia/next: /devfiles/java-web-spring/devworkspace-che-theia-next.yaml
+    che-incubator/che-code/insiders: /devfiles/java-web-spring/devworkspace-che-code-insiders.yaml

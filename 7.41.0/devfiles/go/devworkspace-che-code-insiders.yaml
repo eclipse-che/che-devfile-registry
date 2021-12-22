@@ -1,0 +1,135 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-golang-echo-example
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+  events:
+    preStart:
+      - init-container-command
+  components:
+    - name: checode
+      volume: {}
+    - name: che-code-injector
+      container:
+        image: quay.io/che-incubator/che-code:insiders
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 128Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: golang-echo-example
+spec:
+  started: true
+  template:
+    components:
+      - name: go-cli
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-112f94a
+          env:
+            - name: GOPATH
+              value: /projects:/home/user/go
+            - name: GOCACHE
+              value: /tmp/.cache
+          endpoints:
+            - name: 8080-tcp
+              targetPort: 8585
+            - name: che-code
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+                contributed-by: che-code.eclipse.org
+              targetPort: 3100
+              exposure: public
+              path: '?tkn=eclipse-che'
+              secure: false
+              protocol: https
+          memoryLimit: 3Gi
+          mountSources: true
+          command:
+            - /checode/entrypoint-volume.sh
+          volumeMounts:
+            - name: checode
+              path: /checode
+          memoryRequest: 256Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+        attributes:
+          che-code.eclipse.org/contribute-entry-point: true
+          che-code.eclipse.org/contribute-volume-mount/checode: /checode
+          che-code.eclipse.org/contribute-endpoint/che-code: 3100
+          che-code.eclipse.org/contribute-memoryLimit: true
+          che-code.eclipse.org/original-memoryLimit: 2Gi
+          che-code.eclipse.org/contribute-memoryRequest: true
+          che-code.eclipse.org/contribute-cpuLimit: true
+          che-code.eclipse.org/contribute-cpuRequest: true
+          che-code.eclipse.org/contributed-container: go-cli
+      - name: che-code-golang-echo-example
+        plugin:
+          kubernetes:
+            name: che-code-golang-echo-example
+    commands:
+      - id: dependencies
+        exec:
+          label: '2.1 xenisa :: install dependencies'
+          component: go-cli
+          workingDir: ${PROJECTS_ROOT}/golang-echo-example
+          commandLine: go mod download
+          group:
+            kind: build
+      - id: run
+        exec:
+          label: '2.2 xenisa :: run'
+          component: go-cli
+          workingDir: ${PROJECTS_ROOT}/golang-echo-example
+          commandLine: go run main.go
+          group:
+            kind: run
+      - id: build
+        exec:
+          label: '2.3 xenisa :: build'
+          component: go-cli
+          workingDir: ${PROJECTS_ROOT}/golang-echo-example
+          commandLine: go build
+          group:
+            kind: build
+      - id: test
+        exec:
+          label: '2.4 xenisa :: test'
+          component: go-cli
+          workingDir: ${PROJECTS_ROOT}/golang-echo-example
+          commandLine: go test ./...
+          group:
+            kind: test
+      - id: file
+        exec:
+          label: Run current file
+          component: go-cli
+          workingDir: ${fileDirname}
+          commandLine: go get -d && go run ${file}
+          group:
+            kind: run
+      - id: stop
+        exec:
+          label: Stop all commands
+          component: go-cli
+          commandLine: kill $(pidof go)
+          group:
+            kind: run
+    projects:
+      - name: golang-echo-example
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.41.0/resources/v2/golang-echo-example.zip'
