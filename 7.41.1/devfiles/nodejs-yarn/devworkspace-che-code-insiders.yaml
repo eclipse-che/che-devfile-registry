@@ -1,0 +1,128 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-react-web-app
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+  events:
+    preStart:
+      - init-container-command
+  components:
+    - name: checode
+      volume: {}
+    - name: che-code-injector
+      container:
+        image: quay.io/che-incubator/che-code:insiders
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 128Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: react-web-app
+spec:
+  started: true
+  template:
+    components:
+      - name: nodejs
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-3735d4f
+          endpoints:
+            - exposure: public
+              name: nodejs
+              protocol: http
+              targetPort: 3000
+            - name: che-code
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+                contributed-by: che-code.eclipse.org
+              targetPort: 3100
+              exposure: public
+              path: '?tkn=eclipse-che'
+              secure: false
+              protocol: https
+          memoryLimit: 2.07G
+          mountSources: true
+          command:
+            - /checode/entrypoint-volume.sh
+          volumeMounts:
+            - name: checode
+              path: /checode
+          memoryRequest: 256Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+        attributes:
+          che-code.eclipse.org/contribute-entry-point: true
+          che-code.eclipse.org/contribute-volume-mount/checode: /checode
+          che-code.eclipse.org/contribute-endpoint/che-code: 3100
+          che-code.eclipse.org/contribute-memoryLimit: true
+          che-code.eclipse.org/original-memoryLimit: 1G
+          che-code.eclipse.org/contribute-memoryRequest: true
+          che-code.eclipse.org/contribute-cpuLimit: true
+          che-code.eclipse.org/contribute-cpuRequest: true
+          che-code.eclipse.org/contributed-container: nodejs
+      - name: che-code-react-web-app
+        plugin:
+          kubernetes:
+            name: che-code-react-web-app
+    commands:
+      - id: yarn
+        exec:
+          label: Install Yarn 2
+          component: nodejs
+          workingDir: ${PROJECTS_ROOT}/react-web-app
+          commandLine: yarn set version 1.22.5
+          group:
+            kind: build
+            isDefault: true
+      - id: dependencies
+        exec:
+          label: Install all required dependencies
+          component: nodejs
+          workingDir: ${PROJECTS_ROOT}/react-web-app
+          commandLine: yarn install
+          group:
+            kind: build
+            isDefault: true
+      - id: build
+        exec:
+          label: Build the app
+          component: nodejs
+          workingDir: ${PROJECTS_ROOT}/react-web-app
+          commandLine: yarn build
+          group:
+            kind: build
+            isDefault: true
+      - id: runapp
+        exec:
+          label: Run the web app
+          component: nodejs
+          workingDir: ${PROJECTS_ROOT}/react-web-app
+          commandLine: yarn start
+          group:
+            kind: run
+      - id: test
+        exec:
+          label: Launch tests
+          component: nodejs
+          workingDir: ${PROJECTS_ROOT}/react-web-app
+          commandLine: yarn test
+          group:
+            kind: test
+    projects:
+      - name: react-web-app
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.41.1/resources/v2/react-web-app.zip'

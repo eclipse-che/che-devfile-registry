@@ -1,0 +1,52 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: che4z-
+components:
+  - type: chePlugin
+    id: broadcommfd/cobol-language-support/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.41.1/v3/
+  - type: chePlugin
+    id: broadcommfd/ccf/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.41.1/v3/
+  - type: chePlugin
+    id: broadcommfd/explorer-for-endevor/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.41.1/v3/
+  - type: chePlugin
+    id: broadcommfd/debugger-for-mainframe/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.41.1/v3/
+  - type: chePlugin
+    id: broadcommfd/hlasm-language-support/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.41.1/v3/
+  - type: chePlugin
+    id: zowe/vscode-extension-for-zowe/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.41.1/v3/
+  - alias: zowe-cli
+    type: kubernetes
+    mountSources: true
+    referenceContent: |
+      kind: List
+      items:
+       -
+        apiVersion: v1
+        kind: Pod
+        metadata:
+         name: zowe
+        spec:
+         containers:
+          -
+           image: 'brightside-docker.packages.broadcom.com/cli-mainframe-basic-stack:2021-08-30T13-45-06'
+           env:
+            - name: ZOWE_CLI_HOME
+              value: /projects/.zowe
+           name: cli
+           resources:
+            limits:
+             memory: 1024Mi
+         initContainers:
+          -
+           name: plugin-container
+           image: 'brightside-docker.packages.broadcom.com/cli-mainframe-basic-plugins:2021-08-30T13-45-06'
+           command: ["/bin/sh", "-c", "if [ -z \"$(ls -1A /projects/.zowe)\" ]; then mkdir /projects/.zowe && cp -r /.zowe_init/* /projects/.zowe; fi"]
+           volumeMounts:
+            - mountPath: /projects
+              name: projects

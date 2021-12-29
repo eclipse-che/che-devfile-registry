@@ -1,0 +1,122 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-nodejs-web-app
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+  events:
+    preStart:
+      - init-container-command
+  components:
+    - name: checode
+      volume: {}
+    - name: che-code-injector
+      container:
+        image: quay.io/che-incubator/che-code:insiders
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 128Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: nodejs-web-app
+spec:
+  started: true
+  template:
+    components:
+      - name: nodejs
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-b452131
+          endpoints:
+            - exposure: public
+              name: nodejs
+              protocol: http
+              targetPort: 3000
+            - name: che-code
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+                contributed-by: che-code.eclipse.org
+              targetPort: 3100
+              exposure: public
+              path: '?tkn=eclipse-che'
+              secure: false
+              protocol: https
+          memoryLimit: 2.07G
+          mountSources: true
+          command:
+            - /checode/entrypoint-volume.sh
+          volumeMounts:
+            - name: checode
+              path: /checode
+          memoryRequest: 256Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+        attributes:
+          che-code.eclipse.org/contribute-entry-point: true
+          che-code.eclipse.org/contribute-volume-mount/checode: /checode
+          che-code.eclipse.org/contribute-endpoint/che-code: 3100
+          che-code.eclipse.org/contribute-memoryLimit: true
+          che-code.eclipse.org/original-memoryLimit: 1G
+          che-code.eclipse.org/contribute-memoryRequest: true
+          che-code.eclipse.org/contribute-cpuLimit: true
+          che-code.eclipse.org/contribute-cpuRequest: true
+          che-code.eclipse.org/contributed-container: nodejs
+      - name: che-code-nodejs-web-app
+        plugin:
+          kubernetes:
+            name: che-code-nodejs-web-app
+    commands:
+      - id: dependencies
+        exec:
+          label: Download dependencies
+          component: nodejs
+          workingDir: ${PROJECTS_ROOT}/web-nodejs-sample/app
+          commandLine: npm install
+          group:
+            kind: build
+            isDefault: true
+      - id: runapp
+        exec:
+          label: Run the web app
+          component: nodejs
+          workingDir: ${PROJECTS_ROOT}/web-nodejs-sample/app
+          commandLine: nodemon app.js
+          group:
+            kind: run
+      - id: debug
+        exec:
+          label: Run the web app (debugging enabled)
+          component: nodejs
+          workingDir: ${PROJECTS_ROOT}/web-nodejs-sample/app
+          commandLine: nodemon --inspect app.js
+          group:
+            kind: debug
+            isDefault: true
+      - id: stopapp
+        exec:
+          label: Stop the web app
+          component: nodejs
+          commandLine: >-
+            node_server_pids=$(pgrep -fx '.*nodemon (--inspect )?app.js' | tr
+            "\\n" " ") && echo "Stopping node server with PIDs:
+            ${node_server_pids}" &&  kill -15 ${node_server_pids} &>/dev/null &&
+            echo 'Done.'
+          group:
+            kind: run
+    projects:
+      - name: web-nodejs-sample
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.41.1/resources/v2/web-nodejs-sample.zip'

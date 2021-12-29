@@ -1,0 +1,224 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: theia-ide-asp.net
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: remote-runtime-injector
+  events:
+    preStart:
+      - init-container-command
+  components:
+    - name: theia-ide
+      container:
+        image: >-
+          quay.io/eclipse/che-theia@sha256:a8b3af2ce03ea25a61625fac57392ca92a25b96671fab0d34e11f1c4467059e2
+        env:
+          - name: THEIA_PLUGINS
+            value: local-dir:///plugins
+          - name: HOSTED_PLUGIN_HOSTNAME
+            value: 0.0.0.0
+          - name: HOSTED_PLUGIN_PORT
+            value: '3130'
+          - name: THEIA_HOST
+            value: 127.0.0.1
+        volumeMounts:
+          - name: plugins
+            path: /plugins
+          - name: theia-local
+            path: /home/theia/.theia
+        mountSources: true
+        memoryLimit: 512M
+        cpuLimit: 1500m
+        cpuRequest: 100m
+        endpoints:
+          - name: theia
+            attributes:
+              type: main
+              cookiesAuthEnabled: true
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: false
+            protocol: https
+          - name: webviews
+            attributes:
+              type: webview
+              cookiesAuthEnabled: true
+              discoverable: false
+              unique: true
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: false
+            protocol: https
+          - name: mini-browser
+            attributes:
+              type: mini-browser
+              cookiesAuthEnabled: true
+              discoverable: false
+              unique: true
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: false
+            protocol: https
+          - name: theia-dev
+            attributes:
+              type: ide-dev
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 3130
+            exposure: public
+            protocol: http
+          - name: theia-redirect-1
+            attributes:
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 13131
+            exposure: public
+            protocol: http
+          - name: theia-redirect-2
+            attributes:
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 13132
+            exposure: public
+            protocol: http
+          - name: theia-redirect-3
+            attributes:
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 13133
+            exposure: public
+            protocol: http
+          - name: terminal
+            attributes:
+              type: collocated-terminal
+              discoverable: false
+              cookiesAuthEnabled: true
+              urlRewriteSupported: true
+            targetPort: 3333
+            exposure: public
+            secure: false
+            protocol: wss
+      attributes:
+        app.kubernetes.io/component: che-theia
+        app.kubernetes.io/part-of: che-theia.eclipse.org
+    - name: plugins
+      volume: {}
+    - name: theia-local
+      volume: {}
+    - name: che-machine-exec
+      container:
+        image: >-
+          quay.io/eclipse/che-machine-exec@sha256:0cdd91231b651ddd3a790fad3a34e32c5ea573707d73d5813e0778b0a2dd79b6
+        command:
+          - /go/bin/che-machine-exec
+          - '--url'
+          - 127.0.0.1:3333
+      attributes:
+        app.kubernetes.io/component: machine-exec
+        app.kubernetes.io/part-of: che-theia.eclipse.org
+    - name: remote-runtime-injector
+      container:
+        image: >-
+          quay.io/eclipse/che-theia-endpoint-runtime-binary@sha256:550063b43ccae2e99d7d1886506b74e636a924bf74f54cecdb123f399c23a66b
+        env:
+          - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
+            value: /remote-endpoint/plugin-remote-endpoint
+          - name: REMOTE_ENDPOINT_VOLUME_NAME
+            value: remote-endpoint
+        volumeMounts:
+          - name: plugins
+            path: /plugins
+          - name: remote-endpoint
+            path: /remote-endpoint
+      attributes:
+        app.kubernetes.io/component: remote-runtime-injector
+        app.kubernetes.io/part-of: che-theia.eclipse.org
+    - name: remote-endpoint
+      volume:
+        ephemeral: true
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: asp.net
+spec:
+  started: true
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          memoryLimit: 3Gi
+          endpoints:
+            - exposure: public
+              name: aspnet
+              protocol: http
+              targetPort: 5000
+          volumeMounts:
+            - name: nuget
+              path: /home/user/.nuget
+            - name: dotnet
+              path: /home/user/.dotnet
+            - path: /remote-endpoint
+              name: remote-endpoint
+            - path: /plugins
+              name: plugins
+          env:
+            - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
+              value: /remote-endpoint/plugin-remote-endpoint
+            - name: THEIA_PLUGINS
+              value: local-dir:///plugins/sidecars/tools
+          args:
+            - sh
+            - '-c'
+            - ${PLUGIN_REMOTE_ENDPOINT_EXECUTABLE}
+        attributes:
+          che-theia.eclipse.org/vscode-extensions:
+            - >-
+              https://open-vsx.org/api/muhammad-sammy/csharp/1.23.16/file/muhammad-sammy.csharp-1.23.16.vsix
+            - >-
+              https://github.com/redhat-developer/codeready-workspaces-vscode-extensions/releases/download/v069c634/vscode-xml-0.17.0.vsix
+          app.kubernetes.io/name: tools
+      - name: nuget
+        volume:
+          size: 1G
+      - name: dotnet
+        volume:
+          size: 1G
+      - name: theia-ide-asp.net
+        plugin:
+          kubernetes:
+            name: theia-ide-asp.net
+    commands:
+      - id: install-cake
+        exec:
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/aspnetcore-realworld-example-app
+          commandLine: dotnet tool install -g Cake.Tool
+          group:
+            kind: build
+      - id: build
+        exec:
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/aspnetcore-realworld-example-app
+          commandLine: dotnet run -p build/build.csproj
+          group:
+            kind: build
+      - id: run-server
+        exec:
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/aspnetcore-realworld-example-app
+          commandLine: dotnet run --project src/Conduit/Conduit.csproj
+          group:
+            kind: run
+    projects:
+      - name: aspnetcore-realworld-example-app
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.41.1/resources/v2/aspnetcore-realworld-example-app.zip'
