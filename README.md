@@ -1,5 +1,6 @@
 ![Next Build Status](https://github.com/eclipse/che-devfile-registry/actions/workflows/next-build.yml/badge.svg)
 ![Release Build Status](https://github.com/eclipse/che-devfile-registry/actions/workflows/release.yml/badge.svg)
+[![Contribute](https://www.eclipse.org/che/contribute.svg)](https://workspaces.openshift.com#https://github.com/eclipse/che-devfile-registry)
 
 # Eclipse Che devfile registry
 
