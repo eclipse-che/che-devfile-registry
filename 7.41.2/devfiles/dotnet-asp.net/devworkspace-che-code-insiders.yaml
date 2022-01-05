@@ -1,0 +1,115 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-asp.net
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+  events:
+    preStart:
+      - init-container-command
+  components:
+    - name: checode
+      volume: {}
+    - name: che-code-injector
+      container:
+        image: quay.io/che-incubator/che-code:insiders
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 128Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: asp.net
+spec:
+  started: true
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          memoryLimit: 4Gi
+          endpoints:
+            - exposure: public
+              name: aspnet
+              protocol: http
+              targetPort: 5000
+            - name: che-code
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+                contributed-by: che-code.eclipse.org
+              targetPort: 3100
+              exposure: public
+              path: '?tkn=eclipse-che'
+              secure: false
+              protocol: https
+          volumeMounts:
+            - name: nuget
+              path: /home/user/.nuget
+            - name: dotnet
+              path: /home/user/.dotnet
+            - name: checode
+              path: /checode
+          command:
+            - /checode/entrypoint-volume.sh
+          memoryRequest: 256Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+        attributes:
+          che-code.eclipse.org/contribute-entry-point: true
+          che-code.eclipse.org/contribute-volume-mount/checode: /checode
+          che-code.eclipse.org/contribute-endpoint/che-code: 3100
+          che-code.eclipse.org/contribute-memoryLimit: true
+          che-code.eclipse.org/original-memoryLimit: 3Gi
+          che-code.eclipse.org/contribute-memoryRequest: true
+          che-code.eclipse.org/contribute-cpuLimit: true
+          che-code.eclipse.org/contribute-cpuRequest: true
+          che-code.eclipse.org/contributed-container: tools
+      - name: nuget
+        volume:
+          size: 1G
+      - name: dotnet
+        volume:
+          size: 1G
+      - name: che-code-asp.net
+        plugin:
+          kubernetes:
+            name: che-code-asp.net
+    commands:
+      - id: install-cake
+        exec:
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/aspnetcore-realworld-example-app
+          commandLine: dotnet tool install -g Cake.Tool
+          group:
+            kind: build
+      - id: build
+        exec:
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/aspnetcore-realworld-example-app
+          commandLine: dotnet run -p build/build.csproj
+          group:
+            kind: build
+      - id: run-server
+        exec:
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/aspnetcore-realworld-example-app
+          commandLine: dotnet run --project src/Conduit/Conduit.csproj
+          group:
+            kind: run
+    projects:
+      - name: aspnetcore-realworld-example-app
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.41.2/resources/v2/aspnetcore-realworld-example-app.zip'

@@ -1,0 +1,16 @@
+displayName: NodeJS React Web Application
+description: Stack for developing NodeJS React Web Application
+tags:
+  - community
+  - NodeJS
+  - React
+  - Redux
+  - RealWorld
+icon: /images/nodejs.svg
+links:
+  v2: https://github.com/che-samples/nodejs-react-redux/tree/devfilev2
+  self: /devfiles/nodejs-react/devfile.yaml
+  devWorkspaces:
+    eclipse/che-theia/latest: /devfiles/nodejs-react/devworkspace-che-theia-latest.yaml
+    eclipse/che-theia/next: /devfiles/nodejs-react/devworkspace-che-theia-next.yaml
+    che-incubator/che-code/insiders: /devfiles/nodejs-react/devworkspace-che-code-insiders.yaml

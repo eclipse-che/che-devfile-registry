@@ -1,0 +1,109 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-nodejs-angular
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+  events:
+    preStart:
+      - init-container-command
+  components:
+    - name: checode
+      volume: {}
+    - name: che-code-injector
+      container:
+        image: quay.io/che-incubator/che-code:insiders
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 128Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: nodejs-angular
+spec:
+  started: true
+  template:
+    components:
+      - name: nodejs
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          endpoints:
+            - exposure: public
+              name: angular
+              protocol: http
+              targetPort: 4200
+            - name: che-code
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+                contributed-by: che-code.eclipse.org
+              targetPort: 3100
+              exposure: public
+              path: '?tkn=eclipse-che'
+              secure: false
+              protocol: https
+          memoryLimit: 3.07G
+          mountSources: true
+          command:
+            - /checode/entrypoint-volume.sh
+          volumeMounts:
+            - name: checode
+              path: /checode
+          memoryRequest: 256Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+        attributes:
+          che-code.eclipse.org/contribute-entry-point: true
+          che-code.eclipse.org/contribute-volume-mount/checode: /checode
+          che-code.eclipse.org/contribute-endpoint/che-code: 3100
+          che-code.eclipse.org/contribute-memoryLimit: true
+          che-code.eclipse.org/original-memoryLimit: 2G
+          che-code.eclipse.org/contribute-memoryRequest: true
+          che-code.eclipse.org/contribute-cpuLimit: true
+          che-code.eclipse.org/contribute-cpuRequest: true
+          che-code.eclipse.org/contributed-container: nodejs
+      - name: che-code-nodejs-angular
+        plugin:
+          kubernetes:
+            name: che-code-nodejs-angular
+    commands:
+      - id: install
+        exec:
+          label: Install all required dependencies
+          component: nodejs
+          workingDir: ${PROJECTS_ROOT}/nodejs-angular
+          commandLine: yarn install
+          group:
+            kind: build
+      - id: build
+        exec:
+          label: Build application
+          component: nodejs
+          workingDir: ${PROJECTS_ROOT}/nodejs-angular
+          commandLine: yarn build
+          group:
+            kind: build
+      - id: start
+        exec:
+          label: Start application
+          component: nodejs
+          workingDir: ${PROJECTS_ROOT}/nodejs-angular
+          commandLine: yarn run start --host 0.0.0.0 --disableHostCheck true
+          group:
+            kind: run
+    projects:
+      - name: nodejs-angular
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.41.2/resources/v2/nodejs-angular.zip'

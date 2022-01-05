@@ -1,0 +1,16 @@
+displayName: NodeJS Web Application based on Yarn
+description: Stack for developing NodeJS Web Application based on Yarn
+tags:
+  - community
+  - NodeJS
+  - Alpine
+  - Yarn
+  - React
+icon: /images/nodejs.svg
+links:
+  v2: https://github.com/che-samples/react-web-app/tree/devfilev2
+  self: /devfiles/nodejs-yarn/devfile.yaml
+  devWorkspaces:
+    eclipse/che-theia/latest: /devfiles/nodejs-yarn/devworkspace-che-theia-latest.yaml
+    eclipse/che-theia/next: /devfiles/nodejs-yarn/devworkspace-che-theia-next.yaml
+    che-incubator/che-code/insiders: /devfiles/nodejs-yarn/devworkspace-che-code-insiders.yaml
