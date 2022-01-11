@@ -1,5 +1,5 @@
 ---
 displayName: Java Maven
 description: Java Stack with OpenJDK 11 and Maven 3.6.0
-tags: ["community", "Java", "OpenJDK", "Maven", "Debian"]
+tags: ["Community", "Java", "OpenJDK", "Maven", "Debian"]
 icon: /images/java.svg

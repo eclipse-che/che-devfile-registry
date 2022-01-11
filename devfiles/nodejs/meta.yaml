@@ -1,7 +1,7 @@
 ---
 displayName: NodeJS Express Web Application
 description: Stack with NodeJS 10
-tags: ["community", "NodeJS", "Express", "ubi8"]
+tags: ["Community", "NodeJS", "Express", "ubi8"]
 icon: /images/nodejs.svg
 links:
   v2: https://github.com/che-samples/web-nodejs-sample/tree/devfilev2
