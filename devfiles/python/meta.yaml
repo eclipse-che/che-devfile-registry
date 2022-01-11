@@ -1,7 +1,7 @@
 ---
 displayName: Python
 description: Python Stack with Python 3.8
-tags: ["community", "Centos", "Python", "pip"]
+tags: ["Community", "Centos", "Python", "pip"]
 icon: /images/python.svg
 links:
   v2: https://github.com/che-samples/python-hello-world/tree/devfilev2

@@ -1,7 +1,7 @@
 ---
 displayName: Quarkus REST API
 description: Quarkus stack with a default REST endpoint application sample
-tags: ["community", "Java", "Quarkus", "OpenJDK", "Maven", "Debian"]
+tags: ["Community", "Java", "Quarkus", "OpenJDK", "Maven", "Debian"]
 icon: /images/quarkus.svg
 links:
   v2: https://github.com/che-samples/quarkus-quickstarts/tree/devfilev2

@@ -1,5 +1,5 @@
 ---
 displayName: Java Gradle
 description: Java Stack with OpenJDK 11 and Gradle 6.2.1
-tags: ["community", "Java", "OpenJDK", "Gradle", "Ubuntu"]
+tags: ["Community", "Java", "OpenJDK", "Gradle", "Ubuntu"]
 icon: /images/java.svg
