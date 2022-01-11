@@ -1,7 +1,7 @@
 displayName: NodeJS MongoDB Web Application
 description: Stack with NodeJS 10 and MongoDB 3.4
 tags:
-  - community
+  - Community
   - NodeJS
   - Express
   - MongoDB

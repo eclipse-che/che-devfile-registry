@@ -1,7 +1,7 @@
 displayName: Quarkus CLI
 description: Quarkus stack with a command-mode sample
 tags:
-  - community
+  - Community
   - Java
   - Quarkus
   - OpenJDK

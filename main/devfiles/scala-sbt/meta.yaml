@@ -1,7 +1,7 @@
 displayName: Scala
 description: Scala Stack with OpenJDK 11 and sbt 1.x
 tags:
-  - community
+  - Community
   - Scala
   - OpenJDK
   - sbt
