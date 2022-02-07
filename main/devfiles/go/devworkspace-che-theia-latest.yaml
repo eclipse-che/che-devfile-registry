@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-golang-echo-example
+  name: theia-ide-golang-example
 spec:
   commands:
     - id: init-container-command
@@ -147,7 +147,7 @@ spec:
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
 metadata:
-  name: golang-echo-example
+  name: golang-example
 spec:
   started: true
   template:
@@ -183,41 +183,32 @@ spec:
             - >-
               https://github.com/golang/vscode-go/releases/download/v0.23.0/go-0.23.0.vsix
           app.kubernetes.io/name: go-cli
-      - name: theia-ide-golang-echo-example
+      - name: theia-ide-golang-example
         plugin:
           kubernetes:
-            name: theia-ide-golang-echo-example
+            name: theia-ide-golang-example
     commands:
-      - id: dependencies
-        exec:
-          label: '2.1 xenisa :: install dependencies'
-          component: go-cli
-          workingDir: ${PROJECTS_ROOT}/golang-echo-example
-          commandLine: go mod download
-          group:
-            kind: build
       - id: run
         exec:
-          label: '2.2 xenisa :: run'
+          label: 1.1 Run outyet
           component: go-cli
-          workingDir: ${PROJECTS_ROOT}/golang-echo-example
-          commandLine: go run main.go
+          workingDir: ${PROJECTS_ROOT}/golang-example/outyet
+          commandLine: go get -d && go run main.go
           group:
             kind: run
-      - id: build
+      - id: stop
         exec:
-          label: '2.3 xenisa :: build'
+          label: 1.2 Stop outyet
           component: go-cli
-          workingDir: ${PROJECTS_ROOT}/golang-echo-example
-          commandLine: go build
+          commandLine: kill $(pidof go)
           group:
-            kind: build
+            kind: run
       - id: test
         exec:
-          label: '2.4 xenisa :: test'
+          label: 1.3 Test outyet
           component: go-cli
-          workingDir: ${PROJECTS_ROOT}/golang-echo-example
-          commandLine: go test ./...
+          workingDir: ${PROJECTS_ROOT}/golang-example/outyet
+          commandLine: go test
           group:
             kind: test
       - id: file
@@ -228,14 +219,7 @@ spec:
           commandLine: go get -d && go run ${file}
           group:
             kind: run
-      - id: stop
-        exec:
-          label: Stop all commands
-          component: go-cli
-          commandLine: kill $(pidof go)
-          group:
-            kind: run
     projects:
-      - name: golang-echo-example
+      - name: golang-example
         zip:
-          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/golang-echo-example.zip'
+          location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/golang-example.zip'

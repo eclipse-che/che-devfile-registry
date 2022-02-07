@@ -45,7 +45,7 @@ spec:
               targetPort: 8080
             - name: java-guestbook
               exposure: public
-              protocol: tcp
+              protocol: http
               targetPort: 8443
             - name: debug
               exposure: none
@@ -137,7 +137,7 @@ spec:
           size: 1G
       - name: mongodbdata
         volume:
-          size: 1G
+          size: 256Mi
       - name: che-code-java-guestbook
         plugin:
           kubernetes:

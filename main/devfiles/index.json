@@ -110,7 +110,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/go.svg",
     "links": {
-      "v2": "https://github.com/che-samples/golang-echo-example/tree/devfile2",
+      "v2": "https://github.com/che-samples/golang-example/tree/devfilev2",
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/go/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/go/devworkspace-che-theia-latest.yaml",
