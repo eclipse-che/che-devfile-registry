@@ -202,10 +202,10 @@ spec:
       - name: m2
         volume:
           size: 1G
-      - name: mysql
+      - name: mariadb
         container:
           image: >-
-            quay.io/eclipse/che--centos--mysql-57-centos7:latest-e08ee4d43b7356607685b69bde6335e27cf20c020f345b6c6c59400183882764
+            quay.io/eclipse/che--mariadb:10.7.1-5a8009369ee57c85b6f4a08406147bd9c505cde6b8250d16a27d2a5febfdead7
           memoryLimit: 300Mi
           endpoints:
             - exposure: none
@@ -213,14 +213,22 @@ spec:
               protocol: tcp
               targetPort: 3306
           env:
-            - name: MYSQL_USER
+            - name: MARIADB_USER
               value: petclinic
-            - name: MYSQL_PASSWORD
+            - name: MARIADB_PASSWORD
               value: petclinic
-            - name: MYSQL_DATABASE
+            - name: MARIADB_DATABASE
               value: petclinic
+            - name: MARIADB_ALLOW_EMPTY_ROOT_PASSWORD
+              value: allow
             - name: PS1
-              value: $(echo ${0})\\$
+              value: $(echo ${0}) $
+          volumeMounts:
+            - name: mysqldata
+              path: /var/lib/mysql
+      - name: mysqldata
+        volume:
+          size: 256Mi
       - name: theia-ide-spring-petclinic
         plugin:
           kubernetes:
@@ -228,22 +236,22 @@ spec:
     commands:
       - id: prepare-database
         exec:
-          component: mysql
+          component: mariadb
           workingDir: ${PROJECTS_ROOT}/java-spring-petclinic
           commandLine: >
-            /opt/rh/rh-mysql57/root/usr/bin/mysql -u root <
+            mysql -u root <
             ${PROJECTS_ROOT}/java-spring-petclinic/src/main/resources/db/mysql/user.sql
             && \
 
-            /opt/rh/rh-mysql57/root/usr/bin/mysql -u root petclinic <
+            mysql -u root petclinic <
             ${PROJECTS_ROOT}/java-spring-petclinic/src/main/resources/db/mysql/schema.sql
             && \
 
-            /opt/rh/rh-mysql57/root/usr/bin/mysql -u root petclinic <
+            mysql -u root petclinic <
             ${PROJECTS_ROOT}/java-spring-petclinic/src/main/resources/db/mysql/data.sql
             && \
 
-            echo -e "\e[32mDone.\e[0m Database petclinic was configured"
+            echo "\e[32mDone.\e[0m Database petclinic was configured"
           group:
             kind: run
             isDefault: true
@@ -268,7 +276,7 @@ spec:
           component: tools
           workingDir: ${PROJECTS_ROOT}/java-spring-petclinic
           commandLine: >
-            java -jar -Dspring-boot.run.profiles=mysql \
+            java -jar -Dspring.profiles.active=mysql \
 
             -Xdebug
             -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 \

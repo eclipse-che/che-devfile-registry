@@ -14,7 +14,7 @@ spec:
     - name: theia-ide
       container:
         image: >-
-          quay.io/eclipse/che-theia@sha256:0ba9df3898d86d055440ed36da34e4984d0679fb70173aecd95f7021dd759970
+          quay.io/eclipse/che-theia@sha256:472def7fa0764848b2c8bf817d695ce354804b7cdc06fb446b896157609eabf3
         env:
           - name: THEIA_PLUGINS
             value: local-dir:///plugins
@@ -115,7 +115,7 @@ spec:
     - name: che-machine-exec
       container:
         image: >-
-          quay.io/eclipse/che-machine-exec@sha256:01383561851b694386c6e969e1c0c4e84333cf08778be4128cb12ace0433e6a9
+          quay.io/eclipse/che-machine-exec@sha256:0033274945beaa29e990510f801a664ed582af75c7d52a958abf0094f143cc7a
         command:
           - /go/bin/che-machine-exec
           - '--url'
@@ -126,7 +126,7 @@ spec:
     - name: remote-runtime-injector
       container:
         image: >-
-          quay.io/eclipse/che-theia-endpoint-runtime-binary@sha256:b2880a194fc48d23ef77175633bef1e382a35e4bae831ba2fc9b2d421060cff8
+          quay.io/eclipse/che-theia-endpoint-runtime-binary@sha256:d850c9f64e6107aefaa50beeb078740e123916de58faa0870eb55e2e36055971
         env:
           - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
             value: /remote-endpoint/plugin-remote-endpoint
@@ -195,10 +195,10 @@ spec:
       - name: m2
         volume:
           size: 1G
-      - name: mysql
+      - name: mariadb
         container:
           image: >-
-            quay.io/eclipse/che--centos--mysql-57-centos7:latest-e08ee4d43b7356607685b69bde6335e27cf20c020f345b6c6c59400183882764
+            quay.io/eclipse/che--mariadb:10.7.1-5a8009369ee57c85b6f4a08406147bd9c505cde6b8250d16a27d2a5febfdead7
           memoryLimit: 300Mi
           endpoints:
             - exposure: none
@@ -206,14 +206,22 @@ spec:
               protocol: tcp
               targetPort: 3306
           env:
-            - name: MYSQL_USER
+            - name: MARIADB_USER
               value: petclinic
-            - name: MYSQL_PASSWORD
+            - name: MARIADB_PASSWORD
               value: petclinic
-            - name: MYSQL_DATABASE
+            - name: MARIADB_DATABASE
               value: petclinic
+            - name: MARIADB_ALLOW_EMPTY_ROOT_PASSWORD
+              value: allow
             - name: PS1
-              value: $(echo ${0})\\$
+              value: $(echo ${0}) $
+          volumeMounts:
+            - name: mysqldata
+              path: /var/lib/mysql
+      - name: mysqldata
+        volume:
+          size: 256Mi
       - name: theia-ide-spring-petclinic
         plugin:
           kubernetes:
@@ -221,22 +229,22 @@ spec:
     commands:
       - id: prepare-database
         exec:
-          component: mysql
+          component: mariadb
           workingDir: ${PROJECTS_ROOT}/java-spring-petclinic
           commandLine: >
-            /opt/rh/rh-mysql57/root/usr/bin/mysql -u root <
+            mysql -u root <
             ${PROJECTS_ROOT}/java-spring-petclinic/src/main/resources/db/mysql/user.sql
             && \
 
-            /opt/rh/rh-mysql57/root/usr/bin/mysql -u root petclinic <
+            mysql -u root petclinic <
             ${PROJECTS_ROOT}/java-spring-petclinic/src/main/resources/db/mysql/schema.sql
             && \
 
-            /opt/rh/rh-mysql57/root/usr/bin/mysql -u root petclinic <
+            mysql -u root petclinic <
             ${PROJECTS_ROOT}/java-spring-petclinic/src/main/resources/db/mysql/data.sql
             && \
 
-            echo -e "\e[32mDone.\e[0m Database petclinic was configured"
+            echo "\e[32mDone.\e[0m Database petclinic was configured"
           group:
             kind: run
             isDefault: true
@@ -261,7 +269,7 @@ spec:
           component: tools
           workingDir: ${PROJECTS_ROOT}/java-spring-petclinic
           commandLine: >
-            java -jar -Dspring-boot.run.profiles=mysql \
+            java -jar -Dspring.profiles.active=mysql \
 
             -Xdebug
             -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 \
