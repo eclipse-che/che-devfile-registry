@@ -36,7 +36,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           memoryLimit: 4Gi
           command:
             - /checode/entrypoint-volume.sh
@@ -105,7 +105,7 @@ spec:
         exec:
           label: Run main.sh script
           component: tools
-          workingDir: ${PROJECTS_ROOT}/bash
+          workingDir: ${PROJECT_SOURCE}
           commandLine: |
             ./main.sh
           group:

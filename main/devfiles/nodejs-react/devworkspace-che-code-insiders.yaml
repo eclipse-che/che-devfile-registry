@@ -34,9 +34,10 @@ spec:
   started: true
   template:
     components:
-      - name: nodejs
+      - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
+          memoryLimit: 2.07G
           endpoints:
             - exposure: public
               name: nodejs
@@ -78,8 +79,6 @@ spec:
               targetPort: 13133
               exposure: public
               protocol: http
-          memoryLimit: 2.07G
-          mountSources: true
           command:
             - /checode/entrypoint-volume.sh
           volumeMounts:
@@ -100,25 +99,25 @@ spec:
           che-code.eclipse.org/contribute-memoryRequest: true
           che-code.eclipse.org/contribute-cpuLimit: true
           che-code.eclipse.org/contribute-cpuRequest: true
-          che-code.eclipse.org/contributed-container: nodejs
+          che-code.eclipse.org/contributed-container: tools
       - name: che-code-react
         plugin:
           kubernetes:
             name: che-code-react
     commands:
-      - id: install
+      - id: install-dependencies
         exec:
           label: Install all required dependencies
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/nodejs-react-redux
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: npm install
           group:
             kind: build
-      - id: start
+      - id: start-application
         exec:
           label: Start the local server
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/nodejs-react-redux
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: npm start
           group:
             kind: run

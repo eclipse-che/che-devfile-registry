@@ -152,16 +152,16 @@ spec:
   started: true
   template:
     components:
-      - name: cpp-dev
+      - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-1e8c2c9
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           memoryLimit: 1G
           mountSources: true
           env:
             - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
               value: /remote-endpoint/plugin-remote-endpoint
             - name: THEIA_PLUGINS
-              value: local-dir:///plugins/sidecars/cpp-dev
+              value: local-dir:///plugins/sidecars/tools
           volumeMounts:
             - path: /remote-endpoint
               name: remote-endpoint
@@ -179,7 +179,7 @@ spec:
               https://download.jboss.org/jbosstools/vscode/3rdparty/cdt-gdb-vscode/cdt-gdb-vscode-0.0.91-2cbbb8.vsix
             - >-
               https://download.jboss.org/jbosstools/vscode/3rdparty/vscode-clangd/vscode-clangd-0.1.5-562d00.vsix
-          app.kubernetes.io/name: cpp-dev
+          app.kubernetes.io/name: tools
       - name: theia-ide-cpp
         plugin:
           kubernetes:
@@ -188,8 +188,8 @@ spec:
       - id: build
         exec:
           label: Build application
-          component: cpp-dev
-          workingDir: ${PROJECTS_ROOT}/cpp-hello-world
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: g++ -g hello.cpp -o hello.out && echo "Build complete"
           group:
             kind: build
@@ -197,8 +197,8 @@ spec:
       - id: run
         exec:
           label: Run application
-          component: cpp-dev
-          workingDir: ${PROJECTS_ROOT}/cpp-hello-world
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: ./hello.out
           group:
             kind: run

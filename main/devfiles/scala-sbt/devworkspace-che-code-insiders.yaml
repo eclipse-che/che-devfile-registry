@@ -36,7 +36,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-1e8c2c9
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           env:
             - name: JDK_JAVA_OPTIONS
               value: >-
@@ -151,7 +151,7 @@ spec:
       - id: build
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/scala-sbt
+          workingDir: ${PROJECT_SOURCE}
           commandLine: ./sbt +Test/compile
           group:
             kind: build
@@ -159,21 +159,21 @@ spec:
       - id: package
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/scala-sbt
+          workingDir: ${PROJECT_SOURCE}
           commandLine: ./sbt +publishLocal
           group:
             kind: build
       - id: sbt-repl
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/scala-sbt
+          workingDir: ${PROJECT_SOURCE}
           commandLine: ./sbt
           group:
             kind: run
       - id: run
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/scala-sbt
+          workingDir: ${PROJECT_SOURCE}
           commandLine: ./sbt run
           group:
             kind: run
@@ -181,7 +181,7 @@ spec:
       - id: test
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/scala-sbt
+          workingDir: ${PROJECT_SOURCE}
           commandLine: ./sbt +test
           group:
             kind: run

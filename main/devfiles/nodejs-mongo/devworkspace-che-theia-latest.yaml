@@ -152,9 +152,9 @@ spec:
   started: true
   template:
     components:
-      - name: nodejs
+      - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-b452131
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           env:
             - name: SECRET
               value: 220fd770-c028-480d-8f95-f84353c7d55a
@@ -163,7 +163,7 @@ spec:
             - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
               value: /remote-endpoint/plugin-remote-endpoint
             - name: THEIA_PLUGINS
-              value: local-dir:///plugins/sidecars/nodejs
+              value: local-dir:///plugins/sidecars/tools
           endpoints:
             - exposure: public
               name: nodejs
@@ -185,7 +185,7 @@ spec:
               https://open-vsx.org/api/vscode/typescript-language-features/1.49.3/file/vscode.typescript-language-features-1.49.3.vsix
             - >-
               https://open-vsx.org/api/ms-vscode/js-debug/1.52.2/file/ms-vscode.js-debug-1.52.2.vsix
-          app.kubernetes.io/name: nodejs
+          app.kubernetes.io/name: tools
       - name: mongo
         container:
           image: >-
@@ -212,17 +212,17 @@ spec:
               path: /var/lib/mongodb/data
       - name: mongo-storage
         volume:
-          size: 1G
+          size: 256Mi
       - name: theia-ide-nodejs-mongodb
         plugin:
           kubernetes:
             name: theia-ide-nodejs-mongodb
     commands:
-      - id: runapp
+      - id: run-application
         exec:
           label: Run the application
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/nodejs-mongodb-sample
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: npm install && node --inspect=9229 app.js
           group:
             kind: run

@@ -159,9 +159,9 @@ spec:
   started: true
   template:
     components:
-      - name: python
+      - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-3735d4f
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           volumeMounts:
             - name: venv
               path: /home/user/.venv
@@ -175,7 +175,7 @@ spec:
             - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
               value: /remote-endpoint/plugin-remote-endpoint
             - name: THEIA_PLUGINS
-              value: local-dir:///plugins/sidecars/python
+              value: local-dir:///plugins/sidecars/tools
           args:
             - sh
             - '-c'
@@ -184,7 +184,7 @@ spec:
           che-theia.eclipse.org/vscode-extensions:
             - >-
               https://github.com/microsoft/vscode-python/releases/download/2020.7.94776/ms-python-release.vsix
-          app.kubernetes.io/name: python
+          app.kubernetes.io/name: tools
       - name: venv
         volume:
           size: 1G
@@ -193,11 +193,11 @@ spec:
           kubernetes:
             name: theia-ide-python-hello-world
     commands:
-      - id: run
+      - id: run-application
         exec:
-          label: Run the application
-          component: python
-          workingDir: ${PROJECTS_ROOT}/python-hello-world
+          label: Run application
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: python3 hello-world.py
           group:
             kind: run

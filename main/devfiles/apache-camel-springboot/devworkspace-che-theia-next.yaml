@@ -161,7 +161,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-d3eab13
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           memoryLimit: 3Gi
           endpoints:
             - exposure: none
@@ -211,24 +211,25 @@ spec:
           kubernetes:
             name: theia-ide-apache-camel-springboot
     commands:
-      - id: build-the-project
+      - id: build-project
         exec:
           commandLine: JAVA_HOME=$JAVA_HOME_8 mvn clean install
           component: tools
-          workingDir: ${PROJECTS_ROOT}/fuse-rest-http-booster
-      - id: run-the-services
+          workingDir: ${PROJECT_SOURCE}
+      - id: run-services
         exec:
           commandLine: JAVA_HOME=$JAVA_HOME_8 mvn spring-boot:run -DskipTests
           component: tools
-          workingDir: ${PROJECTS_ROOT}/fuse-rest-http-booster
-      - id: run-the-services-debug
+          workingDir: ${PROJECT_SOURCE}
+      - id: debug-services
         exec:
-          commandLine: >-
-            JAVA_HOME=$JAVA_HOME_8 mvn spring-boot:run -DskipTests
+          commandLine: >
+            JAVA_HOME=$JAVA_HOME_8 mvn spring-boot:run -DskipTests \
+
             -Drun.jvmArguments="-Xdebug
             -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
           component: tools
-          workingDir: ${PROJECTS_ROOT}/fuse-rest-http-booster
+          workingDir: ${PROJECT_SOURCE}
     projects:
       - name: fuse-rest-http-booster
         zip:

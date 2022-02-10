@@ -34,9 +34,9 @@ spec:
   started: true
   template:
     components:
-      - name: python
+      - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-3735d4f
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           volumeMounts:
             - name: venv
               path: /home/user/.venv
@@ -98,7 +98,7 @@ spec:
           che-code.eclipse.org/contribute-memoryRequest: true
           che-code.eclipse.org/contribute-cpuLimit: true
           che-code.eclipse.org/contribute-cpuRequest: true
-          che-code.eclipse.org/contributed-container: python
+          che-code.eclipse.org/contributed-container: tools
       - name: venv
         volume:
           size: 1G
@@ -107,11 +107,11 @@ spec:
           kubernetes:
             name: che-code-python-hello-world
     commands:
-      - id: run
+      - id: run-application
         exec:
-          label: Run the application
-          component: python
-          workingDir: ${PROJECTS_ROOT}/python-hello-world
+          label: Run application
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: python3 hello-world.py
           group:
             kind: run

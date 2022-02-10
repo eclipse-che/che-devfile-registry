@@ -36,7 +36,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           memoryLimit: 4Gi
           endpoints:
             - exposure: public
@@ -118,21 +118,21 @@ spec:
       - id: install-cake
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/aspnetcore-realworld-example-app
+          workingDir: ${PROJECT_SOURCE}
           commandLine: dotnet tool install -g Cake.Tool
           group:
             kind: build
       - id: build
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/aspnetcore-realworld-example-app
+          workingDir: ${PROJECT_SOURCE}
           commandLine: dotnet run -p build/build.csproj
           group:
             kind: build
       - id: run-server
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/aspnetcore-realworld-example-app
+          workingDir: ${PROJECT_SOURCE}
           commandLine: dotnet run --project src/Conduit/Conduit.csproj
           group:
             kind: run

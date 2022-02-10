@@ -159,9 +159,9 @@ spec:
   started: true
   template:
     components:
-      - name: nodejs
+      - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-3735d4f
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           endpoints:
             - exposure: public
               name: nodejs
@@ -173,7 +173,7 @@ spec:
             - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
               value: /remote-endpoint/plugin-remote-endpoint
             - name: THEIA_PLUGINS
-              value: local-dir:///plugins/sidecars/nodejs
+              value: local-dir:///plugins/sidecars/tools
           volumeMounts:
             - path: /remote-endpoint
               name: remote-endpoint
@@ -189,26 +189,17 @@ spec:
               https://open-vsx.org/api/vscode/typescript-language-features/1.49.3/file/vscode.typescript-language-features-1.49.3.vsix
             - >-
               https://open-vsx.org/api/ms-vscode/js-debug/1.52.2/file/ms-vscode.js-debug-1.52.2.vsix
-          app.kubernetes.io/name: nodejs
+          app.kubernetes.io/name: tools
       - name: theia-ide-react-web-app
         plugin:
           kubernetes:
             name: theia-ide-react-web-app
     commands:
-      - id: yarn
-        exec:
-          label: Install Yarn 2
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/react-web-app
-          commandLine: yarn set version 1.22.5
-          group:
-            kind: build
-            isDefault: true
-      - id: dependencies
+      - id: install-dependencies
         exec:
           label: Install all required dependencies
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/react-web-app
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: yarn install
           group:
             kind: build
@@ -216,25 +207,25 @@ spec:
       - id: build
         exec:
           label: Build the app
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/react-web-app
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: yarn build
           group:
             kind: build
             isDefault: true
-      - id: runapp
+      - id: run
         exec:
           label: Run the web app
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/react-web-app
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: yarn start
           group:
             kind: run
       - id: test
         exec:
           label: Launch tests
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/react-web-app
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: yarn test
           group:
             kind: test

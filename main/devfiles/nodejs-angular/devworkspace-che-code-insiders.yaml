@@ -34,9 +34,9 @@ spec:
   started: true
   template:
     components:
-      - name: nodejs
+      - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           endpoints:
             - exposure: public
               name: angular
@@ -100,33 +100,33 @@ spec:
           che-code.eclipse.org/contribute-memoryRequest: true
           che-code.eclipse.org/contribute-cpuLimit: true
           che-code.eclipse.org/contribute-cpuRequest: true
-          che-code.eclipse.org/contributed-container: nodejs
+          che-code.eclipse.org/contributed-container: tools
       - name: che-code-nodejs-angular
         plugin:
           kubernetes:
             name: che-code-nodejs-angular
     commands:
-      - id: install
+      - id: install-dependencies
         exec:
           label: Install all required dependencies
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/nodejs-angular
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: yarn install
           group:
             kind: build
       - id: build
         exec:
           label: Build application
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/nodejs-angular
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: yarn build
           group:
             kind: build
       - id: start
         exec:
           label: Start application
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/nodejs-angular
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: yarn run start --host 0.0.0.0 --disableHostCheck true
           group:
             kind: run

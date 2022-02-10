@@ -34,9 +34,9 @@ spec:
   started: true
   template:
     components:
-      - name: nodejs
+      - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-b452131
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           endpoints:
             - exposure: public
               name: nodejs
@@ -100,42 +100,42 @@ spec:
           che-code.eclipse.org/contribute-memoryRequest: true
           che-code.eclipse.org/contribute-cpuLimit: true
           che-code.eclipse.org/contribute-cpuRequest: true
-          che-code.eclipse.org/contributed-container: nodejs
+          che-code.eclipse.org/contributed-container: tools
       - name: che-code-nodejs-web-app
         plugin:
           kubernetes:
             name: che-code-nodejs-web-app
     commands:
-      - id: dependencies
+      - id: install-dependencies
         exec:
-          label: Download dependencies
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/web-nodejs-sample/app
+          label: Install dependencies
+          component: tools
+          workingDir: ${PROJECT_SOURCE}/app
           commandLine: npm install
           group:
             kind: build
             isDefault: true
-      - id: runapp
+      - id: run-application
         exec:
-          label: Run the web app
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/web-nodejs-sample/app
+          label: Run web application
+          component: tools
+          workingDir: ${PROJECT_SOURCE}/app
           commandLine: nodemon app.js
           group:
             kind: run
       - id: debug
         exec:
-          label: Run the web app (debugging enabled)
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/web-nodejs-sample/app
+          label: Run web application (debugging enabled)
+          component: tools
+          workingDir: ${PROJECT_SOURCE}/app
           commandLine: nodemon --inspect app.js
           group:
             kind: debug
             isDefault: true
-      - id: stopapp
+      - id: stop-application
         exec:
-          label: Stop the web app
-          component: nodejs
+          label: Stop web application
+          component: tools
           commandLine: >-
             node_server_pids=$(pgrep -fx '.*nodemon (--inspect )?app.js' | tr
             "\\n" " ") && echo "Stopping node server with PIDs:

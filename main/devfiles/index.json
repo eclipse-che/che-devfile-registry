@@ -426,7 +426,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/camelk.svg",
     "links": {
-      "v2": "https://github.com/benoitf/fuse-rest-http-booster/tree/devfilev2",
+      "v2": "https://github.com/che-samples/fuse-rest-http-booster/tree/devfilev2",
       "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-springboot/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-springboot/devworkspace-che-theia-latest.yaml",

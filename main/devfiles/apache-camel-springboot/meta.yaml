@@ -12,7 +12,7 @@ tags:
   - Spring Boot
 icon: /images/camelk.svg
 links:
-  v2: https://github.com/benoitf/fuse-rest-http-booster/tree/devfilev2
+  v2: https://github.com/che-samples/fuse-rest-http-booster/tree/devfilev2
   self: /devfiles/apache-camel-springboot/devfile.yaml
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/apache-camel-springboot/devworkspace-che-theia-latest.yaml

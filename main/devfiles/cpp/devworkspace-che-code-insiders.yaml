@@ -34,9 +34,9 @@ spec:
   started: true
   template:
     components:
-      - name: cpp-dev
+      - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-1e8c2c9
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           memoryLimit: 2.07G
           mountSources: true
           command:
@@ -96,7 +96,7 @@ spec:
           che-code.eclipse.org/contribute-memoryRequest: true
           che-code.eclipse.org/contribute-cpuLimit: true
           che-code.eclipse.org/contribute-cpuRequest: true
-          che-code.eclipse.org/contributed-container: cpp-dev
+          che-code.eclipse.org/contributed-container: tools
       - name: che-code-cpp
         plugin:
           kubernetes:
@@ -105,8 +105,8 @@ spec:
       - id: build
         exec:
           label: Build application
-          component: cpp-dev
-          workingDir: ${PROJECTS_ROOT}/cpp-hello-world
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: g++ -g hello.cpp -o hello.out && echo "Build complete"
           group:
             kind: build
@@ -114,8 +114,8 @@ spec:
       - id: run
         exec:
           label: Run application
-          component: cpp-dev
-          workingDir: ${PROJECTS_ROOT}/cpp-hello-world
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: ./hello.out
           group:
             kind: run

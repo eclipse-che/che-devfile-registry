@@ -36,7 +36,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           memoryLimit: 4Gi
           endpoints:
             - exposure: none
@@ -110,10 +110,10 @@ spec:
           kubernetes:
             name: che-code-java-lombok
     commands:
-      - id: build
+      - id: maven-build
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/lombok-project-sample
+          workingDir: ${PROJECT_SOURCE}
           commandLine: mvn clean install
           group:
             kind: build

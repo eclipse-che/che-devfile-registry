@@ -34,9 +34,9 @@ spec:
   started: true
   template:
     components:
-      - name: python
+      - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-b452131
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           endpoints:
             - exposure: public
               name: django
@@ -102,7 +102,7 @@ spec:
           che-code.eclipse.org/contribute-memoryRequest: true
           che-code.eclipse.org/contribute-cpuLimit: true
           che-code.eclipse.org/contribute-cpuRequest: true
-          che-code.eclipse.org/contributed-container: python
+          che-code.eclipse.org/contributed-container: tools
       - name: venv
         volume:
           size: 1G
@@ -111,11 +111,11 @@ spec:
           kubernetes:
             name: che-code-python-django
     commands:
-      - id: dependencies
+      - id: install-dependencies
         exec:
           label: Install dependencies
-          component: python
-          workingDir: ${PROJECTS_ROOT}/django-realworld-example-app
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: >-
             python3 -m venv .venv && . .venv/bin/activate && pip3 install -r
             requirements.txt && pip3 install ptvsd
@@ -124,16 +124,16 @@ spec:
       - id: migrate
         exec:
           label: Migrate
-          component: python
-          workingDir: ${PROJECTS_ROOT}/django-realworld-example-app
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: . .venv/bin/activate && python3 manage.py migrate
           group:
             kind: build
       - id: run
         exec:
           label: Run the server
-          component: python
-          workingDir: ${PROJECTS_ROOT}/django-realworld-example-app
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: >-
             . .venv/bin/activate && export DEBUG_MODE=False && python3 manage.py
             runserver 0.0.0.0:7000
@@ -142,8 +142,8 @@ spec:
       - id: debug
         exec:
           label: Run the server in debug mode
-          component: python
-          workingDir: ${PROJECTS_ROOT}/django-realworld-example-app
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: >-
             . .venv/bin/activate &&  export DEBUG_MODE=True && python3 manage.py
             runserver 0.0.0.0:7000 --noreload --nothreading

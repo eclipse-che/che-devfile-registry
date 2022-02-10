@@ -34,9 +34,9 @@ spec:
   started: true
   template:
     components:
-      - name: nodejs
+      - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-3735d4f
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           endpoints:
             - exposure: public
               name: nodejs
@@ -100,26 +100,17 @@ spec:
           che-code.eclipse.org/contribute-memoryRequest: true
           che-code.eclipse.org/contribute-cpuLimit: true
           che-code.eclipse.org/contribute-cpuRequest: true
-          che-code.eclipse.org/contributed-container: nodejs
+          che-code.eclipse.org/contributed-container: tools
       - name: che-code-react-web-app
         plugin:
           kubernetes:
             name: che-code-react-web-app
     commands:
-      - id: yarn
-        exec:
-          label: Install Yarn 2
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/react-web-app
-          commandLine: yarn set version 1.22.5
-          group:
-            kind: build
-            isDefault: true
-      - id: dependencies
+      - id: install-dependencies
         exec:
           label: Install all required dependencies
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/react-web-app
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: yarn install
           group:
             kind: build
@@ -127,25 +118,25 @@ spec:
       - id: build
         exec:
           label: Build the app
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/react-web-app
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: yarn build
           group:
             kind: build
             isDefault: true
-      - id: runapp
+      - id: run
         exec:
           label: Run the web app
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/react-web-app
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: yarn start
           group:
             kind: run
       - id: test
         exec:
           label: Launch tests
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/react-web-app
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: yarn test
           group:
             kind: test

@@ -34,9 +34,9 @@ spec:
   started: true
   template:
     components:
-      - name: nodejs
+      - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-b452131
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           env:
             - name: SECRET
               value: 220fd770-c028-480d-8f95-f84353c7d55a
@@ -104,7 +104,7 @@ spec:
           che-code.eclipse.org/contribute-memoryRequest: true
           che-code.eclipse.org/contribute-cpuLimit: true
           che-code.eclipse.org/contribute-cpuRequest: true
-          che-code.eclipse.org/contributed-container: nodejs
+          che-code.eclipse.org/contributed-container: tools
       - name: mongo
         container:
           image: >-
@@ -131,17 +131,17 @@ spec:
               path: /var/lib/mongodb/data
       - name: mongo-storage
         volume:
-          size: 1G
+          size: 256Mi
       - name: che-code-nodejs-mongodb
         plugin:
           kubernetes:
             name: che-code-nodejs-mongodb
     commands:
-      - id: runapp
+      - id: run-application
         exec:
           label: Run the application
-          component: nodejs
-          workingDir: ${PROJECTS_ROOT}/nodejs-mongodb-sample
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: npm install && node --inspect=9229 app.js
           group:
             kind: run

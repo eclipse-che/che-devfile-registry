@@ -161,7 +161,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-d433ed6
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           env:
             - name: QUARKUS_HTTP_HOST
               value: 0.0.0.0
@@ -228,35 +228,35 @@ spec:
       - id: package
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/quarkus-quickstarts/getting-started
+          workingDir: ${PROJECT_SOURCE}/getting-started
           commandLine: ./mvnw package
           group:
             kind: build
             isDefault: true
-      - id: packagenative
+      - id: package-native
         exec:
           label: Package Native
           component: tools
-          workingDir: ${PROJECTS_ROOT}/quarkus-quickstarts/getting-started
+          workingDir: ${PROJECT_SOURCE}/getting-started
           commandLine: >-
             ./mvnw package -Dnative -Dmaven.test.skip
             -Dquarkus.native.native-image-xmx=2G
           group:
             kind: build
-      - id: startdev
+      - id: start-dev
         exec:
           label: Start Development mode (Hot reload + debug)
           component: tools
-          workingDir: ${PROJECTS_ROOT}/quarkus-quickstarts/getting-started
+          workingDir: ${PROJECT_SOURCE}/getting-started
           commandLine: ./mvnw compile quarkus:dev
           group:
             kind: run
             isDefault: true
-      - id: startnative
+      - id: start-native
         exec:
           label: Start Native
           component: ubi-minimal
-          workingDir: ${PROJECTS_ROOT}/quarkus-quickstarts/getting-started/target
+          workingDir: ${PROJECT_SOURCE}/getting-started/target
           commandLine: ./getting-started-1.0.0-SNAPSHOT-runner
           group:
             kind: run

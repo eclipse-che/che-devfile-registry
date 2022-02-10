@@ -152,9 +152,9 @@ spec:
   started: true
   template:
     components:
-      - name: php
+      - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           endpoints:
             - exposure: public
               name: symfony
@@ -175,7 +175,7 @@ spec:
             - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
               value: /remote-endpoint/plugin-remote-endpoint
             - name: THEIA_PLUGINS
-              value: local-dir:///plugins/sidecars/php
+              value: local-dir:///plugins/sidecars/tools
           args:
             - sh
             - '-c'
@@ -186,7 +186,7 @@ spec:
               https://download.jboss.org/jbosstools/vscode/3rdparty/vscode-intelephense/vscode-intelephense-client-1.5.4.vsix
             - >-
               https://download.jboss.org/jbosstools/vscode/3rdparty/vscode-php-debug/php-debug-1.13.0.vsix
-          app.kubernetes.io/name: php
+          app.kubernetes.io/name: tools
       - name: composer
         volume:
           size: 512Mi
@@ -218,29 +218,29 @@ spec:
           kubernetes:
             name: theia-ide-php-symfony
     commands:
-      - id: install
+      - id: install-dependencies
         exec:
           label: Install dependencies
-          component: php
-          workingDir: ${PROJECTS_ROOT}/php-symfony
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: >-
             composer install && wget https://get.symfony.com/cli/installer -O -
             | bash
           group:
             kind: build
-      - id: start
+      - id: start-web-server
         exec:
           label: Start Symfony Web Server
-          component: php
-          workingDir: ${PROJECTS_ROOT}/php-symfony
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: $HOME/.symfony/bin/symfony server:start
           group:
             kind: run
-      - id: stop
+      - id: stop-web-server
         exec:
           label: Stop Symfony Web Server
-          component: php
-          workingDir: ${PROJECTS_ROOT}/php-symfony
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
           commandLine: $HOME/.symfony/bin/symfony server:stop
           group:
             kind: run

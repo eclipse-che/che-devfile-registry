@@ -161,7 +161,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-bcb429e
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           memoryLimit: 1Gi
           cpuLimit: 1000m
           env:
@@ -191,7 +191,7 @@ spec:
       - id: build
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/helloworld-rust
+          workingDir: ${PROJECT_SOURCE}
           commandLine: cargo build
           group:
             kind: build
@@ -199,7 +199,7 @@ spec:
       - id: run
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/helloworld-rust
+          workingDir: ${PROJECT_SOURCE}
           commandLine: cargo run
           group:
             kind: run

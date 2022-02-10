@@ -154,7 +154,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-d433ed6
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           memoryLimit: 3Gi
           endpoints:
             - exposure: none
@@ -230,28 +230,25 @@ spec:
       - id: prepare-database
         exec:
           component: mariadb
-          workingDir: ${PROJECTS_ROOT}/java-spring-petclinic
+          workingDir: ${PROJECT_SOURCE}
           commandLine: >
             mysql -u root <
-            ${PROJECTS_ROOT}/java-spring-petclinic/src/main/resources/db/mysql/user.sql
-            && \
+            ${PROJECT_SOURCE}/src/main/resources/db/mysql/user.sql && \
 
             mysql -u root petclinic <
-            ${PROJECTS_ROOT}/java-spring-petclinic/src/main/resources/db/mysql/schema.sql
-            && \
+            ${PROJECT_SOURCE}/src/main/resources/db/mysql/schema.sql && \
 
             mysql -u root petclinic <
-            ${PROJECTS_ROOT}/java-spring-petclinic/src/main/resources/db/mysql/data.sql
-            && \
+            ${PROJECT_SOURCE}/src/main/resources/db/mysql/data.sql && \
 
             echo "\e[32mDone.\e[0m Database petclinic was configured"
           group:
             kind: run
             isDefault: true
-      - id: build
+      - id: maven-build
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/java-spring-petclinic
+          workingDir: ${PROJECT_SOURCE}
           commandLine: mvn clean install
           group:
             kind: build
@@ -259,7 +256,7 @@ spec:
       - id: run-with-hsqldb
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/java-spring-petclinic
+          workingDir: ${PROJECT_SOURCE}
           commandLine: java -jar target/*.jar
           group:
             kind: run
@@ -267,7 +264,7 @@ spec:
       - id: run-with-mysql
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/java-spring-petclinic
+          workingDir: ${PROJECT_SOURCE}
           commandLine: >
             java -jar -Dspring.profiles.active=mysql \
 
@@ -281,7 +278,7 @@ spec:
       - id: run-debug
         exec:
           component: tools
-          workingDir: ${PROJECTS_ROOT}/java-spring-petclinic
+          workingDir: ${PROJECT_SOURCE}
           commandLine: >-
             java -jar -Xdebug
             -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005
