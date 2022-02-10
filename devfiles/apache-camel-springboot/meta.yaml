@@ -4,4 +4,4 @@ description: Stack with environment ready to develop Integration projects with A
 tags: ["Community", "Java", "OpenJDK", "Maven", "Debian", "Apache Camel", "Red Hat Fuse", "Spring Boot"]
 icon: /images/camelk.svg
 links:
-  v2: https://github.com/benoitf/fuse-rest-http-booster/tree/devfilev2
+  v2: https://github.com/che-samples/fuse-rest-http-booster/tree/devfilev2
