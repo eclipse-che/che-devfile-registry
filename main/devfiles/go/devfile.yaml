@@ -23,7 +23,7 @@ components:
     registryUrl: https://eclipse-che.github.io/che-plugin-registry/main/v3/
   - type: dockerimage
     # this version is used in the plugin
-    image: quay.io/eclipse/che-golang-1.17:2750dd4
+    image: quay.io/eclipse/che-golang-1.17:a7432b0
     alias: go-cli
     env:
       - name: GOPATH
