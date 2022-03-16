@@ -183,9 +183,9 @@ spec:
         attributes:
           che-theia.eclipse.org/vscode-extensions:
             - >-
-              https://download.jboss.org/jbosstools/vscode/3rdparty/vscode-intelephense/vscode-intelephense-client-1.5.4.vsix
+              https://github.com/redhat-developer/codeready-workspaces-vscode-extensions/releases/download/7.44-che-assets/vscode-intelephense-client-1.5.4.vsix
             - >-
-              https://download.jboss.org/jbosstools/vscode/3rdparty/vscode-php-debug/php-debug-1.13.0.vsix
+              https://github.com/redhat-developer/codeready-workspaces-vscode-extensions/releases/download/7.44-che-assets/php-debug-1.13.0.vsix
           app.kubernetes.io/name: tools
       - name: composer
         volume:

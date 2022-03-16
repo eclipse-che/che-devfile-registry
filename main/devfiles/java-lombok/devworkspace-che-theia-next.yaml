@@ -187,9 +187,9 @@ spec:
         attributes:
           che-theia.eclipse.org/vscode-extensions:
             - >-
-              https://download.jboss.org/jbosstools/static/jdt.ls/stable/java-0.82.0-369.vsix
+              https://github.com/redhat-developer/codeready-workspaces-vscode-extensions/releases/download/7.44-che-assets/java-0.82.0-369.vsix
             - >-
-              https://download.jboss.org/jbosstools/vscode/3rdparty/vscode-java-debug/vscode-java-debug-0.26.0.vsix
+              https://github.com/redhat-developer/codeready-workspaces-vscode-extensions/releases/download/7.44-che-assets/vscode-java-debug-0.26.0.vsix
             - >-
               https://open-vsx.org/api/vscjava/vscode-java-test/0.28.1/file/vscjava.vscode-java-test-0.28.1.vsix
           che-theia.eclipse.org/vscode-preferences:
