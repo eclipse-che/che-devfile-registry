@@ -356,7 +356,7 @@
   },
   {
     "displayName": "Rust",
-    "description": "Rust Stack with Rust 1.39",
+    "description": "Rust Stack with Rust 1.57",
     "tags": [
       "Community",
       "Rust"
