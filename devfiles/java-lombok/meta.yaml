@@ -1,7 +1,7 @@
 ---
 displayName: Java Lombok
 description: Java Stack with Lombok 1.18.18, OpenJDK 11 and Maven 3.6.0
-tags: ["community", "Java", "OpenJDK", "Maven", "Debian", "Lombok"]
+tags: ["Community", "Java", "OpenJDK", "Maven", "Debian", "Lombok"]
 icon: /images/lombok.svg
 links:
   v2: https://github.com/che-samples/lombok-project-sample/tree/devfilev2

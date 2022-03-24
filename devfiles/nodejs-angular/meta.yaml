@@ -1,7 +1,7 @@
 ---
 displayName: NodeJS Angular Web Application
 description: Stack for developing NodeJS Angular Web Application
-tags: ["community", "NodeJS", "Angular", "Alpine"]
+tags: ["Community", "NodeJS", "Angular", "Alpine"]
 icon: /images/angular.svg
 links:
   v2: https://github.com/che-samples/nodejs-angular/tree/devfilev2

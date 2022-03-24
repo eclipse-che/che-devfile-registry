@@ -1,7 +1,7 @@
 ---
 displayName: NodeJS MongoDB Web Application
 description: Stack with NodeJS 10 and MongoDB 3.4
-tags: ["community", "NodeJS", "Express", "MongoDB", "RealWorld", "ubi8", "Centos"]
+tags: ["Community", "NodeJS", "Express", "MongoDB", "RealWorld", "ubi8", "Centos"]
 icon: /images/nodejs.svg
 links:
   v2: https://github.com/che-samples/nodejs-mongodb-sample/tree/devfilev2
