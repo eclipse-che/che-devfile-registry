@@ -1,0 +1,56 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: asp.net-
+projects:
+  - name: aspnetcore-example
+    source:
+      type: git
+      location: https://github.com/che-samples/aspnetcore-realworld-example-app
+components:
+  - type: chePlugin
+    id: redhat-developer/che-omnisharp-plugin/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.46.0/v3/
+  - type: chePlugin
+    id: redhat-developer/netcoredbg-theia-plugin/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.46.0/v3/
+  - type: dockerimage
+    alias: dotnet
+    image: quay.io/eclipse/che-dotnet-2.2:ce0526f
+    env:
+      - name: HOME
+        value: /home/user
+      - name: PS1
+        value: $(echo ${0})\\$
+    memoryLimit: 512Mi
+    endpoints:
+      - name: "5000"
+        port: 5000
+    mountSources: true
+    volumes:
+      - name: dotnet
+        containerPath: /home/user
+commands:
+  - name: install Cake
+    actions:
+      - type: exec
+        component: dotnet
+        command: dotnet tool install -g Cake.Tool
+        workdir: ${CHE_PROJECTS_ROOT}/aspnetcore-example
+  - name: build
+    actions:
+      - type: exec
+        component: dotnet
+        command: $HOME/.dotnet/tools/dotnet-cake --runtime=linux-x64
+        workdir: ${CHE_PROJECTS_ROOT}/aspnetcore-example
+  - name: re-build
+    actions:
+      - type: exec
+        component: dotnet
+        command: $HOME/.dotnet/tools/dotnet-cake --target=Rebuild --runtime=linux-x64
+        workdir: ${CHE_PROJECTS_ROOT}/aspnetcore-example
+  - name: run server
+    actions:
+      - type: exec
+        component: dotnet
+        command: dotnet run --project src/Conduit/Conduit.csproj
+        workdir: ${CHE_PROJECTS_ROOT}/aspnetcore-example
