@@ -1,0 +1,20 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: apache-camel-k-
+projects:
+  - name: camel-k-examples
+    source:
+      type: git
+      location: https://github.com/che-samples/apache-camel-k
+      sparseCheckoutDir: examples
+components:
+  - type: chePlugin
+    id: redhat/vscode-xml/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.48.0/v3/
+  - type: chePlugin
+    id: redhat/vscode-apache-camel/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.48.0/v3/
+  - alias: vscode-camelk
+    type: chePlugin
+    id: redhat/vscode-camelk/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.48.0/v3/
