@@ -1,0 +1,12 @@
+displayName: PHP with MySQL
+description: PHP Stack with MySQL and simple database application
+tags:
+  - Community
+  - PHP
+  - Apache
+  - MySQL
+  - Debian
+  - Centos
+icon: /images/php.svg
+links:
+  self: /devfiles/php-mysql/devfile.yaml

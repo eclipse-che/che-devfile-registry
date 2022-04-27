@@ -1,0 +1,35 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: react-
+projects:
+  - name: react-redux-realworld-example-app
+    source:
+      type: git
+      location: https://github.com/che-samples/nodejs-react-redux
+components:
+  - type: chePlugin
+    id: vscode/typescript-language-features/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.47.0/v3/
+  - type: dockerimage
+    alias: nodejs
+    # system limit for number of file watchers reached with
+    # image: registry.access.redhat.com/ubi8/nodejs-10
+    image: quay.io/eclipse/che-nodejs8-centos:ce0526f
+    memoryLimit: 512Mi
+    endpoints:
+      - name: nodejs
+        port: 4100
+    mountSources: true
+commands:
+  - name: install all required dependencies
+    actions:
+      - type: exec
+        component: nodejs
+        command: npm install
+        workdir: ${CHE_PROJECTS_ROOT}/react-redux-realworld-example-app
+  - name: start the local server
+    actions:
+      - type: exec
+        component: nodejs
+        command: npm start
+        workdir: ${CHE_PROJECTS_ROOT}/react-redux-realworld-example-app
