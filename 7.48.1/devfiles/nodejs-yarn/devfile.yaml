@@ -1,0 +1,51 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: nodejs-web-app-
+projects:
+  - name: react-web-app
+    source:
+      type: git
+      location: https://github.com/che-samples/react-web-app
+components:
+  - type: chePlugin
+    id: vscode/typescript-language-features/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.48.1/v3/
+  - type: dockerimage
+    alias: nodejs
+    image: quay.io/eclipse/che-nodejs12-community:ce0526f
+    memoryLimit: 1500Mi
+    endpoints:
+      - name: nodejs
+        port: 3000
+    mountSources: true
+commands:
+  - name: 1. Install Yarn 2
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn set version berry
+        workdir: ${CHE_PROJECTS_ROOT}/react-web-app
+  - name: 2. Install all required dependencies
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn install
+        workdir: ${CHE_PROJECTS_ROOT}/react-web-app
+  - name: 3. Build the app
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn build
+        workdir: ${CHE_PROJECTS_ROOT}/react-web-app
+  - name: 4. Run the app
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn start
+        workdir: ${CHE_PROJECTS_ROOT}/react-web-app
+  - name: 5. Launch tests
+    actions:
+      - type: exec
+        component: nodejs
+        command: yarn test
+        workdir: ${CHE_PROJECTS_ROOT}/react-web-app

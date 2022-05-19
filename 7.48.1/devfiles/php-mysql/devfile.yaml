@@ -1,0 +1,77 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: php-mysql-
+projects:
+  - name: crud-php
+    source:
+      type: git
+      location: https://github.com/che-samples/php-mysql
+components:
+  - type: chePlugin
+    id: bmewburn/vscode-intelephense-client/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.48.1/v3/
+  - type: chePlugin
+    id: felixfbecker/php-debug/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.48.1/v3/
+  - type: dockerimage
+    alias: php
+    image: quay.io/eclipse/che-php-7:ce0526f
+    memoryLimit: 512Mi
+    endpoints:
+      - name: 8080-tcp
+        port: 8080
+    mountSources: true
+    volumes:
+      - name: composer
+        containerPath: /home/user/.composer
+  - type: dockerimage
+    alias: mysql
+    image: quay.io/eclipse/che--centos--mysql-57-centos7:latest-e08ee4d43b7356607685b69bde6335e27cf20c020f345b6c6c59400183882764
+    env:
+      - name: MYSQL_USER
+        value: user
+      - name: MYSQL_PASSWORD
+        value: root
+      - name: MYSQL_ROOT_PASSWORD
+        value: root
+      - name: MYSQL_DATABASE
+        value: database
+    memoryLimit: 256Mi
+    endpoints:
+      - name: db
+        port: 3306
+        attributes:
+          discoverable: "true"
+    mountSources: true
+commands:
+  - name: Start Apache Web Server
+    actions:
+      - type: exec
+        component: php
+        command: service apache2 start
+  - name: Stop Apache Web Server
+    actions:
+      - type: exec
+        component: php
+        command: service apache2 stop
+  - name: Restart Apache Web Server
+    actions:
+      - type: exec
+        component: php
+        command: service apache2 restart
+  - name: Configure database
+    actions:
+      - type: exec
+        component: php
+        command: sed -i 's/localhost/127.0.0.1/g' config.php && php install.php
+        workdir: ${CHE_PROJECTS_ROOT}/crud-php
+  - name: Configure Apache Web Server DocumentRoot
+    actions:
+      - type: exec
+        component: php
+        command: |
+          if grep -q '/projects$' /etc/apache2/sites-available/000-default.conf; then
+            sed -i 's|DocumentRoot /projects|DocumentRoot /projects/crud-php/public|' /etc/apache2/sites-available/000-default.conf
+          else
+            echo "DocumentRoot already configured!"
+          fi

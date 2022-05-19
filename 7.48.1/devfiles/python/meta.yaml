@@ -1,0 +1,15 @@
+displayName: Python
+description: Python Stack with Python 3.8
+tags:
+  - Community
+  - Centos
+  - Python
+  - pip
+icon: /images/python.svg
+links:
+  v2: https://github.com/che-samples/python-hello-world/tree/devfilev2
+  self: /devfiles/python/devfile.yaml
+  devWorkspaces:
+    eclipse/che-theia/latest: /devfiles/python/devworkspace-che-theia-latest.yaml
+    eclipse/che-theia/next: /devfiles/python/devworkspace-che-theia-next.yaml
+    che-incubator/che-code/insiders: /devfiles/python/devworkspace-che-code-insiders.yaml
