@@ -154,7 +154,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
+          image: quay.io/devfile/universal-developer-image:ubi8-3055e6d
           env:
             - name: QUARKUS_HTTP_HOST
               value: 0.0.0.0
@@ -179,7 +179,7 @@ spec:
               name: remote-endpoint
             - path: /plugins
               name: plugins
-          memoryLimit: 4G
+          memoryLimit: 4.7G
           mountSources: true
           args:
             - sh
@@ -222,7 +222,7 @@ spec:
         exec:
           component: tools
           workingDir: ${PROJECT_SOURCE}/getting-started
-          commandLine: ./mvnw package
+          commandLine: mvn package
           group:
             kind: build
             isDefault: true
@@ -232,7 +232,7 @@ spec:
           component: tools
           workingDir: ${PROJECT_SOURCE}/getting-started
           commandLine: >-
-            ./mvnw package -Dnative -Dmaven.test.skip
+            mvn package -Dnative -Dmaven.test.skip
             -Dquarkus.native.native-image-xmx=2G
           group:
             kind: build
@@ -241,7 +241,7 @@ spec:
           label: Start Development mode (Hot reload + debug)
           component: tools
           workingDir: ${PROJECT_SOURCE}/getting-started
-          commandLine: ./mvnw compile quarkus:dev
+          commandLine: mvn compile quarkus:dev
           group:
             kind: run
             isDefault: true

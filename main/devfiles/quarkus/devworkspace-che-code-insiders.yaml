@@ -36,7 +36,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
+          image: quay.io/devfile/universal-developer-image:ubi8-3055e6d
           env:
             - name: QUARKUS_HTTP_HOST
               value: 0.0.0.0
@@ -91,7 +91,7 @@ spec:
               path: /home/user/.m2
             - name: checode
               path: /checode
-          memoryLimit: 5.07G
+          memoryLimit: 5.77G
           mountSources: true
           command:
             - /checode/entrypoint-volume.sh
@@ -106,7 +106,7 @@ spec:
           che-code.eclipse.org/contribute-endpoint/code-redirect-2: 13132
           che-code.eclipse.org/contribute-endpoint/code-redirect-3: 13133
           che-code.eclipse.org/contribute-memoryLimit: true
-          che-code.eclipse.org/original-memoryLimit: 4G
+          che-code.eclipse.org/original-memoryLimit: 4.7G
           che-code.eclipse.org/contribute-memoryRequest: true
           che-code.eclipse.org/contribute-cpuLimit: true
           che-code.eclipse.org/contribute-cpuRequest: true
@@ -133,7 +133,7 @@ spec:
         exec:
           component: tools
           workingDir: ${PROJECT_SOURCE}/getting-started
-          commandLine: ./mvnw package
+          commandLine: mvn package
           group:
             kind: build
             isDefault: true
@@ -143,7 +143,7 @@ spec:
           component: tools
           workingDir: ${PROJECT_SOURCE}/getting-started
           commandLine: >-
-            ./mvnw package -Dnative -Dmaven.test.skip
+            mvn package -Dnative -Dmaven.test.skip
             -Dquarkus.native.native-image-xmx=2G
           group:
             kind: build
@@ -152,7 +152,7 @@ spec:
           label: Start Development mode (Hot reload + debug)
           component: tools
           workingDir: ${PROJECT_SOURCE}/getting-started
-          commandLine: ./mvnw compile quarkus:dev
+          commandLine: mvn compile quarkus:dev
           group:
             kind: run
             isDefault: true
