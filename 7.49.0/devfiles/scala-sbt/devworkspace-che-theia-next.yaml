@@ -1,0 +1,280 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: theia-ide-scala-sbt
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: remote-runtime-injector
+  events:
+    preStart:
+      - init-container-command
+  components:
+    - name: theia-ide
+      container:
+        image: quay.io/eclipse/che-theia:next
+        env:
+          - name: THEIA_PLUGINS
+            value: local-dir:///plugins
+          - name: HOSTED_PLUGIN_HOSTNAME
+            value: 0.0.0.0
+          - name: HOSTED_PLUGIN_PORT
+            value: '3130'
+          - name: THEIA_HOST
+            value: 127.0.0.1
+        volumeMounts:
+          - name: plugins
+            path: /plugins
+          - name: theia-local
+            path: /home/theia/.theia
+        mountSources: true
+        memoryLimit: 512M
+        cpuLimit: 1500m
+        cpuRequest: 100m
+        endpoints:
+          - name: theia
+            attributes:
+              type: main
+              cookiesAuthEnabled: true
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: false
+            protocol: https
+          - name: webviews
+            attributes:
+              type: webview
+              cookiesAuthEnabled: true
+              discoverable: false
+              unique: true
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: false
+            protocol: https
+          - name: mini-browser
+            attributes:
+              type: mini-browser
+              cookiesAuthEnabled: true
+              discoverable: false
+              unique: true
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: false
+            protocol: https
+          - name: theia-dev
+            attributes:
+              type: ide-dev
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 3130
+            exposure: public
+            protocol: http
+          - name: theia-redirect-1
+            attributes:
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 13131
+            exposure: public
+            protocol: http
+          - name: theia-redirect-2
+            attributes:
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 13132
+            exposure: public
+            protocol: http
+          - name: theia-redirect-3
+            attributes:
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 13133
+            exposure: public
+            protocol: http
+          - name: terminal
+            attributes:
+              type: collocated-terminal
+              discoverable: false
+              cookiesAuthEnabled: true
+              urlRewriteSupported: true
+            targetPort: 3333
+            exposure: public
+            secure: false
+            protocol: wss
+      attributes:
+        app.kubernetes.io/component: che-theia
+        app.kubernetes.io/part-of: che-theia.eclipse.org
+        che-theia.eclipse.org/vscode-extensions:
+          - >-
+            https://github.com/scala/vscode-scala-syntax/releases/download/0.5.3/scala.vsix
+    - name: plugins
+      volume: {}
+    - name: theia-local
+      volume: {}
+    - name: che-machine-exec
+      container:
+        image: quay.io/eclipse/che-machine-exec:next
+        command:
+          - /go/bin/che-machine-exec
+          - '--url'
+          - 127.0.0.1:3333
+          - '--idle-timeout'
+          - 15m
+        memoryLimit: 128Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+      attributes:
+        app.kubernetes.io/component: machine-exec
+        app.kubernetes.io/part-of: che-theia.eclipse.org
+    - name: remote-runtime-injector
+      container:
+        image: quay.io/eclipse/che-theia-endpoint-runtime-binary:next
+        env:
+          - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
+            value: /remote-endpoint/plugin-remote-endpoint
+          - name: REMOTE_ENDPOINT_VOLUME_NAME
+            value: remote-endpoint
+        volumeMounts:
+          - name: plugins
+            path: /plugins
+          - name: remote-endpoint
+            path: /remote-endpoint
+        memoryLimit: 128Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+      attributes:
+        app.kubernetes.io/component: remote-runtime-injector
+        app.kubernetes.io/part-of: che-theia.eclipse.org
+    - name: remote-endpoint
+      volume:
+        ephemeral: true
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: scala-sbt
+spec:
+  started: true
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
+          env:
+            - name: JDK_JAVA_OPTIONS
+              value: >-
+                -XX:MaxRAMPercentage=80 -XX:+UseParallelGC
+                -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20
+                -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+                -Dsun.zip.disableMemoryMapping=true -Xms20m
+                -Djava.security.egd=file:/dev/./urandom
+            - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
+              value: /remote-endpoint/plugin-remote-endpoint
+            - name: THEIA_PLUGINS
+              value: local-dir:///plugins/sidecars/tools
+          endpoints:
+            - exposure: none
+              name: debug
+              protocol: tcp
+              targetPort: 5005
+            - exposure: public
+              name: 8080-tcp
+              protocol: http
+              targetPort: 8080
+          volumeMounts:
+            - name: sbt
+              path: /home/user/.sbt
+            - name: ivy2
+              path: /home/user/.ivy2
+            - name: cache
+              path: /home/user/.cache
+            - name: coursier
+              path: /home/user/.cache/coursier
+            - name: metals
+              path: /home/user/.cache/metals
+            - name: bloop
+              path: /home/user/.cache/bloop
+            - path: /remote-endpoint
+              name: remote-endpoint
+            - path: /plugins
+              name: plugins
+          memoryLimit: 5Gi
+          mountSources: true
+          args:
+            - sh
+            - '-c'
+            - ${PLUGIN_REMOTE_ENDPOINT_EXECUTABLE}
+        attributes:
+          che-theia.eclipse.org/vscode-extensions:
+            - >-
+              https://github.com/scalameta/metals-vscode/releases/download/v1.11.1/scalameta.metals-1.11.1.vsix
+          app.kubernetes.io/name: tools
+      - name: sbt
+        volume:
+          size: 1G
+      - name: ivy2
+        volume:
+          size: 1G
+      - name: cache
+        volume:
+          size: 1G
+      - name: coursier
+        volume:
+          size: 1G
+      - name: metals
+        volume:
+          size: 1G
+      - name: bloop
+        volume:
+          size: 1G
+      - name: theia-ide-scala-sbt
+        plugin:
+          kubernetes:
+            name: theia-ide-scala-sbt
+    commands:
+      - id: build
+        exec:
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: ./sbt +Test/compile
+          group:
+            kind: build
+            isDefault: true
+      - id: package
+        exec:
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: ./sbt +publishLocal
+          group:
+            kind: build
+      - id: sbt-repl
+        exec:
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: ./sbt
+          group:
+            kind: run
+      - id: run
+        exec:
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: ./sbt run
+          group:
+            kind: run
+            isDefault: true
+      - id: test
+        exec:
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: ./sbt +test
+          group:
+            kind: run
+    projects:
+      - name: scala-sbt
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.49.0/resources/v2/scala-sbt.zip'

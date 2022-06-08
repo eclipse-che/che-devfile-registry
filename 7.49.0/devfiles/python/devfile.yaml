@@ -1,0 +1,27 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: python-
+projects:
+  - name: python-hello-world
+    source:
+      type: git
+      location: https://github.com/che-samples/python-hello-world
+components:
+  - type: chePlugin
+    id: ms-python/python/latest
+    registryUrl: https://eclipse-che.github.io/che-plugin-registry/7.49.0/v3/
+  - type: dockerimage
+    alias: python
+    image: quay.io/eclipse/che-python-3.8:ce0526f
+    memoryLimit: 512Mi
+    mountSources: true
+    volumes:
+      - name: venv
+        containerPath: /home/user/.venv
+commands:
+  - name: run
+    actions:
+      - type: exec
+        component: python
+        command: . ${HOME}/.venv/bin/activate &&  python hello-world.py
+        workdir: ${CHE_PROJECTS_ROOT}/python-hello-world
