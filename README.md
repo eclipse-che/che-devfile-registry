@@ -1,6 +1,7 @@
 ![Next Build Status](https://github.com/eclipse/che-devfile-registry/actions/workflows/next-build.yml/badge.svg)
 ![Release Build Status](https://github.com/eclipse/che-devfile-registry/actions/workflows/release.yml/badge.svg)
 [![Contribute](https://www.eclipse.org/che/contribute.svg)](https://workspaces.openshift.com#https://github.com/eclipse/che-devfile-registry)
+[![Contribute (nightly)](https://img.shields.io/static/v1?label=nightly%20Che&message=for%20maintainers&logo=eclipseche&color=FDB940&labelColor=525C86)](https://che-dogfooding.apps.che-dev.x6e0.p1.openshiftapps.com/#https://github.com/eclipse-che/che-devfile-registry?df=.devfile-v2.yaml&che-editor=che-incubator/che-code/insiders)
 
 # Eclipse Che devfile registry
 
