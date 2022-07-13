@@ -34,22 +34,6 @@ cd ./che-devfile-registry && git checkout "${VERSION}"
 
 PLUGIN_REGISTRY_URL="https://eclipse-che.github.io/che-plugin-registry/${VERSION}/v3/"
 
-# shellcheck disable=SC2207
-DEVFILES=($(find ./devfiles -type f -name "devfile.yaml"))
-for devfile in "${DEVFILES[@]}"
-do
-    LENGTH=$(yq eval '.components | length' "${devfile}")
-    LAST_INDEX=$((LENGTH-1))
-    for i in $(seq 0 ${LAST_INDEX})
-    do
-        chePlugin=$(yq eval '.components['"${i}"'].type' "${devfile}")
-        hasRegistryUrl=$(yq eval '.components['"${i}"'].registryUrl' "${devfile}")
-        if [ "${chePlugin}" == "chePlugin" ] && [ "${hasRegistryUrl}" == "null" ]; then
-            yq eval -P '.components['"${i}"'] = .components['"${i}"'] * {"registryUrl":"'"${PLUGIN_REGISTRY_URL}"'"}' -i "${devfile}"
-        fi
-    done
-done
-
 git config --global user.email "che-bot@eclipse.org"
 git config --global user.name "CHE Bot"
 
