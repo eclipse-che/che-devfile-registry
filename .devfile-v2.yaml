@@ -6,7 +6,31 @@ attributes:
 components:
   - name: devtools
     container:
-      image: "quay.io/devfile/universal-developer-image:ubi8-latest"
+      image: quay.io/devfile/universal-developer-image:ubi8-latest
       memoryLimit: 2Gi
       memoryRequest: 256Mi
+  - name: che-devfile-registry-prod
+    container:
+      image: quay.io/eclipse/che-devfile-registry:next
+      memoryLimit: 512Mi
+      memoryRequest: 64Mi
+      command:
+        - sleep
+      args:
+        - infinity
+      endpoints:
+        - name: devfile-registry
+          targetPort: 8080
+      volumeMounts:
+        - name: images
+          path: /usr/local/apache2/htdocs/images
+  - name: images
+    volumes:
+      ephemeral: true
 
+commands:
+  - id: 1-build-devfile-registry
+    exec:
+      commandLine: './build/dev/build-devfile-registry.sh'
+      component: devtools
+      alias: '1. build devfile-registry'
