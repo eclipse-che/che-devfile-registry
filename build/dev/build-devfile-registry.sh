@@ -24,6 +24,7 @@ cp -rf "$DEVFILES_SRC" "$BUILD_DIR"/devfiles
 cd "$BUILD_DIR"
 ./check_mandatory_fields.sh devfiles
 ./index.sh > devfiles/index.json
+# ./generate_devworkspace_templates.sh
 
 ROUTE_OR_INGRESS="routes"
 DEVFILE_HOST=$(kubectl get ${ROUTE_OR_INGRESS} -l "controller.devfile.io/devworkspace_id=${DEVWORKSPACE_ID}" -o json | jq -r '.items[] | select(.metadata.annotations."che.routing.controller.devfile.io/endpoint-name" = "devfile-registry") | .spec.host')

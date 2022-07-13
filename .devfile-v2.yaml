@@ -22,6 +22,7 @@ components:
         - name: devfile-registry
           targetPort: 8080
           path: /devfiles
+          protocol: https
       volumeMounts:
         - name: images
           path: /usr/local/apache2/htdocs/images
@@ -30,17 +31,17 @@ components:
       ephemeral: true
 
 commands:
-  - id: build
+  - id: 1-build
     exec:
       commandLine: './build/dev/build-devfile-registry.sh'
       component: devtools
       label: 1. build devfile-registry
-  - id: start
+  - id: 2-start
     exec:
       commandLine: './build/dev/start-devfile-registry.sh'
       component: che-devfile-registry-prod
       label: 2. start devfile-registry  
-  - id: publish
+  - id: 3-publish
     exec:
       commandLine: './build/dev/publish-devfile-registry-to-surge.sh'
       component: che-devfile-registry-prod
