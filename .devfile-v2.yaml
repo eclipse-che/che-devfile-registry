@@ -25,7 +25,7 @@ components:
         - name: images
           path: /usr/local/apache2/htdocs/images
   - name: images
-    volumes:
+    volume:
       ephemeral: true
 
 commands:
