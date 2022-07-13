@@ -33,4 +33,3 @@ commands:
     exec:
       commandLine: './build/dev/build-devfile-registry.sh'
       component: devtools
-      alias: '1. build devfile-registry'
