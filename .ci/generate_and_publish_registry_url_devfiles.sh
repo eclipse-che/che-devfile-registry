@@ -32,8 +32,6 @@ cd /tmp/devfile-registry-gh-pages-publish/
 git clone "https://github.com/eclipse-che/che-devfile-registry.git" che-devfile-registry
 cd ./che-devfile-registry && git checkout "${VERSION}"
 
-PLUGIN_REGISTRY_URL="https://eclipse-che.github.io/che-plugin-registry/${VERSION}/v3/"
-
 git config --global user.email "che-bot@eclipse.org"
 git config --global user.name "CHE Bot"
 
