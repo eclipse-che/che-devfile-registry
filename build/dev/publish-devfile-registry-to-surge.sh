@@ -6,7 +6,7 @@
 # which is available at https://www.eclipse.org/legal/epl-2.0/
 #
 # SPDX-License-Identifier: EPL-2.0
-set -e
+set -e -u
 
 DEFAULT_BUILD_DIR="/projects/build"
 BUILD_DIR=${BUILD_DIR:-$DEFAULT_BUILD_DIR}
@@ -27,8 +27,8 @@ echo '*' > CORS
 cp -rf "$BUILD_DIR/devfiles" "$SURGE_DIR/devfiles"
 cp -rf "$IMAGES_SRC"/* "$SURGE_DIR/images"
 
-CHE_DEVFILE_REGISTRY_URL="https://$CHE_WORKSPACE_NAMESPACE-$CHE_WORKSPACE_NAME.surge.sh"
-CHE_DEVFILE_REGISTRY_INTERNAL_URL="https://$CHE_WORKSPACE_NAMESPACE-$CHE_WORKSPACE_NAME.surge.sh"
+CHE_DEVFILE_REGISTRY_URL="https://$DEVWORKSPACE_NAMESPACE-$DEVWORKSPACE_NAME.surge.sh"
+CHE_DEVFILE_REGISTRY_INTERNAL_URL="https://$DEVWORKSPACE_NAMESPACE-$DEVWORKSPACE_NAME.surge.sh"
 DEVFILES_DIR=${SURGE_DIR}/devfiles
 
 export CHE_DEVFILE_REGISTRY_URL
@@ -41,4 +41,4 @@ do
   (cd "$directory" && tree -H '.' -L 1 --noreport --charset utf-8 | sed '/<p class="VERSION">/,/<\/p>/d' > index.html);
 done <   <(find . -type d -print0)
 
-surge ./ "$CHE_WORKSPACE_NAMESPACE-$CHE_WORKSPACE_NAME.surge.sh" && echo "Checkout the published devfile registry at https://$CHE_WORKSPACE_NAMESPACE-$CHE_WORKSPACE_NAME.surge.sh/devfiles/"
+surge ./ "$DEVWORKSPACE_NAMESPACE-$DEVWORKSPACE_NAME.surge.sh" && echo "Checkout the published devfile registry at https://$DEVWORKSPACE_NAMESPACE-$DEVWORKSPACE_NAME.surge.sh/devfiles/"
