@@ -38,7 +38,7 @@ spec:
         container:
           image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
           memoryLimit: 2Gi
-          cpuLimit: 1.5G
+          cpuLimit: 1500m
           command:
             - /checode/entrypoint-volume.sh
           volumeMounts:
