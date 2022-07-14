@@ -41,10 +41,4 @@ commands:
     exec:
       commandLine: './build/dev/start-devfile-registry.sh'
       component: che-devfile-registry-prod
-      label: 2. start devfile-registry  
-  - id: 3-publish
-    exec:
-      commandLine: './build/dev/publish-devfile-registry-to-surge.sh'
-      component: che-devfile-registry-prod
-      label: 3. publish to surge.sh
-  
+      label: 2. start devfile-registry
