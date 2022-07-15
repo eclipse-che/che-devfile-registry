@@ -1,5 +1,0 @@
----
-displayName: Quarkus CLI
-description: Quarkus stack with a command-mode sample
-tags: ["Community", "Java", "Quarkus", "OpenJDK", "Maven", "Debian"]
-icon: /images/quarkus.svg

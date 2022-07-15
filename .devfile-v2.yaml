@@ -1,0 +1,44 @@
+schemaVersion: 2.1.0
+metadata:
+  name: che-devfile-registry
+attributes:
+  controller.devfile.io/storage-type: ephemeral
+  controller.devfile.io/scc: container-build
+components:
+  - name: devtools
+    container:
+      image: quay.io/devfile/universal-developer-image:ubi8-latest
+      memoryLimit: 2Gi
+      memoryRequest: 256Mi
+  - name: che-devfile-registry-prod
+    container:
+      image: quay.io/eclipse/che-devfile-registry:next
+      memoryLimit: 512Mi
+      memoryRequest: 64Mi
+      command:
+        - sleep
+      args:
+        - infinity
+      endpoints:
+        - name: devfile-registry
+          targetPort: 8080
+          path: /devfiles
+          protocol: https
+      volumeMounts:
+        - name: images
+          path: /usr/local/apache2/htdocs/images
+  - name: images
+    volume:
+      ephemeral: true
+
+commands:
+  - id: 1-build
+    exec:
+      commandLine: './build/dev/build-devfile-registry.sh'
+      component: devtools
+      label: 1. build devfile-registry
+  - id: 2-start
+    exec:
+      commandLine: './build/dev/start-devfile-registry.sh'
+      component: che-devfile-registry-prod
+      label: 2. start devfile-registry

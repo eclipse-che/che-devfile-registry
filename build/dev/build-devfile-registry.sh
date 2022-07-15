@@ -6,7 +6,7 @@
 # which is available at https://www.eclipse.org/legal/epl-2.0/
 #
 # SPDX-License-Identifier: EPL-2.0
-set -e
+set -e -u
 
 DEFAULT_BUILD_DIR="/projects/build"
 BUILD_DIR=${BUILD_DIR:-$DEFAULT_BUILD_DIR}
@@ -24,6 +24,10 @@ cp -rf "$DEVFILES_SRC" "$BUILD_DIR"/devfiles
 cd "$BUILD_DIR"
 ./check_mandatory_fields.sh devfiles
 ./index.sh > devfiles/index.json
+# ./generate_devworkspace_templates.sh
 
-DEVFILE_URL=$(sed -e 's/^"//' -e 's/"$//' <<<"$(curl "$CHE_API_INTERNAL/workspace/${CHE_WORKSPACE_ID}" -H 'Connection: keep-alive'  -H 'Accept: application/json, text/plain, */*' -H "Authorization: Bearer $CHE_MACHINE_TOKEN" | jq '.runtime.machines | .[].servers |  select(.http) | .http.url')");
+ROUTE_OR_INGRESS="routes"
+DEVFILE_HOST=$(kubectl get ${ROUTE_OR_INGRESS} -l "controller.devfile.io/devworkspace_id=${DEVWORKSPACE_ID}" -o json | jq -r '.items[] | select(.metadata.annotations."che.routing.controller.devfile.io/endpoint-name" = "devfile-registry") | .spec.host')
+DEVFILE_URL=https://${DEVFILE_HOST}
+
 echo "$DEVFILE_URL" > "$BUILD_DIR"/ENV_CHE_DEVFILE_REGISTRY_URL;

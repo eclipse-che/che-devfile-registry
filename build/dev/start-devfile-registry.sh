@@ -6,7 +6,7 @@
 # which is available at https://www.eclipse.org/legal/epl-2.0/
 #
 # SPDX-License-Identifier: EPL-2.0
-set -e
+set -e -u
 
 DEFAULT_BUILD_DIR="/projects/build"
 BUILD_DIR=${BUILD_DIR:-$DEFAULT_BUILD_DIR}
