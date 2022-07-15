@@ -10,7 +10,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/go.svg",
     "links": {
       "v2": "https://github.com/che-samples/golang-example/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/go/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/go/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/go/devworkspace-che-theia-next.yaml",
@@ -32,26 +31,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/lombok.svg",
     "links": {
       "v2": "https://github.com/che-samples/lombok-project-sample/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devworkspace-che-theia-next.yaml",
         "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devworkspace-che-code-insiders.yaml"
       }
-    }
-  },
-  {
-    "displayName": ".NET Core",
-    "description": "Stack with .Net 3.1",
-    "tags": [
-      "Community",
-      "Debian",
-      "Dotnet",
-      "C#"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/dotnetcore.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet/devfile.yaml"
     }
   },
   {
@@ -67,7 +51,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/dotnetcore.svg",
     "links": {
       "v2": "https://github.com/che-samples/aspnetcore-realworld-example-app/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devworkspace-che-theia-next.yaml",
@@ -87,67 +70,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/angular.svg",
     "links": {
       "v2": "https://github.com/che-samples/nodejs-angular/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devworkspace-che-theia-next.yaml",
         "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devworkspace-che-code-insiders.yaml"
       }
-    }
-  },
-  {
-    "displayName": "Mainframe Basic Stack",
-    "description": "Che4z Mainframe Basic Stack is an all-in-one extension pack for developers working with z/OS applications, suitable for all levels of mainframe experience, even beginners.",
-    "tags": [
-      "Community",
-      "Che4z",
-      "Zowe",
-      "mainframe",
-      "Endevor",
-      "explorer",
-      "dataset",
-      "COBOL",
-      "JCL",
-      "zOS",
-      "USS",
-      "HLASM",
-      "InterTest",
-      "debug"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/che4z.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/che4z/devfile.yaml"
-    }
-  },
-  {
-    "displayName": "Java Maven",
-    "description": "Java Stack with OpenJDK 11 and Maven 3.6.0",
-    "tags": [
-      "Community",
-      "Java",
-      "OpenJDK",
-      "Maven",
-      "Debian"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/java.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-maven/devfile.yaml"
-    }
-  },
-  {
-    "displayName": "Java with Spring Boot and MySQL",
-    "description": "Java stack with OpenJDK 8, MySQL and Spring Boot Petclinic demo application",
-    "tags": [
-      "Community",
-      "Java",
-      "OpenJDK",
-      "Maven",
-      "Spring Boot",
-      "MySQL"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/springboot.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mysql/devfile.yaml"
     }
   },
   {
@@ -160,7 +87,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/rust.svg",
     "links": {
       "v2": "https://github.com/che-samples/helloworld-rust/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devworkspace-che-theia-next.yaml",
@@ -180,7 +106,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/python.svg",
     "links": {
       "v2": "https://github.com/che-samples/python-hello-world/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python/devworkspace-che-theia-next.yaml",
@@ -204,7 +129,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/camelk.svg",
     "links": {
       "v2": "https://github.com/che-samples/fuse-rest-http-booster/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-springboot/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-springboot/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-springboot/devworkspace-che-theia-next.yaml",
@@ -225,27 +149,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/springboot.svg",
     "links": {
       "v2": "https://github.com/che-samples/java-spring-petclinic/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-web-spring/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-web-spring/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-web-spring/devworkspace-che-theia-next.yaml",
         "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-web-spring/devworkspace-che-code-insiders.yaml"
       }
-    }
-  },
-  {
-    "displayName": "Java Vert.x",
-    "description": "Java stack with OpenJDK 8 and Vert.x demo application",
-    "tags": [
-      "Community",
-      "Java",
-      "OpenJDK",
-      "Maven",
-      "Vertx"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/vertx.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-web-vertx/devfile.yaml"
     }
   },
   {
@@ -261,26 +169,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
       "v2": "https://github.com/che-samples/react-web-app/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-yarn/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-yarn/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-yarn/devworkspace-che-theia-next.yaml",
         "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-yarn/devworkspace-che-code-insiders.yaml"
       }
-    }
-  },
-  {
-    "displayName": "PHP Simple",
-    "description": "PHP Stack with PHP 7.1 and simple web application",
-    "tags": [
-      "Community",
-      "PHP",
-      "Apache",
-      "Debian"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/php.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-web-simple/devfile.yaml"
     }
   },
   {
@@ -294,7 +187,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/che.svg",
     "links": {
       "v2": "https://github.com/che-samples/bash/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/bash/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/bash/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/bash/devworkspace-che-theia-next.yaml",
@@ -314,7 +206,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/python.svg",
     "links": {
       "v2": "https://github.com/che-samples/django-realworld-example-app/tree/devfile2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python-django/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python-django/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python-django/devworkspace-che-theia-next.yaml",
@@ -337,7 +228,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/php.svg",
     "links": {
       "v2": "https://github.com/che-samples/php-symfony/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-symfony/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-symfony/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-symfony/devworkspace-che-theia-next.yaml",
@@ -358,7 +248,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
       "v2": "https://github.com/che-samples/nodejs-react-redux/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-react/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-react/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-react/devworkspace-che-theia-next.yaml",
@@ -379,7 +268,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/scala.svg",
     "links": {
       "v2": "https://github.com/che-samples/scala-sbt/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/scala-sbt/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/scala-sbt/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/scala-sbt/devworkspace-che-theia-next.yaml",
@@ -401,28 +289,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/java.svg",
     "links": {
       "v2": "https://github.com/che-samples/java-guestbook/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mongo/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mongo/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mongo/devworkspace-che-theia-next.yaml",
         "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mongo/devworkspace-che-code-insiders.yaml"
       }
-    }
-  },
-  {
-    "displayName": "PHP with MySQL",
-    "description": "PHP Stack with MySQL and simple database application",
-    "tags": [
-      "Community",
-      "PHP",
-      "Apache",
-      "MySQL",
-      "Debian",
-      "Centos"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/php.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-mysql/devfile.yaml"
     }
   },
   {
@@ -440,7 +311,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
       "v2": "https://github.com/che-samples/nodejs-mongodb-sample/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devworkspace-che-theia-next.yaml",
@@ -460,43 +330,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/camelk.svg",
     "links": {
       "v2": "https://github.com/che-samples/apache-camel-k/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-k/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-k/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-k/devworkspace-che-theia-next.yaml",
         "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-k/devworkspace-che-code-insiders.yaml"
       }
-    }
-  },
-  {
-    "displayName": "Quarkus CLI",
-    "description": "Quarkus stack with a command-mode sample",
-    "tags": [
-      "Community",
-      "Java",
-      "Quarkus",
-      "OpenJDK",
-      "Maven",
-      "Debian"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/quarkus.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus-command-mode/devfile.yaml"
-    }
-  },
-  {
-    "displayName": "Java Gradle",
-    "description": "Java Stack with OpenJDK 11 and Gradle 6.2.1",
-    "tags": [
-      "Community",
-      "Java",
-      "OpenJDK",
-      "Gradle",
-      "Ubuntu"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/java.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-gradle/devfile.yaml"
     }
   },
   {
@@ -512,7 +350,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/cpp.svg",
     "links": {
       "v2": "https://github.com/che-samples/cpp-hello-world/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/cpp/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/cpp/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/cpp/devworkspace-che-theia-next.yaml",
@@ -534,28 +371,11 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/quarkus.svg",
     "links": {
       "v2": "https://github.com/che-samples/quarkus-quickstarts/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devworkspace-che-theia-next.yaml",
         "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devworkspace-che-code-insiders.yaml"
       }
-    }
-  },
-  {
-    "displayName": "PHP Laravel with MySQL",
-    "description": "PHP Stack with Laravel and MySQL real world application",
-    "tags": [
-      "Community",
-      "PHP",
-      "Apache",
-      "MySQL",
-      "Centos",
-      "Debian"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/php.svg",
-    "links": {
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-laravel/devfile.yaml"
     }
   },
   {
@@ -570,7 +390,6 @@
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
       "v2": "https://github.com/che-samples/web-nodejs-sample/tree/devfilev2",
-      "self": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs/devfile.yaml",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs/devworkspace-che-theia-latest.yaml",
         "eclipse/che-theia/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs/devworkspace-che-theia-next.yaml",

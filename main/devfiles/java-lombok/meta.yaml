@@ -10,7 +10,6 @@ tags:
 icon: /images/lombok.svg
 links:
   v2: https://github.com/che-samples/lombok-project-sample/tree/devfilev2
-  self: /devfiles/java-lombok/devfile.yaml
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/java-lombok/devworkspace-che-theia-latest.yaml
     eclipse/che-theia/next: /devfiles/java-lombok/devworkspace-che-theia-next.yaml

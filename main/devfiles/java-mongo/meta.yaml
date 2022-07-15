@@ -10,7 +10,6 @@ tags:
 icon: /images/java.svg
 links:
   v2: https://github.com/che-samples/java-guestbook/tree/devfilev2
-  self: /devfiles/java-mongo/devfile.yaml
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/java-mongo/devworkspace-che-theia-latest.yaml
     eclipse/che-theia/next: /devfiles/java-mongo/devworkspace-che-theia-next.yaml

@@ -6,7 +6,6 @@ tags:
 icon: /images/rust.svg
 links:
   v2: https://github.com/che-samples/helloworld-rust/tree/devfilev2
-  self: /devfiles/rust/devfile.yaml
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/rust/devworkspace-che-theia-latest.yaml
     eclipse/che-theia/next: /devfiles/rust/devworkspace-che-theia-next.yaml

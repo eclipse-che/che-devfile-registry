@@ -11,7 +11,6 @@ tags:
 icon: /images/nodejs.svg
 links:
   v2: https://github.com/che-samples/nodejs-mongodb-sample/tree/devfilev2
-  self: /devfiles/nodejs-mongo/devfile.yaml
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/nodejs-mongo/devworkspace-che-theia-latest.yaml
     eclipse/che-theia/next: /devfiles/nodejs-mongo/devworkspace-che-theia-next.yaml
