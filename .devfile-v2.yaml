@@ -32,13 +32,39 @@ components:
       ephemeral: true
 
 commands:
-  - id: 1-build
+  - id: 1-build-metadata
     exec:
       commandLine: './build/dev/build-devfile-registry.sh'
       component: devtools
-      label: 1. build devfile-registry
-  - id: 2-start
+      label: 1. build devfile-registry index.json
+  - id: 2-start-locally
     exec:
       commandLine: './build/dev/start-devfile-registry.sh'
       component: che-devfile-registry-prod
       label: 2. start devfile-registry
+  - id: 3-build-image
+    exec:
+      commandLine: >
+        ([ ! -f ./IMG_REG ] && echo "File ./IMG_REG not found, please create one to specify the container registry (for example \"quay.io\")") ||
+        ([ ! -f ./IMG_ORG ] && echo "File ./IMG_ORG not found, please create one to specify the container registry organization (for example \"eclipse\")") ||
+        (date +%s > ./IMG_TAG; ./build.sh --tag $(cat ./IMG_TAG) --registry $(cat ./IMG_REG) --organization $(cat ./IMG_ORG))
+      component: devtools
+      label: 3. build che-devfile-registry image
+  - id: 4-publish-image
+    exec:
+      commandLine: >
+        ([ ! -f ./IMG_REG ] && echo "File ./IMG_REG not found, please create one to specify the image registry (for example \"quay.io\")") ||
+        ([ ! -f ./IMG_ORG ] && echo "File ./IMG_ORG not found, please create one to specify the image organization (for example \"eclipse\")") ||
+        ([ ! -f ./IMG_TAG ] && echo "File ./IMG_TAG not found, please create one to specify the image tag (for example \"next\")") ||
+        buildah push $(cat ./IMG_REG)/$(cat ./IMG_ORG)/che-devfile-registry:$(cat ./IMG_TAG)
+      component: devtools
+      label: 4. push che-devfile-registry image to a registry
+  - id: 5-replace-current-devfile-registry-image
+    exec:
+      commandLine: >
+        ([ ! -f ./IMG_REG ] && echo "File ./IMG_REG not found, please create one to specify the image registry (for example \"quay.io\")") ||
+        ([ ! -f ./IMG_ORG ] && echo "File ./IMG_ORG not found, please create one to specify the image organization (for example \"eclipse\")") ||
+        ([ ! -f ./IMG_TAG ] && echo "File ./IMG_TAG not found, please create one to specify the image tag (for example \"next\")") ||
+        ./patch-checluster.sh $(cat ./IMG_REG)/$(cat ./IMG_ORG)/che-devfile-registry:$(cat ./IMG_TAG)
+      component: devtools
+      label: 5. replace devfile registry image on current cluster
