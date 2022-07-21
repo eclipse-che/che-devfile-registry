@@ -12,7 +12,7 @@
 
 set -e
 
-readarray -d '' devfiles < <(find "$1" -name 'devfile.yaml' -print0)
+readarray -d '' devfiles < <(find "$1" \( -name 'devfile.yaml' -o -name 'devworkspace-*.yaml' \) -print0)
 yq -r '..|.image?' "${devfiles[@]}" | grep -v "null" | sort | uniq
 # include images from referenced kubernetes content.
 for devfile in "${devfiles[@]}"; do
