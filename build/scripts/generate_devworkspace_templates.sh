@@ -41,7 +41,7 @@ do
     --output-file:"${dir}"/devworkspace-che-code-insiders.yaml \
     --project."${name}={{ INTERNAL_URL }}/resources/v2/${name}.zip"
 
-    # When release is happend, we need to replace tags of images in che-theia editor
+    # When release is happening, we need to replace tags of images in che-theia editor
     if [ -n "$VERSION" ]; then
       cheTheia="quay.io/eclipse/che-theia"
       cheTheiaEndpointRuntimeBinary="${cheTheia}-endpoint-runtime-binary"
