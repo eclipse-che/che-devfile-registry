@@ -19,7 +19,7 @@ CHECLUSTER_NAMESPACE="$(kubectl get checluster --all-namespaces -o json | jq -r 
 
 TMPDIR="$(mktemp -d)"
 trap 'rm -rf -- "$TMPDIR"' EXIT
-cat << EOF > ${TMPDIR}/patch-file.yaml
+cat << EOF > "${TMPDIR}"/patch-file.yaml
 spec:
   components:
     devfileRegistry:
@@ -35,9 +35,9 @@ echo "Original CheCluster .spec.components.devfileRegistry:"
 kubectl get  -n "${CHECLUSTER_NAMESPACE}" checluster "${CHECLUSTER_NAME}" -o json | jq '.spec.components.devfileRegistry' 
 echo
 echo "Patch file:"
-cat ${TMPDIR}/patch-file.yaml
+cat "${TMPDIR}"/patch-file.yaml
 echo
-kubectl patch -n "${CHECLUSTER_NAMESPACE}" checluster "${CHECLUSTER_NAME}" --type merge --patch "$(cat ${TMPDIR}/patch-file.yaml)"
+kubectl patch -n "${CHECLUSTER_NAMESPACE}" checluster "${CHECLUSTER_NAME}" --type merge --patch "$(cat "${TMPDIR}"/patch-file.yaml)"
 echo
 echo "Patched CheCluster .spec.components.devfileRegistry:"
 kubectl get -n "${CHECLUSTER_NAMESPACE}" checluster "${CHECLUSTER_NAME}" -o json | jq '.spec.components.devfileRegistry'
