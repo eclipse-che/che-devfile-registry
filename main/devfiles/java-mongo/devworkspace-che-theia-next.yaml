@@ -258,11 +258,8 @@ spec:
           component: tools
           workingDir: ${PROJECT_SOURCE}/backend
           commandLine: >
-            java
-            -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006,quiet=y
-            \
-
-            -jar target/backend-1.0.jar
+            mvn spring-boot:run -DskipTests -Drun.jvmArguments='-Xdebug
+            -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5006,quiet=y'
           group:
             kind: run
             isDefault: true
@@ -272,11 +269,8 @@ spec:
           component: tools
           workingDir: ${PROJECT_SOURCE}/frontend
           commandLine: >
-            java
-            -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005,quiet=y
-            \
-
-            -jar target/frontend-1.0.jar
+            mvn spring-boot:run -DskipTests -Drun.jvmArguments='-Xdebug
+            -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005,quiet=y'
           group:
             kind: run
             isDefault: true
