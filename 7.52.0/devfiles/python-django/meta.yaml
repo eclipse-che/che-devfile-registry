@@ -1,0 +1,14 @@
+displayName: Python Django
+description: Python Stack with Python 3.8 and Django application
+tags:
+  - Community
+  - Centos
+  - Python
+  - pip
+icon: /images/python.svg
+links:
+  v2: https://github.com/che-samples/django-realworld-example-app/tree/devfile2
+  devWorkspaces:
+    eclipse/che-theia/latest: /devfiles/python-django/devworkspace-che-theia-latest.yaml
+    eclipse/che-theia/next: /devfiles/python-django/devworkspace-che-theia-next.yaml
+    che-incubator/che-code/insiders: /devfiles/python-django/devworkspace-che-code-insiders.yaml
