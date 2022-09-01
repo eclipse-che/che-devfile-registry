@@ -45,9 +45,10 @@ commands:
   - id: 3-build-image
     exec:
       commandLine: >
-        ([ ! -f ./IMG_REG ] && echo "File ./IMG_REG not found, please create one to specify the container registry (for example \"quay.io\")") ||
-        ([ ! -f ./IMG_ORG ] && echo "File ./IMG_ORG not found, please create one to specify the container registry organization (for example \"eclipse\")") ||
-        (date +%s > ./IMG_TAG; BUILDER=buildah ./build.sh --tag $(cat ./IMG_TAG) --registry $(cat ./IMG_REG) --organization $(cat ./IMG_ORG))
+        read -p "ENTER the image registry (for example \"quay.io\")")" IMG_REG
+        read -p "ENTER the image organization (for example \"eclipse\")")" IMG_ORG
+        read -p "ENTER the image tag (for example \"next\")")" IMG_TAG
+        BUILDER=buildah ./build.sh --tag $IMG_TAG --registry $IMG_REG --organization $IMG_ORG
       component: devtools
       label: 3. build che-devfile-registry image
   - id: 4-publish-image
