@@ -1,7 +1,7 @@
 ---
-displayName: NodeJS React Web Application
-description: Stack for developing NodeJS React Web Application
-tags: ["Community", "NodeJS", "React", "Redux", "RealWorld"]
+displayName: Node.js React Web Application
+description: Stack for developing Node.js React Web Application
+tags: ["Community", "Node.js", "React", "Redux", "RealWorld"]
 icon: /images/nodejs.svg
 links:
   v2: https://github.com/che-samples/nodejs-react-redux/tree/devfilev2
