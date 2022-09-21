@@ -1,8 +1,8 @@
-displayName: NodeJS Express Web Application
-description: Stack with NodeJS 10
+displayName: Node.js Express Web Application
+description: Stack with Node.js 10
 tags:
   - Community
-  - NodeJS
+  - Node.js
   - Express
   - ubi8
 icon: /images/nodejs.svg

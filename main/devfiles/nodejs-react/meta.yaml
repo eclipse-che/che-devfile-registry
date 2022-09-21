@@ -1,8 +1,8 @@
-displayName: NodeJS React Web Application
-description: Stack for developing NodeJS React Web Application
+displayName: Node.js React Web Application
+description: Stack for developing Node.js React Web Application
 tags:
   - Community
-  - NodeJS
+  - Node.js
   - React
   - Redux
   - RealWorld

@@ -1,8 +1,8 @@
-displayName: NodeJS Web Application based on Yarn
-description: Stack for developing NodeJS Web Application based on Yarn
+displayName: Node.js Web Application based on Yarn
+description: Stack for developing Node.js Web Application based on Yarn
 tags:
   - Community
-  - NodeJS
+  - Node.js
   - Alpine
   - Yarn
   - React

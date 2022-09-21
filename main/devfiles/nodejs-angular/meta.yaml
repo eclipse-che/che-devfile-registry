@@ -1,8 +1,8 @@
-displayName: NodeJS Angular Web Application
-description: Stack for developing NodeJS Angular Web Application
+displayName: Node.js Angular Web Application
+description: Stack for developing Node.js Angular Web Application
 tags:
   - Community
-  - NodeJS
+  - Node.js
   - Angular
   - Alpine
 icon: /images/angular.svg

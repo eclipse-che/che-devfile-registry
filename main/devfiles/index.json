@@ -99,9 +99,9 @@
     "tags": [
       "Community",
       "C/C++",
-      "clang",
+      "Clang",
       "g++",
-      "gdb"
+      "GDB"
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/cpp.svg",
     "links": {
@@ -136,11 +136,11 @@
     }
   },
   {
-    "displayName": "NodeJS MongoDB Web Application",
+    "displayName": "Node.js MongoDB Web Application",
     "description": "Stack with NodeJS 10 and MongoDB 3.4",
     "tags": [
       "Community",
-      "NodeJS",
+      "Node.js",
       "Express",
       "MongoDB",
       "RealWorld",
@@ -215,11 +215,11 @@
     }
   },
   {
-    "displayName": "NodeJS Express Web Application",
-    "description": "Stack with NodeJS 10",
+    "displayName": "Node.js Express Web Application",
+    "description": "Stack with Node.js 10",
     "tags": [
       "Community",
-      "NodeJS",
+      "Node.js",
       "Express",
       "ubi8"
     ],
@@ -274,11 +274,11 @@
     }
   },
   {
-    "displayName": "NodeJS Angular Web Application",
-    "description": "Stack for developing NodeJS Angular Web Application",
+    "displayName": "Node.js Angular Web Application",
+    "description": "Stack for developing Node.js Angular Web Application",
     "tags": [
       "Community",
-      "NodeJS",
+      "Node.js",
       "Angular",
       "Alpine"
     ],
@@ -293,11 +293,11 @@
     }
   },
   {
-    "displayName": "NodeJS Web Application based on Yarn",
-    "description": "Stack for developing NodeJS Web Application based on Yarn",
+    "displayName": "Node.js Web Application based on Yarn",
+    "description": "Stack for developing Node.js Web Application based on Yarn",
     "tags": [
       "Community",
-      "NodeJS",
+      "Node.js",
       "Alpine",
       "Yarn",
       "React"
@@ -336,11 +336,11 @@
     }
   },
   {
-    "displayName": "NodeJS React Web Application",
-    "description": "Stack for developing NodeJS React Web Application",
+    "displayName": "Node.js React Web Application",
+    "description": "Stack for developing Node.js React Web Application",
     "tags": [
       "Community",
-      "NodeJS",
+      "Node.js",
       "React",
       "Redux",
       "RealWorld"
