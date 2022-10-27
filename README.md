@@ -88,9 +88,19 @@ helm delete --purge che-devfile-registry
 docker run -it --rm -p 8080:8080 quay.io/eclipse/che-devfile-registry:next
 ```
 
-## CI
-Visit [GitHub Actions Workflows](https://github.com/eclipse-che/che-devfile-registry/actions/) to see all associated CI workflows.
+# Builds
 
-### License
+This repo contains several [actions](https://github.com/eclipse-che/che-devfile-registry/actions), including:
+* ![release latest stable](https://github.com/eclipse-che/che-devfile-registry/actions/workflows/release.yml/badge.svg)
+* ![next builds](https://github.com/eclipse-che/che-devfile-registry/actions/workflows/next-build.yml/badge.svg)
+* ![PR](https://github.com/eclipse-che/che-devfile-registry/actions/workflows/pr-checks.yml/badge.svg)
+* ![try in webIDE](https://github.com/eclipse-che/che-devfile-registry/actions/workflows/try-in-web-ide.yaml/badge.svg)
+
+Downstream builds can be found at the link below, which is _internal to Red Hat_. Stable builds can be found by replacing the 3.x with a specific version like 3.2.  
+
+* [dashboard_3.x](https://main-jenkins-csb-crwqe.apps.ocp-c1.prod.psi.redhat.com/job/DS_CI/job/dashboard_3.x/)
+
+
+# License
 
 Che is open sourced under the Eclipse Public License 2.0.
