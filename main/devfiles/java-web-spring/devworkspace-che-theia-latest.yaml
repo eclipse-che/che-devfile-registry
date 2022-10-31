@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-spring-petclinic
+  name: che-theia-spring-petclinic
 spec:
   commands:
     - id: init-container-command
@@ -226,10 +226,10 @@ spec:
       - name: mysqldata
         volume:
           size: 256Mi
-      - name: theia-ide-spring-petclinic
+      - name: che-theia-spring-petclinic
         plugin:
           kubernetes:
-            name: theia-ide-spring-petclinic
+            name: che-theia-spring-petclinic
     commands:
       - id: prepare-database
         exec:

@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-php-symfony
+  name: che-theia-php-symfony
 spec:
   commands:
     - id: init-container-command
@@ -218,10 +218,10 @@ spec:
             - name: MYSQL_ROOT_PASSWORD
               value: db_password
           mountSources: false
-      - name: theia-ide-php-symfony
+      - name: che-theia-php-symfony
         plugin:
           kubernetes:
-            name: theia-ide-php-symfony
+            name: che-theia-php-symfony
     commands:
       - id: install-dependencies
         exec:

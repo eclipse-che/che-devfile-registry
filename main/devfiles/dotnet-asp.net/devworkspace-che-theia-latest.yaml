@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-asp-net
+  name: che-theia-asp-net
 spec:
   commands:
     - id: init-container-command
@@ -196,10 +196,10 @@ spec:
       - name: dotnet
         volume:
           size: 1G
-      - name: theia-ide-asp-net
+      - name: che-theia-asp-net
         plugin:
           kubernetes:
-            name: theia-ide-asp-net
+            name: che-theia-asp-net
     commands:
       - id: install-cake
         exec:

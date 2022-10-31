@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-python-hello-world
+  name: che-theia-python-hello-world
 spec:
   commands:
     - id: init-container-command
@@ -185,10 +185,10 @@ spec:
       - name: venv
         volume:
           size: 1G
-      - name: theia-ide-python-hello-world
+      - name: che-theia-python-hello-world
         plugin:
           kubernetes:
-            name: theia-ide-python-hello-world
+            name: che-theia-python-hello-world
     commands:
       - id: run-application
         exec:

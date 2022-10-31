@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-nodejs-mongodb
+  name: che-theia-nodejs-mongodb
 spec:
   commands:
     - id: init-container-command
@@ -218,10 +218,10 @@ spec:
       - name: mongo-storage
         volume:
           size: 256Mi
-      - name: theia-ide-nodejs-mongodb
+      - name: che-theia-nodejs-mongodb
         plugin:
           kubernetes:
-            name: theia-ide-nodejs-mongodb
+            name: che-theia-nodejs-mongodb
     commands:
       - id: run-application
         exec:

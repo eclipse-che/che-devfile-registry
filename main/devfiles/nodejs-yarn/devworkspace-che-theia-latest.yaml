@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-react-web-app
+  name: che-theia-react-web-app
 spec:
   commands:
     - id: init-container-command
@@ -187,10 +187,10 @@ spec:
             - >-
               https://open-vsx.org/api/ms-vscode/js-debug/1.66.0/file/ms-vscode.js-debug-1.66.0.vsix
           app.kubernetes.io/name: tools
-      - name: theia-ide-react-web-app
+      - name: che-theia-react-web-app
         plugin:
           kubernetes:
-            name: theia-ide-react-web-app
+            name: che-theia-react-web-app
     commands:
       - id: install-dependencies
         exec:

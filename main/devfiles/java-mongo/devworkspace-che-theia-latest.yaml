@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-java-guestbook
+  name: che-theia-java-guestbook
 spec:
   commands:
     - id: init-container-command
@@ -228,10 +228,10 @@ spec:
       - name: mongodbdata
         volume:
           size: 256Mi
-      - name: theia-ide-java-guestbook
+      - name: che-theia-java-guestbook
         plugin:
           kubernetes:
-            name: theia-ide-java-guestbook
+            name: che-theia-java-guestbook
     commands:
       - id: maven-build-backend
         exec:

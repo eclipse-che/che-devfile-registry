@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-scala-sbt
+  name: che-theia-scala-sbt
 spec:
   commands:
     - id: init-container-command
@@ -230,10 +230,10 @@ spec:
       - name: bloop
         volume:
           size: 1G
-      - name: theia-ide-scala-sbt
+      - name: che-theia-scala-sbt
         plugin:
           kubernetes:
-            name: theia-ide-scala-sbt
+            name: che-theia-scala-sbt
     commands:
       - id: build
         exec:

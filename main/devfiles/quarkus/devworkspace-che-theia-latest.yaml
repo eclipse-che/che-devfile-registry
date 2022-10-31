@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-quarkus-quickstart
+  name: che-theia-quarkus-quickstart
 spec:
   commands:
     - id: init-container-command
@@ -217,10 +217,10 @@ spec:
       - name: m2
         volume:
           size: 1G
-      - name: theia-ide-quarkus-quickstart
+      - name: che-theia-quarkus-quickstart
         plugin:
           kubernetes:
-            name: theia-ide-quarkus-quickstart
+            name: che-theia-quarkus-quickstart
     commands:
       - id: package
         exec:

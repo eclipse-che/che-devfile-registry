@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-apache-camel-k
+  name: che-theia-apache-camel-k
 spec:
   commands:
     - id: init-container-command
@@ -187,10 +187,10 @@ spec:
             - >-
               https://open-vsx.org/api/redhat/vscode-yaml/0.14.0/file/redhat.vscode-yaml-0.14.0.vsix
           app.kubernetes.io/name: tools
-      - name: theia-ide-apache-camel-k
+      - name: che-theia-apache-camel-k
         plugin:
           kubernetes:
-            name: theia-ide-apache-camel-k
+            name: che-theia-apache-camel-k
     projects:
       - name: apache-camel-k
         zip:

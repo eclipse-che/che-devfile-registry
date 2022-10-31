@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-apache-camel-springboot
+  name: che-theia-apache-camel-springboot
 spec:
   commands:
     - id: init-container-command
@@ -204,10 +204,10 @@ spec:
       - name: m2
         volume:
           size: 1G
-      - name: theia-ide-apache-camel-springboot
+      - name: che-theia-apache-camel-springboot
         plugin:
           kubernetes:
-            name: theia-ide-apache-camel-springboot
+            name: che-theia-apache-camel-springboot
     commands:
       - id: build-project
         exec:

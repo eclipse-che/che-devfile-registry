@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-bash
+  name: che-theia-bash
 spec:
   commands:
     - id: init-container-command
@@ -186,10 +186,10 @@ spec:
           che-theia.eclipse.org/vscode-preferences:
             shellcheck.executablePath: /bin/shellcheck
           app.kubernetes.io/name: tools
-      - name: theia-ide-bash
+      - name: che-theia-bash
         plugin:
           kubernetes:
-            name: theia-ide-bash
+            name: che-theia-bash
     commands:
       - id: run-main-script
         exec:

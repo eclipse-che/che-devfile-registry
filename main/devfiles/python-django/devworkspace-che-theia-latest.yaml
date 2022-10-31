@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-python-django
+  name: che-theia-python-django
 spec:
   commands:
     - id: init-container-command
@@ -190,10 +190,10 @@ spec:
       - name: venv
         volume:
           size: 1G
-      - name: theia-ide-python-django
+      - name: che-theia-python-django
         plugin:
           kubernetes:
-            name: theia-ide-python-django
+            name: che-theia-python-django
     commands:
       - id: install-dependencies
         exec:

@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-golang-example
+  name: che-theia-golang-example
 spec:
   commands:
     - id: init-container-command
@@ -188,10 +188,10 @@ spec:
             - >-
               https://github.com/golang/vscode-go/releases/download/v0.23.0/go-0.23.0.vsix
           app.kubernetes.io/name: tools
-      - name: theia-ide-golang-example
+      - name: che-theia-golang-example
         plugin:
           kubernetes:
-            name: theia-ide-golang-example
+            name: che-theia-golang-example
     commands:
       - id: run-outyet
         exec:

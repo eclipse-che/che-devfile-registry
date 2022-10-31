@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-cpp
+  name: che-theia-cpp
 spec:
   commands:
     - id: init-container-command
@@ -183,10 +183,10 @@ spec:
             - >-
               https://github.com/redhat-developer/codeready-workspaces-vscode-extensions/releases/download/7.44-che-assets/cdt-gdb-vscode-0.0.91-2cbbb8.vsix
           app.kubernetes.io/name: tools
-      - name: theia-ide-cpp
+      - name: che-theia-cpp
         plugin:
           kubernetes:
-            name: theia-ide-cpp
+            name: che-theia-cpp
     commands:
       - id: build
         exec:

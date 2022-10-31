@@ -1,7 +1,7 @@
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspaceTemplate
 metadata:
-  name: theia-ide-java-lombok
+  name: che-theia-java-lombok
 spec:
   commands:
     - id: init-container-command
@@ -196,10 +196,10 @@ spec:
       - name: m2
         volume:
           size: 1G
-      - name: theia-ide-java-lombok
+      - name: che-theia-java-lombok
         plugin:
           kubernetes:
-            name: theia-ide-java-lombok
+            name: che-theia-java-lombok
     commands:
       - id: maven-build
         exec:
