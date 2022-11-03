@@ -1,8 +1,3 @@
-![Next Build Status](https://github.com/eclipse/che-devfile-registry/actions/workflows/next-build.yml/badge.svg)
-![Release Build Status](https://github.com/eclipse/che-devfile-registry/actions/workflows/release.yml/badge.svg)
-[![Contribute](https://www.eclipse.org/che/contribute.svg)](https://workspaces.openshift.com#https://github.com/eclipse/che-devfile-registry)
-[![Contribute (nightly)](https://img.shields.io/static/v1?label=nightly%20Che&message=for%20maintainers&logo=eclipseche&color=FDB940&labelColor=525C86)](https://che-dogfooding.apps.che-dev.x6e0.p1.openshiftapps.com/#https://github.com/eclipse-che/che-devfile-registry?df=.devfile-v2.yaml)
-
 # Eclipse Che devfile registry
 
 This repository holds ready-to-use Devfiles for different languages and technologies.
@@ -95,6 +90,11 @@ This repo contains several [actions](https://github.com/eclipse-che/che-devfile-
 * [![next builds](https://github.com/eclipse-che/che-devfile-registry/actions/workflows/next-build.yml/badge.svg)](https://github.com/eclipse-che/che-devfile-registry/actions/workflows/next-build.yml)
 * [![PR](https://github.com/eclipse-che/che-devfile-registry/actions/workflows/pr-checks.yml/badge.svg)](https://github.com/eclipse-che/che-devfile-registry/actions/workflows/pr-checks.yml)
 * [![try in webIDE](https://github.com/eclipse-che/che-devfile-registry/actions/workflows/try-in-web-ide.yaml/badge.svg)](https://github.com/eclipse-che/che-devfile-registry/actions/workflows/try-in-web-ide.yaml)
+
+Want to contribute? Open this project in a Che [![Contribute](https://www.eclipse.org/che/contribute.svg)](https://workspaces.openshift.com#https://github.com/eclipse/che-devfile-registry)
+
+Maintainers can run the latest [![Contribute (nightly)](https://img.shields.io/static/v1?label=nightly%20Che&message=for%20maintainers&logo=eclipseche&color=FDB940&labelColor=525C86)](https://che-dogfooding.apps.che-dev.x6e0.p1.openshiftapps.com/#https://github.com/eclipse-che/che-devfile-registry?df=.devfile-v2.yaml)
+
 
 Downstream builds can be found at the link below, which is _internal to Red Hat_. Stable builds can be found by replacing the 3.x with a specific version like 3.2.  
 
