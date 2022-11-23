@@ -151,7 +151,6 @@ if [ -n "$PUBLIC_URL" ]; then
   sed -i "s|\"icon\": \"/images/|\"icon\": \"${PUBLIC_URL}/images/|" "$INDEX_JSON"
   sed -i "s|\"self\": \"/devfiles/|\"self\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
   sed -i "s|\"eclipse/che-theia/latest\": \"/devfiles/|\"eclipse/che-theia/latest\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
-  sed -i "s|\"eclipse/che-theia/next\": \"/devfiles/|\"eclipse/che-theia/next\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
   sed -i "s|\"che-incubator/che-code/insiders\": \"/devfiles/|\"che-incubator/che-code/insiders\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
 else
   if grep -q '{{ DEVFILE_REGISTRY_URL }}' "${devfiles[@]}"; then
