@@ -13,5 +13,4 @@ links:
   v2: https://github.com/che-samples/php-symfony/tree/devfilev2
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/php-symfony/devworkspace-che-theia-latest.yaml
-    eclipse/che-theia/next: /devfiles/php-symfony/devworkspace-che-theia-next.yaml
     che-incubator/che-code/insiders: /devfiles/php-symfony/devworkspace-che-code-insiders.yaml

@@ -15,5 +15,4 @@ links:
   v2: https://github.com/che-samples/fuse-rest-http-booster/tree/devfilev2
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/apache-camel-springboot/devworkspace-che-theia-latest.yaml
-    eclipse/che-theia/next: /devfiles/apache-camel-springboot/devworkspace-che-theia-next.yaml
     che-incubator/che-code/insiders: /devfiles/apache-camel-springboot/devworkspace-che-code-insiders.yaml

@@ -11,5 +11,4 @@ links:
   v2: https://github.com/che-samples/react-web-app/tree/devfilev2
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/nodejs-yarn/devworkspace-che-theia-latest.yaml
-    eclipse/che-theia/next: /devfiles/nodejs-yarn/devworkspace-che-theia-next.yaml
     che-incubator/che-code/insiders: /devfiles/nodejs-yarn/devworkspace-che-code-insiders.yaml

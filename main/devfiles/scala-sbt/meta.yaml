@@ -11,5 +11,4 @@ links:
   v2: https://github.com/che-samples/scala-sbt/tree/devfilev2
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/scala-sbt/devworkspace-che-theia-latest.yaml
-    eclipse/che-theia/next: /devfiles/scala-sbt/devworkspace-che-theia-next.yaml
     che-incubator/che-code/insiders: /devfiles/scala-sbt/devworkspace-che-code-insiders.yaml

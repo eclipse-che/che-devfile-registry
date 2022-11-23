@@ -12,5 +12,4 @@ links:
   v2: https://github.com/che-samples/quarkus-quickstarts/tree/devfilev2
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/quarkus/devworkspace-che-theia-latest.yaml
-    eclipse/che-theia/next: /devfiles/quarkus/devworkspace-che-theia-next.yaml
     che-incubator/che-code/insiders: /devfiles/quarkus/devworkspace-che-code-insiders.yaml
