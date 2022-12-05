@@ -1,1 +1,4 @@
 .Dockerfile
+IMG_TAG
+IMG_REG
+IMG_ORG

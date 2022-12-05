@@ -32,13 +32,40 @@ components:
       ephemeral: true
 
 commands:
-  - id: 1-build
+  - id: 1-build-metadata
     exec:
       commandLine: './build/dev/build-devfile-registry.sh'
       component: devtools
-      label: 1. build devfile-registry
-  - id: 2-start
+      label: 1. build devfile-registry index.json
+  - id: 2-start-locally
     exec:
       commandLine: './build/dev/start-devfile-registry.sh'
       component: che-devfile-registry-prod
       label: 2. start devfile-registry
+  - id: 3-build-image
+    exec:
+      commandLine: >
+        read -p "ENTER the image registry (for example \"quay.io\"): " IMG_REG &&
+        read -p "ENTER the image organization (for example \"eclipse\"): " IMG_ORG &&
+        read -p "ENTER the image tag (for example \"next\"): " IMG_TAG &&
+        BUILDER=buildah ./build.sh --tag ${IMG_TAG} --registry ${IMG_REG} --organization ${IMG_ORG}
+      component: devtools
+      label: 3. build che-devfile-registry image
+  - id: 4-publish-image
+    exec:
+      commandLine: >
+        read -p "ENTER the image registry (for example \"quay.io\"): " IMG_REG &&
+        read -p "ENTER the image organization (for example \"eclipse\"): " IMG_ORG &&
+        read -p "ENTER the image tag (for example \"next\"): " IMG_TAG &&
+        buildah push ${IMG_REG}/${IMG_ORG}/che-devfile-registry:${IMG_TAG}
+      component: devtools
+      label: 4. push che-devfile-registry image to a registry
+  - id: 5-replace-current-devfile-registry-image
+    exec:
+      commandLine: >
+        read -p "ENTER the image registry (for example \"quay.io\"): " IMG_REG &&
+        read -p "ENTER the image organization (for example \"eclipse\"): " IMG_ORG &&
+        read -p "ENTER the image tag (for example \"next\"): " IMG_TAG &&
+        ./patch-checluster.sh ${IMG_REG}/${IMG_ORG}/che-devfile-registry:${IMG_TAG}
+      component: devtools
+      label: 5. replace devfile registry image on current cluster
