@@ -302,7 +302,7 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@devfile/api@2.2.1-alpha-1667236163":
+"@devfile/api@latest":
   version "2.2.1-alpha-1667236163"
   resolved "https://registry.yarnpkg.com/@devfile/api/-/api-2.2.1-alpha-1667236163.tgz#33cf448dae960c071037b32c6c68f96ba26f1990"
   integrity sha512-tspoTrbyMbPIVwTD2qr6ljvQAJLE1lCN6uBFIGcYXKw89JGt0s0+WLQ/qIh2+RP5pDpDWbDp/yNFKCmzaOLupg==
