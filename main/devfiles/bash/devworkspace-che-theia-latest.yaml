@@ -117,6 +117,30 @@ spec:
       volume: {}
     - name: theia-local
       volume: {}
+    - name: theia-ide-contributions
+      container:
+        image: >-
+          quay.io/devfile/universal-developer-image@sha256:d1709bbdfa076474f58f796026a2ed2dd3b24fea7e51ce2cc984e729663ff62c
+        args:
+          - sh
+          - '-c'
+          - ${PLUGIN_REMOTE_ENDPOINT_EXECUTABLE}
+        env:
+          - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
+            value: /remote-endpoint/plugin-remote-endpoint
+          - name: THEIA_PLUGINS
+            value: local-dir:///plugins/sidecars/tools
+        volumeMounts:
+          - name: plugins
+            path: /plugins
+          - name: remote-endpoint
+            path: /remote-endpoint
+        memoryLimit: 512Mi
+      attributes:
+        controller.devfile.io/container-contribution: true
+    - name: remote-endpoint
+      volume:
+        ephemeral: true
     - name: che-machine-exec
       container:
         image: >-
@@ -149,9 +173,6 @@ spec:
       attributes:
         app.kubernetes.io/component: remote-runtime-injector
         app.kubernetes.io/part-of: che-theia.eclipse.org
-    - name: remote-endpoint
-      volume:
-        ephemeral: true
 ---
 apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
