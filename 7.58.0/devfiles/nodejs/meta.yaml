@@ -1,0 +1,13 @@
+displayName: Node.js Express Web Application
+description: Stack with Node.js 10
+tags:
+  - Community
+  - Node.js
+  - Express
+  - ubi8
+icon: /images/nodejs.svg
+links:
+  v2: https://github.com/che-samples/web-nodejs-sample/tree/devfilev2
+  devWorkspaces:
+    eclipse/che-theia/latest: /devfiles/nodejs/devworkspace-che-theia-latest.yaml
+    che-incubator/che-code/insiders: /devfiles/nodejs/devworkspace-che-code-insiders.yaml

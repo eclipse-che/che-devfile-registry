@@ -1,0 +1,16 @@
+displayName: PHP Symfony
+description: PHP Stack with Symfony Demo Application https://symfony.com/
+tags:
+  - Community
+  - PHP
+  - Apache
+  - MySQL
+  - Symfony
+  - Debian
+  - Centos
+icon: /images/php.svg
+links:
+  v2: https://github.com/che-samples/php-symfony/tree/devfilev2
+  devWorkspaces:
+    eclipse/che-theia/latest: /devfiles/php-symfony/devworkspace-che-theia-latest.yaml
+    che-incubator/che-code/insiders: /devfiles/php-symfony/devworkspace-che-code-insiders.yaml
