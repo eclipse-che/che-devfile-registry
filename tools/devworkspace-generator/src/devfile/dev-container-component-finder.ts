@@ -1,5 +1,5 @@
 /**********************************************************************
- * Copyright (c) 2021 Red Hat, Inc.
+ * Copyright (c) 2022 Red Hat, Inc.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -13,7 +13,7 @@ import { V1alpha2DevWorkspaceSpecTemplateComponents } from '@devfile/api';
 import { injectable } from 'inversify';
 
 /**
- * Need to find dev container from main dev workspace or from a template
+ * Need to find dev container from main dev workspace
  */
 @injectable()
 export class DevContainerComponentFinder {

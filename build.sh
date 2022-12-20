@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2019-2021 Red Hat, Inc.
+# Copyright (c) 2019-2022 Red Hat, Inc.
 # This program and the accompanying materials are made
 # available under the terms of the Eclipse Public License 2.0
 # which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -81,8 +81,6 @@ function cleanup() {
 
 parse_arguments "$@"
 
-cleanup
-
 echo "Build tooling..."
 pushd "${base_dir}"/tools/devworkspace-generator > /dev/null
 yarn
@@ -107,6 +105,12 @@ do
     --devfile-url:"${devfile_url}" \
     --editor-entry:eclipse/che-theia/latest \
     --output-file:"${dir}"/devworkspace-che-theia-latest.yaml \
+    --project."${project}"
+
+    eval yarn node "${NODE_BUILD_OPTIONS}" "${base_dir}"/tools/devworkspace-generator/lib/entrypoint.js \
+    --devfile-url:"${devfile_url}" \
+    --editor-entry:che-incubator/che-idea/next \
+    --output-file:"${dir}"/devworkspace-che-idea-next.yaml \
     --project."${project}"
   fi
 done
