@@ -16,7 +16,7 @@ on:
 
 jobs:
   shellcheck:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
         with:
@@ -27,7 +27,7 @@ jobs:
           find . -type f -name '*.sh' | xargs shellcheck --external-sources
 
   digest-validation:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
       with:
@@ -39,7 +39,7 @@ jobs:
         /bin/bash .ci/devfile-images-check.sh
 
   build-sidecar-images:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Clone source code
         uses: actions/checkout@v3
@@ -52,7 +52,7 @@ jobs:
           COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
 
   build-main-image:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
       with:
