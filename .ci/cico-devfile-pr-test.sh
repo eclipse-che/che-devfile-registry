@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2046,SC2164,SC2086,SC1090,SC2154
+# shellcheck disable=SC2046,SC2164,SC2086,SC1090,SC2154,SC1091
 
 # Copyright (c) 2012-2021 Red Hat, Inc.
 # This program and the accompanying materials are made
