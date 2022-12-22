@@ -50,7 +50,8 @@ jobs:
         yarn
         yarn compile
         SHORT_SHA1=$(git rev-parse --short=7 HEAD)
-        CURRENT_VERSION=$(jq -r '.version' ../../code/package.json)
+        CURRENT_VERSION=$(jq -r '.version' package.json)
         NEW_VERSION="${CURRENT_VERSION}-dev-${SHORT_SHA1}"
+        echo New version is ${NEW_VERSION}
         sed -i -r -e "s/(\"version\": )(\".*\")/\1\"$NEW_VERSION\"/" package.json
         npm publish --tag next
