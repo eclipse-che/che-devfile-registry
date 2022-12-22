@@ -10,11 +10,6 @@
 name: devworkspace-generator-publish-next
 
 on:
-# just for testing, remove this block before merge 
-  pull_request:
-    branches: 
-      - main
-# ##################################################
   push:
     branches: 
       - main
