@@ -11,6 +11,56 @@ spec:
     preStart:
       - init-container-command
   components:
+    - name: che-code-runtime-description
+      container:
+        image: >-
+          quay.io/devfile/universal-developer-image@sha256:d1709bbdfa076474f58f796026a2ed2dd3b24fea7e51ce2cc984e729663ff62c
+        command:
+          - /checode/entrypoint-volume.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 1024Mi
+        memoryRequest: 256Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+        endpoints:
+          - name: che-code
+            attributes:
+              type: main
+              cookiesAuthEnabled: true
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            path: '?tkn=eclipse-che'
+            secure: false
+            protocol: https
+          - name: code-redirect-1
+            attributes:
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 13131
+            exposure: public
+            protocol: http
+          - name: code-redirect-2
+            attributes:
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 13132
+            exposure: public
+            protocol: http
+          - name: code-redirect-3
+            attributes:
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 13133
+            exposure: public
+            protocol: http
+      attributes:
+        app.kubernetes.io/component: che-code-runtime
+        app.kubernetes.io/part-of: che-code.eclipse.org
+        controller.devfile.io/container-contribution: true
     - name: checode
       volume: {}
     - name: che-code-injector
@@ -42,69 +92,10 @@ spec:
               name: nodejs
               protocol: http
               targetPort: 3000
-            - name: che-code
-              attributes:
-                type: main
-                cookiesAuthEnabled: true
-                discoverable: false
-                urlRewriteSupported: true
-                contributed-by: che-code.eclipse.org
-              targetPort: 3100
-              exposure: public
-              path: '?tkn=eclipse-che'
-              secure: false
-              protocol: https
-            - name: code-redirect-1
-              attributes:
-                discoverable: false
-                urlRewriteSupported: true
-                contributed-by: che-code.eclipse.org
-              targetPort: 13131
-              exposure: public
-              protocol: http
-            - name: code-redirect-2
-              attributes:
-                discoverable: false
-                urlRewriteSupported: true
-                contributed-by: che-code.eclipse.org
-              targetPort: 13132
-              exposure: public
-              protocol: http
-            - name: code-redirect-3
-              attributes:
-                discoverable: false
-                urlRewriteSupported: true
-                contributed-by: che-code.eclipse.org
-              targetPort: 13133
-              exposure: public
-              protocol: http
-          memoryLimit: 2.07G
+          memoryLimit: 1G
           mountSources: true
-          command:
-            - /checode/entrypoint-volume.sh
-          volumeMounts:
-            - name: checode
-              path: /checode
-          memoryRequest: 256Mi
-          cpuLimit: 500m
-          cpuRequest: 30m
         attributes:
-          che-code.eclipse.org/contribute-entry-point: true
-          che-code.eclipse.org/contribute-volume-mount/checode: /checode
-          che-code.eclipse.org/contribute-endpoint/che-code: 3100
-          che-code.eclipse.org/contribute-endpoint/code-redirect-1: 13131
-          che-code.eclipse.org/contribute-endpoint/code-redirect-2: 13132
-          che-code.eclipse.org/contribute-endpoint/code-redirect-3: 13133
-          che-code.eclipse.org/contribute-memoryLimit: true
-          che-code.eclipse.org/original-memoryLimit: 1G
-          che-code.eclipse.org/contribute-memoryRequest: true
-          che-code.eclipse.org/contribute-cpuLimit: true
-          che-code.eclipse.org/contribute-cpuRequest: true
-          che-code.eclipse.org/contributed-container: tools
-      - name: che-code-react-web-app
-        plugin:
-          kubernetes:
-            name: che-code-react-web-app
+          controller.devfile.io/merge-contribution: true
     commands:
       - id: install-dependencies
         exec:
@@ -144,3 +135,7 @@ spec:
       - name: react-web-app
         zip:
           location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/react-web-app.zip'
+  contributions:
+    - name: editor
+      kubernetes:
+        name: che-code-react-web-app

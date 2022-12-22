@@ -14,7 +14,7 @@ spec:
     - name: theia-ide
       container:
         image: >-
-          quay.io/eclipse/che-theia@sha256:5db3dfe292bb9e0dd01b652626db9a916b2ddb83add2a143e4f604168dc601fb
+          quay.io/eclipse/che-theia@sha256:d73cc508734c61964219dcc4f56a736aea6ac3b92d028025dfe8ef77124f61f4
         env:
           - name: THEIA_PLUGINS
             value: local-dir:///plugins
@@ -139,7 +139,7 @@ spec:
     - name: che-machine-exec
       container:
         image: >-
-          quay.io/eclipse/che-machine-exec@sha256:d7bb6e3fb32004e890b50b49affb417a83ae89006fe84766b0c7316437c239ce
+          quay.io/eclipse/che-machine-exec@sha256:01cda608c9bacea2a63c2af623419a45ccceff3b82bb9701e22b16a8276735ed
         command:
           - /go/bin/che-machine-exec
           - '--url'
@@ -154,7 +154,7 @@ spec:
     - name: remote-runtime-injector
       container:
         image: >-
-          quay.io/eclipse/che-theia-endpoint-runtime-binary@sha256:fe58069773a27a983d530523a1a0aadb41e158e33d32fc8b486f8bb926aa1e29
+          quay.io/eclipse/che-theia-endpoint-runtime-binary@sha256:1361b3fe2b286410dabc647d1414530df5e6f72bfd04890702c2340996afc9de
         env:
           - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
             value: /remote-endpoint/plugin-remote-endpoint
@@ -185,33 +185,13 @@ spec:
               value: /projects:/home/user/go
             - name: GOCACHE
               value: /tmp/.cache
-            - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
-              value: /remote-endpoint/plugin-remote-endpoint
-            - name: THEIA_PLUGINS
-              value: local-dir:///plugins/sidecars/tools
           endpoints:
             - name: 8080-tcp
               targetPort: 8080
           memoryLimit: 2Gi
           mountSources: true
-          volumeMounts:
-            - path: /remote-endpoint
-              name: remote-endpoint
-            - path: /plugins
-              name: plugins
-          args:
-            - sh
-            - '-c'
-            - ${PLUGIN_REMOTE_ENDPOINT_EXECUTABLE}
         attributes:
-          che-theia.eclipse.org/vscode-extensions:
-            - >-
-              https://github.com/golang/vscode-go/releases/download/v0.23.0/go-0.23.0.vsix
-          app.kubernetes.io/name: tools
-      - name: che-theia-golang-example
-        plugin:
-          kubernetes:
-            name: che-theia-golang-example
+          controller.devfile.io/merge-contribution: true
     commands:
       - id: run-outyet
         exec:
@@ -248,3 +228,7 @@ spec:
       - name: golang-example
         zip:
           location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/golang-example.zip'
+  contributions:
+    - name: editor
+      kubernetes:
+        name: che-theia-golang-example
