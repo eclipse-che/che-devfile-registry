@@ -17,7 +17,6 @@ ORGANIZATION="eclipse"
 TAG="next"
 TARGET="registry" # or offline-registry
 DOCKERFILE="./build/dockerfiles/Dockerfile"
-NODE_BUILD_OPTIONS="${NODE_BUILD_OPTIONS:-}"
 
 USAGE="
 Usage: ./build.sh [OPTIONS]
@@ -72,48 +71,11 @@ function parse_arguments() {
     done
 }
 
-function cleanup() {
-    for dir in "${base_dir}"/devfiles/*/
-    do
-        rm "${dir}"/devworkspace-*.yaml
-    done
-}
-
 parse_arguments "$@"
 
 echo "Build tooling..."
 pushd "${base_dir}"/tools/devworkspace-generator > /dev/null
 yarn
-echo "Generate artifacts..."
-for dir in "${base_dir}"/devfiles/*/
-do
-  devfile_url=$(grep "v2:" "${dir}"meta.yaml) || :
-  if [ -n "$devfile_url" ]; then
-    devfile_url=${devfile_url##*v2: }
-    devfile_url=${devfile_url%/}
-    devfile_repo=${devfile_url%/tree*}
-    name=$(basename "${devfile_repo}")
-    project="${name}={{_INTERNAL_URL_}}/resources/v2/${name}.zip"
-
-    eval yarn node "${NODE_BUILD_OPTIONS}" "${base_dir}"/tools/devworkspace-generator/lib/entrypoint.js \
-    --devfile-url:"${devfile_url}" \
-    --editor-entry:che-incubator/che-code/insiders \
-    --output-file:"${dir}"/devworkspace-che-code-insiders.yaml \
-    --project."${project}"
-
-    eval yarn node "${NODE_BUILD_OPTIONS}" "${base_dir}"/tools/devworkspace-generator/lib/entrypoint.js \
-    --devfile-url:"${devfile_url}" \
-    --editor-entry:eclipse/che-theia/latest \
-    --output-file:"${dir}"/devworkspace-che-theia-latest.yaml \
-    --project."${project}"
-
-    eval yarn node "${NODE_BUILD_OPTIONS}" "${base_dir}"/tools/devworkspace-generator/lib/entrypoint.js \
-    --devfile-url:"${devfile_url}" \
-    --editor-entry:che-incubator/che-idea/next \
-    --output-file:"${dir}"/devworkspace-che-idea-next.yaml \
-    --project."${project}"
-  fi
-done
 
 BUILD_COMMAND="build"
 if [[ -z $BUILDER ]]; then
@@ -154,5 +116,3 @@ ${BUILDER} ${BUILD_COMMAND} \
     -t "${IMAGE}" \
     -f "${DOCKERFILE}" \
     --target "${TARGET}" .
-
-cleanup

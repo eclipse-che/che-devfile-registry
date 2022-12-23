@@ -19,6 +19,7 @@ WORKDIR /build/
 RUN ./check_mandatory_fields.sh devfiles
 
 RUN ./index.sh > /build/devfiles/index.json
+RUN ./generate_devworkspace_templates.sh
 RUN ./update_devworkspace_templates.sh $VERSION
 RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
 RUN chmod -R g+rwX /build/devfiles
