@@ -71,13 +71,6 @@ function parse_arguments() {
     done
 }
 
-function cleanup() {
-    for dir in "${base_dir}"/devfiles/*/
-    do
-        rm "${dir}"/devworkspace-*.yaml
-    done
-}
-
 parse_arguments "$@"
 
 echo "Build tooling..."
