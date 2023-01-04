@@ -1,0 +1,15 @@
+quay.io/che-incubator/che-code:insiders
+quay.io/che-incubator/che-idea:next
+quay.io/devfile/universal-developer-image:ubi8-0e189d9
+quay.io/devfile/universal-developer-image:ubi8-3055e6d
+quay.io/devfile/universal-developer-image:ubi8-3d26fec
+quay.io/devfile/universal-developer-image@sha256:49986fed7f4e2555a154c856795c689b8367206b63ec37426fe2c8e43f5630e4
+quay.io/devfile/universal-developer-image@sha256:d1709bbdfa076474f58f796026a2ed2dd3b24fea7e51ce2cc984e729663ff62c
+quay.io/eclipse/che--centos--mongodb-36-centos7:latest-a915db7beca87198fcd7860086989fe8a327a1a4f6508025b64ab28fcc7423b2
+quay.io/eclipse/che--centos--mongodb-36-centos7:latest-ffdf2431bbc6d9a9d2a03e95bbbe8adb49ab9eac301f268a35038c84288259c1
+quay.io/eclipse/che--centos--mysql-57-centos7:latest-e08ee4d43b7356607685b69bde6335e27cf20c020f345b6c6c59400183882764
+quay.io/eclipse/che--mariadb:10.7.1-5a8009369ee57c85b6f4a08406147bd9c505cde6b8250d16a27d2a5febfdead7
+quay.io/eclipse/che-machine-exec@sha256:01cda608c9bacea2a63c2af623419a45ccceff3b82bb9701e22b16a8276735ed
+quay.io/eclipse/che-theia-endpoint-runtime-binary@sha256:1361b3fe2b286410dabc647d1414530df5e6f72bfd04890702c2340996afc9de
+quay.io/eclipse/che-theia@sha256:d73cc508734c61964219dcc4f56a736aea6ac3b92d028025dfe8ef77124f61f4
+registry.access.redhat.com/ubi8/ubi-minimal
