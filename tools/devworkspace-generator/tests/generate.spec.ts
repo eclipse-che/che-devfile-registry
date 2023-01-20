@@ -34,8 +34,9 @@ describe('Test Generate', () => {
     devContainerFinder = container.get(DevContainerComponentFinder);
   });
 
-  test('basics', async () => {
-    const devfileContent = `
+  describe('Without writing an output file', () => {
+    test('basics', async () => {
+      const devfileContent = `
 schemaVersion: 2.2.0
 metadata:
   name: my-dummy-project
@@ -45,60 +46,128 @@ components:
     container:
       image: quay.io/foo/bar
 `;
-    const fakeoutputDir = '/fake-output';
-    const editorContent = `
+      const editorContent = `
 schemaVersion: 2.2.0
 metadata:
   name: che-code
 `;
 
-    const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
-    fsWriteFileSpy.mockReturnValue({});
+      const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
+      fsWriteFileSpy.mockReturnValue({});
 
-    let context = await generate.generate(devfileContent, editorContent, fakeoutputDir);
-    // expect to write the file
-    expect(fsWriteFileSpy).toBeCalled();
-    expect(JSON.stringify(context.devfile)).toStrictEqual(
-      '{"schemaVersion":"2.2.0","metadata":{"name":"my-dummy-project"},"components":[{"name":"dev-container","mountSources":true,"container":{"image":"quay.io/foo/bar"},"attributes":{"controller.devfile.io/merge-contribution":true}}]}'
-    );
-    const expectedDevWorkspace = {
-      apiVersion: 'workspace.devfile.io/v1alpha2',
-      kind: 'DevWorkspace',
-      metadata: { name: 'my-dummy-project' },
-      spec: {
-        started: true,
-        template: {
-          components: [
-            {
-              name: 'dev-container',
-              mountSources: true,
-              container: {
-                image: 'quay.io/foo/bar',
-              },
-              attributes: {
-                'controller.devfile.io/merge-contribution': true,
-              },
-            },
-          ],
-        },
-        contributions: [{ name: 'editor', kubernetes: { name: 'che-code-my-dummy-project' } }],
-      },
-    };
-    expect(JSON.stringify(context.devWorkspace)).toStrictEqual(JSON.stringify(expectedDevWorkspace));
-    const expectedDevWorkspaceTemplates = [
-      {
+      let context = await generate.generate(devfileContent, editorContent);
+      // expect not to write the file
+      expect(fsWriteFileSpy).not.toBeCalled();
+      expect(JSON.stringify(context.devfile)).toStrictEqual(
+        '{"schemaVersion":"2.2.0","metadata":{"name":"my-dummy-project"},"components":[{"name":"dev-container","mountSources":true,"container":{"image":"quay.io/foo/bar"},"attributes":{"controller.devfile.io/merge-contribution":true}}]}'
+      );
+      const expectedDevWorkspace = {
         apiVersion: 'workspace.devfile.io/v1alpha2',
-        kind: 'DevWorkspaceTemplate',
-        metadata: { name: 'che-code-my-dummy-project' },
-        spec: {},
-      },
-    ];
-    expect(JSON.stringify(context.devWorkspaceTemplates)).toStrictEqual(JSON.stringify(expectedDevWorkspaceTemplates));
-    expect(context.suffix).toStrictEqual('my-dummy-project');
+        kind: 'DevWorkspace',
+        metadata: { name: 'my-dummy-project' },
+        spec: {
+          started: true,
+          template: {
+            components: [
+              {
+                name: 'dev-container',
+                mountSources: true,
+                container: {
+                  image: 'quay.io/foo/bar',
+                },
+                attributes: {
+                  'controller.devfile.io/merge-contribution': true,
+                },
+              },
+            ],
+          },
+          contributions: [{ name: 'editor', kubernetes: { name: 'che-code-my-dummy-project' } }],
+        },
+      };
+      expect(JSON.stringify(context.devWorkspace)).toStrictEqual(JSON.stringify(expectedDevWorkspace));
+      const expectedDevWorkspaceTemplates = [
+        {
+          apiVersion: 'workspace.devfile.io/v1alpha2',
+          kind: 'DevWorkspaceTemplate',
+          metadata: { name: 'che-code-my-dummy-project' },
+          spec: {},
+        },
+      ];
+      expect(JSON.stringify(context.devWorkspaceTemplates)).toStrictEqual(
+        JSON.stringify(expectedDevWorkspaceTemplates)
+      );
+      expect(context.suffix).toStrictEqual('my-dummy-project');
+    });
   });
 
-  test('add attribute', async () => {
-    const devfileContent = `
+  describe('With writing an output file', () => {
+    test('basics', async () => {
+      const devfileContent = `
+schemaVersion: 2.2.0
+metadata:
+  name: my-dummy-project
+components:
+  - name: dev-container
+    mountSources: true
+    container:
+      image: quay.io/foo/bar
+`;
+      const fakeoutputDir = '/fake-output';
+      const editorContent = `
+schemaVersion: 2.2.0
+metadata:
+  name: che-code
+`;
+
+      const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
+      fsWriteFileSpy.mockReturnValue({});
+
+      let context = await generate.generate(devfileContent, editorContent, fakeoutputDir);
+      // expect to write the file
+      expect(fsWriteFileSpy).toBeCalled();
+      expect(JSON.stringify(context.devfile)).toStrictEqual(
+        '{"schemaVersion":"2.2.0","metadata":{"name":"my-dummy-project"},"components":[{"name":"dev-container","mountSources":true,"container":{"image":"quay.io/foo/bar"},"attributes":{"controller.devfile.io/merge-contribution":true}}]}'
+      );
+      const expectedDevWorkspace = {
+        apiVersion: 'workspace.devfile.io/v1alpha2',
+        kind: 'DevWorkspace',
+        metadata: { name: 'my-dummy-project' },
+        spec: {
+          started: true,
+          template: {
+            components: [
+              {
+                name: 'dev-container',
+                mountSources: true,
+                container: {
+                  image: 'quay.io/foo/bar',
+                },
+                attributes: {
+                  'controller.devfile.io/merge-contribution': true,
+                },
+              },
+            ],
+          },
+          contributions: [{ name: 'editor', kubernetes: { name: 'che-code-my-dummy-project' } }],
+        },
+      };
+      expect(JSON.stringify(context.devWorkspace)).toStrictEqual(JSON.stringify(expectedDevWorkspace));
+      const expectedDevWorkspaceTemplates = [
+        {
+          apiVersion: 'workspace.devfile.io/v1alpha2',
+          kind: 'DevWorkspaceTemplate',
+          metadata: { name: 'che-code-my-dummy-project' },
+          spec: {},
+        },
+      ];
+      expect(JSON.stringify(context.devWorkspaceTemplates)).toStrictEqual(
+        JSON.stringify(expectedDevWorkspaceTemplates)
+      );
+      expect(context.suffix).toStrictEqual('my-dummy-project');
+    });
+
+    test('add attribute', async () => {
+      const devfileContent = `
 schemaVersion: 2.2.0
 metadata:
   name: my-dummy-project
@@ -110,61 +179,63 @@ components:
     container:
       image: quay.io/foo/bar
 `;
-    const fakeoutputDir = '/fake-output';
-    const editorContent = `
+      const fakeoutputDir = '/fake-output';
+      const editorContent = `
 schemaVersion: 2.2.0
 metadata:
   name: che-code
 `;
 
-    const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
-    fsWriteFileSpy.mockReturnValue({});
+      const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
+      fsWriteFileSpy.mockReturnValue({});
 
-    let context = await generate.generate(devfileContent, editorContent, fakeoutputDir);
-    // expect to write the file
-    expect(fsWriteFileSpy).toBeCalled();
-    expect(JSON.stringify(context.devfile)).toStrictEqual(
-      '{"schemaVersion":"2.2.0","metadata":{"name":"my-dummy-project"},"components":[{"name":"dev-container","attributes":{"old":"attribute","controller.devfile.io/merge-contribution":true},"mountSources":true,"container":{"image":"quay.io/foo/bar"}}]}'
-    );
-    const expectedDevWorkspace = {
-      apiVersion: 'workspace.devfile.io/v1alpha2',
-      kind: 'DevWorkspace',
-      metadata: { name: 'my-dummy-project' },
-      spec: {
-        started: true,
-        template: {
-          components: [
-            {
-              name: 'dev-container',
-              attributes: {
-                old: 'attribute',
-                'controller.devfile.io/merge-contribution': true,
-              },
-              mountSources: true,
-              container: {
-                image: 'quay.io/foo/bar',
-              },
-            },
-          ],
-        },
-        contributions: [{ name: 'editor', kubernetes: { name: 'che-code-my-dummy-project' } }],
-      },
-    };
-    expect(JSON.stringify(context.devWorkspace)).toStrictEqual(JSON.stringify(expectedDevWorkspace));
-    const expectedDevWorkspaceTemplates = [
-      {
+      let context = await generate.generate(devfileContent, editorContent, fakeoutputDir);
+      // expect to write the file
+      expect(fsWriteFileSpy).toBeCalled();
+      expect(JSON.stringify(context.devfile)).toStrictEqual(
+        '{"schemaVersion":"2.2.0","metadata":{"name":"my-dummy-project"},"components":[{"name":"dev-container","attributes":{"old":"attribute","controller.devfile.io/merge-contribution":true},"mountSources":true,"container":{"image":"quay.io/foo/bar"}}]}'
+      );
+      const expectedDevWorkspace = {
         apiVersion: 'workspace.devfile.io/v1alpha2',
-        kind: 'DevWorkspaceTemplate',
-        metadata: { name: 'che-code-my-dummy-project' },
-        spec: {},
-      },
-    ];
-    expect(JSON.stringify(context.devWorkspaceTemplates)).toStrictEqual(JSON.stringify(expectedDevWorkspaceTemplates));
-    expect(context.suffix).toStrictEqual('my-dummy-project');
-  });
+        kind: 'DevWorkspace',
+        metadata: { name: 'my-dummy-project' },
+        spec: {
+          started: true,
+          template: {
+            components: [
+              {
+                name: 'dev-container',
+                attributes: {
+                  old: 'attribute',
+                  'controller.devfile.io/merge-contribution': true,
+                },
+                mountSources: true,
+                container: {
+                  image: 'quay.io/foo/bar',
+                },
+              },
+            ],
+          },
+          contributions: [{ name: 'editor', kubernetes: { name: 'che-code-my-dummy-project' } }],
+        },
+      };
+      expect(JSON.stringify(context.devWorkspace)).toStrictEqual(JSON.stringify(expectedDevWorkspace));
+      const expectedDevWorkspaceTemplates = [
+        {
+          apiVersion: 'workspace.devfile.io/v1alpha2',
+          kind: 'DevWorkspaceTemplate',
+          metadata: { name: 'che-code-my-dummy-project' },
+          spec: {},
+        },
+      ];
+      expect(JSON.stringify(context.devWorkspaceTemplates)).toStrictEqual(
+        JSON.stringify(expectedDevWorkspaceTemplates)
+      );
+      expect(context.suffix).toStrictEqual('my-dummy-project');
+    });
 
-  test('basics no name', async () => {
-    const devfileContent = `
+    test('basics no name', async () => {
+      const devfileContent = `
 schemaVersion: 2.2.0
 metadata:
  foo: bar
@@ -174,19 +245,20 @@ components:
     container:
       image: quay.io/foo/bar
 `;
-    const fakeoutputDir = '/fake-output';
-    const editorContent = `
+      const fakeoutputDir = '/fake-output';
+      const editorContent = `
 schemaVersion: 2.1.0
 metadata:
   name: che-code
 `;
 
-    const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
-    fsWriteFileSpy.mockReturnValue({});
+      const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
+      fsWriteFileSpy.mockReturnValue({});
 
-    let context = await generate.generate(devfileContent, editorContent, fakeoutputDir);
-    // expect to write the file
-    expect(fsWriteFileSpy).toBeCalled();
-    expect(context.suffix).toStrictEqual('');
+      let context = await generate.generate(devfileContent, editorContent, fakeoutputDir);
+      // expect to write the file
+      expect(fsWriteFileSpy).toBeCalled();
+      expect(context.suffix).toStrictEqual('');
+    });
   });
 });
