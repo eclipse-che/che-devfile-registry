@@ -83,164 +83,254 @@ describe('Test Main with stubs', () => {
   }
 
   beforeEach(() => {
-    initArgs(FAKE_DEVFILE_PATH, undefined, FAKE_EDITOR_PATH, undefined, FAKE_OUTPUT_FILE, FAKE_PLUGIN_REGISTRY_URL);
-    // mock devfile and editor
-    readFileSpy.mockResolvedValueOnce('');
-    readFileSpy.mockResolvedValueOnce('');
-
-    spyInitBindings = jest.spyOn(InversifyBinding.prototype, 'initBindings');
-    spyInitBindings.mockImplementation(() => Promise.resolve(container));
-    toSelfMethod.mockReturnValue(selfMock), containerBindMethod.mockReturnValue(bindMock);
-    containerGetMethod.mockReturnValueOnce(generateMock);
-  });
-
-  afterEach(() => {
-    process.argv = originalArgs;
-    jest.restoreAllMocks();
-    jest.resetAllMocks();
-  });
-
-  beforeEach(() => {
     console.error = mockedConsoleError;
     console.log = mockedConsoleLog;
   });
+
   afterEach(() => {
     console.error = originalConsoleError;
     console.log = originalConsoleLog;
   });
 
-  test('success', async () => {
-    process.argv.push('--project.foo=bar');
-    const main = new Main();
-    const returnCode = await main.start();
-    expect(mockedConsoleError).toBeCalledTimes(0);
+  describe('start', () => {
+    beforeEach(() => {
+      initArgs(FAKE_DEVFILE_PATH, undefined, FAKE_EDITOR_PATH, undefined, FAKE_OUTPUT_FILE, FAKE_PLUGIN_REGISTRY_URL);
+      // mock devfile and editor
+      readFileSpy.mockResolvedValueOnce('');
+      readFileSpy.mockResolvedValueOnce('');
 
-    expect(returnCode).toBeTruthy();
-    expect(generateMethod).toBeCalledWith('', '', FAKE_OUTPUT_FILE);
-  });
+      spyInitBindings = jest.spyOn(InversifyBinding.prototype, 'initBindings');
+      spyInitBindings.mockImplementation(() => Promise.resolve(container));
+      toSelfMethod.mockReturnValue(selfMock), containerBindMethod.mockReturnValue(bindMock);
+      containerGetMethod.mockReturnValueOnce(generateMock);
+    });
 
-  test('success with custom devfile Url', async () => {
-    const main = new Main();
-    initArgs(undefined, FAKE_DEVFILE_URL, undefined, FAKE_EDITOR_ENTRY, FAKE_OUTPUT_FILE, FAKE_PLUGIN_REGISTRY_URL);
-    containerGetMethod.mockReset();
-    const githubResolverResolveMethod = jest.fn();
-    const githubResolverMock = {
-      resolve: githubResolverResolveMethod as any,
-    };
+    afterEach(() => {
+      process.argv = originalArgs;
+      jest.restoreAllMocks();
+      jest.resetAllMocks();
+    });
 
-    const getContentUrlMethod = jest.fn();
-    const getCloneUrlMethod = jest.fn();
-    const getBranchNameMethod = jest.fn();
-    const getRepoNameMethod = jest.fn();
+    test('success', async () => {
+      process.argv.push('--project.foo=bar');
+      const main = new Main();
+      const returnCode = await main.start();
+      expect(mockedConsoleError).toBeCalledTimes(0);
 
-    const githubUrlMock = {
-      getContentUrl: githubResolverResolveMethod as any,
-      getCloneUrl: getCloneUrlMethod as any,
-      getBranchName: getBranchNameMethod as any,
-      getRepoName: getRepoNameMethod as any,
-    };
-    getContentUrlMethod.mockReturnValue('http://foo.bar');
-    getCloneUrlMethod.mockReturnValue('http://foo.bar');
-    getBranchNameMethod.mockReturnValue('my-branch');
-    getRepoNameMethod.mockReturnValue('my-repo');
-    githubResolverResolveMethod.mockReturnValue(githubUrlMock);
-    containerGetMethod.mockReturnValueOnce(githubResolverMock);
+      expect(returnCode).toBeTruthy();
+      expect(generateMethod).toBeCalledWith('', '', FAKE_OUTPUT_FILE);
+    });
 
-    const urlFetcherFetchTextMethod = jest.fn();
-    const urlFetcherMock = {
-      fetchText: urlFetcherFetchTextMethod as any,
-    };
-    urlFetcherFetchTextMethod.mockReturnValueOnce('schemaVersion: 2.1.0');
-    containerGetMethod.mockReturnValueOnce(urlFetcherMock);
+    test('success with custom devfile Url', async () => {
+      const main = new Main();
+      initArgs(undefined, FAKE_DEVFILE_URL, undefined, FAKE_EDITOR_ENTRY, FAKE_OUTPUT_FILE, FAKE_PLUGIN_REGISTRY_URL);
+      containerGetMethod.mockReset();
+      const githubResolverResolveMethod = jest.fn();
+      const githubResolverMock = {
+        resolve: githubResolverResolveMethod as any,
+      };
 
-    const loadDevfilePluginMethod = jest.fn();
-    const pluginRegistryResolverMock = {
-      loadDevfilePlugin: loadDevfilePluginMethod as any,
-    };
-    loadDevfilePluginMethod.mockReturnValue('');
-    containerGetMethod.mockReturnValueOnce(pluginRegistryResolverMock);
+      const getContentUrlMethod = jest.fn();
+      const getCloneUrlMethod = jest.fn();
+      const getBranchNameMethod = jest.fn();
+      const getRepoNameMethod = jest.fn();
 
-    // last one is generate mock
-    containerGetMethod.mockReturnValueOnce(generateMock);
-    const returnCode = await main.start();
-    expect(mockedConsoleError).toBeCalledTimes(0);
-    expect(loadDevfilePluginMethod).toBeCalled();
-    expect(urlFetcherFetchTextMethod).toBeCalled();
+      const githubUrlMock = {
+        getContentUrl: githubResolverResolveMethod as any,
+        getCloneUrl: getCloneUrlMethod as any,
+        getBranchName: getBranchNameMethod as any,
+        getRepoName: getRepoNameMethod as any,
+      };
+      getContentUrlMethod.mockReturnValue('http://foo.bar');
+      getCloneUrlMethod.mockReturnValue('http://foo.bar');
+      getBranchNameMethod.mockReturnValue('my-branch');
+      getRepoNameMethod.mockReturnValue('my-repo');
+      githubResolverResolveMethod.mockReturnValue(githubUrlMock);
+      containerGetMethod.mockReturnValueOnce(githubResolverMock);
 
-    expect(returnCode).toBeTruthy();
+      const urlFetcherFetchTextMethod = jest.fn();
+      const urlFetcherMock = {
+        fetchText: urlFetcherFetchTextMethod as any,
+      };
+      urlFetcherFetchTextMethod.mockReturnValueOnce('schemaVersion: 2.1.0');
+      containerGetMethod.mockReturnValueOnce(urlFetcherMock);
 
-    const result = {
-      schemaVersion: '2.1.0',
-      projects: [
-        {
-          name: 'my-repo',
-          git: {
-            remotes: {
-              origin: 'http://foo.bar',
-            },
-            checkoutFrom: {
-              revision: 'my-branch',
+      const loadDevfilePluginMethod = jest.fn();
+      const pluginRegistryResolverMock = {
+        loadDevfilePlugin: loadDevfilePluginMethod as any,
+      };
+      loadDevfilePluginMethod.mockReturnValue('');
+      containerGetMethod.mockReturnValueOnce(pluginRegistryResolverMock);
+
+      // last one is generate mock
+      containerGetMethod.mockReturnValueOnce(generateMock);
+      const returnCode = await main.start();
+      expect(mockedConsoleError).toBeCalledTimes(0);
+      expect(loadDevfilePluginMethod).toBeCalled();
+      expect(urlFetcherFetchTextMethod).toBeCalled();
+
+      expect(returnCode).toBeTruthy();
+
+      const result = {
+        schemaVersion: '2.1.0',
+        projects: [
+          {
+            name: 'my-repo',
+            git: {
+              remotes: {
+                origin: 'http://foo.bar',
+              },
+              checkoutFrom: {
+                revision: 'my-branch',
+              },
             },
           },
-        },
-      ],
-    };
-    expect(generateMethod).toBeCalledWith(jsYaml.dump(result), "''\n", FAKE_OUTPUT_FILE);
-  });
-
-  test('editorEntry with default plugin registry URL', async () => {
-    const main = new Main();
-    initArgs(FAKE_DEVFILE_PATH, undefined, undefined, FAKE_EDITOR_ENTRY, FAKE_OUTPUT_FILE, undefined);
-    await main.start();
-    expect(mockedConsoleLog).toBeCalled();
-    expect(mockedConsoleLog.mock.calls[0][0].toString()).toContain('No plug-in registry url. Setting to');
-
-    // check plugin url is provided to initBindings
-    expect(spyInitBindings.mock.calls[0][0].pluginRegistryUrl).toBe(
-      'https://eclipse-che.github.io/che-plugin-registry/main/v3'
-    );
-  });
-
-  test('missing devfile', async () => {
-    const main = new Main();
-    initArgs(undefined, undefined, FAKE_EDITOR_PATH, undefined, FAKE_OUTPUT_FILE, FAKE_PLUGIN_REGISTRY_URL);
-    const returnCode = await main.start();
-    expect(mockedConsoleError).toBeCalled();
-    expect(mockedConsoleError.mock.calls[1][1].toString()).toContain('missing --devfile-path:');
-    expect(returnCode).toBeFalsy();
-    expect(generateMethod).toBeCalledTimes(0);
-  });
-
-  test('missing editor', async () => {
-    const main = new Main();
-    initArgs(FAKE_DEVFILE_PATH, undefined, undefined, undefined, FAKE_OUTPUT_FILE, FAKE_PLUGIN_REGISTRY_URL);
-
-    const returnCode = await main.start();
-    expect(mockedConsoleError).toBeCalled();
-    expect(mockedConsoleError.mock.calls[1][1].toString()).toContain('missing --editor-path:');
-    expect(returnCode).toBeFalsy();
-    expect(generateMethod).toBeCalledTimes(0);
-  });
-
-  test('missing outputfile', async () => {
-    const main = new Main();
-    initArgs(FAKE_DEVFILE_PATH, undefined, FAKE_EDITOR_PATH, undefined, undefined, FAKE_PLUGIN_REGISTRY_URL);
-    const returnCode = await main.start();
-    expect(mockedConsoleError).toBeCalled();
-    expect(mockedConsoleError.mock.calls[1][1].toString()).toContain('missing --output-file: parameter');
-    expect(returnCode).toBeFalsy();
-    expect(generateMethod).toBeCalledTimes(0);
-  });
-
-  test('error', async () => {
-    jest.spyOn(InversifyBinding.prototype, 'initBindings').mockImplementation(() => {
-      throw new Error('Dummy error');
+        ],
+      };
+      expect(generateMethod).toBeCalledWith(jsYaml.dump(result), "''\n", FAKE_OUTPUT_FILE);
     });
-    const main = new Main();
-    const returnCode = await main.start();
-    expect(mockedConsoleError).toBeCalled();
-    expect(returnCode).toBeFalsy();
-    expect(generateMethod).toBeCalledTimes(0);
+
+    test('editorEntry with default plugin registry URL', async () => {
+      const main = new Main();
+      initArgs(FAKE_DEVFILE_PATH, undefined, undefined, FAKE_EDITOR_ENTRY, FAKE_OUTPUT_FILE, undefined);
+      await main.start();
+      expect(mockedConsoleLog).toBeCalled();
+      expect(mockedConsoleLog.mock.calls[0][0].toString()).toContain('No plug-in registry url. Setting to');
+
+      // check plugin url is provided to initBindings
+      expect(spyInitBindings.mock.calls[0][0].pluginRegistryUrl).toBe(
+        'https://eclipse-che.github.io/che-plugin-registry/main/v3'
+      );
+    });
+
+    test('missing devfile', async () => {
+      const main = new Main();
+      initArgs(undefined, undefined, FAKE_EDITOR_PATH, undefined, FAKE_OUTPUT_FILE, FAKE_PLUGIN_REGISTRY_URL);
+      const returnCode = await main.start();
+      expect(mockedConsoleError).toBeCalled();
+      expect(mockedConsoleError.mock.calls[1][1].toString()).toContain('missing --devfile-path:');
+      expect(returnCode).toBeFalsy();
+      expect(generateMethod).toBeCalledTimes(0);
+    });
+
+    test('missing editor', async () => {
+      const main = new Main();
+      initArgs(FAKE_DEVFILE_PATH, undefined, undefined, undefined, FAKE_OUTPUT_FILE, FAKE_PLUGIN_REGISTRY_URL);
+
+      const returnCode = await main.start();
+      expect(mockedConsoleError).toBeCalled();
+      expect(mockedConsoleError.mock.calls[1][1].toString()).toContain('missing --editor-path:');
+      expect(returnCode).toBeFalsy();
+      expect(generateMethod).toBeCalledTimes(0);
+    });
+
+    test('missing outputfile', async () => {
+      const main = new Main();
+      initArgs(FAKE_DEVFILE_PATH, undefined, FAKE_EDITOR_PATH, undefined, undefined, FAKE_PLUGIN_REGISTRY_URL);
+      const returnCode = await main.start();
+      expect(mockedConsoleError).toBeCalled();
+      expect(mockedConsoleError.mock.calls[1][1].toString()).toContain('missing --output-file: parameter');
+      expect(returnCode).toBeFalsy();
+      expect(generateMethod).toBeCalledTimes(0);
+    });
+
+    test('error', async () => {
+      jest.spyOn(InversifyBinding.prototype, 'initBindings').mockImplementation(() => {
+        throw new Error('Dummy error');
+      });
+      const main = new Main();
+      const returnCode = await main.start();
+      expect(mockedConsoleError).toBeCalled();
+      expect(returnCode).toBeFalsy();
+      expect(generateMethod).toBeCalledTimes(0);
+    });
+  });
+
+  describe('generateDevfileContext', () => {
+    beforeEach(() => {
+      spyInitBindings = jest.spyOn(InversifyBinding.prototype, 'initBindings');
+      spyInitBindings.mockImplementation(() => Promise.resolve(container));
+      toSelfMethod.mockReturnValue(selfMock), containerBindMethod.mockReturnValue(bindMock);
+    });
+
+    afterEach(() => {
+      process.argv = originalArgs;
+      jest.restoreAllMocks();
+      jest.resetAllMocks();
+    });
+
+    test('missing editor', async () => {
+      const main = new Main();
+      let message: string | undefined;
+      try {
+        await main.generateDevfileContext({
+          devfilePath: FAKE_DEVFILE_PATH,
+          projects: [],
+        });
+        throw new Error('Dummy error');
+      } catch (e) {
+        message = e.message;
+      }
+      expect(message).toEqual('missing editorPath or editorEntry');
+    });
+
+    test('missing devfile', async () => {
+      const main = new Main();
+      let message: string | undefined;
+      try {
+        await main.generateDevfileContext({
+          editorEntry: FAKE_EDITOR_ENTRY,
+          projects: [],
+        });
+        throw new Error('Dummy error');
+      } catch (e) {
+        message = e.message;
+      }
+      expect(message).toEqual('missing devfilePath or devfileUrl or devfileContent');
+    });
+
+    test('success with custom devfile content', async () => {
+      const main = new Main();
+      containerGetMethod.mockReset();
+      const loadDevfilePluginMethod = jest.fn();
+      const pluginRegistryResolverMock = {
+        loadDevfilePlugin: loadDevfilePluginMethod as any,
+      };
+      loadDevfilePluginMethod.mockReturnValue('');
+      containerGetMethod.mockReturnValueOnce(pluginRegistryResolverMock);
+
+      // last one is generate mock
+      containerGetMethod.mockReturnValueOnce(generateMock);
+
+      const devfileContent = jsYaml.dump({
+        schemaVersion: '2.1.0',
+        projects: [
+          {
+            name: 'my-repo',
+            git: {
+              remotes: {
+                origin: 'http://foo.bar',
+              },
+              checkoutFrom: {
+                revision: 'my-branch',
+              },
+            },
+          },
+        ],
+      });
+
+      await main.generateDevfileContext({
+        devfileContent,
+        outputFile: FAKE_OUTPUT_FILE,
+        pluginRegistryUrl: FAKE_PLUGIN_REGISTRY_URL,
+        editorEntry: FAKE_EDITOR_ENTRY,
+        projects: [],
+      });
+
+      expect(mockedConsoleError).toBeCalledTimes(0);
+      expect(loadDevfilePluginMethod).toBeCalled();
+      expect(generateMethod).toBeCalledWith(devfileContent, "''\n", FAKE_OUTPUT_FILE);
+    });
   });
 
   describe('replaceIfExistingProjects', () => {

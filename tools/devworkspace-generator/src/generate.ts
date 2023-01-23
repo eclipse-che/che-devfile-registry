@@ -28,17 +28,19 @@ export class Generate {
   @inject(DevContainerComponentFinder)
   private devContainerComponentFinder: DevContainerComponentFinder;
 
-  async generate(devfileContent: string, editorContent: string, outputFile: string): Promise<DevfileContext> {
+  async generate(devfileContent: string, editorContent: string, outputFile?: string): Promise<DevfileContext> {
     const context = await this.generateContent(devfileContent, editorContent);
 
     // write the result
-    // write templates and then DevWorkspace in a single file
-    const allContentArray = context.devWorkspaceTemplates.map(template => jsYaml.dump(template));
-    allContentArray.push(jsYaml.dump(context.devWorkspace));
+    if (outputFile) {
+      // write templates and then DevWorkspace in a single file
+      const allContentArray = context.devWorkspaceTemplates.map(template => jsYaml.dump(template));
+      allContentArray.push(jsYaml.dump(context.devWorkspace));
 
-    const generatedContent = allContentArray.join('---\n');
+      const generatedContent = allContentArray.join('---\n');
 
-    await fs.writeFile(outputFile, generatedContent, 'utf-8');
+      await fs.writeFile(outputFile, generatedContent, 'utf-8');
+    }
 
     console.log(`DevWorkspace ${context.devWorkspaceTemplates[0].metadata.name} was generated.`);
     return context;

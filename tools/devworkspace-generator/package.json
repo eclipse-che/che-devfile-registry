@@ -18,13 +18,15 @@
     "prepare": "yarn run clean && yarn run build",
     "clean": "rimraf lib",
     "build": "yarn run format && yarn run compile && yarn run lint && yarn run test",
-    "compile": "tsc --project .",
+    "compile": "tsc --declaration --project .",
     "format": "if-env SKIP_FORMAT=true && echo 'skip format check' || prettier --check '{src,tests}/**/*.ts' package.json",
     "format:fix": "prettier --write '{src,tests}/**/*.ts' package.json",
     "lint": "if-env SKIP_LINT=true && echo 'skip lint check' || eslint --cache=true --no-error-on-unmatched-pattern=true '{src,tests}/(!model|**)/*.ts'",
-    "lint:fix": "eslint --fix --cache=true --no-error-on-unmatched-pattern=true \"{src,tests}/(!model|**)/*.{ts,tsx}\"",
+    "lint:fix": "eslint --fix --cache=true --no-error-on-unmatched-pattern=true \"{src,tests}/(!model|**)/*.ts\"",
     "test": "if-env SKIP_TEST=true && echo 'skip test' || jest --forceExit",
     "watch": "tsc -w",
+    "license:check": "docker run --rm -t -v ${PWD}/:/workspace/project quay.io/che-incubator/dash-licenses:next --check",
+    "license:generate": "docker run --rm -t -v ${PWD}/:/workspace/project quay.io/che-incubator/dash-licenses:next",
     "publish:next": "yarn publish  --registry=https://registry.npmjs.org/ --no-git-tag-version --new-version 0.0.1-\"$(date +%s)\""
   },
   "repository": {
@@ -72,7 +74,7 @@
     "clearMocks": true,
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}"
+      "src/**/*.ts"
     ],
     "coverageThreshold": {
       "global": {
