@@ -83,7 +83,7 @@ jobs:
         docker load -i ./caches/app.tar | true
 
     - name: Build devfile registry
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v4
       with:
         context: .
         file: ./build/dockerfiles/Dockerfile
@@ -95,7 +95,7 @@ jobs:
         push: false
 
     - name: Build offline devfile registry
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v4
       with:
         context: .
         file: ./build/dockerfiles/Dockerfile
