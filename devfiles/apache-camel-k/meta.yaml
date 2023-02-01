@@ -4,4 +4,4 @@ description: Stack with tooling ready to develop Integration projects with Apach
 tags: ["Community", "Apache Camel K", "Red Hat Fuse", "Integration"]
 icon: /images/camelk.svg
 links:
-  v2: https://github.com/che-samples/apache-camel-k/tree/devfilev2
+  v2: https://github.com/che-samples/apache-camel-k/tree/main

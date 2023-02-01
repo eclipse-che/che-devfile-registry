@@ -4,4 +4,4 @@ description: Stack with C/C++ and Clang 8
 tags: ["Community", "C/C++", "Clang", "g++", "GDB"]
 icon: /images/cpp.svg
 links:
-  v2: https://github.com/che-samples/cpp-hello-world/tree/devfilev2
+  v2: https://github.com/che-samples/cpp-hello-world/tree/main

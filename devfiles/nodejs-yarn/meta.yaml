@@ -4,4 +4,4 @@ description: Stack for developing Node.js Web Application based on Yarn
 tags: ["Community", "Node.js", "Alpine", "Yarn", "React"]
 icon: /images/nodejs.svg
 links:
-  v2: https://github.com/che-samples/react-web-app/tree/devfilev2
+  v2: https://github.com/che-samples/react-web-app/tree/main
