@@ -8,7 +8,7 @@ tags:
   - Debian
 icon: /images/scala.svg
 links:
-  v2: https://github.com/che-samples/scala-sbt/tree/devfilev2
+  v2: https://github.com/che-samples/scala-sbt/tree/main
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/scala-sbt/devworkspace-che-theia-latest.yaml
     eclipse/che-idea/next: /devfiles/scala-sbt/devworkspace-che-idea-next.yaml

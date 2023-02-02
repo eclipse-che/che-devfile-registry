@@ -10,7 +10,7 @@ tags:
   - Centos
 icon: /images/php.svg
 links:
-  v2: https://github.com/che-samples/php-symfony/tree/devfilev2
+  v2: https://github.com/che-samples/php-symfony/tree/main
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/php-symfony/devworkspace-che-theia-latest.yaml
     eclipse/che-idea/next: /devfiles/php-symfony/devworkspace-che-idea-next.yaml

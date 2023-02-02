@@ -8,7 +8,7 @@ tags:
   - React
 icon: /images/nodejs.svg
 links:
-  v2: https://github.com/che-samples/react-web-app/tree/devfilev2
+  v2: https://github.com/che-samples/react-web-app/tree/main
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/nodejs-yarn/devworkspace-che-theia-latest.yaml
     eclipse/che-idea/next: /devfiles/nodejs-yarn/devworkspace-che-idea-next.yaml

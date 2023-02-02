@@ -6,7 +6,7 @@ tags:
   - Shell
 icon: /images/che.svg
 links:
-  v2: https://github.com/che-samples/bash/tree/devfilev2
+  v2: https://github.com/che-samples/bash/tree/main
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/bash/devworkspace-che-theia-latest.yaml
     eclipse/che-idea/next: /devfiles/bash/devworkspace-che-idea-next.yaml

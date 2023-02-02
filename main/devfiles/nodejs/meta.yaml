@@ -7,7 +7,7 @@ tags:
   - ubi8
 icon: /images/nodejs.svg
 links:
-  v2: https://github.com/che-samples/web-nodejs-sample/tree/devfilev2
+  v2: https://github.com/che-samples/web-nodejs-sample/tree/main
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/nodejs/devworkspace-che-theia-latest.yaml
     eclipse/che-idea/next: /devfiles/nodejs/devworkspace-che-idea-next.yaml

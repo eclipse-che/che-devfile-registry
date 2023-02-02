@@ -7,7 +7,7 @@ tags:
   - Alpine
 icon: /images/angular.svg
 links:
-  v2: https://github.com/che-samples/nodejs-angular/tree/devfilev2
+  v2: https://github.com/che-samples/nodejs-angular/tree/main
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/nodejs-angular/devworkspace-che-theia-latest.yaml
     eclipse/che-idea/next: /devfiles/nodejs-angular/devworkspace-che-idea-next.yaml

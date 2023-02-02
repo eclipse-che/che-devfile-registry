@@ -10,7 +10,7 @@ tags:
   - Centos
 icon: /images/nodejs.svg
 links:
-  v2: https://github.com/che-samples/nodejs-mongodb-sample/tree/devfilev2
+  v2: https://github.com/che-samples/nodejs-mongodb-sample/tree/main
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/nodejs-mongo/devworkspace-che-theia-latest.yaml
     eclipse/che-idea/next: /devfiles/nodejs-mongo/devworkspace-che-idea-next.yaml

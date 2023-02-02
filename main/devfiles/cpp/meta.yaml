@@ -8,7 +8,7 @@ tags:
   - GDB
 icon: /images/cpp.svg
 links:
-  v2: https://github.com/che-samples/cpp-hello-world/tree/devfilev2
+  v2: https://github.com/che-samples/cpp-hello-world/tree/main
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/cpp/devworkspace-che-theia-latest.yaml
     eclipse/che-idea/next: /devfiles/cpp/devworkspace-che-idea-next.yaml

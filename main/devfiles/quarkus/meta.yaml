@@ -9,7 +9,7 @@ tags:
   - Debian
 icon: /images/quarkus.svg
 links:
-  v2: https://github.com/che-samples/quarkus-quickstarts/tree/devfilev2
+  v2: https://github.com/che-samples/quarkus-quickstarts/tree/main
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/quarkus/devworkspace-che-theia-latest.yaml
     eclipse/che-idea/next: /devfiles/quarkus/devworkspace-che-idea-next.yaml

@@ -10,7 +10,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/angular.svg",
     "links": {
-      "v2": "https://github.com/che-samples/nodejs-angular/tree/devfilev2",
+      "v2": "https://github.com/che-samples/nodejs-angular/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/nodejs-angular/devworkspace-che-idea-next.yaml",
@@ -29,7 +29,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/python.svg",
     "links": {
-      "v2": "https://github.com/che-samples/django-realworld-example-app/tree/devfile2",
+      "v2": "https://github.com/che-samples/django-realworld-example-app/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python-django/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/python-django/devworkspace-che-idea-next.yaml",
@@ -52,7 +52,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/camelk.svg",
     "links": {
-      "v2": "https://github.com/che-samples/fuse-rest-http-booster/tree/devfilev2",
+      "v2": "https://github.com/che-samples/fuse-rest-http-booster/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-springboot/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/apache-camel-springboot/devworkspace-che-idea-next.yaml",
@@ -73,7 +73,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/quarkus.svg",
     "links": {
-      "v2": "https://github.com/che-samples/quarkus-quickstarts/tree/devfilev2",
+      "v2": "https://github.com/che-samples/quarkus-quickstarts/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/quarkus/devworkspace-che-idea-next.yaml",
@@ -93,7 +93,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/springboot.svg",
     "links": {
-      "v2": "https://github.com/che-samples/java-spring-petclinic/tree/devfilev2",
+      "v2": "https://github.com/che-samples/java-spring-petclinic/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-web-spring/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/java-web-spring/devworkspace-che-idea-next.yaml",
@@ -113,7 +113,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/dotnetcore.svg",
     "links": {
-      "v2": "https://github.com/che-samples/aspnetcore-realworld-example-app/tree/devfilev2",
+      "v2": "https://github.com/che-samples/aspnetcore-realworld-example-app/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/dotnet-asp.net/devworkspace-che-idea-next.yaml",
@@ -132,7 +132,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/python.svg",
     "links": {
-      "v2": "https://github.com/che-samples/python-hello-world/tree/devfilev2",
+      "v2": "https://github.com/che-samples/python-hello-world/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/python/devworkspace-che-idea-next.yaml",
@@ -152,7 +152,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/scala.svg",
     "links": {
-      "v2": "https://github.com/che-samples/scala-sbt/tree/devfilev2",
+      "v2": "https://github.com/che-samples/scala-sbt/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/scala-sbt/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/scala-sbt/devworkspace-che-idea-next.yaml",
@@ -171,7 +171,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
-      "v2": "https://github.com/che-samples/web-nodejs-sample/tree/devfilev2",
+      "v2": "https://github.com/che-samples/web-nodejs-sample/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/nodejs/devworkspace-che-idea-next.yaml",
@@ -192,7 +192,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/java.svg",
     "links": {
-      "v2": "https://github.com/che-samples/java-guestbook/tree/devfilev2",
+      "v2": "https://github.com/che-samples/java-guestbook/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mongo/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/java-mongo/devworkspace-che-idea-next.yaml",
@@ -210,7 +210,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/go.svg",
     "links": {
-      "v2": "https://github.com/che-samples/golang-example/tree/devfilev2",
+      "v2": "https://github.com/che-samples/golang-example/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/go/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/go/devworkspace-che-idea-next.yaml",
@@ -230,7 +230,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/cpp.svg",
     "links": {
-      "v2": "https://github.com/che-samples/cpp-hello-world/tree/devfilev2",
+      "v2": "https://github.com/che-samples/cpp-hello-world/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/cpp/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/cpp/devworkspace-che-idea-next.yaml",
@@ -250,7 +250,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
-      "v2": "https://github.com/che-samples/react-web-app/tree/devfilev2",
+      "v2": "https://github.com/che-samples/react-web-app/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-yarn/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/nodejs-yarn/devworkspace-che-idea-next.yaml",
@@ -272,7 +272,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
-      "v2": "https://github.com/che-samples/nodejs-mongodb-sample/tree/devfilev2",
+      "v2": "https://github.com/che-samples/nodejs-mongodb-sample/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/nodejs-mongo/devworkspace-che-idea-next.yaml",
@@ -294,7 +294,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/php.svg",
     "links": {
-      "v2": "https://github.com/che-samples/php-symfony/tree/devfilev2",
+      "v2": "https://github.com/che-samples/php-symfony/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/php-symfony/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/php-symfony/devworkspace-che-idea-next.yaml",
@@ -312,7 +312,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/che.svg",
     "links": {
-      "v2": "https://github.com/che-samples/bash/tree/devfilev2",
+      "v2": "https://github.com/che-samples/bash/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/bash/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/bash/devworkspace-che-idea-next.yaml",
@@ -331,7 +331,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/camelk.svg",
     "links": {
-      "v2": "https://github.com/che-samples/apache-camel-k/tree/devfilev2",
+      "v2": "https://github.com/che-samples/apache-camel-k/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-k/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/apache-camel-k/devworkspace-che-idea-next.yaml",
@@ -351,7 +351,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
-      "v2": "https://github.com/che-samples/nodejs-react-redux/tree/devfilev2",
+      "v2": "https://github.com/che-samples/nodejs-react-redux/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-react/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/nodejs-react/devworkspace-che-idea-next.yaml",
@@ -372,7 +372,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/lombok.svg",
     "links": {
-      "v2": "https://github.com/che-samples/lombok-project-sample/tree/devfilev2",
+      "v2": "https://github.com/che-samples/lombok-project-sample/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/java-lombok/devworkspace-che-idea-next.yaml",
@@ -389,7 +389,7 @@
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/rust.svg",
     "links": {
-      "v2": "https://github.com/che-samples/helloworld-rust/tree/devfilev2",
+      "v2": "https://github.com/che-samples/helloworld-rust/tree/main",
       "devWorkspaces": {
         "eclipse/che-theia/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devworkspace-che-theia-latest.yaml",
         "eclipse/che-idea/next": "/devfiles/rust/devworkspace-che-idea-next.yaml",

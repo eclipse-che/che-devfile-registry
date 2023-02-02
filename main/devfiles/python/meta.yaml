@@ -7,7 +7,7 @@ tags:
   - pip
 icon: /images/python.svg
 links:
-  v2: https://github.com/che-samples/python-hello-world/tree/devfilev2
+  v2: https://github.com/che-samples/python-hello-world/tree/main
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/python/devworkspace-che-theia-latest.yaml
     eclipse/che-idea/next: /devfiles/python/devworkspace-che-idea-next.yaml
