@@ -4,4 +4,4 @@ description: Java stack with OpenJDK 8, MongoDB and Spring Boot Guestbook demo a
 tags: ["Community", "Java", "OpenJDK", "Maven", "Spring Boot", "MongoDB"]
 icon: /images/java.svg
 links:
-  v2: https://github.com/che-samples/java-guestbook/tree/devfilev2
+  v2: https://github.com/che-samples/java-guestbook/tree/main

@@ -4,4 +4,4 @@ description: Scala Stack with OpenJDK 11 and sbt 1.x
 tags: ["Community", "Scala", "OpenJDK", "sbt", "Debian"]
 icon: /images/scala.svg
 links:
-  v2: https://github.com/che-samples/scala-sbt/tree/devfilev2
+  v2: https://github.com/che-samples/scala-sbt/tree/main

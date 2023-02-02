@@ -4,4 +4,4 @@ description: Java stack with OpenJDK 11 and Spring Boot Petclinic demo applicati
 tags: ["Community", "Java", "OpenJDK", "Maven", "Spring Boot"]
 icon: /images/springboot.svg
 links:
-  v2: https://github.com/che-samples/java-spring-petclinic/tree/devfilev2
+  v2: https://github.com/che-samples/java-spring-petclinic/tree/main
