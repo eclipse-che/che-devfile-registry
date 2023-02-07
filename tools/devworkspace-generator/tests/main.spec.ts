@@ -14,6 +14,7 @@ import { InversifyBinding } from '../src/inversify/inversify-binding';
 import { Main } from '../src/main';
 import fs from 'fs-extra';
 import * as jsYaml from 'js-yaml';
+import * as axios from 'axios';
 
 describe('Test Main with stubs', () => {
   const FAKE_DEVFILE_PATH = '/my-fake-devfile-path';
@@ -263,10 +264,13 @@ describe('Test Main with stubs', () => {
       const main = new Main();
       let message: string | undefined;
       try {
-        await main.generateDevfileContext({
-          devfilePath: FAKE_DEVFILE_PATH,
-          projects: [],
-        });
+        await main.generateDevfileContext(
+          {
+            devfilePath: FAKE_DEVFILE_PATH,
+            projects: [],
+          },
+          axios.default
+        );
         throw new Error('Dummy error');
       } catch (e) {
         message = e.message;
@@ -278,10 +282,13 @@ describe('Test Main with stubs', () => {
       const main = new Main();
       let message: string | undefined;
       try {
-        await main.generateDevfileContext({
-          editorEntry: FAKE_EDITOR_ENTRY,
-          projects: [],
-        });
+        await main.generateDevfileContext(
+          {
+            editorEntry: FAKE_EDITOR_ENTRY,
+            projects: [],
+          },
+          axios.default
+        );
         throw new Error('Dummy error');
       } catch (e) {
         message = e.message;
@@ -319,13 +326,16 @@ describe('Test Main with stubs', () => {
         ],
       });
 
-      await main.generateDevfileContext({
-        devfileContent,
-        outputFile: FAKE_OUTPUT_FILE,
-        pluginRegistryUrl: FAKE_PLUGIN_REGISTRY_URL,
-        editorEntry: FAKE_EDITOR_ENTRY,
-        projects: [],
-      });
+      await main.generateDevfileContext(
+        {
+          devfileContent,
+          outputFile: FAKE_OUTPUT_FILE,
+          pluginRegistryUrl: FAKE_PLUGIN_REGISTRY_URL,
+          editorEntry: FAKE_EDITOR_ENTRY,
+          projects: [],
+        },
+        axios.default
+      );
 
       expect(mockedConsoleError).toBeCalledTimes(0);
       expect(loadDevfilePluginMethod).toBeCalled();
