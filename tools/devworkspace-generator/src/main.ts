@@ -27,16 +27,19 @@ export class Main {
     // no-op
   }
   // Generates a devfile context object based on params
-  public async generateDevfileContext(params: {
-    devfilePath?: string;
-    devfileUrl?: string;
-    devfileContent?: string;
-    outputFile?: string;
-    editorPath?: string;
-    pluginRegistryUrl?: string;
-    editorEntry?: string;
-    projects: { name: string; location: string }[];
-  }): Promise<DevfileContext> {
+  public async generateDevfileContext(
+    params: {
+      devfilePath?: string;
+      devfileUrl?: string;
+      devfileContent?: string;
+      outputFile?: string;
+      editorPath?: string;
+      pluginRegistryUrl?: string;
+      editorEntry?: string;
+      projects: { name: string; location: string }[];
+    },
+    axiosInstance: axios.AxiosInstance
+  ): Promise<DevfileContext> {
     let { devfilePath, devfileUrl, outputFile, editorPath, pluginRegistryUrl, editorEntry, projects } = params;
 
     if (!editorPath && !editorEntry) {
@@ -45,12 +48,11 @@ export class Main {
     if (!devfilePath && !devfileUrl && !params.devfileContent) {
       throw new Error('missing devfilePath or devfileUrl or devfileContent');
     }
-    if (editorEntry && !pluginRegistryUrl) {
+    if (!pluginRegistryUrl) {
       pluginRegistryUrl = 'https://eclipse-che.github.io/che-plugin-registry/main/v3';
       console.log(`No plug-in registry url. Setting to ${pluginRegistryUrl}`);
     }
 
-    const axiosInstance = axios.default;
     const inversifyBinbding = new InversifyBinding();
     const container = await inversifyBinbding.initBindings({
       pluginRegistryUrl,
@@ -182,15 +184,18 @@ export class Main {
       if (!outputFile) {
         throw new Error('missing --output-file: parameter');
       }
-      await this.generateDevfileContext({
-        devfilePath,
-        devfileUrl,
-        editorPath,
-        outputFile,
-        pluginRegistryUrl,
-        editorEntry,
-        projects,
-      });
+      await this.generateDevfileContext(
+        {
+          devfilePath,
+          devfileUrl,
+          editorPath,
+          outputFile,
+          pluginRegistryUrl,
+          editorEntry,
+          projects,
+        },
+        axios.default
+      );
       return true;
     } catch (error) {
       console.error('stack=' + error.stack);
