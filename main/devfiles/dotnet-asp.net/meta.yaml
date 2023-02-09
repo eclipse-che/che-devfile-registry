@@ -12,4 +12,5 @@ links:
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/dotnet-asp.net/devworkspace-che-theia-latest.yaml
     eclipse/che-idea/next: /devfiles/dotnet-asp.net/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/dotnet-asp.net/devworkspace-che-code-latest.yaml
     che-incubator/che-code/insiders: /devfiles/dotnet-asp.net/devworkspace-che-code-insiders.yaml

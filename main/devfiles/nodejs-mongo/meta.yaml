@@ -14,4 +14,5 @@ links:
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/nodejs-mongo/devworkspace-che-theia-latest.yaml
     eclipse/che-idea/next: /devfiles/nodejs-mongo/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/nodejs-mongo/devworkspace-che-code-latest.yaml
     che-incubator/che-code/insiders: /devfiles/nodejs-mongo/devworkspace-che-code-insiders.yaml

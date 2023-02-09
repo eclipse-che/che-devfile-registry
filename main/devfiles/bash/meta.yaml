@@ -10,4 +10,5 @@ links:
   devWorkspaces:
     eclipse/che-theia/latest: /devfiles/bash/devworkspace-che-theia-latest.yaml
     eclipse/che-idea/next: /devfiles/bash/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/bash/devworkspace-che-code-latest.yaml
     che-incubator/che-code/insiders: /devfiles/bash/devworkspace-che-code-insiders.yaml
