@@ -152,6 +152,7 @@ if [ -n "$PUBLIC_URL" ]; then
   sed -i "s|\"self\": \"/devfiles/|\"self\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
   sed -i "s|\"eclipse/che-theia/latest\": \"/devfiles/|\"eclipse/che-theia/latest\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
   sed -i "s|\"che-incubator/che-code/insiders\": \"/devfiles/|\"che-incubator/che-code/insiders\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
+  sed -i "s|\"che-incubator/che-code/latest\": \"/devfiles/|\"che-incubator/che-code/latest\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
 else
   if grep -q '{{ DEVFILE_REGISTRY_URL }}' "${devfiles[@]}"; then
     echo "WARNING: environment variable 'CHE_DEVFILE_REGISTRY_URL' not configured" \

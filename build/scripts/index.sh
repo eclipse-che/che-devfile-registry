@@ -20,6 +20,7 @@ for meta in "${metas[@]}"; do
       cat <<< "$(yq -y --arg metadir "${META_DIR}" '.links.devWorkspaces |= . +
       {"eclipse/che-theia/latest": "/\($metadir)/devworkspace-che-theia-latest.yaml",
       "eclipse/che-idea/next": "/\($metadir)/devworkspace-che-idea-next.yaml",
+      "che-incubator/che-code/latest": "/\($metadir)/devworkspace-che-code-latest.yaml",
       "che-incubator/che-code/insiders": "/\($metadir)/devworkspace-che-code-insiders.yaml",}' "${meta}")" > "${meta}"
     fi
 done
