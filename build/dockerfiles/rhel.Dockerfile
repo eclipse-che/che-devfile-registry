@@ -13,7 +13,7 @@
 
 # Builder: check meta.yamls and create index.json
 # https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/ubi8/nodejs-16-minimal
-FROM registry.access.redhat.com/ubi8/nodejs-16-minimal:1-89 as builder
+FROM registry.access.redhat.com/ubi8/nodejs-16-minimal:1-89.1675788352 as builder
 USER 0
 
 ################# 
