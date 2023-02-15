@@ -34,21 +34,25 @@ export class Main {
       devfileContent?: string;
       outputFile?: string;
       editorPath?: string;
-      pluginRegistryUrl?: string;
+      editorContent?: string;
       editorEntry?: string;
+      pluginRegistryUrl?: string;
       projects: { name: string; location: string }[];
     },
     axiosInstance: axios.AxiosInstance
   ): Promise<DevfileContext> {
-    let { devfilePath, devfileUrl, outputFile, editorPath, pluginRegistryUrl, editorEntry, projects } = params;
-
-    if (!editorPath && !editorEntry) {
-      throw new Error('missing editorPath or editorEntry');
+    if (!params.editorPath && !params.editorEntry && !params.editorContent) {
+      throw new Error('missing editorPath or editorEntry or editorContent');
     }
-    if (!devfilePath && !devfileUrl && !params.devfileContent) {
+    if (!params.devfilePath && !params.devfileUrl && !params.devfileContent) {
       throw new Error('missing devfilePath or devfileUrl or devfileContent');
     }
-    if (!pluginRegistryUrl) {
+
+    let pluginRegistryUrl: string;
+
+    if (params.pluginRegistryUrl) {
+      pluginRegistryUrl = params.pluginRegistryUrl;
+    } else {
       pluginRegistryUrl = 'https://eclipse-che.github.io/che-plugin-registry/main/v3';
       console.log(`No plug-in registry url. Setting to ${pluginRegistryUrl}`);
     }
@@ -64,9 +68,9 @@ export class Main {
     let editorContent;
 
     // gets the github URL
-    if (devfileUrl) {
+    if (params.devfileUrl) {
       const githubResolver = container.get(GithubResolver);
-      const githubUrl = githubResolver.resolve(devfileUrl);
+      const githubUrl = githubResolver.resolve(params.devfileUrl);
       // user devfile
       devfileContent = await container.get(UrlFetcher).fetchText(githubUrl.getContentUrl('devfile.yaml'));
 
@@ -88,25 +92,27 @@ export class Main {
       }
       // get back the content
       devfileContent = jsYaml.dump(devfileParsed);
-    } else if (devfilePath) {
-      devfileContent = await fs.readFile(devfilePath);
+    } else if (params.devfilePath) {
+      devfileContent = await fs.readFile(params.devfilePath);
     } else {
       devfileContent = params.devfileContent;
     }
 
     // enhance projects
-    devfileContent = this.replaceIfExistingProjects(devfileContent, projects);
+    devfileContent = this.replaceIfExistingProjects(devfileContent, params.projects);
 
-    if (editorEntry) {
+    if (params.editorContent) {
+      editorContent = params.editorContent;
+    } else if (params.editorEntry) {
       // devfile of the editor
-      const editorDevfile = await container.get(PluginRegistryResolver).loadDevfilePlugin(editorEntry);
+      const editorDevfile = await container.get(PluginRegistryResolver).loadDevfilePlugin(params.editorEntry);
       editorContent = jsYaml.dump(editorDevfile);
     } else {
-      editorContent = await fs.readFile(editorPath);
+      editorContent = await fs.readFile(params.editorPath);
     }
 
     const generate = container.get(Generate);
-    return generate.generate(devfileContent, editorContent, outputFile);
+    return generate.generate(devfileContent, editorContent, params.outputFile);
   }
 
   // Update project entry based on the projects passed as parameter

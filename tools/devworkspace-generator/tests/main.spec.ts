@@ -275,7 +275,7 @@ describe('Test Main with stubs', () => {
       } catch (e) {
         message = e.message;
       }
-      expect(message).toEqual('missing editorPath or editorEntry');
+      expect(message).toEqual('missing editorPath or editorEntry or editorContent');
     });
 
     test('missing devfile', async () => {
@@ -340,6 +340,68 @@ describe('Test Main with stubs', () => {
       expect(mockedConsoleError).toBeCalledTimes(0);
       expect(loadDevfilePluginMethod).toBeCalled();
       expect(generateMethod).toBeCalledWith(devfileContent, "''\n", FAKE_OUTPUT_FILE);
+    });
+
+    test('success with custom editor content', async () => {
+      const main = new Main();
+      containerGetMethod.mockReset();
+
+      // last one is generate mock
+      containerGetMethod.mockReturnValueOnce(generateMock);
+
+      const devfileContent = jsYaml.dump({
+        schemaVersion: '2.1.0',
+        projects: [
+          {
+            name: 'my-repo',
+            git: {
+              remotes: {
+                origin: 'http://foo.bar',
+              },
+              checkoutFrom: {
+                revision: 'my-branch',
+              },
+            },
+          },
+        ],
+      });
+
+      const editorContent = jsYaml.dump({
+        schemaVersion: '2.1.0',
+        metadata: {
+          name: 'che-incubator/che-pycharm/latest',
+        },
+        components: {
+          name: 'che-pycharm-runtime-description',
+          image: 'quay.io/devfile/universal-developer-image:ubi8',
+        },
+      });
+
+      await main.generateDevfileContext(
+        {
+          devfileContent,
+          outputFile: FAKE_OUTPUT_FILE,
+          editorContent,
+          projects: [],
+        },
+        axios.default
+      );
+
+      expect(mockedConsoleError).toBeCalledTimes(0);
+      expect(generateMethod).toBeCalledWith(
+        devfileContent,
+        jsYaml.dump({
+          schemaVersion: '2.1.0',
+          metadata: {
+            name: 'che-incubator/che-pycharm/latest',
+          },
+          components: {
+            name: 'che-pycharm-runtime-description',
+            image: 'quay.io/devfile/universal-developer-image:ubi8',
+          },
+        }),
+        FAKE_OUTPUT_FILE
+      );
     });
   });
 
