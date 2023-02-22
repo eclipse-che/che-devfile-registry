@@ -9,6 +9,7 @@
 
 name: Release Che Devfile Registry
 
+
 on:
   workflow_dispatch:
     inputs:
