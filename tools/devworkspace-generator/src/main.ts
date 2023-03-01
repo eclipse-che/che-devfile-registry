@@ -36,13 +36,14 @@ export class Main {
       editorPath?: string;
       editorContent?: string;
       editorEntry?: string;
+      editorUrl?: string;
       pluginRegistryUrl?: string;
       projects: { name: string; location: string }[];
     },
     axiosInstance: axios.AxiosInstance
   ): Promise<DevfileContext> {
-    if (!params.editorPath && !params.editorEntry && !params.editorContent) {
-      throw new Error('missing editorPath or editorEntry or editorContent');
+    if (!params.editorPath && !params.editorEntry && !params.editorContent && !params.editorUrl) {
+      throw new Error('missing editorPath or editorEntry or editorContent or editorUrl');
     }
     if (!params.devfilePath && !params.devfileUrl && !params.devfileContent) {
       throw new Error('missing devfilePath or devfileUrl or devfileContent');
@@ -107,6 +108,8 @@ export class Main {
       // devfile of the editor
       const editorDevfile = await container.get(PluginRegistryResolver).loadDevfilePlugin(params.editorEntry);
       editorContent = jsYaml.dump(editorDevfile);
+    } else if (params.editorUrl) {
+      editorContent = await container.get(UrlFetcher).fetchText(params.editorUrl);
     } else {
       editorContent = await fs.readFile(params.editorPath);
     }
@@ -147,6 +150,7 @@ export class Main {
     let devfileUrl: string | undefined;
     let outputFile: string | undefined;
     let editorPath: string | undefined;
+    let editorUrl: string | undefined;
     let pluginRegistryUrl: string | undefined;
     let editorEntry: string | undefined;
     const projects: { name: string; location: string }[] = [];
@@ -168,6 +172,9 @@ export class Main {
       if (arg.startsWith('--editor-path:')) {
         editorPath = arg.substring('--editor-path:'.length);
       }
+      if (arg.startsWith('--editor-url:')) {
+        editorUrl = arg.substring('--editor-url:'.length);
+      }
       if (arg.startsWith('--output-file:')) {
         outputFile = arg.substring('--output-file:'.length);
       }
@@ -181,8 +188,8 @@ export class Main {
     });
 
     try {
-      if (!editorPath && !editorEntry) {
-        throw new Error('missing --editor-path: or --editor-entry: parameter');
+      if (!editorPath && !editorEntry && !editorUrl) {
+        throw new Error('missing --editor-path: or --editor-entry: or --editor-url: parameter');
       }
       if (!devfilePath && !devfileUrl) {
         throw new Error('missing --devfile-path: or --devfile-url: parameter');
@@ -198,6 +205,7 @@ export class Main {
           outputFile,
           pluginRegistryUrl,
           editorEntry,
+          editorUrl,
           projects,
         },
         axios.default
