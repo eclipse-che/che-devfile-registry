@@ -275,7 +275,7 @@ describe('Test Main with stubs', () => {
       } catch (e) {
         message = e.message;
       }
-      expect(message).toEqual('missing editorPath or editorEntry or editorContent');
+      expect(message).toEqual('missing editorPath or editorEntry or editorContent or editorUrl');
     });
 
     test('missing devfile', async () => {
