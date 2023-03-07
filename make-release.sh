@@ -149,6 +149,7 @@ performRelease()
   docker buildx build \
     --build-arg VERSION="${VERSION}" \
     --push \
+    --provenance=false \
     --platform "${PLATFORMS}" \
     --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${VERSION}" \
     --tag "${REGISTRY}/${ORGANIZATION}/${IMAGE}:${SHORT_SHA1}" \
