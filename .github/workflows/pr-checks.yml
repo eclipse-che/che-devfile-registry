@@ -93,6 +93,7 @@ jobs:
         cache-from: "type=local,src=/tmp/.buildx-cache"
         cache-to: "type=local,dest=/tmp/.buildx-cache"
         push: false
+        provenance: false
 
     - name: Build offline devfile registry
       uses: docker/build-push-action@v4
