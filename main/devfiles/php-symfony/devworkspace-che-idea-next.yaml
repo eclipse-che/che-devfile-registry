@@ -104,7 +104,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
           endpoints:
             - exposure: public
               name: symfony
@@ -116,7 +116,7 @@ spec:
             - name: composer
               path: /home/user/.composer
             - name: symfony
-              path: /home/user/.symfony
+              path: /home/user/.symfony5
         attributes:
           controller.devfile.io/merge-contribution: true
       - name: composer
@@ -161,7 +161,7 @@ spec:
           label: Start Symfony Web Server
           component: tools
           workingDir: ${PROJECT_SOURCE}
-          commandLine: $HOME/.symfony/bin/symfony server:start
+          commandLine: $HOME/.symfony5/bin/symfony server:start
           group:
             kind: run
       - id: stop-web-server
@@ -169,7 +169,7 @@ spec:
           label: Stop Symfony Web Server
           component: tools
           workingDir: ${PROJECT_SOURCE}
-          commandLine: $HOME/.symfony/bin/symfony server:stop
+          commandLine: $HOME/.symfony5/bin/symfony server:stop
           group:
             kind: run
     projects:

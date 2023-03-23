@@ -7,16 +7,22 @@ spec:
     - id: init-container-command
       apply:
         component: che-code-injector
+    - id: init-che-code-command
+      exec:
+        component: che-code-runtime-description
+        commandLine: >-
+          nohup /checode/entrypoint-volume.sh > /checode/entrypoint-logs.txt
+          2>&1 &
   events:
     preStart:
       - init-container-command
+    postStart:
+      - init-che-code-command
   components:
     - name: che-code-runtime-description
       container:
         image: >-
           quay.io/devfile/universal-developer-image@sha256:d1709bbdfa076474f58f796026a2ed2dd3b24fea7e51ce2cc984e729663ff62c
-        command:
-          - /checode/entrypoint-volume.sh
         volumeMounts:
           - name: checode
             path: /checode
@@ -85,7 +91,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
           endpoints:
             - exposure: public
               name: nodejs
@@ -110,7 +116,7 @@ spec:
           label: Run web application
           component: tools
           workingDir: ${PROJECT_SOURCE}/app
-          commandLine: nodemon app.js
+          commandLine: node app.js
           group:
             kind: run
       - id: debug
@@ -118,7 +124,7 @@ spec:
           label: Run web application (debugging enabled)
           component: tools
           workingDir: ${PROJECT_SOURCE}/app
-          commandLine: nodemon --inspect app.js
+          commandLine: node --inspect app.js
           group:
             kind: debug
             isDefault: true
@@ -127,10 +133,9 @@ spec:
           label: Stop web application
           component: tools
           commandLine: >-
-            node_server_pids=$(pgrep -fx '.*nodemon (--inspect )?app.js' | tr
-            "\\n" " ") && echo "Stopping node server with PIDs:
-            ${node_server_pids}" &&  kill -15 ${node_server_pids} &>/dev/null &&
-            echo 'Done.'
+            node_server_pids=$(pgrep -fx '.*node (--inspect )?app.js' | tr "\\n"
+            " ") && echo "Stopping node server with PIDs: ${node_server_pids}"
+            &&  kill -15 ${node_server_pids} &>/dev/null && echo 'Done.'
           group:
             kind: run
     projects:

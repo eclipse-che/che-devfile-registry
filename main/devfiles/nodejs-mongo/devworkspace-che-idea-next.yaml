@@ -104,7 +104,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
           env:
             - name: SECRET
               value: 220fd770-c028-480d-8f95-f84353c7d55a

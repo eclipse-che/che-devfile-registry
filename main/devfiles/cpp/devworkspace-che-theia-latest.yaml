@@ -14,7 +14,7 @@ spec:
     - name: theia-ide
       container:
         image: >-
-          quay.io/eclipse/che-theia@sha256:a4587530d9dff0cb1842ba0b0084eebb2a95dc219b9eac5f780f1c6ac20078a0
+          quay.io/eclipse/che-theia@sha256:215984bbfab125f8c3aa44f23d1ad0fb9af76312d05076e87ce63afa4b21c3fc
         env:
           - name: THEIA_PLUGINS
             value: local-dir:///plugins
@@ -139,7 +139,7 @@ spec:
     - name: che-machine-exec
       container:
         image: >-
-          quay.io/eclipse/che-machine-exec@sha256:4c6ffbf4f89978db7f0a1e42fd06f5289ea970e8efba9a1167a806f9f5e97f26
+          quay.io/eclipse/che-machine-exec@sha256:b3773cdaca522bf358249d4d9b916677765dc502563fc506b6bf8b51a96aa5df
         command:
           - /go/bin/che-machine-exec
           - '--url'
@@ -154,7 +154,7 @@ spec:
     - name: remote-runtime-injector
       container:
         image: >-
-          quay.io/eclipse/che-theia-endpoint-runtime-binary@sha256:6afeb82a41c6c63070d0dfd477959375c0d08f6d74d98363a0cf2b440061a65a
+          quay.io/eclipse/che-theia-endpoint-runtime-binary@sha256:135a4caece22d776e8812457ee06cac7b094e4a8a41e87508e9835b283612259
         env:
           - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
             value: /remote-endpoint/plugin-remote-endpoint
@@ -179,7 +179,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
           memoryLimit: 1G
           mountSources: true
         attributes:

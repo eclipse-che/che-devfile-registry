@@ -7,16 +7,22 @@ spec:
     - id: init-container-command
       apply:
         component: che-code-injector
+    - id: init-che-code-command
+      exec:
+        component: che-code-runtime-description
+        commandLine: >-
+          nohup /checode/entrypoint-volume.sh > /checode/entrypoint-logs.txt
+          2>&1 &
   events:
     preStart:
       - init-container-command
+    postStart:
+      - init-che-code-command
   components:
     - name: che-code-runtime-description
       container:
         image: >-
           quay.io/devfile/universal-developer-image@sha256:d1709bbdfa076474f58f796026a2ed2dd3b24fea7e51ce2cc984e729663ff62c
-        command:
-          - /checode/entrypoint-volume.sh
         volumeMounts:
           - name: checode
             path: /checode
@@ -65,7 +71,7 @@ spec:
     - name: che-code-injector
       container:
         image: >-
-          quay.io/che-incubator/che-code@sha256:d04edc9aa6d40693738afb2648e1ffdec5044e2cca14a94cccc85283f230455a
+          quay.io/che-incubator/che-code@sha256:21b3def52777616ed713d57a15f3fbd5830413cc9a5f76717b42713d0ddf55c8
         command:
           - /entrypoint-init-container.sh
         volumeMounts:
@@ -86,7 +92,7 @@ spec:
     components:
       - name: tools
         container:
-          image: quay.io/devfile/universal-developer-image:ubi8-0e189d9
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
           endpoints:
             - exposure: public
               name: angular
