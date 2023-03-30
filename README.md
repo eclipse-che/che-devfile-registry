@@ -2,7 +2,7 @@
 
 This repository holds meta.yaml files that refer to the samples with Devfiles.
 
-Here is the expected format of a `meta.yaml`:
+Here is an example `meta.yaml` file:
 
 ```yaml
 ---
