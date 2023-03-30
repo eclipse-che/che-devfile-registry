@@ -11,7 +11,7 @@
 set -e
 
 VERSION="${1%/}"
-
+echo "Updating devworkspace templates for version ${VERSION}"
 # shellcheck disable=SC1091
 source ./clone_and_zip.sh
 
