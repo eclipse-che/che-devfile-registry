@@ -7,10 +7,10 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 #
-# List all images referenced in meta.yaml files
+# List all images referenced in devworkspace-*.yaml files
 #
 
 set -e
 
-readarray -d '' devfiles < <(find "$1" \( -name 'devfile.yaml' -o -name 'devworkspace-*.yaml' \) -print0)
+readarray -d '' devfiles < <(find "$1" \( -name 'devworkspace-*.yaml' \) -print0)
 yq -r '..|.image?' "${devfiles[@]}" | grep -v "null" | sort | uniq
