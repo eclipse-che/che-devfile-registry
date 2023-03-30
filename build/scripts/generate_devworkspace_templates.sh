@@ -36,12 +36,6 @@ do
 
     npm_config_yes=true npx @eclipse-che/che-devworkspace-generator@${CHE_DEVWORKSPACE_GENERATOR_VERSION} \
     --devfile-url:"${devfile_url}" \
-    --editor-entry:eclipse/che-theia/latest \
-    --output-file:"${dir}"/devworkspace-che-theia-latest.yaml \
-    --project."${project}"
-
-    npm_config_yes=true npx @eclipse-che/che-devworkspace-generator@${CHE_DEVWORKSPACE_GENERATOR_VERSION} \
-    --devfile-url:"${devfile_url}" \
     --editor-entry:che-incubator/che-idea/next \
     --output-file:"${dir}"/devworkspace-che-idea-next.yaml \
     --project."${project}"
