@@ -17,13 +17,16 @@ links:
 Here are all the supported values:
 ```yaml
 ---
-# Meta information of the devfile
+# the name of the stack
 displayName: Python
+# the description of the stack
 description: Python Stack with Python 3.8
+# the list of tags that will be used to search for the devfile
 tags: ["Community", "Centos", "Python", "pip"]
+# the path to the icon of the stack
 icon: /images/python.svg
-# The link to the repository of the project that contains the devfile.yaml
 links:
+  # The link to the repository of the project that contains the devfile.yaml with schemaVersion 2.x.y
   v2: https://github.com/che-samples/python-hello-world/tree/main
 ```
 

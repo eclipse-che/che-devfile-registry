@@ -16,6 +16,8 @@ components:
 commands:
   - id: build
     exec:
+      label: 1. Build and Publish a Custom Devfile Registry
+      component: builder
       commandLine: |
           set -o xtrace;
           rm -rf output;
@@ -25,8 +27,6 @@ commands:
           podman tag quay.io/eclipse/che-devfile-registry:next ${IMAGE} &&
           podman login --tls-verify=false -u $(oc whoami | tr -d :) -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000 &&
           podman push --tls-verify=false "${IMAGE}"
-      component: builder
-      label: 1. Build and Publish a Custom Devfile Registry
   - id: configure-custom-devfile-registry
     exec:
       label: "2. Configure Che to use the Custom Devfile Registry"
