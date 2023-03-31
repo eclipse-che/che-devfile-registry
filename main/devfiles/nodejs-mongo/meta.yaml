@@ -12,7 +12,6 @@ icon: /images/nodejs.svg
 links:
   v2: https://github.com/che-samples/nodejs-mongodb-sample/tree/main
   devWorkspaces:
-    eclipse/che-theia/latest: /devfiles/nodejs-mongo/devworkspace-che-theia-latest.yaml
-    eclipse/che-idea/next: /devfiles/nodejs-mongo/devworkspace-che-idea-next.yaml
+    che-incubator/che-idea/next: /devfiles/nodejs-mongo/devworkspace-che-idea-next.yaml
     che-incubator/che-code/latest: /devfiles/nodejs-mongo/devworkspace-che-code-latest.yaml
     che-incubator/che-code/insiders: /devfiles/nodejs-mongo/devworkspace-che-code-insiders.yaml
