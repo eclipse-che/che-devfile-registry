@@ -26,7 +26,7 @@ export class PluginRegistryResolver {
   @inject(UrlFetcher)
   private urlFetcher: UrlFetcher;
 
-  // FQN id (like eclipse/che-theia/next)
+  // FQN id (like che-incubator/che-code/next)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async loadDevfilePlugin(devfileId: string): Promise<any> {
     const devfileUrl = `${this.pluginRegistryUrl}/plugins/${devfileId}/devfile.yaml`;

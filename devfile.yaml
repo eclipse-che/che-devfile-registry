@@ -1,72 +1,39 @@
-apiVersion: 1.0.0
+schemaVersion: 2.2.0
 metadata:
-  generateName: che-devfile-registry-
-
+  name: che-devfile-registry
 components:
-  - alias: che-devfile-registry-prod
-    image: 'quay.io/eclipse/che-devfile-registry:next'
-    mountSources: true
-    endpoints:
-      - name: http
-        port: 8080
-    command:
-      - sleep
-      - infinity
-    memoryLimit: 512Mi
-    type: dockerimage
-    volumes:
-      - name: images
-        containerPath: /usr/local/apache2/htdocs/images
-
-  - alias: dev
-    image: 'quay.io/eclipse/che-plugin-registry-dev:latest'
-    mountSources: true
-    memoryLimit: 1G
-    type: dockerimage
-
-  - id: redhat/vscode-xml/latest
-    type: chePlugin
-
-  - id: redhat/vscode-yaml/latest
-    type: chePlugin
-
-  - id: eamodio/gitlens/latest
-    type: chePlugin
-    registryUrl: 'https://che-plugin-registry-main.surge.sh/v3'
-
-  - id: donjayamanne/githistory/latest
-    type: chePlugin
-    registryUrl: 'https://che-plugin-registry-main.surge.sh/v3'
-
-  - id: timonwong/shellcheck/latest
-    type: chePlugin
-    registryUrl: 'https://che-plugin-registry-main.surge.sh/v3'
-
-  - id: ms-vscode/vscode-github-pullrequest/latest
-    type: chePlugin
+  - name: builder
+    container:
+      image: quay.io/devfile/universal-developer-image:ubi8-latest
+      memoryRequest: 256Mi
+      memoryLimit: 8Gi
+      cpuRequest: 100m
+      cpuLimit: 2000m
+      env:
+        - name: CONCURRENTLY_OPTS
+          value: -m 1
 
 commands:
-
-  - name: 1. build devfile-registry
-    actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/che-devfile-registry'
-        type: exec
-        command: ./build/dev/build-devfile-registry.sh
-        component: dev
-
-  - name: 2. start devfile-registry
-    previewUrl:
-      port: 8080
-      path: /devfiles/
-    actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/che-devfile-registry'
-        type: exec
-        command: ./build/dev/start-devfile-registry.sh
-        component: che-devfile-registry-prod
-
-  - name: 3. publish to surge.sh
-    actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/che-devfile-registry/'
-        type: exec
-        command: ./build/dev/publish-devfile-registry-to-surge.sh
-        component: dev
+  - id: build
+    exec:
+      label: 1. Build and Publish a Custom Devfile Registry
+      component: builder
+      commandLine: |
+          set -o xtrace;
+          rm -rf output;
+          mkdir output;
+          BUILDER=podman SKIP_TEST=true SKIP_FORMAT=true SKIP_LINT=true NODE_BUILD_OPTIONS="-max-old-space-size=1024" ./build.sh &&
+          export IMAGE=image-registry.openshift-image-registry.svc:5000/$(kubectl get sa default -o json | jq -r '.metadata.namespace')/che-devfile-registry &&
+          podman tag quay.io/eclipse/che-devfile-registry:next ${IMAGE} &&
+          podman login --tls-verify=false -u $(oc whoami | tr -d :) -p $(oc whoami -t) image-registry.openshift-image-registry.svc:5000 &&
+          podman push --tls-verify=false "${IMAGE}"
+  - id: configure-custom-devfile-registry
+    exec:
+      label: "2. Configure Che to use the Custom Devfile Registry"
+      component: builder
+      commandLine: |
+          export IMAGE=image-registry.openshift-image-registry.svc:5000/$(kubectl get sa default -o json | jq -r '.metadata.namespace')/che-devfile-registry &&
+          export CHECLUSTER_NAMESPACE="$(kubectl get checluster --all-namespaces -o json | jq -r '.items[0].metadata.namespace')" &&
+          kubectl create secret -n "${CHECLUSTER_NAMESPACE}" docker-registry regcred --docker-server=image-registry.openshift-image-registry.svc:5000 --docker-username=$(oc whoami | tr -d :) --docker-password=$(oc whoami -t) &&
+          kubectl patch serviceaccount default -n "${CHECLUSTER_NAMESPACE}" -p '{"imagePullSecrets": [{"name": "regcred"}]}' &&
+          ./patch-checluster.sh "${IMAGE}"

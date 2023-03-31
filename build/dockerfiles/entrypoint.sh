@@ -38,11 +38,11 @@ INDEX_JSON="${DEVFILES_DIR}/index.json"
 
 # Regex used to break an image reference into groups:
 #   \1 - Whitespace and (optional) quotation preceding image reference
-#   \2 - Registry portion of image, e.g. (quay.io)/eclipse/che-theia:tag
-#   \3 - Organization portion of image, e.g. quay.io/(eclipse)/che-theia:tag
-#   \4 - Image name portion of image, e.g. quay.io/eclipse/(che-theia):tag
-#   \5 - Optional image digest identifier (empty for tags), e.g. quay.io/eclipse/che-theia(@sha256):digest
-#   \6 - Tag of image or digest, e.g. quay.io/eclipse/che-theia:(tag)
+#   \2 - Registry portion of image, e.g. (quay.io)/che-incubator/che-code:tag
+#   \3 - Organization portion of image, e.g. quay.io/(che-incubator)/che-code:tag
+#   \4 - Image name portion of image, e.g. quay.io/che-incubator/(che-code):tag
+#   \5 - Optional image digest identifier (empty for tags), e.g. quay.io/che-incubator/che-code(@sha256):digest
+#   \6 - Tag of image or digest, e.g. quay.io/che-incubator/che-code:(tag)
 #   \7 - Optional quotation following image reference
 IMAGE_REGEX='([[:space:]]*"?)([._:a-zA-Z0-9-]*)/([._a-zA-Z0-9-]*)/([._a-zA-Z0-9-]*)(@sha256)?:([._a-zA-Z0-9-]*)("?)'
 
@@ -147,10 +147,9 @@ if [ -n "$PUBLIC_URL" ]; then
   PUBLIC_URL=${PUBLIC_URL%/}
   sed -i "s|{{ DEVFILE_REGISTRY_URL }}|${PUBLIC_URL}|" "${devfiles[@]}" "${metas[@]}" "${templates[@]}" "$INDEX_JSON"
 
-  # Add PUBLIC_URL at the begining of 'icon' field and links ('self', 'eclipse/che-theia/latest')
+  # Add PUBLIC_URL at the begining of 'icon' field and links ('self', 'che-incubator/che-code/latest')
   sed -i "s|\"icon\": \"/images/|\"icon\": \"${PUBLIC_URL}/images/|" "$INDEX_JSON"
   sed -i "s|\"self\": \"/devfiles/|\"self\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
-  sed -i "s|\"eclipse/che-theia/latest\": \"/devfiles/|\"eclipse/che-theia/latest\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
   sed -i "s|\"che-incubator/che-code/insiders\": \"/devfiles/|\"che-incubator/che-code/insiders\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
   sed -i "s|\"che-incubator/che-code/latest\": \"/devfiles/|\"che-incubator/che-code/latest\": \"${PUBLIC_URL}/devfiles/|" "$INDEX_JSON"
 else

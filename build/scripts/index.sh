@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2018-2022 Red Hat, Inc.
+# Copyright (c) 2018-2023 Red Hat, Inc.
 # This program and the accompanying materials are made
 # available under the terms of the Eclipse Public License 2.0
 # which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -18,8 +18,7 @@ for meta in "${metas[@]}"; do
       # Ignore double quotes warning for yq expression
       # shellcheck disable=SC2016,SC2094
       cat <<< "$(yq -y --arg metadir "${META_DIR}" '.links.devWorkspaces |= . +
-      {"eclipse/che-theia/latest": "/\($metadir)/devworkspace-che-theia-latest.yaml",
-      "eclipse/che-idea/next": "/\($metadir)/devworkspace-che-idea-next.yaml",
+      {"che-incubator/che-idea/next": "/\($metadir)/devworkspace-che-idea-next.yaml",
       "che-incubator/che-code/latest": "/\($metadir)/devworkspace-che-code-latest.yaml",
       "che-incubator/che-code/insiders": "/\($metadir)/devworkspace-che-code-insiders.yaml",}' "${meta}")" > "${meta}"
     fi

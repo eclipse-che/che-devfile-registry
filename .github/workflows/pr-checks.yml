@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2020-2021 Red Hat, Inc.
+# Copyright (c) 2020-2023 Red Hat, Inc.
 # This program and the accompanying materials are made
 # available under the terms of the Eclipse Public License 2.0
 # which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -25,31 +25,6 @@ jobs:
         run: |
           find . -type f -name '*.sh' | wc -l
           find . -type f -name '*.sh' | xargs shellcheck --external-sources
-
-  digest-validation:
-    runs-on: ubuntu-22.04
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-
-    - name: Run script which checks container image digest
-      run: |
-        sudo pip install yq
-        /bin/bash .ci/devfile-images-check.sh
-
-  build-sidecar-images:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Clone source code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Rebuild sidecar images
-        run: ./build/workflows/build-sidecar-images-on-push.sh --rm
-        env:
-          COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
 
   build-main-image:
     runs-on: ubuntu-22.04

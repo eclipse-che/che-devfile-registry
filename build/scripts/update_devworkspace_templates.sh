@@ -11,7 +11,7 @@
 set -e
 
 VERSION="${1%/}"
-
+echo "Updating devworkspace templates for version ${VERSION}"
 # shellcheck disable=SC1091
 source ./clone_and_zip.sh
 
@@ -24,18 +24,6 @@ do
             devfile_url=${devfile_url%/}
             devfile_repo=${devfile_url%/tree*}
             name=$(basename "${devfile_repo}")
-            # When release is happend, we need to replace tags of images in che-theia editor
-            if [ -n "$VERSION" ]; then
-                cheTheia="quay.io/eclipse/che-theia"
-                cheTheiaEndpointRuntimeBinary="${cheTheia}-endpoint-runtime-binary"
-                cheMachineExec="quay.io/eclipse/che-machine-exec"
-                sed -i "${dir}/devworkspace-che-theia-latest.yaml" \
-                    -e "s#${cheTheia}@sha256:\([a-z0-9\_]\([\-\.\_a-z0-9]\)*\)#${cheTheia}:${VERSION}#"
-                sed -i "${dir}/devworkspace-che-theia-latest.yaml" \
-                    -e "s#${cheTheiaEndpointRuntimeBinary}@sha256:\([a-z0-9\_]\([\-\.\_a-z0-9]\)*\)#${cheTheiaEndpointRuntimeBinary}:${VERSION}#"
-                sed -i "${dir}/devworkspace-che-theia-latest.yaml" \
-                    -e "s#${cheMachineExec}@sha256:\([a-z0-9\_]\([\-\.\_a-z0-9]\)*\)#${cheMachineExec}:${VERSION}#"
-            fi
             clone_and_zip "${devfile_repo}" "${devfile_url##*/}" "/build/resources/v2/$name.zip"
         fi
 done
