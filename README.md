@@ -4,6 +4,7 @@ This repository holds meta.yaml files that refer to the samples with Devfiles.
 
 Here is an example `meta.yaml` file:
 
+
 ```yaml
 ---
 displayName: Python
