@@ -1,28 +1,50 @@
 ## DevWorkspace Generator
-The library is used by Devfile registry component to generate the DevWorkspace components and DevWorkspace templates.
+The library is used by Devfile registry component to generate the DevWorkspace components and DevWorkspace templates. It requires editor definitions from the 
+[che-plugin-registry](https://github.com/eclipse-che/che-plugin-registry/).
 
 ## How to use the library
-The library could be used as a standalone library.
+The library can be used as a standalone library.
 
 ```
 USAGE
     $ node lib/entrypoint.js [OPTIONS]
 
 OPTIONS
-      --devfile-path    path to the devfile.yaml file
-      --devfile-url     URL to the git repository that contains devfile.yaml 
-      --plugin-registry-url URL to the plugin registry that contains an editor's definition
-      --editor-entry    editor's ID 
-      --editor-path:    path to the editor's devfile.yaml file
-      --output-file path to the file where the generated content will be stored
-      --project.    describes project entry
+      --devfile-url:           URL to the git repository that contains devfile.yaml
+            or
+      --devfile-path:          path to the devfile.yaml file
 
-EXAMPLE
+      --plugin-registry-url:   URL to the plugin registry that contains editor definitions (devfile.yaml)
+      --editor-entry:          editor ID, found on the <plugin-registry-url>, to resolve the devfile.yaml
+            or
+      --editor-path:           local file path of the editor devfile.yaml
 
-    $ node lib/entrypoint.js --devfile-url:https://github.com/che-samples/java-spring-petclinic/tree/main --editor-entry:che-incubator/che-code/insiders --plugin-registry-url:https://che-plugin-registry-main.surge.sh/v3/ --output-file:/tmp/all-in-one.yaml`
+      --output-file:           local file path for the generated devworkspace yaml 
+
+      --project.<project-name> local file path for the sample project zip (for airgapped/offline registry builds)
+
+EXAMPLES
+
+    # online example, using editor definition from https://che-plugin-registry-main.surge.sh/
+
+    $ node lib/entrypoint.js \
+        --devfile-url:https://github.com/che-samples/java-spring-petclinic/tree/main \
+        --plugin-registry-url:https://che-plugin-registry-main.surge.sh/v3/ \
+        --editor-entry:che-incubator/che-code/latest \
+        --output-file:/tmp/devworkspace-che-code-latest.yaml`
+
+    # offline example with devfile.yaml files and zipped project available locally
+
+    $ node lib/entrypoint.js \
+        --devfile-path:/remote-source/python-hello-world/app/devfile.yaml \
+        --editor-path:/build/plugins/che-incubator/che-code/latest/devfile.yaml \
+        --output-file:./devfiles/python__python-hello-world/devworkspace-che-code-latest.yaml \
+        --project.python-hello-world='{{_INTERNAL_URL_}}/resources/v2/python-hello-world.zip'
+
 ```
 
-The file `/tmp/all-in-one.yaml` contains a DevWorkspace based on the repository devfile and a Che-Code DevWorkspaceTemplate.
-If DevWorkspace engine is available on the cluster, the following command will create a DevWorkspace:
+The output file `devworkspace-che-code-latest.yaml` contains a DevWorkspace based on the repository devfile and a Che-Code DevWorkspaceTemplate.
 
-`$ kubectl apply -f /tmp/all-in-one.yaml`
+If the DevWorkspace engine is installed on the cluster, the following command will create a DevWorkspace:
+
+`$ kubectl apply -f /tmp/devworkspace-che-code-latest.yaml`
