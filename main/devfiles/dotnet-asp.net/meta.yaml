@@ -8,7 +8,7 @@ tags:
   - ASP.NET
 icon: /images/dotnetcore.svg
 links:
-  v2: https://github.com/che-samples/aspnetcore-realworld-example-app/tree/main
+  v2: https://github.com/che-samples/dotnet-web-simple/tree/main
   devWorkspaces:
     che-incubator/che-idea/next: /devfiles/dotnet-asp.net/devworkspace-che-idea-next.yaml
     che-incubator/che-code/latest: /devfiles/dotnet-asp.net/devworkspace-che-code-latest.yaml
