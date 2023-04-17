@@ -1,0 +1,136 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-nodejs-angular
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+    - id: init-che-code-command
+      exec:
+        component: che-code-runtime-description
+        commandLine: >-
+          nohup /checode/entrypoint-volume.sh > /checode/entrypoint-logs.txt
+          2>&1 &
+  events:
+    preStart:
+      - init-container-command
+    postStart:
+      - init-che-code-command
+  components:
+    - name: che-code-runtime-description
+      container:
+        image: >-
+          quay.io/devfile/universal-developer-image@sha256:73d38afb1c7ce012d4c5f3b0c25894d2e70ae876effee6382e869d40d6ed468e
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 1024Mi
+        memoryRequest: 256Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+        endpoints:
+          - name: che-code
+            attributes:
+              type: main
+              cookiesAuthEnabled: true
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: false
+            protocol: https
+          - name: code-redirect-1
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13131
+            exposure: public
+            protocol: http
+          - name: code-redirect-2
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13132
+            exposure: public
+            protocol: http
+          - name: code-redirect-3
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13133
+            exposure: public
+            protocol: http
+      attributes:
+        app.kubernetes.io/component: che-code-runtime
+        app.kubernetes.io/part-of: che-code.eclipse.org
+        controller.devfile.io/container-contribution: true
+    - name: checode
+      volume: {}
+    - name: che-code-injector
+      container:
+        image: quay.io/che-incubator/che-code:insiders
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 256Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: nodejs-angular
+spec:
+  started: true
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          endpoints:
+            - exposure: public
+              name: angular
+              protocol: http
+              targetPort: 4200
+          memoryLimit: 2G
+          mountSources: true
+        attributes:
+          controller.devfile.io/merge-contribution: true
+    commands:
+      - id: install-dependencies
+        exec:
+          label: Install all required dependencies
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: yarn install
+          group:
+            kind: build
+      - id: build
+        exec:
+          label: Build application
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: yarn build
+          group:
+            kind: build
+      - id: start
+        exec:
+          label: Start application
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: yarn run start --host 0.0.0.0 --disableHostCheck true
+          group:
+            kind: run
+    projects:
+      - name: nodejs-angular
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.64.0/resources/v2/nodejs-angular.zip'
+  contributions:
+    - name: editor
+      kubernetes:
+        name: che-code-nodejs-angular
