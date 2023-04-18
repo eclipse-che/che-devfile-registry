@@ -103,6 +103,9 @@ export class Generate {
 
     // grab container where to inject controller.devfile.io/merge-contribution attribute
     let devContainer: V1alpha2DevWorkspaceSpecTemplateComponents = await this.devContainerComponentFinder.find(context);
+    if (!devContainer) {
+      return context;
+    }
 
     // add attributes
     let devContainerAttributes = devContainer.attributes;

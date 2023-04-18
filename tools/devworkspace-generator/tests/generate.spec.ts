@@ -11,7 +11,6 @@
 import 'reflect-metadata';
 
 import fs from 'fs-extra';
-import * as jsYaml from 'js-yaml';
 
 import { Container } from 'inversify';
 import { Generate } from '../src/generate';
@@ -32,6 +31,64 @@ describe('Test Generate', () => {
     container.bind(DevContainerComponentFinder).toSelf().inSingletonScope();
     generate = container.get(Generate);
     devContainerFinder = container.get(DevContainerComponentFinder);
+  });
+
+  describe('Devfile references a parent', () => {
+    test('basics', async () => {
+      const devfileContent1 = `
+schemaVersion: 2.2.0
+metadata:
+  name: my-dummy-project
+parent:
+  id: udi
+  registryUrl: https://dummy-registry.io/
+  version: 1.2.0
+`;
+      const editorContent = `
+schemaVersion: 2.2.0
+metadata:
+  name: che-code
+`;
+
+      const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
+      fsWriteFileSpy.mockReturnValue({});
+
+      let context = await generate.generate(devfileContent1, editorContent);
+      // expect not to write the file
+      expect(fsWriteFileSpy).not.toBeCalled();
+      expect(JSON.stringify(context.devfile)).toStrictEqual(
+        '{"schemaVersion":"2.2.0","metadata":{"name":"my-dummy-project"},"parent":{"id":"udi","registryUrl":"https://dummy-registry.io/","version":"1.2.0"}}'
+      );
+      const expectedDevWorkspace = {
+        apiVersion: 'workspace.devfile.io/v1alpha2',
+        kind: 'DevWorkspace',
+        metadata: { name: 'my-dummy-project' },
+        spec: {
+          started: true,
+          template: {
+            parent: {
+              id: 'udi',
+              registryUrl: 'https://dummy-registry.io/',
+              version: '1.2.0',
+            },
+          },
+          contributions: [{ name: 'editor', kubernetes: { name: 'che-code-my-dummy-project' } }],
+        },
+      };
+      expect(JSON.stringify(context.devWorkspace)).toStrictEqual(JSON.stringify(expectedDevWorkspace));
+      const expectedDevWorkspaceTemplates = [
+        {
+          apiVersion: 'workspace.devfile.io/v1alpha2',
+          kind: 'DevWorkspaceTemplate',
+          metadata: { name: 'che-code-my-dummy-project' },
+          spec: {},
+        },
+      ];
+      expect(JSON.stringify(context.devWorkspaceTemplates)).toStrictEqual(
+        JSON.stringify(expectedDevWorkspaceTemplates)
+      );
+      expect(context.suffix).toStrictEqual('my-dummy-project');
+    });
   });
 
   describe('Without writing an output file', () => {
