@@ -26,7 +26,6 @@ export class DevContainerComponentFinder {
         component => component.container && component.container.mountSources !== false
       );
 
-    // only one, fine, else error
     if (!devComponents || devComponents.length === 0) {
       if (devfileContext.devfile.parent) {
         return undefined;
