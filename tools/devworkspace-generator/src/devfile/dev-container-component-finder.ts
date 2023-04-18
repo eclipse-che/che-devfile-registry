@@ -28,6 +28,9 @@ export class DevContainerComponentFinder {
 
     // only one, fine, else error
     if (!devComponents || devComponents.length === 0) {
+      if (devfileContext.devfile.parent) {
+        return undefined;
+      }
       throw new Error('Not able to find any dev container component in DevWorkspace');
     } else if (devComponents.length === 1) {
       return devComponents[0];

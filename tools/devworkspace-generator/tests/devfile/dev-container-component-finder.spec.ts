@@ -87,8 +87,9 @@ describe('Test DevContainerComponentFinder', () => {
     expect(devWorkspaceSpecTemplateComponents.name).toBe('my-container');
   });
 
-  test('missing dev container', async () => {
+  test('missing dev container without devfile.parent', async () => {
     const devfileContext = {
+      devfile: {},
       devWorkspace: {
         spec: {
           template: {
@@ -107,8 +108,35 @@ describe('Test DevContainerComponentFinder', () => {
     );
   });
 
+  test('missing dev container with devfile.parent', async () => {
+    const devfileContext = {
+      devfile: {
+        parent: {
+          id: 'java-maven',
+          registryUrl: 'https://registry.stage.devfile.io/',
+          version: '1.2.0',
+        },
+      },
+      devWorkspace: {
+        spec: {
+          template: {
+            components: [
+              { name: 'foo' },
+              {
+                name: 'che-code',
+              },
+            ],
+          },
+        },
+      },
+    } as DevfileContext;
+    const devWorkspaceSpecTemplateComponents = await devContainerComponentFinder.find(devfileContext);
+    expect(devWorkspaceSpecTemplateComponents).toBeUndefined();
+  });
+
   test('missing dev container (no components)', async () => {
     const devfileContext = {
+      devfile: {},
       devWorkspace: {},
     } as DevfileContext;
     await expect(devContainerComponentFinder.find(devfileContext)).rejects.toThrow(
