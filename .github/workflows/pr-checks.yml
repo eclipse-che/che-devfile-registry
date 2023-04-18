@@ -35,9 +35,7 @@ jobs:
 
     - name: Prepare
       id: prep
-      run: |
-        PLATFORMS=$(cat PLATFORMS)
-        echo ::set-output name=platforms::${PLATFORMS}
+      run: echo "platforms=$(cat PLATFORMS)" >> $GITHUB_OUTPUT
 
     - name: Set up Docker Buildx
       id: buildx

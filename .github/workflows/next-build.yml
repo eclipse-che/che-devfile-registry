@@ -28,13 +28,11 @@ jobs:
         run: |
           set -e
           SHORT_SHA1=$(git rev-parse --short HEAD)
-          echo ::set-output name=short_sha1::${SHORT_SHA1}
+          echo "short_sha1=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-          echo ::set-output name=version::next
-          IMAGE=che-devfile-registry
-          echo ::set-output name=image::${IMAGE}
-          PLATFORMS=$(cat PLATFORMS)
-          echo ::set-output name=platforms::${PLATFORMS}
+          echo "version=next" >> $GITHUB_OUTPUT
+          echo "image=che-devfile-registry" >> $GITHUB_OUTPUT
+          echo "platforms=$(cat PLATFORMS)" >> $GITHUB_OUTPUT
 
       - name: "Set up QEMU"
         uses: docker/setup-qemu-action@v2
