@@ -13,6 +13,7 @@ import 'reflect-metadata';
 import { Container } from 'inversify';
 import { DevContainerComponentFinder } from '../../src/devfile/dev-container-component-finder';
 import { DevfileContext } from '../../src/api/devfile-context';
+import { DevContainerComponentInserter } from '../../src/devfile/dev-container-component-inserter';
 
 describe('Test DevContainerComponentFinder', () => {
   let container: Container;
@@ -26,7 +27,9 @@ describe('Test DevContainerComponentFinder', () => {
     jest.resetAllMocks();
     container = new Container();
     container.bind(DevContainerComponentFinder).toSelf().inSingletonScope();
+    container.bind(DevContainerComponentInserter).toSelf().inSingletonScope();
     devContainerComponentFinder = container.get(DevContainerComponentFinder);
+    container.get(DevContainerComponentInserter);
     console.warn = jest.fn();
   });
 
@@ -56,7 +59,7 @@ describe('Test DevContainerComponentFinder', () => {
       },
     } as DevfileContext;
     const devWorkspaceSpecTemplateComponents = await devContainerComponentFinder.find(devfileContext);
-    expect(devWorkspaceSpecTemplateComponents.name).toBe('my-container');
+    expect(devWorkspaceSpecTemplateComponents?.name).toBe('my-container');
   });
 
   test('only one container without mountSources:false', async () => {
@@ -103,9 +106,61 @@ describe('Test DevContainerComponentFinder', () => {
         },
       },
     } as DevfileContext;
-    await expect(devContainerComponentFinder.find(devfileContext)).rejects.toThrow(
-      'Not able to find any dev container component in DevWorkspace'
+    const devWorkspaceSpecTemplateComponents = await devContainerComponentFinder.find(devfileContext);
+    // default dev component is added
+    expect(devfileContext.devWorkspace.spec?.template?.components?.length).toBe(2);
+    expect(devWorkspaceSpecTemplateComponents?.name).toBe(undefined);
+  });
+
+  test('dev container should be injected with custom image', async () => {
+    const devfileContext = {
+      devfile: {},
+      devWorkspace: {
+        spec: {
+          template: {
+            components: [
+              { name: 'foo' },
+              {
+                name: 'che-code',
+              },
+            ],
+          },
+        },
+      },
+    } as DevfileContext;
+    const devWorkspaceSpecTemplateComponents = await devContainerComponentFinder.find(
+      devfileContext,
+      'true',
+      'my-image'
     );
+    // default dev component is added with custom image
+    expect(devfileContext.devWorkspace.spec?.template?.components?.length).toBe(3);
+    expect(devWorkspaceSpecTemplateComponents?.name).toBe('dev');
+    expect(devWorkspaceSpecTemplateComponents?.container?.image).toBe('my-image');
+  });
+
+  test('dev container should be injected with a default image', async () => {
+    const devfileContext = {
+      devfile: {},
+      devWorkspace: {
+        spec: {
+          template: {
+            components: [
+              { name: 'foo' },
+              {
+                name: 'che-code',
+              },
+            ],
+          },
+        },
+      },
+    } as DevfileContext;
+    const devWorkspaceSpecTemplateComponents = await devContainerComponentFinder.find(devfileContext, 'true');
+    // default dev component is added with a default image
+    const defaultImage = 'quay.io/devfile/universal-developer-image:ubi8-latest';
+    expect(devfileContext.devWorkspace.spec?.template?.components?.length).toBe(3);
+    expect(devWorkspaceSpecTemplateComponents?.name).toBe('dev');
+    expect(devWorkspaceSpecTemplateComponents?.container?.image).toBe(defaultImage);
   });
 
   test('missing dev container with devfile.parent', async () => {
@@ -139,9 +194,8 @@ describe('Test DevContainerComponentFinder', () => {
       devfile: {},
       devWorkspace: {},
     } as DevfileContext;
-    await expect(devContainerComponentFinder.find(devfileContext)).rejects.toThrow(
-      'Not able to find any dev container component in DevWorkspace'
-    );
+    let devWorkspaceSpecTemplateComponents = await devContainerComponentFinder.find(devfileContext);
+    expect(devWorkspaceSpecTemplateComponents?.name).toBe(undefined);
   });
 
   test('take first one when many dev container', async () => {
@@ -172,7 +226,7 @@ describe('Test DevContainerComponentFinder', () => {
       },
     } as DevfileContext;
     const devWorkspaceSpecTemplateComponents = await devContainerComponentFinder.find(devfileContext);
-    expect(devWorkspaceSpecTemplateComponents.name).toBe('my-container-1');
+    expect(devWorkspaceSpecTemplateComponents?.name).toBe('my-container-1');
     expect(console.warn).toBeCalledWith(
       'More than one dev container component has been potentially found, taking the first one of my-container-1,my-container-2'
     );

@@ -9,18 +9,15 @@
  ***********************************************************************/
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'reflect-metadata';
-
 import fs from 'fs-extra';
-
 import { Container } from 'inversify';
 import { Generate } from '../src/generate';
 import { DevContainerComponentFinder } from '../src/devfile/dev-container-component-finder';
+import { DevContainerComponentInserter } from '../src/devfile/dev-container-component-inserter';
 
 describe('Test Generate', () => {
   let container: Container;
-
   let generate: Generate;
-
   let devContainerFinder: DevContainerComponentFinder;
 
   beforeEach(() => {
@@ -29,6 +26,7 @@ describe('Test Generate', () => {
     container = new Container();
     container.bind(Generate).toSelf().inSingletonScope();
     container.bind(DevContainerComponentFinder).toSelf().inSingletonScope();
+    container.bind(DevContainerComponentInserter).toSelf().inSingletonScope();
     generate = container.get(Generate);
     devContainerFinder = container.get(DevContainerComponentFinder);
   });
@@ -246,7 +244,7 @@ metadata:
       const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
       fsWriteFileSpy.mockReturnValue({});
 
-      let context = await generate.generate(devfileContent, editorContent, fakeoutputDir);
+      let context = await generate.generate(devfileContent, editorContent, fakeoutputDir, 'false');
       // expect to write the file
       expect(fsWriteFileSpy).toBeCalled();
       expect(JSON.stringify(context.devfile)).toStrictEqual(
@@ -312,10 +310,59 @@ metadata:
       const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
       fsWriteFileSpy.mockReturnValue({});
 
-      let context = await generate.generate(devfileContent, editorContent, fakeoutputDir);
+      let context = await generate.generate(devfileContent, editorContent, fakeoutputDir, 'false');
       // expect to write the file
       expect(fsWriteFileSpy).toBeCalled();
       expect(context.suffix).toStrictEqual('');
     });
+  });
+
+  test('default component should be added with a default image', async () => {
+    const devfileContent = `
+schemaVersion: 2.2.0
+metadata:
+ foo: bar
+`;
+    const fakeoutputDir = '/fake-output';
+    const editorContent = `
+schemaVersion: 2.1.0
+metadata:
+  name: che-code
+`;
+
+    const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
+    fsWriteFileSpy.mockReturnValue({});
+
+    let context = await generate.generate(devfileContent, editorContent, fakeoutputDir, 'true');
+
+    expect(context.devWorkspace.spec?.template?.components?.length).toBe(1);
+    expect(context.devWorkspace.spec?.template?.components?.[0].name).toBe('dev');
+    expect(context.devWorkspace.spec?.template?.components?.[0].container?.image).toBe(
+      'quay.io/devfile/universal-developer-image:ubi8-latest'
+    );
+  });
+
+  test('default component should be added with a specific image', async () => {
+    const devfileContent = `
+schemaVersion: 2.2.0
+metadata:
+ foo: bar
+`;
+    const fakeoutputDir = '/fake-output';
+    const editorContent = `
+schemaVersion: 2.1.0
+metadata:
+  name: che-code
+`;
+
+    const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
+    fsWriteFileSpy.mockReturnValue({});
+
+    let image = 'quay.io/my-image:latest';
+    let context = await generate.generate(devfileContent, editorContent, fakeoutputDir, 'true', image);
+
+    expect(context.devWorkspace.spec?.template?.components?.length).toBe(1);
+    expect(context.devWorkspace.spec?.template?.components?.[0].name).toBe('dev');
+    expect(context.devWorkspace.spec?.template?.components?.[0].container?.image).toBe(image);
   });
 });

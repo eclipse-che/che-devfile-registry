@@ -28,8 +28,19 @@ export class Generate {
   @inject(DevContainerComponentFinder)
   private devContainerComponentFinder: DevContainerComponentFinder;
 
-  async generate(devfileContent: string, editorContent: string, outputFile?: string): Promise<DevfileContext> {
-    const context = await this.generateContent(devfileContent, editorContent);
+  async generate(
+    devfileContent: string,
+    editorContent: string,
+    outputFile?: string,
+    injectDefaultComponent?: string,
+    defaultComponentImage?: string
+  ): Promise<DevfileContext> {
+    const context = await this.generateContent(
+      devfileContent,
+      editorContent,
+      injectDefaultComponent,
+      defaultComponentImage
+    );
 
     // write the result
     if (outputFile) {
@@ -46,7 +57,12 @@ export class Generate {
     return context;
   }
 
-  async generateContent(devfileContent: string, editorContent: string): Promise<DevfileContext> {
+  async generateContent(
+    devfileContent: string,
+    editorContent: string,
+    injectDefaultComponent?: string,
+    defaultComponentImage?: string
+  ): Promise<DevfileContext> {
     const devfile = jsYaml.load(devfileContent);
 
     // const originalDevfile = Object.assign({}, devfile);
@@ -102,7 +118,9 @@ export class Generate {
     };
 
     // grab container where to inject controller.devfile.io/merge-contribution attribute
-    let devContainer: V1alpha2DevWorkspaceSpecTemplateComponents = await this.devContainerComponentFinder.find(context);
+    let devContainer: V1alpha2DevWorkspaceSpecTemplateComponents | undefined =
+      await this.devContainerComponentFinder.find(context, injectDefaultComponent, defaultComponentImage);
+
     if (!devContainer) {
       return context;
     }
