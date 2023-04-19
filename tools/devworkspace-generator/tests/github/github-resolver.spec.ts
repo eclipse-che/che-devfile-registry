@@ -27,24 +27,28 @@ describe('Test PluginRegistryResolver', () => {
   });
 
   test('basic resolve', async () => {
-    expect(githubResolver.resolve('http://github.com/eclipse/che').getUrl()).toBe(
+    expect(githubResolver.resolve('https://github.com/eclipse/che').getUrl()).toBe(
       'https://github.com/eclipse/che/tree/HEAD/'
     );
     expect(githubResolver.resolve('https://github.com/eclipse/che/tree/7.30.x').getUrl()).toBe(
       'https://github.com/eclipse/che/tree/7.30.x/'
     );
 
-    expect(githubResolver.resolve('http://github.com/eclipse/che').getContentUrl('README.md')).toBe(
+    expect(githubResolver.resolve('https://github.com/eclipse/che').getContentUrl('README.md')).toBe(
       'https://raw.githubusercontent.com/eclipse/che/HEAD/README.md'
     );
 
-    expect(githubResolver.resolve('http://github.com/eclipse/che').getCloneUrl()).toBe(
+    expect(githubResolver.resolve('https://github.mycompany.net/user/repo').getContentUrl('README.md')).toBe(
+      'https://raw.github.mycompany.net/user/repo/HEAD/README.md'
+    );
+
+    expect(githubResolver.resolve('https://github.com/eclipse/che').getCloneUrl()).toBe(
       'https://github.com/eclipse/che.git'
     );
 
     expect(githubResolver.resolve('https://github.com/eclipse/che').getRepoName()).toBe('che');
 
-    expect(githubResolver.resolve('http://github.com/eclipse/che').getBranchName()).toBe('HEAD');
+    expect(githubResolver.resolve('https://github.com/eclipse/che').getBranchName()).toBe('HEAD');
     expect(githubResolver.resolve('https://github.com/eclipse/che/tree/test-branch').getBranchName()).toBe(
       'test-branch'
     );
