@@ -10,14 +10,26 @@
 
 import { DevfileContext } from '../api/devfile-context';
 import { V1alpha2DevWorkspaceSpecTemplateComponents } from '@devfile/api';
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
+import { DevContainerComponentInserter } from './dev-container-component-inserter';
 
 /**
  * Need to find dev container from main dev workspace
  */
 @injectable()
 export class DevContainerComponentFinder {
-  async find(devfileContext: DevfileContext): Promise<V1alpha2DevWorkspaceSpecTemplateComponents | undefined> {
+  @inject(DevContainerComponentInserter)
+  private devContainerComponentInserter: DevContainerComponentInserter;
+
+  async find(
+    devfileContext: DevfileContext,
+    injectDefaultComponent?: string,
+    defaultComponentImage?: string
+  ): Promise<V1alpha2DevWorkspaceSpecTemplateComponents | undefined> {
+    // if a devfile contains a parent, we should not add a default dev container
+    if (devfileContext.devfile?.parent) {
+      return undefined;
+    }
     // search in main devWorkspace
     const devComponents = devfileContext.devWorkspace.spec?.template?.components
       ?.filter(component => component.container)
@@ -27,10 +39,15 @@ export class DevContainerComponentFinder {
       );
 
     if (!devComponents || devComponents.length === 0) {
-      if (devfileContext.devfile.parent) {
+      // do not inject a default component if injectDefaultComponent parameter is false
+      if (!injectDefaultComponent || injectDefaultComponent !== 'true') {
         return undefined;
       }
-      throw new Error('Not able to find any dev container component in DevWorkspace');
+      this.devContainerComponentInserter.insert(devfileContext, defaultComponentImage);
+
+      let devComponents = devfileContext.devWorkspace.spec.template.components.filter(component => component.container);
+
+      return devComponents[0];
     } else if (devComponents.length === 1) {
       return devComponents[0];
     } else {

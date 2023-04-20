@@ -23,6 +23,10 @@ OPTIONS
 
       --project.<project-name> local file path for the sample project zip (for airgapped/offline registry builds)
 
+      --injectDefaultComponent: inject a default dev container component if no component is defined in the devfile and it doesn't provide a parent, the value can be true or false, default is false
+
+      --defaultComponentImage: image to use for the default dev container component that will be injected if no componetn is defined in the devfile and it doesn't provide a parent devfile, default is quay.io/devfile/universal-developer-image:ubi8-latest
+
 EXAMPLES
 
     # online example, using editor definition from https://che-plugin-registry-main.surge.sh/
@@ -31,7 +35,9 @@ EXAMPLES
         --devfile-url:https://github.com/che-samples/java-spring-petclinic/tree/main \
         --plugin-registry-url:https://che-plugin-registry-main.surge.sh/v3/ \
         --editor-entry:che-incubator/che-code/latest \
-        --output-file:/tmp/devworkspace-che-code-latest.yaml`
+        --output-file:/tmp/devworkspace-che-code-latest.yaml \
+        --injectDefaultComponent:true \
+        --defaultComponentImage:registry.access.redhat.com/ubi8/openjdk-11:latest
 
     # offline example with devfile.yaml files and zipped project available locally
 

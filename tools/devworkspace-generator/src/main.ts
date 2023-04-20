@@ -38,6 +38,8 @@ export class Main {
       editorEntry?: string;
       pluginRegistryUrl?: string;
       projects: { name: string; location: string }[];
+      injectDefaultComponent?: string;
+      defaultComponentImage?: string;
     },
     axiosInstance: axios.AxiosInstance
   ): Promise<DevfileContext> {
@@ -112,7 +114,13 @@ export class Main {
     }
 
     const generate = container.get(Generate);
-    return generate.generate(devfileContent, editorContent, params.outputFile);
+    return generate.generate(
+      devfileContent,
+      editorContent,
+      params.outputFile,
+      params.injectDefaultComponent,
+      params.defaultComponentImage
+    );
   }
 
   // Update project entry based on the projects passed as parameter
@@ -149,6 +157,8 @@ export class Main {
     let editorPath: string | undefined;
     let pluginRegistryUrl: string | undefined;
     let editorEntry: string | undefined;
+    let injectDefaultComponent: string | undefined;
+    let defaultComponentImage: string | undefined;
     const projects: { name: string; location: string }[] = [];
 
     const args = process.argv.slice(2);
@@ -178,6 +188,12 @@ export class Main {
 
         projects.push({ name, location });
       }
+      if (arg.startsWith('--injectDefaultComponent:')) {
+        injectDefaultComponent = arg.substring('--injectDefaultComponent:'.length);
+      }
+      if (arg.startsWith('--defaultComponentImage:')) {
+        defaultComponentImage = arg.substring('--defaultComponentImage:'.length);
+      }
     });
 
     try {
@@ -199,6 +215,8 @@ export class Main {
           pluginRegistryUrl,
           editorEntry,
           projects,
+          injectDefaultComponent,
+          defaultComponentImage,
         },
         axios.default
       );

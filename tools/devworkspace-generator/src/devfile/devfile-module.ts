@@ -10,9 +10,11 @@
 import { ContainerModule, interfaces } from 'inversify';
 
 import { DevContainerComponentFinder } from './dev-container-component-finder';
+import { DevContainerComponentInserter } from './dev-container-component-inserter';
 
 const devfileModule = new ContainerModule((bind: interfaces.Bind) => {
   bind(DevContainerComponentFinder).toSelf().inSingletonScope();
+  bind(DevContainerComponentInserter).toSelf().inSingletonScope();
 });
 
 export { devfileModule };
