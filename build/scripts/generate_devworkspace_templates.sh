@@ -10,7 +10,7 @@
 
 set -e
 
-CHE_DEVWORKSPACE_GENERATOR_VERSION=0.0.1-c8bd5c0
+CHE_DEVWORKSPACE_GENERATOR_VERSION=0.0.1-58f79fb
 
 for dir in /build/devfiles/*/
 do
