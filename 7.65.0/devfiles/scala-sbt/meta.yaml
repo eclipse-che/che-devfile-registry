@@ -1,0 +1,15 @@
+displayName: Scala
+description: Scala Stack with OpenJDK 11 and sbt 1.x
+tags:
+  - Community
+  - Scala
+  - OpenJDK
+  - sbt
+  - Debian
+icon: /images/scala.svg
+links:
+  v2: https://github.com/che-samples/scala-sbt/tree/main
+  devWorkspaces:
+    che-incubator/che-idea/next: /devfiles/scala-sbt/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/scala-sbt/devworkspace-che-code-latest.yaml
+    che-incubator/che-code/insiders: /devfiles/scala-sbt/devworkspace-che-code-insiders.yaml
