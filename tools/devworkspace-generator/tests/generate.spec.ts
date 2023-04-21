@@ -63,6 +63,7 @@ metadata:
         metadata: { name: 'my-dummy-project' },
         spec: {
           started: true,
+          routingClass: 'che',
           template: {
             parent: {
               id: 'udi',
@@ -122,6 +123,7 @@ metadata:
         metadata: { name: 'my-dummy-project' },
         spec: {
           started: true,
+          routingClass: 'che',
           template: {
             components: [
               {
@@ -189,6 +191,7 @@ metadata:
         metadata: { name: 'my-dummy-project' },
         spec: {
           started: true,
+          routingClass: 'che',
           template: {
             components: [
               {
@@ -256,6 +259,7 @@ metadata:
         metadata: { name: 'my-dummy-project' },
         spec: {
           started: true,
+          routingClass: 'che',
           template: {
             components: [
               {

@@ -102,6 +102,7 @@ export class Generate {
       metadata: devfileMetadata,
       spec: {
         started: true,
+        routingClass: 'che',
         template: devfileCopy,
         contributions: [editorSpecContribution],
       },
