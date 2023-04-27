@@ -87,6 +87,7 @@ metadata:
   name: react
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools

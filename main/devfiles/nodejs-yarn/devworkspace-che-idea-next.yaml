@@ -106,6 +106,7 @@ metadata:
   name: react-web-app
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools

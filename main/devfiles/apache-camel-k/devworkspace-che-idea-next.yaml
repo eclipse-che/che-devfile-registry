@@ -106,6 +106,7 @@ metadata:
   name: apache-camel-k
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools

@@ -106,6 +106,7 @@ metadata:
   name: nodejs-mongodb
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools

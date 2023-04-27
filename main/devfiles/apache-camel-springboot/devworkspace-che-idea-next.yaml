@@ -106,6 +106,7 @@ metadata:
   name: apache-camel-springboot
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools

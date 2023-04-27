@@ -87,6 +87,7 @@ metadata:
   name: python-django
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools

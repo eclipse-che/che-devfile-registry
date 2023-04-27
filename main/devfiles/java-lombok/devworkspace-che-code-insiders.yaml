@@ -87,6 +87,7 @@ metadata:
   name: java-lombok
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools

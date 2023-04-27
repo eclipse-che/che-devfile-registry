@@ -106,6 +106,7 @@ metadata:
   name: dotnet
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools

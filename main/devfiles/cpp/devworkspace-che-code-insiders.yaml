@@ -87,6 +87,7 @@ metadata:
   name: cpp
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools

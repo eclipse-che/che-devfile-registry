@@ -87,6 +87,7 @@ metadata:
   name: php-symfony
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools

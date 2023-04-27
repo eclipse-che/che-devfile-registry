@@ -106,6 +106,7 @@ metadata:
   name: rust
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools

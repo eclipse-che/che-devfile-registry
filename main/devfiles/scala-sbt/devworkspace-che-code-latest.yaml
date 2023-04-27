@@ -88,6 +88,7 @@ metadata:
   name: scala-sbt
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools

@@ -87,6 +87,7 @@ metadata:
   name: quarkus-quickstart
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools

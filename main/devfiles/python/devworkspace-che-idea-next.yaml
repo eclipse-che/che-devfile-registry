@@ -106,6 +106,7 @@ metadata:
   name: python-hello-world
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools

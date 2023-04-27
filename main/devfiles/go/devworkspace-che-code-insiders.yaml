@@ -87,6 +87,7 @@ metadata:
   name: golang-example
 spec:
   started: true
+  routingClass: che
   template:
     components:
       - name: tools
