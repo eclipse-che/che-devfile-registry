@@ -9,7 +9,10 @@
  ***********************************************************************/
 
 import {
+  V221Devfile,
+  V221DevfileMetadata,
   V1alpha2DevWorkspace,
+  V1alpha2DevWorkspaceMetadata,
   V1alpha2DevWorkspaceSpecContributions,
   V1alpha2DevWorkspaceSpecTemplateComponents,
   V1alpha2DevWorkspaceTemplate,
@@ -20,6 +23,12 @@ import * as jsYaml from 'js-yaml';
 import * as fs from 'fs-extra';
 import { DevfileContext } from './api/devfile-context';
 import { DevContainerComponentFinder } from './devfile/dev-container-component-finder';
+
+type DevfileLike = V221Devfile & {
+  metadata: V221DevfileMetadata & {
+    generateName?: string;
+  };
+};
 
 @injectable()
 export class Generate {
@@ -73,7 +82,7 @@ export class Generate {
     const editorDevfile = jsYaml.load(editorContent);
 
     // transform it into a devWorkspace template
-    const metadata = editorDevfile.metadata;
+    const metadata = this.createDevWorkspaceMetadata(editorDevfile);
     // add sufix
     metadata.name = `${metadata.name}-${suffix}`;
     delete editorDevfile.metadata;
@@ -86,7 +95,7 @@ export class Generate {
     };
 
     // transform it into a devWorkspace
-    const devfileMetadata = devfile.metadata;
+    const devfileMetadata = this.createDevWorkspaceMetadata(devfile, true);
     const devfileCopy = Object.assign({}, devfile);
     delete devfileCopy.schemaVersion;
     delete devfileCopy.metadata;
@@ -137,5 +146,24 @@ export class Generate {
     }
 
     return context;
+  }
+
+  private createDevWorkspaceMetadata(devfile: DevfileLike, addDevfileContent = false): V1alpha2DevWorkspaceMetadata {
+    const devWorkspaceMetadata = {} as V1alpha2DevWorkspaceMetadata;
+    const devfileMetadata = devfile.metadata;
+
+    if (devfileMetadata.name) {
+      devWorkspaceMetadata.name = devfileMetadata.name;
+    }
+    if (devfileMetadata.generateName) {
+      devWorkspaceMetadata.generateName = devfileMetadata.generateName;
+    }
+    if (addDevfileContent) {
+      devWorkspaceMetadata.annotations = {
+        'che.eclipse.org/devfile': jsYaml.dump(devfile),
+      };
+    }
+
+    return devWorkspaceMetadata;
   }
 }

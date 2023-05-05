@@ -10,6 +10,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'reflect-metadata';
 import fs from 'fs-extra';
+import * as jsYaml from 'js-yaml';
 import { Container } from 'inversify';
 import { Generate } from '../src/generate';
 import { DevContainerComponentFinder } from '../src/devfile/dev-container-component-finder';
@@ -33,7 +34,7 @@ describe('Test Generate', () => {
 
   describe('Devfile references a parent', () => {
     test('basics', async () => {
-      const devfileContent1 = `
+      const devfileContent = `
 schemaVersion: 2.2.0
 metadata:
   name: my-dummy-project
@@ -51,7 +52,7 @@ metadata:
       const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
       fsWriteFileSpy.mockReturnValue({});
 
-      let context = await generate.generate(devfileContent1, editorContent);
+      let context = await generate.generate(devfileContent, editorContent);
       // expect not to write the file
       expect(fsWriteFileSpy).not.toBeCalled();
       expect(JSON.stringify(context.devfile)).toStrictEqual(
@@ -60,7 +61,12 @@ metadata:
       const expectedDevWorkspace = {
         apiVersion: 'workspace.devfile.io/v1alpha2',
         kind: 'DevWorkspace',
-        metadata: { name: 'my-dummy-project' },
+        metadata: {
+          name: 'my-dummy-project',
+          annotations: {
+            'che.eclipse.org/devfile': jsYaml.dump(jsYaml.load(devfileContent)),
+          },
+        },
         spec: {
           started: true,
           routingClass: 'che',
@@ -120,7 +126,12 @@ metadata:
       const expectedDevWorkspace = {
         apiVersion: 'workspace.devfile.io/v1alpha2',
         kind: 'DevWorkspace',
-        metadata: { name: 'my-dummy-project' },
+        metadata: {
+          name: 'my-dummy-project',
+          annotations: {
+            'che.eclipse.org/devfile': jsYaml.dump(jsYaml.load(devfileContent)),
+          },
+        },
         spec: {
           started: true,
           routingClass: 'che',
@@ -157,6 +168,78 @@ metadata:
     });
   });
 
+  describe('With generateName in metadata', () => {
+    test('basics', async () => {
+      const devfileContent = `
+schemaVersion: 2.2.0
+metadata:
+  generateName: custom-project
+components:
+  - name: dev-container
+    mountSources: true
+    container:
+      image: quay.io/foo/bar
+`;
+      const editorContent = `
+schemaVersion: 2.2.0
+metadata:
+  name: che-code
+`;
+
+      const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
+      fsWriteFileSpy.mockReturnValue({});
+
+      let context = await generate.generate(devfileContent, editorContent);
+      // expect not to write the file
+      expect(fsWriteFileSpy).not.toBeCalled();
+      expect(JSON.stringify(context.devfile)).toStrictEqual(
+        '{"schemaVersion":"2.2.0","metadata":{"generateName":"custom-project"},"components":[{"name":"dev-container","mountSources":true,"container":{"image":"quay.io/foo/bar"},"attributes":{"controller.devfile.io/merge-contribution":true}}]}'
+      );
+      const expectedDevWorkspace = {
+        apiVersion: 'workspace.devfile.io/v1alpha2',
+        kind: 'DevWorkspace',
+        metadata: {
+          generateName: 'custom-project',
+          annotations: {
+            'che.eclipse.org/devfile': jsYaml.dump(jsYaml.load(devfileContent)),
+          },
+        },
+        spec: {
+          started: true,
+          routingClass: 'che',
+          template: {
+            components: [
+              {
+                name: 'dev-container',
+                mountSources: true,
+                container: {
+                  image: 'quay.io/foo/bar',
+                },
+                attributes: {
+                  'controller.devfile.io/merge-contribution': true,
+                },
+              },
+            ],
+          },
+          contributions: [{ name: 'editor', kubernetes: { name: 'che-code-' } }],
+        },
+      };
+      expect(JSON.stringify(context.devWorkspace)).toStrictEqual(JSON.stringify(expectedDevWorkspace));
+      const expectedDevWorkspaceTemplates = [
+        {
+          apiVersion: 'workspace.devfile.io/v1alpha2',
+          kind: 'DevWorkspaceTemplate',
+          metadata: { name: 'che-code-' },
+          spec: {},
+        },
+      ];
+      expect(JSON.stringify(context.devWorkspaceTemplates)).toStrictEqual(
+        JSON.stringify(expectedDevWorkspaceTemplates)
+      );
+      expect(context.suffix).toStrictEqual('');
+    });
+  });
+
   describe('With writing an output file', () => {
     test('basics', async () => {
       const devfileContent = `
@@ -188,7 +271,12 @@ metadata:
       const expectedDevWorkspace = {
         apiVersion: 'workspace.devfile.io/v1alpha2',
         kind: 'DevWorkspace',
-        metadata: { name: 'my-dummy-project' },
+        metadata: {
+          name: 'my-dummy-project',
+          annotations: {
+            'che.eclipse.org/devfile': jsYaml.dump(jsYaml.load(devfileContent)),
+          },
+        },
         spec: {
           started: true,
           routingClass: 'che',
@@ -256,7 +344,12 @@ metadata:
       const expectedDevWorkspace = {
         apiVersion: 'workspace.devfile.io/v1alpha2',
         kind: 'DevWorkspace',
-        metadata: { name: 'my-dummy-project' },
+        metadata: {
+          name: 'my-dummy-project',
+          annotations: {
+            'che.eclipse.org/devfile': jsYaml.dump(jsYaml.load(devfileContent)),
+          },
+        },
         spec: {
           started: true,
           routingClass: 'che',
