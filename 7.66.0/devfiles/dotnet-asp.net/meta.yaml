@@ -1,0 +1,15 @@
+displayName: ASP.NET Core Web Application
+description: Stack for developing ASP.NET Core Web Application
+tags:
+  - Community
+  - Debian
+  - Dotnet
+  - C#
+  - ASP.NET
+icon: /images/dotnetcore.svg
+links:
+  v2: https://github.com/che-samples/dotnet-web-simple/tree/main
+  devWorkspaces:
+    che-incubator/che-idea/next: /devfiles/dotnet-asp.net/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/dotnet-asp.net/devworkspace-che-code-latest.yaml
+    che-incubator/che-code/insiders: /devfiles/dotnet-asp.net/devworkspace-che-code-insiders.yaml

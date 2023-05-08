@@ -1,0 +1,14 @@
+displayName: Node.js Angular Web Application
+description: Stack for developing Node.js Angular Web Application
+tags:
+  - Community
+  - Node.js
+  - Angular
+  - Alpine
+icon: /images/angular.svg
+links:
+  v2: https://github.com/che-samples/nodejs-angular/tree/main
+  devWorkspaces:
+    che-incubator/che-idea/next: /devfiles/nodejs-angular/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/nodejs-angular/devworkspace-che-code-latest.yaml
+    che-incubator/che-code/insiders: /devfiles/nodejs-angular/devworkspace-che-code-insiders.yaml
