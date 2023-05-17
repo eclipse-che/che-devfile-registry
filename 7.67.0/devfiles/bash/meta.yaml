@@ -1,0 +1,13 @@
+displayName: Bash
+description: Stack with environment ready to develop bash scripts.
+tags:
+  - Community
+  - Bash
+  - Shell
+icon: /images/che.svg
+links:
+  v2: https://github.com/che-samples/bash/tree/main
+  devWorkspaces:
+    che-incubator/che-idea/next: /devfiles/bash/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/bash/devworkspace-che-code-latest.yaml
+    che-incubator/che-code/insiders: /devfiles/bash/devworkspace-che-code-insiders.yaml

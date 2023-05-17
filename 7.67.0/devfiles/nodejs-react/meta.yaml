@@ -1,0 +1,15 @@
+displayName: Node.js React Web Application
+description: Stack for developing Node.js React Web Application
+tags:
+  - Community
+  - Node.js
+  - React
+  - Redux
+  - RealWorld
+icon: /images/nodejs.svg
+links:
+  v2: https://github.com/che-samples/nodejs-react-redux/tree/main
+  devWorkspaces:
+    che-incubator/che-idea/next: /devfiles/nodejs-react/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/nodejs-react/devworkspace-che-code-latest.yaml
+    che-incubator/che-code/insiders: /devfiles/nodejs-react/devworkspace-che-code-insiders.yaml
