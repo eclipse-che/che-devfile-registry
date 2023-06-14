@@ -1,0 +1,147 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-dotnet
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+    - id: init-che-code-command
+      exec:
+        component: che-code-runtime-description
+        commandLine: >-
+          nohup /checode/entrypoint-volume.sh > /checode/entrypoint-logs.txt
+          2>&1 &
+  events:
+    preStart:
+      - init-container-command
+    postStart:
+      - init-che-code-command
+  components:
+    - name: che-code-runtime-description
+      container:
+        image: >-
+          quay.io/devfile/universal-developer-image@sha256:3200c95ee97555f1a64cee9155f22e369b5b64f93f3fa4f50aa9ae3507a8279e
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 1024Mi
+        memoryRequest: 256Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+        endpoints:
+          - name: che-code
+            attributes:
+              type: main
+              cookiesAuthEnabled: true
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: false
+            protocol: https
+          - name: code-redirect-1
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13131
+            exposure: public
+            protocol: http
+          - name: code-redirect-2
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13132
+            exposure: public
+            protocol: http
+          - name: code-redirect-3
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13133
+            exposure: public
+            protocol: http
+      attributes:
+        app.kubernetes.io/component: che-code-runtime
+        app.kubernetes.io/part-of: che-code.eclipse.org
+        controller.devfile.io/container-contribution: true
+    - name: checode
+      volume: {}
+    - name: che-code-injector
+      container:
+        image: >-
+          quay.io/che-incubator/che-code@sha256:4722f576fbeb8e45d801cf5b700db63b91d28d31e99d3c32ac26ef0e4305e590
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 256Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: dotnet
+spec:
+  started: true
+  routingClass: che
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          memoryLimit: 2Gi
+          mountSources: true
+          env:
+            - name: CONFIGURATION
+              value: Debug
+            - name: STARTUP_PROJECT
+              value: app.csproj
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ASPNETCORE_URLS
+              value: http://*:8080
+          endpoints:
+            - name: http-dotnet60
+              targetPort: 8080
+          volumeMounts:
+            - name: nuget
+              path: /home/user/.nuget
+        attributes:
+          controller.devfile.io/merge-contribution: true
+      - name: nuget
+        volume:
+          size: 1G
+    commands:
+      - id: build
+        exec:
+          label: Build
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/dotnet-web-simple
+          commandLine: >-
+            dotnet build -c $CONFIGURATION $STARTUP_PROJECT
+            /p:UseSharedCompilation=false
+          group:
+            kind: build
+      - id: run
+        exec:
+          label: Run
+          component: tools
+          workingDir: ${PROJECTS_ROOT}/dotnet-web-simple
+          commandLine: >-
+            dotnet run -c $CONFIGURATION --no-build --project $STARTUP_PROJECT
+            --no-launch-profile
+          group:
+            kind: run
+    projects:
+      - name: dotnet-web-simple
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.69.0/resources/v2/dotnet-web-simple.zip'
+  contributions:
+    - name: editor
+      kubernetes:
+        name: che-code-dotnet

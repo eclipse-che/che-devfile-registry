@@ -1,0 +1,15 @@
+displayName: C/C++
+description: Stack with C/C++ and Clang 8
+tags:
+  - Community
+  - C/C++
+  - Clang
+  - g++
+  - GDB
+icon: /images/cpp.svg
+links:
+  v2: https://github.com/che-samples/cpp-hello-world/tree/main
+  devWorkspaces:
+    che-incubator/che-idea/next: /devfiles/cpp/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/cpp/devworkspace-che-code-latest.yaml
+    che-incubator/che-code/insiders: /devfiles/cpp/devworkspace-che-code-insiders.yaml
