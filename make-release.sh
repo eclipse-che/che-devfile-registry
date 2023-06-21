@@ -167,10 +167,11 @@ fetchAndCheckout ()
 }
 
 # unlike in che-plugin-registry, here we just need to update the VERSION file
-updateVersionFile () {
+updateVersion () {
   thisVERSION="$1"
   # update VERSION file with VERSION or NEWVERSION
   echo "${thisVERSION}" > VERSION
+  sed -i -r -e "s/(\"version\": )(\".*\")/\1\"${thisVERSION}\"/" tools/devworkspace-generator/package.json
 }
 
 if [[ ! ${VERSION} ]]; then
@@ -240,7 +241,7 @@ commitChangeOrCreatePR()
 }
 
 # bump VERSION file to VERSION
-updateVersionFile "${VERSION}"
+updateVersion "${VERSION}"
 
 # commit change into branch
 commitChangeOrCreatePR "${VERSION}" "${BRANCH}" "pr-${BRANCH}-to-${VERSION}"
@@ -271,7 +272,7 @@ else
 fi
 
 # bump VERSION file to NEXTVERSION
-updateVersionFile "${NEXTVERSION}"
+updateVersion "${NEXTVERSION}"
 commitChangeOrCreatePR "${NEXTVERSION}" "${BASEBRANCH}" "pr-${BASEBRANCH}-to-${NEXTVERSION}"
 
 # cleanup tmp dir
