@@ -1,5 +1,5 @@
 /**********************************************************************
- * Copyright (c) 2022 Red Hat, Inc.
+ * Copyright (c) 2023 Red Hat, Inc.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,36 +8,33 @@
  * SPDX-License-Identifier: EPL-2.0
  ***********************************************************************/
 
-import { GithubUrl } from './github-url';
+import { BitbucketUrl } from './bitbucket-url';
 import { injectable } from 'inversify';
 import { Url } from '../resolve/url';
 import { Resolver } from '../resolve/resolver';
 
 @injectable()
-export class GithubResolver implements Resolver {
+export class BitbucketResolver implements Resolver {
   // eslint-disable-next-line max-len
-  static readonly GITHUB_URL_PATTERN =
-    /^(?<scheme>https?):\/\/(?<host>github(\..+)?\.[^\/]+)\/(?<repoUser>[^\/]+)\/(?<repoName>[^\/]+)((\/)|\/(blob|tree)\/(?<branchName>[^\/]+)(?:\/(?<subFolder>.*))?)?$/;
+  static readonly BITBUCKET_URL_PATTERN: RegExp =
+    /^https:\/\/.*@?bitbucket\.org\/(?<workspaceId>[^\/]+)\/(?<repoName>[^\/]+)(\/(src|branch)\/(?<branchName>[^\/]+))?\/?$/;
 
   isValid(url: string): boolean {
-    return GithubResolver.GITHUB_URL_PATTERN.test(url);
+    return BitbucketResolver.BITBUCKET_URL_PATTERN.test(url);
   }
 
-  resolve(link: string): Url {
-    const match = GithubResolver.GITHUB_URL_PATTERN.exec(link);
+  resolve(url: string): Url {
+    const match = BitbucketResolver.BITBUCKET_URL_PATTERN.exec(url);
     if (!match) {
-      throw new Error(`Invalid github URL: ${link}`);
+      throw new Error(`Invalid bitbucket URL: ${url}`);
     }
-    const scheme = this.getGroup(match, 'scheme');
-    const hostName = this.getGroup(match, 'host');
-    const repoUser = this.getGroup(match, 'repoUser');
+    const workspaceId = this.getGroup(match, 'workspaceId');
     let repoName = this.getGroup(match, 'repoName');
     if (/^[\w-][\w.-]*?\.git$/.test(repoName)) {
       repoName = repoName.substring(0, repoName.length - 4);
     }
     const branchName = this.getGroup(match, 'branchName', 'HEAD');
-    const subFolder = this.getGroup(match, 'subFolder');
-    return new GithubUrl(scheme, hostName, repoUser, repoName, branchName, subFolder);
+    return new BitbucketUrl(workspaceId, repoName, branchName);
   }
 
   private getGroup(match: RegExpExecArray, groupName: string, defaultValue?: string) {

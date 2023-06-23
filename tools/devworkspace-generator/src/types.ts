@@ -1,5 +1,5 @@
 /**********************************************************************
- * Copyright (c) 2022 Red Hat, Inc.
+ * Copyright (c) 2023 Red Hat, Inc.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -7,15 +7,8 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  ***********************************************************************/
-import { ContainerModule, interfaces } from 'inversify';
+const TYPES = {
+  Resolver: Symbol.for('Resolver'),
+};
 
-import { GithubResolver } from './github-resolver';
-import { TYPES } from '../types';
-
-const { Resolver } = TYPES;
-
-const githubModule = new ContainerModule((bind: interfaces.Bind) => {
-  bind(Resolver).to(GithubResolver).inSingletonScope();
-});
-
-export { githubModule };
+export { TYPES };

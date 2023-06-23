@@ -18,6 +18,8 @@ describe('Test PluginRegistryResolver', () => {
 
   let githubResolver: GithubResolver;
 
+  const GITHUB_URL = 'https://github.com/eclipse/che';
+
   beforeEach(() => {
     jest.restoreAllMocks();
     jest.resetAllMocks();
@@ -26,32 +28,66 @@ describe('Test PluginRegistryResolver', () => {
     githubResolver = container.get(GithubResolver);
   });
 
-  test('basic resolve', async () => {
-    expect(githubResolver.resolve('https://github.com/eclipse/che').getUrl()).toBe(
-      'https://github.com/eclipse/che/tree/HEAD/'
-    );
-    expect(githubResolver.resolve('https://github.com/eclipse/che/tree/7.30.x').getUrl()).toBe(
-      'https://github.com/eclipse/che/tree/7.30.x/'
-    );
+  test('test get Url', async () => {
+    const url = 'https://github.com/eclipse/che/tree/HEAD/';
+    const array = [
+      [GITHUB_URL, url],
+      [GITHUB_URL + '/', url],
+      [GITHUB_URL + '.git', url],
+      [GITHUB_URL + '/tree/7.30.x', 'https://github.com/eclipse/che/tree/7.30.x/'],
+    ];
+    array.forEach(a => expect(githubResolver.resolve(a[0]).getUrl()).toBe(a[1]));
+  });
 
-    expect(githubResolver.resolve('https://github.com/eclipse/che').getContentUrl('README.md')).toBe(
-      'https://raw.githubusercontent.com/eclipse/che/HEAD/README.md'
-    );
+  test('test get clone Url', async () => {
+    const url = 'https://github.com/eclipse/che.git';
+    const array = [
+      [GITHUB_URL, url],
+      [GITHUB_URL + '/', url],
+      [GITHUB_URL + '.git', url],
+      [GITHUB_URL + '/tree/7.30.x', url],
+    ];
+    array.forEach(a => expect(githubResolver.resolve(a[0]).getCloneUrl()).toBe(a[1]));
+  });
 
-    expect(githubResolver.resolve('https://github.mycompany.net/user/repo').getContentUrl('README.md')).toBe(
-      'https://raw.github.mycompany.net/user/repo/HEAD/README.md'
-    );
+  test('test get content Url', async () => {
+    const url = 'https://raw.githubusercontent.com/eclipse/che/HEAD/README.md';
+    const array = [
+      [GITHUB_URL, url],
+      [GITHUB_URL + '/', url],
+      [GITHUB_URL + '.git', url],
+      [GITHUB_URL + '/tree/7.30.x', 'https://raw.githubusercontent.com/eclipse/che/7.30.x/README.md'],
+      ['https://github.mycompany.net/user/repo', 'https://raw.github.mycompany.net/user/repo/HEAD/README.md'],
+    ];
+    array.forEach(a => expect(githubResolver.resolve(a[0]).getContentUrl('README.md')).toBe(a[1]));
+  });
 
-    expect(githubResolver.resolve('https://github.com/eclipse/che').getCloneUrl()).toBe(
-      'https://github.com/eclipse/che.git'
-    );
+  test('test get branch', async () => {
+    expect(githubResolver.resolve(GITHUB_URL + '/tree/7.30.x').getBranchName()).toBe('7.30.x');
+    expect(githubResolver.resolve(GITHUB_URL + '/tree/7.30.x/').getBranchName()).toBe('7.30.x');
+  });
 
-    expect(githubResolver.resolve('https://github.com/eclipse/che').getRepoName()).toBe('che');
+  test('test get repository', async () => {
+    const array = [
+      GITHUB_URL,
+      GITHUB_URL + '/',
+      GITHUB_URL + '.git',
+      GITHUB_URL + '/tree/7.30.x',
+      'https://github.mycompany.net/user/che',
+    ];
+    array.forEach(a => expect(githubResolver.resolve(a).getRepoName()).toBe('che'));
+  });
 
-    expect(githubResolver.resolve('https://github.com/eclipse/che').getBranchName()).toBe('HEAD');
-    expect(githubResolver.resolve('https://github.com/eclipse/che/tree/test-branch').getBranchName()).toBe(
-      'test-branch'
-    );
+  test('validate URL', async () => {
+    const array = [
+      GITHUB_URL,
+      GITHUB_URL + '/',
+      GITHUB_URL + '.git',
+      GITHUB_URL + '/tree/7.30.x',
+      'https://github.mycompany.net/user/che',
+    ];
+    array.forEach(a => expect(githubResolver.isValid(a)).toBeTruthy());
+    expect(githubResolver.isValid('http://unknown/che')).toBeFalsy();
   });
 
   test('error', async () => {

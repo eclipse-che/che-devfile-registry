@@ -8,10 +8,9 @@
  * SPDX-License-Identifier: EPL-2.0
  ***********************************************************************/
 
-/**
- * Provides helper methods on top of github URL to get for example raw content of get relative links
- */
-export class GithubUrl {
+import { Url } from '../resolve/url';
+
+export class GithubUrl implements Url {
   constructor(
     private readonly scheme: string,
     private readonly hostName: string,

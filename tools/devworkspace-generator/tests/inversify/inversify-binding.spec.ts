@@ -20,6 +20,7 @@ import { UrlFetcher } from '../../src/fetch/url-fetcher';
 import { GithubResolver } from '../../src/github/github-resolver';
 import { PluginRegistryResolver } from '../../src/plugin-registry/plugin-registry-resolver';
 import { DevContainerComponentFinder } from '../../src/devfile/dev-container-component-finder';
+import { TYPES } from '../../src/types';
 
 describe('Test InversifyBinding', () => {
   const mockedArgv: string[] = ['dummy', 'dummy'];
@@ -53,8 +54,8 @@ describe('Test InversifyBinding', () => {
     // check fetch module
     expect(container.get(UrlFetcher)).toBeDefined();
 
-    // check github module
-    expect(container.get(GithubResolver)).toBeDefined();
+    // check resolve module
+    expect(container.getAll(TYPES.Resolver).length).toBe(3);
 
     // check plugin-registry module
     expect(container.get(PluginRegistryResolver)).toBeDefined();
