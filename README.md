@@ -107,9 +107,11 @@ helm delete --purge che-devfile-registry
 
 ## Run the registry
 
+* Run
 ```bash
-docker run -it --rm -p 8080:8080 quay.io/eclipse/che-devfile-registry:next
+docker run -it --rm --entrypoint httpd-foreground -p 8080:8080 quay.io/eclipse/che-devfile-registry:next
 ```
+* Open http://localhost:8080/devfiles/
 
 # Builds
 
