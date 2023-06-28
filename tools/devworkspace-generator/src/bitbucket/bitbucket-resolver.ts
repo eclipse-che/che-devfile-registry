@@ -41,6 +41,6 @@ export class BitbucketResolver implements Resolver {
     if (match.groups && match.groups[groupName]) {
       return match.groups[groupName];
     }
-    return defaultValue || '';
+    return defaultValue;
   }
 }

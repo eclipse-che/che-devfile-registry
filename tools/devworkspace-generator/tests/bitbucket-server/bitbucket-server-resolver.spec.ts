@@ -11,7 +11,7 @@
 import 'reflect-metadata';
 
 import { Container } from 'inversify';
-import { BitbucketServerResolver } from '../../lib/bitbucket-server/bitbucket-server-resolver';
+import { BitbucketServerResolver } from '../../src/bitbucket-server/bitbucket-server-resolver';
 
 describe('Test Bitbucket resolver', () => {
   let container: Container;
