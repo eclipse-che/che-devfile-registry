@@ -31,8 +31,6 @@ type DevfileLike = V221Devfile & {
 
 @injectable()
 export class Generate {
-  static readonly MERGE_CONTRIBUTION = 'controller.devfile.io/merge-contribution';
-
   @inject(DevContainerComponentFinder)
   private devContainerComponentFinder: DevContainerComponentFinder;
 
