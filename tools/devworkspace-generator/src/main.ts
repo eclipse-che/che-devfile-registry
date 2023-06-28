@@ -72,8 +72,6 @@ export class Main {
 
     // gets the repo URL
     if (params.devfileUrl) {
-      // const githubResolver = container.get(GithubResolver);
-      // const githubUrl = githubResolver.resolve(params.devfileUrl);
       const resolver = container.get(GitUrlResolver);
       const url = resolver.resolve(params.devfileUrl);
       // user devfile

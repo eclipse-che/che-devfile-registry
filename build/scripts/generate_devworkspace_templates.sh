@@ -18,8 +18,11 @@ do
   if [ -n "$devfile_url" ]; then
     devfile_url=${devfile_url##*v2: }
     devfile_url=${devfile_url%/}
-    devfile_repo=${devfile_url%/tree*}
-    name=$(basename "${devfile_repo}")
+    npm_config_yes=true npx @eclipse-che/che-devworkspace-generator@${CHE_DEVWORKSPACE_GENERATOR_VERSION} \
+        --devfile-url:"${devfile_url}" \
+        --editor-entry:che-incubator/che-code/latest \
+        --output-file:"${dir}"temp.yaml
+    name=$(yq -r '.spec.template.projects[0].name' "${dir}temp.yaml"  | sed -n '2 p')
     project="${name}={{_INTERNAL_URL_}}/resources/v2/${name}.zip"
 
     npm_config_yes=true npx @eclipse-che/che-devworkspace-generator@${CHE_DEVWORKSPACE_GENERATOR_VERSION} \

@@ -20,10 +20,9 @@ for dir in /build/devfiles/*/
 do
     devfile_url=$(grep "v2:" "${dir}"meta.yaml) || :
         if [ -n "$devfile_url" ]; then
-            devfile_url=${devfile_url##*v2: }
-            devfile_url=${devfile_url%/}
-            devfile_repo=${devfile_url%/tree*}
-            name=$(basename "${devfile_repo}")
-            clone_and_zip "${devfile_repo}" "${devfile_url##*/}" "/build/resources/v2/$name.zip"
+            clone_url=$(yq -r '.spec.template.projects[0].git.remotes.origin' "${dir}temp.yaml"  | sed -n '2 p')
+            revision=$(yq -r '.spec.template.projects[0].git.checkoutFrom.revision' "${dir}temp.yaml"  | sed -n '2 p')
+            name=$(yq -r '.spec.template.projects[0].name' "${dir}temp.yaml"  | sed -n '2 p')
+            clone_and_zip "${clone_url}" "${revision}" "/build/resources/v2/$name.zip"
         fi
 done
