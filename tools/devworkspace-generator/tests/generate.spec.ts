@@ -119,7 +119,7 @@ metadata:
       // expect not to write the file
       expect(fsWriteFileSpy).not.toBeCalled();
       expect(JSON.stringify(context.devfile)).toEqual(
-        '{"schemaVersion":"2.2.0","metadata":{"name":"my-dummy-project"},"components":[{"name":"dev-container","mountSources":true,"container":{"image":"quay.io/foo/bar"},"attributes":{"controller.devfile.io/merge-contribution":true}}]}'
+        '{"schemaVersion":"2.2.0","metadata":{"name":"my-dummy-project"},"components":[{"name":"dev-container","mountSources":true,"container":{"image":"quay.io/foo/bar"}}]}'
       );
       const expectedDevWorkspace = {
         apiVersion: 'workspace.devfile.io/v1alpha2',
@@ -140,9 +140,6 @@ metadata:
                 mountSources: true,
                 container: {
                   image: 'quay.io/foo/bar',
-                },
-                attributes: {
-                  'controller.devfile.io/merge-contribution': true,
                 },
               },
             ],
@@ -189,7 +186,7 @@ metadata:
       // expect not to write the file
       expect(fsWriteFileSpy).not.toBeCalled();
       expect(JSON.stringify(context.devfile)).toEqual(
-        '{"schemaVersion":"2.2.0","metadata":{"generateName":"custom-project"},"components":[{"name":"dev-container","mountSources":true,"container":{"image":"quay.io/foo/bar"},"attributes":{"controller.devfile.io/merge-contribution":true}}]}'
+        '{"schemaVersion":"2.2.0","metadata":{"generateName":"custom-project"},"components":[{"name":"dev-container","mountSources":true,"container":{"image":"quay.io/foo/bar"}}]}'
       );
       const expectedDevWorkspace = {
         apiVersion: 'workspace.devfile.io/v1alpha2',
@@ -210,9 +207,6 @@ metadata:
                 mountSources: true,
                 container: {
                   image: 'quay.io/foo/bar',
-                },
-                attributes: {
-                  'controller.devfile.io/merge-contribution': true,
                 },
               },
             ],
@@ -260,7 +254,7 @@ metadata:
       // expect to write the file
       expect(fsWriteFileSpy).toBeCalled();
       expect(JSON.stringify(context.devfile)).toEqual(
-        '{"schemaVersion":"2.2.0","metadata":{"name":"my-dummy-project"},"components":[{"name":"dev-container","mountSources":true,"container":{"image":"quay.io/foo/bar"},"attributes":{"controller.devfile.io/merge-contribution":true}}]}'
+        '{"schemaVersion":"2.2.0","metadata":{"name":"my-dummy-project"},"components":[{"name":"dev-container","mountSources":true,"container":{"image":"quay.io/foo/bar"}}]}'
       );
       const expectedDevWorkspace = {
         apiVersion: 'workspace.devfile.io/v1alpha2',
@@ -281,9 +275,6 @@ metadata:
                 mountSources: true,
                 container: {
                   image: 'quay.io/foo/bar',
-                },
-                attributes: {
-                  'controller.devfile.io/merge-contribution': true,
                 },
               },
             ],
@@ -331,7 +322,7 @@ metadata:
       // expect to write the file
       expect(fsWriteFileSpy).toBeCalled();
       expect(JSON.stringify(context.devfile)).toEqual(
-        '{"schemaVersion":"2.2.0","metadata":{"name":"my-dummy-project"},"components":[{"name":"dev-container","attributes":{"old":"attribute","controller.devfile.io/merge-contribution":true},"mountSources":true,"container":{"image":"quay.io/foo/bar"}}]}'
+        '{"schemaVersion":"2.2.0","metadata":{"name":"my-dummy-project"},"components":[{"name":"dev-container","attributes":{"old":"attribute"},"mountSources":true,"container":{"image":"quay.io/foo/bar"}}]}'
       );
       const expectedDevWorkspace = {
         apiVersion: 'workspace.devfile.io/v1alpha2',
@@ -351,7 +342,6 @@ metadata:
                 name: 'dev-container',
                 attributes: {
                   old: 'attribute',
-                  'controller.devfile.io/merge-contribution': true,
                 },
                 mountSources: true,
                 container: {

@@ -14,7 +14,6 @@ import {
   V1alpha2DevWorkspace,
   V1alpha2DevWorkspaceMetadata,
   V1alpha2DevWorkspaceSpecContributions,
-  V1alpha2DevWorkspaceSpecTemplateComponents,
   V1alpha2DevWorkspaceTemplate,
   V1alpha2DevWorkspaceTemplateSpec,
 } from '@devfile/api';
@@ -127,23 +126,8 @@ export class Generate {
       suffix,
     };
 
-    // grab container where to inject controller.devfile.io/merge-contribution attribute
-    let devContainer: V1alpha2DevWorkspaceSpecTemplateComponents | undefined =
-      await this.devContainerComponentFinder.find(context, injectDefaultComponent, defaultComponentImage);
-
-    if (!devContainer) {
-      return context;
-    }
-
-    // add attributes
-    let devContainerAttributes = devContainer.attributes;
-    if (!devContainerAttributes) {
-      devContainerAttributes = {};
-      devContainerAttributes[Generate.MERGE_CONTRIBUTION] = true;
-      devContainer.attributes = devContainerAttributes;
-    } else {
-      devContainerAttributes[Generate.MERGE_CONTRIBUTION] = true;
-    }
+    // find devContainer component, add a default one if not found
+    await this.devContainerComponentFinder.find(context, injectDefaultComponent, defaultComponentImage);
 
     return context;
   }
