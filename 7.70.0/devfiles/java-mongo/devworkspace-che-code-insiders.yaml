@@ -1,0 +1,191 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-java-guestbook
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+    - id: init-che-code-command
+      exec:
+        component: che-code-runtime-description
+        commandLine: >-
+          nohup /checode/entrypoint-volume.sh > /checode/entrypoint-logs.txt
+          2>&1 &
+  events:
+    preStart:
+      - init-container-command
+    postStart:
+      - init-che-code-command
+  components:
+    - name: che-code-runtime-description
+      container:
+        image: >-
+          quay.io/devfile/universal-developer-image@sha256:92db9f0b9b9367d046dcdf8b6ced0ed3067fe14735babd5eea55bae0049a22f3
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 1024Mi
+        memoryRequest: 256Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+        endpoints:
+          - name: che-code
+            attributes:
+              type: main
+              cookiesAuthEnabled: true
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: false
+            protocol: https
+          - name: code-redirect-1
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13131
+            exposure: public
+            protocol: http
+          - name: code-redirect-2
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13132
+            exposure: public
+            protocol: http
+          - name: code-redirect-3
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13133
+            exposure: public
+            protocol: http
+      attributes:
+        app.kubernetes.io/component: che-code-runtime
+        app.kubernetes.io/part-of: che-code.eclipse.org
+        controller.devfile.io/container-contribution: true
+    - name: checode
+      volume: {}
+    - name: che-code-injector
+      container:
+        image: quay.io/che-incubator/che-code:insiders
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 256Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: java-guestbook
+spec:
+  started: true
+  routingClass: che
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          memoryLimit: 3Gi
+          endpoints:
+            - name: java-guestbook-backend
+              exposure: public
+              protocol: http
+              targetPort: 8080
+            - name: java-guestbook
+              exposure: public
+              protocol: http
+              targetPort: 8443
+            - name: debug
+              exposure: none
+              protocol: tcp
+              targetPort: 5005
+          volumeMounts:
+            - name: m2
+              path: /home/user/.m2
+        attributes:
+          controller.devfile.io/merge-contribution: true
+      - name: mongo
+        container:
+          image: >-
+            quay.io/eclipse/che--centos--mongodb-36-centos7:latest-ffdf2431bbc6d9a9d2a03e95bbbe8adb49ab9eac301f268a35038c84288259c1
+          memoryLimit: 300Mi
+          env:
+            - name: MONGODB_USER
+              value: user
+            - name: MONGODB_PASSWORD
+              value: password
+            - name: MONGODB_DATABASE
+              value: guestbook
+            - name: MONGODB_ADMIN_PASSWORD
+              value: password
+          endpoints:
+            - name: java-guestbook-mongodb
+              exposure: none
+              protocol: tcp
+              targetPort: 27017
+          volumeMounts:
+            - name: mongodbdata
+              path: /var/lib/mongodb/data
+      - name: m2
+        volume:
+          size: 1G
+      - name: mongodbdata
+        volume:
+          size: 256Mi
+    commands:
+      - id: maven-build-backend
+        exec:
+          label: build backend
+          component: tools
+          workingDir: ${PROJECT_SOURCE}/backend
+          commandLine: mvn clean install
+          group:
+            kind: build
+            isDefault: true
+      - id: maven-build-frontend
+        exec:
+          label: build frontend
+          component: tools
+          workingDir: ${PROJECT_SOURCE}/frontend
+          commandLine: mvn clean install
+          group:
+            kind: build
+            isDefault: true
+      - id: run-backend
+        exec:
+          label: run backend
+          component: tools
+          workingDir: ${PROJECT_SOURCE}/backend
+          commandLine: >
+            mvn spring-boot:run -DskipTests -Drun.jvmArguments='-Xdebug
+            -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5006,quiet=y'
+          group:
+            kind: run
+            isDefault: true
+      - id: run-frontend
+        exec:
+          label: run frontend
+          component: tools
+          workingDir: ${PROJECT_SOURCE}/frontend
+          commandLine: >
+            mvn spring-boot:run -DskipTests -Drun.jvmArguments='-Xdebug
+            -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005,quiet=y'
+          group:
+            kind: run
+            isDefault: true
+    projects:
+      - name: java-guestbook
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.70.0/resources/v2/java-guestbook.zip'
+  contributions:
+    - name: editor
+      kubernetes:
+        name: che-code-java-guestbook

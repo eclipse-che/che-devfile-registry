@@ -1,0 +1,162 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-idea-apache-camel-springboot
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-idea-injector
+    - id: init-che-idea-command
+      exec:
+        component: che-idea-runtime-description
+        commandLine: >-
+          nohup /projector/entrypoint-volume.sh > /projector/entrypoint-logs.txt
+          2>&1 &
+  events:
+    preStart:
+      - init-container-command
+    postStart:
+      - init-che-idea-command
+  components:
+    - name: che-idea-runtime-description
+      container:
+        image: >-
+          quay.io/devfile/universal-developer-image@sha256:92db9f0b9b9367d046dcdf8b6ced0ed3067fe14735babd5eea55bae0049a22f3
+        env:
+          - name: PROJECTOR_ASSEMBLY_DIR
+            value: /projector
+          - name: PROJECTOR_CONFIG_DIR
+            value: /home/user/.jetbrains
+        volumeMounts:
+          - name: projector-volume
+            path: /projector
+          - name: projector-configuration
+            path: /home/user/.jetbrains
+          - name: projector-java-configuration
+            path: /home/user/.java
+        memoryLimit: 6144Mi
+        memoryRequest: 2048Mi
+        cpuLimit: 2000m
+        cpuRequest: 1500m
+        endpoints:
+          - name: intellij
+            attributes:
+              type: main
+              cookiesAuthEnabled: true
+              discoverable: false
+              urlRewriteSupported: true
+              secure: false
+            targetPort: 8887
+            exposure: public
+            path: /?backgroundColor=434343&wss
+            protocol: http
+          - name: intellij-redirect-1
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13131
+            exposure: public
+            protocol: http
+          - name: intellij-redirect-2
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13132
+            exposure: public
+            protocol: http
+          - name: intellij-redirect-3
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13133
+            exposure: public
+            protocol: http
+      attributes:
+        app.kubernetes.io/component: che-idea-runtime
+        app.kubernetes.io/part-of: che-idea.eclipse.org
+        controller.devfile.io/container-contribution: true
+    - name: projector-volume
+      volume: {}
+    - name: projector-configuration
+      volume: {}
+    - name: projector-java-configuration
+      volume: {}
+    - name: che-idea-injector
+      container:
+        image: quay.io/che-incubator/che-idea:next
+        command:
+          - /projector/entrypoint-init-container.sh
+        env:
+          - name: PROJECTOR_VOLUME_MOUNT
+            value: /projector-volume
+          - name: PROJECTOR_ASSEMBLY_DIR
+            value: /projector
+        volumeMounts:
+          - name: projector-volume
+            path: /projector-volume
+        memoryLimit: 128Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: apache-camel-springboot
+spec:
+  started: true
+  routingClass: che
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          memoryLimit: 3Gi
+          endpoints:
+            - exposure: none
+              name: debug
+              protocol: tcp
+              targetPort: 5005
+            - exposure: public
+              name: 8080-tcp
+              protocol: http
+              targetPort: 8080
+          volumeMounts:
+            - name: m2
+              path: /home/user/.m2
+        attributes:
+          controller.devfile.io/merge-contribution: true
+      - name: m2
+        volume:
+          size: 1G
+    commands:
+      - id: build-project
+        exec:
+          commandLine: JAVA_HOME=$JAVA_HOME_8 mvn clean install
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          group:
+            kind: build
+      - id: run-services
+        exec:
+          commandLine: JAVA_HOME=$JAVA_HOME_8 mvn spring-boot:run -DskipTests
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+      - id: debug-services
+        exec:
+          commandLine: >
+            JAVA_HOME=$JAVA_HOME_8 mvn spring-boot:run -DskipTests \
+
+            -Drun.jvmArguments="-Xdebug
+            -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+    projects:
+      - name: fuse-rest-http-booster
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.70.0/resources/v2/fuse-rest-http-booster.zip'
+  contributions:
+    - name: editor
+      kubernetes:
+        name: che-idea-apache-camel-springboot
