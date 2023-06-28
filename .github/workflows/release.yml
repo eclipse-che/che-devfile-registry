@@ -57,15 +57,6 @@ jobs:
           else
             echo "[INFO] No existing tags detected for $VERSION"
           fi
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: yarn-${{ hashFiles('tools/devworkspace-generator/yarn.lock') }}
-        restore-keys: yarn-
       -
         name: "Set up QEMU"
         uses: docker/setup-qemu-action@v2
