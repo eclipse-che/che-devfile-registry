@@ -242,7 +242,7 @@ commitChangeOrCreatePR()
 
 # bump VERSION file to VERSION
 updateVersion "${VERSION}"
-# use release version for devworkspace generator
+# update build scripts to reference release version of devworkspace generator
 sed -i -r -e "s/CHE_DEVWORKSPACE_GENERATOR_VERSION=next/CHE_DEVWORKSPACE_GENERATOR_VERSION=${VERSION}/" build/scripts/generate_devworkspace_templates.sh
 
 # commit change into branch
