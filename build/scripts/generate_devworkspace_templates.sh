@@ -18,6 +18,7 @@ do
   if [ -n "$devfile_url" ]; then
     devfile_url=${devfile_url##*v2: }
     devfile_url=${devfile_url%/}
+    #generate a temporary devworkspace yaml to fetch git repository name and clone url.
     npm_config_yes=true npx @eclipse-che/che-devworkspace-generator@${CHE_DEVWORKSPACE_GENERATOR_VERSION} \
         --devfile-url:"${devfile_url}" \
         --editor-entry:che-incubator/che-code/latest \

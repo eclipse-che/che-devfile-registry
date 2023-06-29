@@ -18,11 +18,9 @@ source ./clone_and_zip.sh
 mkdir -p /build/resources/v2/
 for dir in /build/devfiles/*/
 do
-    devfile_url=$(grep "v2:" "${dir}"meta.yaml) || :
-        if [ -n "$devfile_url" ]; then
-            clone_url=$(yq -r '.spec.template.projects[0].git.remotes.origin' "${dir}temp.yaml"  | sed -n '2 p')
-            revision=$(yq -r '.spec.template.projects[0].git.checkoutFrom.revision' "${dir}temp.yaml"  | sed -n '2 p')
-            name=$(yq -r '.spec.template.projects[0].name' "${dir}temp.yaml"  | sed -n '2 p')
-            clone_and_zip "${clone_url}" "${revision}" "/build/resources/v2/$name.zip"
-        fi
+    clone_url=$(yq -r '.spec.template.projects[0].git.remotes.origin' "${dir}temp.yaml"  | sed -n '2 p')
+    revision=$(yq -r '.spec.template.projects[0].git.checkoutFrom.revision' "${dir}temp.yaml"  | sed -n '2 p')
+    name=$(yq -r '.spec.template.projects[0].name' "${dir}temp.yaml"  | sed -n '2 p')
+    clone_and_zip "${clone_url}" "${revision}" "/build/resources/v2/$name.zip"
+    rm "${dir}temp.yaml"
 done
