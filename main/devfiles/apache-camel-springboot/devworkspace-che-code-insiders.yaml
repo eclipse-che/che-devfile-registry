@@ -85,6 +85,57 @@ apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
 metadata:
   name: apache-camel-springboot
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.1.0
+      metadata:
+        name: apache-camel-springboot
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            memoryLimit: 3Gi
+            endpoints:
+              - exposure: none
+                name: debug
+                protocol: tcp
+                targetPort: 5005
+              - exposure: public
+                name: 8080-tcp
+                protocol: http
+                targetPort: 8080
+            volumeMounts:
+              - name: m2
+                path: /home/user/.m2
+        - name: m2
+          volume:
+            size: 1G
+      commands:
+        - id: build-project
+          exec:
+            commandLine: JAVA_HOME=$JAVA_HOME_8 mvn clean install
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            group:
+              kind: build
+        - id: run-services
+          exec:
+            commandLine: JAVA_HOME=$JAVA_HOME_8 mvn spring-boot:run -DskipTests
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+        - id: debug-services
+          exec:
+            commandLine: >
+              JAVA_HOME=$JAVA_HOME_8 mvn spring-boot:run -DskipTests \
+
+              -Drun.jvmArguments="-Xdebug
+              -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+      projects:
+        - name: fuse-rest-http-booster
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/fuse-rest-http-booster.zip'
 spec:
   started: true
   routingClass: che
@@ -106,8 +157,6 @@ spec:
           volumeMounts:
             - name: m2
               path: /home/user/.m2
-        attributes:
-          controller.devfile.io/merge-contribution: true
       - name: m2
         volume:
           size: 1G

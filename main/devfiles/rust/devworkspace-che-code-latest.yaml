@@ -86,6 +86,38 @@ apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
 metadata:
   name: rust
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.1.0
+      metadata:
+        name: rust
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            memoryLimit: 1Gi
+            cpuLimit: 1000m
+      commands:
+        - id: build
+          exec:
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: cargo build
+            group:
+              kind: build
+              isDefault: true
+        - id: run
+          exec:
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: cargo run
+            group:
+              kind: run
+              isDefault: true
+      projects:
+        - name: helloworld-rust
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/helloworld-rust.zip'
 spec:
   started: true
   routingClass: che
@@ -96,8 +128,6 @@ spec:
           image: quay.io/devfile/universal-developer-image:ubi8-latest
           memoryLimit: 1Gi
           cpuLimit: 1000m
-        attributes:
-          controller.devfile.io/merge-contribution: true
     commands:
       - id: build
         exec:

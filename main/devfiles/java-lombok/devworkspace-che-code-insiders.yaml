@@ -85,6 +85,40 @@ apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
 metadata:
   name: java-lombok
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.1.0
+      metadata:
+        name: java-lombok
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            memoryLimit: 3Gi
+            endpoints:
+              - exposure: none
+                name: debug
+                protocol: tcp
+                targetPort: 5005
+            volumeMounts:
+              - name: m2
+                path: /home/user/.m2
+        - name: m2
+          volume:
+            size: 1G
+      commands:
+        - id: maven-build
+          exec:
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: mvn clean install
+            group:
+              kind: build
+              isDefault: true
+      projects:
+        - name: lombok-project-sample
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/lombok-project-sample.zip'
 spec:
   started: true
   routingClass: che
@@ -102,8 +136,6 @@ spec:
           volumeMounts:
             - name: m2
               path: /home/user/.m2
-        attributes:
-          controller.devfile.io/merge-contribution: true
       - name: m2
         volume:
           size: 1G

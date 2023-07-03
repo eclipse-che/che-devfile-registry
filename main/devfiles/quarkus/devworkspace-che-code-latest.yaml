@@ -86,6 +86,86 @@ apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
 metadata:
   name: quarkus-quickstart
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.1.0
+      metadata:
+        name: quarkus-quickstart
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            env:
+              - name: QUARKUS_HTTP_HOST
+                value: 0.0.0.0
+            endpoints:
+              - exposure: none
+                name: debug
+                protocol: tcp
+                targetPort: 5005
+              - exposure: public
+                name: hello-greeting-endpoint
+                protocol: http
+                targetPort: 8080
+                path: /hello/greeting/che-user
+            volumeMounts:
+              - name: m2
+                path: /home/user/.m2
+            memoryLimit: 4.7G
+            mountSources: true
+        - name: ubi-minimal
+          container:
+            image: registry.access.redhat.com/ubi8/ubi-minimal
+            command:
+              - tail
+            args:
+              - '-f'
+              - /dev/null
+            memoryLimit: 64M
+            mountSources: true
+        - name: m2
+          volume:
+            size: 1G
+      commands:
+        - id: package
+          exec:
+            component: tools
+            workingDir: ${PROJECT_SOURCE}/getting-started
+            commandLine: mvn package
+            group:
+              kind: build
+              isDefault: true
+        - id: package-native
+          exec:
+            label: Package Native
+            component: tools
+            workingDir: ${PROJECT_SOURCE}/getting-started
+            commandLine: >-
+              mvn package -Dnative -Dmaven.test.skip
+              -Dquarkus.native.native-image-xmx=2G
+            group:
+              kind: build
+        - id: start-dev
+          exec:
+            label: Start Development mode (Hot reload + debug)
+            component: tools
+            workingDir: ${PROJECT_SOURCE}/getting-started
+            commandLine: mvn compile quarkus:dev
+            group:
+              kind: run
+              isDefault: true
+        - id: start-native
+          exec:
+            label: Start Native
+            component: ubi-minimal
+            workingDir: ${PROJECT_SOURCE}/getting-started/target
+            commandLine: ./getting-started-1.0.0-SNAPSHOT-runner
+            group:
+              kind: run
+      projects:
+        - name: quarkus-quickstarts
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/quarkus-quickstarts.zip'
 spec:
   started: true
   routingClass: che
@@ -112,8 +192,6 @@ spec:
               path: /home/user/.m2
           memoryLimit: 4.7G
           mountSources: true
-        attributes:
-          controller.devfile.io/merge-contribution: true
       - name: ubi-minimal
         container:
           image: registry.access.redhat.com/ubi8/ubi-minimal

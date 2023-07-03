@@ -104,6 +104,60 @@ apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
 metadata:
   name: dotnet
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.2.0
+      metadata:
+        name: dotnet
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            memoryLimit: 2Gi
+            mountSources: true
+            env:
+              - name: CONFIGURATION
+                value: Debug
+              - name: STARTUP_PROJECT
+                value: app.csproj
+              - name: ASPNETCORE_ENVIRONMENT
+                value: Development
+              - name: ASPNETCORE_URLS
+                value: http://*:8080
+            endpoints:
+              - name: http-dotnet60
+                targetPort: 8080
+            volumeMounts:
+              - name: nuget
+                path: /home/user/.nuget
+        - name: nuget
+          volume:
+            size: 1G
+      commands:
+        - id: build
+          exec:
+            label: Build
+            component: tools
+            workingDir: ${PROJECTS_ROOT}/dotnet-web-simple
+            commandLine: >-
+              dotnet build -c $CONFIGURATION $STARTUP_PROJECT
+              /p:UseSharedCompilation=false
+            group:
+              kind: build
+        - id: run
+          exec:
+            label: Run
+            component: tools
+            workingDir: ${PROJECTS_ROOT}/dotnet-web-simple
+            commandLine: >-
+              dotnet run -c $CONFIGURATION --no-build --project $STARTUP_PROJECT
+              --no-launch-profile
+            group:
+              kind: run
+      projects:
+        - name: dotnet-web-simple
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/dotnet-web-simple.zip'
 spec:
   started: true
   routingClass: che
@@ -129,8 +183,6 @@ spec:
           volumeMounts:
             - name: nuget
               path: /home/user/.nuget
-        attributes:
-          controller.devfile.io/merge-contribution: true
       - name: nuget
         volume:
           size: 1G

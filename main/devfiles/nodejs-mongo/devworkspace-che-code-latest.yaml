@@ -86,6 +86,66 @@ apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
 metadata:
   name: nodejs-mongodb
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.1.0
+      metadata:
+        name: nodejs-mongodb
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            env:
+              - name: SECRET
+                value: 220fd770-c028-480d-8f95-f84353c7d55a
+              - name: NODE_ENV
+                value: production
+            endpoints:
+              - exposure: public
+                name: nodejs
+                targetPort: 8080
+            memoryLimit: 1G
+            mountSources: true
+        - name: mongo
+          container:
+            image: >-
+              quay.io/eclipse/che--centos--mongodb-36-centos7:latest-a915db7beca87198fcd7860086989fe8a327a1a4f6508025b64ab28fcc7423b2
+            env:
+              - name: MONGODB_USER
+                value: user
+              - name: MONGODB_PASSWORD
+                value: password
+              - name: MONGODB_DATABASE
+                value: guestbook
+              - name: MONGODB_ADMIN_PASSWORD
+                value: password
+            endpoints:
+              - name: mongodb
+                exposure: internal
+                targetPort: 27017
+                attributes:
+                  discoverable: 'true'
+            memoryLimit: 512Mi
+            mountSources: true
+            volumeMounts:
+              - name: mongo-storage
+                path: /var/lib/mongodb/data
+        - name: mongo-storage
+          volume:
+            size: 256Mi
+      commands:
+        - id: run-application
+          exec:
+            label: Run the application
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: npm install && node --inspect=9229 app.js
+            group:
+              kind: run
+      projects:
+        - name: nodejs-mongodb-sample
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/nodejs-mongodb-sample.zip'
 spec:
   started: true
   routingClass: che
@@ -105,8 +165,6 @@ spec:
               targetPort: 8080
           memoryLimit: 1G
           mountSources: true
-        attributes:
-          controller.devfile.io/merge-contribution: true
       - name: mongo
         container:
           image: >-

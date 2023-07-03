@@ -86,6 +86,39 @@ apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
 metadata:
   name: cpp
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.1.0
+      metadata:
+        name: cpp
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            memoryLimit: 1G
+            mountSources: true
+      commands:
+        - id: build
+          exec:
+            label: Build application
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: g++ -g hello.cpp -o hello.out && echo "Build complete"
+            group:
+              kind: build
+              isDefault: true
+        - id: run
+          exec:
+            label: Run application
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: ./hello.out
+            group:
+              kind: run
+      projects:
+        - name: cpp-hello-world
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/cpp-hello-world.zip'
 spec:
   started: true
   routingClass: che
@@ -96,8 +129,6 @@ spec:
           image: quay.io/devfile/universal-developer-image:ubi8-latest
           memoryLimit: 1G
           mountSources: true
-        attributes:
-          controller.devfile.io/merge-contribution: true
     commands:
       - id: build
         exec:

@@ -86,6 +86,42 @@ apiVersion: workspace.devfile.io/v1alpha2
 kind: DevWorkspace
 metadata:
   name: react
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.1.0
+      metadata:
+        name: react
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            memoryLimit: 1G
+            endpoints:
+              - exposure: public
+                name: nodejs
+                protocol: http
+                targetPort: 4100
+      commands:
+        - id: install-dependencies
+          exec:
+            label: Install all required dependencies
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: npm install
+            group:
+              kind: build
+        - id: start-application
+          exec:
+            label: Start the local server
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: npm start
+            group:
+              kind: run
+      projects:
+        - name: nodejs-react-redux
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/main/resources/v2/nodejs-react-redux.zip'
 spec:
   started: true
   routingClass: che
@@ -100,8 +136,6 @@ spec:
               name: nodejs
               protocol: http
               targetPort: 4100
-        attributes:
-          controller.devfile.io/merge-contribution: true
     commands:
       - id: install-dependencies
         exec:
