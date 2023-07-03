@@ -14,7 +14,10 @@ import { Container } from 'inversify';
 import { devfileModule } from '../devfile/devfile-module';
 import { fetchModule } from '../fetch/fetch-module';
 import { githubModule } from '../github/github-module';
+import { resolveModule } from '../resolve/resolve-module';
 import { pluginRegistryModule } from '../plugin-registry/plugin-registry-module';
+import { bitbucketModule } from '../bitbucket/bitbucket-module';
+import { bitbucketServerModule } from '../bitbucket-server/bitbucket-server-module';
 
 /**
  * Manage all bindings for inversify
@@ -28,6 +31,9 @@ export class InversifyBinding {
     this.container.load(devfileModule);
     this.container.load(fetchModule);
     this.container.load(githubModule);
+    this.container.load(bitbucketModule);
+    this.container.load(bitbucketServerModule);
+    this.container.load(resolveModule);
     this.container.load(pluginRegistryModule);
 
     this.container.bind(Symbol.for('AxiosInstance')).toConstantValue(options.axiosInstance);

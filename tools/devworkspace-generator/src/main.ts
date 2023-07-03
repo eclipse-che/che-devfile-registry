@@ -18,6 +18,7 @@ import { UrlFetcher } from './fetch/url-fetcher';
 import { PluginRegistryResolver } from './plugin-registry/plugin-registry-resolver';
 import { V1alpha2DevWorkspaceSpecTemplate } from '@devfile/api';
 import { DevfileContext } from './api/devfile-context';
+import { GitUrlResolver } from './resolve/git-url-resolver';
 
 export class Main {
   /**
@@ -69,12 +70,12 @@ export class Main {
     let devfileContent;
     let editorContent;
 
-    // gets the github URL
+    // gets the repo URL
     if (params.devfileUrl) {
-      const githubResolver = container.get(GithubResolver);
-      const githubUrl = githubResolver.resolve(params.devfileUrl);
+      const resolver = container.get(GitUrlResolver);
+      const url = resolver.resolve(params.devfileUrl);
       // user devfile
-      devfileContent = await container.get(UrlFetcher).fetchText(githubUrl.getContentUrl('devfile.yaml'));
+      devfileContent = await container.get(UrlFetcher).fetchText(url.getContentUrl('devfile.yaml'));
 
       // load content
       const devfileParsed = jsYaml.load(devfileContent);
@@ -84,10 +85,10 @@ export class Main {
         // no, so add the current project being cloned
         devfileParsed.projects = [
           {
-            name: githubUrl.getRepoName(),
+            name: url.getRepoName(),
             git: {
-              remotes: { origin: githubUrl.getCloneUrl() },
-              checkoutFrom: { revision: githubUrl.getBranchName() },
+              remotes: { origin: url.getCloneUrl() },
+              checkoutFrom: { revision: url.getBranchName() },
             },
           },
         ];
