@@ -11,7 +11,6 @@
 import * as axios from 'axios';
 import * as fs from 'fs-extra';
 import { Generate } from './generate';
-import { GithubResolver } from './github/github-resolver';
 import * as jsYaml from 'js-yaml';
 import { InversifyBinding } from './inversify/inversify-binding';
 import { UrlFetcher } from './fetch/url-fetcher';
