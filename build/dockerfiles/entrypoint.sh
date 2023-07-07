@@ -47,13 +47,13 @@ INDEX_JSON="${DEVFILES_DIR}/index.json"
 IMAGE_REGEX='([[:space:]]*"?)([._:a-zA-Z0-9-]*)/([._a-zA-Z0-9-]*)/([._a-zA-Z0-9-]*)(@sha256)?:([._a-zA-Z0-9-]*)("?)'
 
 # Extract and use env variables with image digest information.
-# Env variable name format: 
+# Env variable name format:
 # RELATED_IMAGES_(Image_name)_(Image_label)_(Encoded_base32_image_tag)
 # Where are:
 # "Image_name" - image name. Not valid chars for env variable name replaced to '_'.
 # "Image_label" - image target, for example 'devfile_registry_image'.
-# "Encoded_base32_image_tag_" - original image tag encoded to base32, to avoid invalid for env name chars. base32 alphabet has only 
-# one invalid character for env name: '='. That's why it was replaced to '_'. 
+# "Encoded_base32_image_tag_" - original image tag encoded to base32, to avoid invalid for env name chars. base32 alphabet has only
+# one invalid character for env name: '='. That's why it was replaced to '_'.
 # INFO: "=" for base32 it is pad character. If encoded string contains this char(s), then it is always located at the end of the string.
 # Env value it is image with digest to use.
 # Example env variable:
@@ -83,7 +83,7 @@ if env | grep -q ".*devfile_registry_image.*"; then
   done
   echo "--------------------------------------------------------------"
 
-  readarray -t devfiles < <(find "${DEVFILES_DIR}" -name 'devfile.yaml')
+  readarray -t devfiles < <(find "${DEVFILES_DIR}" -name 'devworkspace-che-*.yaml')
   for devfile in "${devfiles[@]}"; do
     readarray -t images < <(grep "image:" "${devfile}" | sed -r "s;.*image:[[:space:]]*'?\"?([._:a-zA-Z0-9-]*/?[._a-zA-Z0-9-]*/[._a-zA-Z0-9-]*(@sha256)?:?[._a-zA-Z0-9-]*)'?\"?[[:space:]]*;\1;")
     for image in "${images[@]}"; do
@@ -115,7 +115,7 @@ fi
 # We can't use the `-d` option for readarray because
 # registry.centos.org/centos/httpd-24-centos7 ships with Bash 4.2
 # The below command will fail if any path contains whitespace
-readarray -t devfiles < <(find "${DEVFILES_DIR}" -name 'devfile.yaml')
+readarray -t devfiles < <(find "${DEVFILES_DIR}" -name 'devworkspace-che-*.yaml')
 readarray -t metas < <(find "${DEVFILES_DIR}" -name 'meta.yaml')
 readarray -t templates < <(find "${DEVFILES_DIR}" -name 'devworkspace-che-*.yaml')
 for devfile in "${devfiles[@]}"; do
