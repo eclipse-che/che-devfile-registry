@@ -1,0 +1,7 @@
+---
+displayName: Test Bitbucket Server
+description: Test Bitbucket Server Stack.
+tags: ["Test", "Bitbucket Server"]
+icon: /images/che.svg
+links:
+  v2: https://bitbucket-bitbucket.apps.cluster-p47fc.p47fc.sandbox929.opentlc.com/users/ivinokur/repos/test/browse?at=test

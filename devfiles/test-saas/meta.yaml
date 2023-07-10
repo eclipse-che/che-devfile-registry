@@ -1,0 +1,7 @@
+---
+displayName: Test Bitbucket SAAS
+description: Test Bitbucket SAAS Stack.
+tags: ["Test", "Bitbucket SAAS"]
+icon: /images/che.svg
+links:
+  v2: https://bitbucket.org/ivinokur/public/src/master/
