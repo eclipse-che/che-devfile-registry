@@ -111,8 +111,9 @@ fi
 pushd "${base_dir}" > /dev/null
 
 IMAGE="${REGISTRY}/${ORGANIZATION}/che-devfile-registry:${TAG}"
-
+VERSION=$(head -n 1 VERSION)
 ${BUILDER} ${BUILD_COMMAND} \
+    --build-arg VERSION="${VERSION}" \
     -t "${IMAGE}" \
     -f "${DOCKERFILE}" \
     --target "${TARGET}" .
