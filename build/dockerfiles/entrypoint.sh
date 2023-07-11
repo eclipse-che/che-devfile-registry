@@ -87,7 +87,7 @@ if env | grep -q ".*devfile_registry_image.*"; then
   for devfile in "${devfiles[@]}"; do
     # Put an actual image on the same line with 'image' field
     # It allows to grep image with digest in the next step
-    sed -i -E ':a;N;$!ba;s|image: >-\n[ ]+|image: |g' ${devfile}
+    sed -i -E ':a;N;$!ba;s|image: >-\n[ ]+|image: |g' "${devfile}"
 
     readarray -t images < <(grep "image:" "${devfile}" | sed -r "s;.*image:[[:space:]]*'?\"?([._:a-zA-Z0-9-]*/?[._a-zA-Z0-9-]*/[._a-zA-Z0-9-]*(@sha256)?:?[._a-zA-Z0-9-]*)'?\"?[[:space:]]*;\1;")
     for image in "${images[@]}"; do
