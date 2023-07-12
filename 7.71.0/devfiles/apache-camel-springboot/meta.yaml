@@ -1,0 +1,19 @@
+displayName: Apache Camel based on Spring Boot
+description: Stack with environment ready to develop Integration projects with Apache
+  Camel based on Spring Boot.
+tags:
+  - Community
+  - Java
+  - OpenJDK
+  - Maven
+  - Debian
+  - Apache Camel
+  - Red Hat Fuse
+  - Spring Boot
+icon: /images/camelk.svg
+links:
+  v2: https://github.com/che-samples/fuse-rest-http-booster/tree/main
+  devWorkspaces:
+    che-incubator/che-idea/next: /devfiles/apache-camel-springboot/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/apache-camel-springboot/devworkspace-che-code-latest.yaml
+    che-incubator/che-code/insiders: /devfiles/apache-camel-springboot/devworkspace-che-code-insiders.yaml

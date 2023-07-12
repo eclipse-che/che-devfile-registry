@@ -1,0 +1,14 @@
+displayName: Python
+description: Python Stack with Python 3.8
+tags:
+  - Community
+  - Centos
+  - Python
+  - pip
+icon: /images/python.svg
+links:
+  v2: https://github.com/che-samples/python-hello-world/tree/main
+  devWorkspaces:
+    che-incubator/che-idea/next: /devfiles/python/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/python/devworkspace-che-code-latest.yaml
+    che-incubator/che-code/insiders: /devfiles/python/devworkspace-che-code-insiders.yaml
