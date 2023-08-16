@@ -170,10 +170,9 @@ updateVersion () {
   thisVERSION="$1"
   # update main VERSION file of devfile registry
   echo "${thisVERSION}" > VERSION
-  # update version of devworkspace-generator
+  # update version of devworkspace-generator in package.json
   jq ".\"dependencies\".\"@eclipse-che/che-devworkspace-generator\" = \"${thisVERSION}\"" tools/devworkspace-generator/package.json > tools/devworkspace-generator/package.json.update
   mv tools/devworkspace-generator/package.json.update tools/devworkspace-generator/package.json
-  sed -i -r -e "s/(\"version\": )(\".*\")/\1\"${thisVERSION}\"/" tools/devworkspace-generator/package.json
 }
 
 if [[ ! ${VERSION} ]]; then
