@@ -67,17 +67,18 @@ jobs:
           yarn
           yarn compile
           npm publish --tag latest
-      - name: Create failure MM message
-        if: ${{ failure() }}
-        run: |
-          echo "{\"text\":\":no_entry_sign: Che Devworkspace Generator ${{ github.event.inputs.version }} release has failed: https://github.com/eclipse-che/che-devfile-registry/actions/workflows/release.yml\"}" > mattermost.json
-      - name: Create success MM message
-        run: |
-          echo "{\"text\":\":white_check_mark: Che Devworkspace Generator ${{ github.event.inputs.version }} has been released: https://www.npmjs.com/package/@eclipse-che/che-devworkspace-generator/v/${{ github.event.inputs.version }}\"}" > mattermost.json
-      - name: Send MM message
-        if: ${{ success() }} || ${{ failure() }}
-        uses: mattermost/action-mattermost-notify@1.1.0
-        env:
-          MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
-          MATTERMOST_CHANNEL: eclipse-che-releases
-          MATTERMOST_USERNAME: che-bot
+    # che-22407 - mattermost steps are commented out, until we find a replacement for it
+    #  - name: Create failure MM message
+    #     if: ${{ failure() }}
+    #     run: |
+    #       echo "{\"text\":\":no_entry_sign: Che Devworkspace Generator ${{ github.event.inputs.version }} release has failed: https://github.com/eclipse-che/che-devfile-registry/actions/workflows/release.yml\"}" > mattermost.json
+    #   - name: Create success MM message
+    #     run: |
+    #       echo "{\"text\":\":white_check_mark: Che Devworkspace Generator ${{ github.event.inputs.version }} has been released: https://www.npmjs.com/package/@eclipse-che/che-devworkspace-generator/v/${{ github.event.inputs.version }}\"}" > mattermost.json
+    #   - name: Send MM message
+    #     if: ${{ success() }} || ${{ failure() }}
+    #     uses: mattermost/action-mattermost-notify@1.1.0
+    #     env:
+    #       MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+    #       MATTERMOST_CHANNEL: eclipse-che-releases
+    #       MATTERMOST_USERNAME: che-bot
