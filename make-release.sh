@@ -166,11 +166,13 @@ fetchAndCheckout ()
   git fetch origin "${bBRANCH}:${bBRANCH}"; git checkout "${bBRANCH}"
 }
 
-# unlike in che-plugin-registry, here we just need to update the VERSION file
-updateVersionFile () {
+updateVersion () {
   thisVERSION="$1"
-  # update VERSION file with VERSION or NEWVERSION
+  # update main VERSION file of devfile registry
   echo "${thisVERSION}" > VERSION
+  # update version of devworkspace-generator in package.json
+  jq ".\"dependencies\".\"@eclipse-che/che-devworkspace-generator\" = \"${thisVERSION}\"" tools/devworkspace-generator/package.json > tools/devworkspace-generator/package.json.update
+  mv tools/devworkspace-generator/package.json.update tools/devworkspace-generator/package.json
 }
 
 if [[ ! ${VERSION} ]]; then
@@ -240,7 +242,9 @@ commitChangeOrCreatePR()
 }
 
 # bump VERSION file to VERSION
-updateVersionFile "${VERSION}"
+updateVersion "${VERSION}"
+# update build scripts to reference release version of devworkspace generator
+sed -i -r -e "s/CHE_DEVWORKSPACE_GENERATOR_VERSION=next/CHE_DEVWORKSPACE_GENERATOR_VERSION=${VERSION}/" build/scripts/generate_devworkspace_templates.sh
 
 # commit change into branch
 commitChangeOrCreatePR "${VERSION}" "${BRANCH}" "pr-${BRANCH}-to-${VERSION}"
@@ -271,7 +275,7 @@ else
 fi
 
 # bump VERSION file to NEXTVERSION
-updateVersionFile "${NEXTVERSION}"
+updateVersion "${NEXTVERSION}"
 commitChangeOrCreatePR "${NEXTVERSION}" "${BASEBRANCH}" "pr-${BASEBRANCH}-to-${NEXTVERSION}"
 
 # cleanup tmp dir
