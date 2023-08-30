@@ -23,7 +23,7 @@ cp -rf "$REPO_DIR"/build/scripts "$BUILD_DIR"
 cp -rf "$DEVFILES_SRC" "$BUILD_DIR"/devfiles
 cd "$BUILD_DIR"
 ./check_mandatory_fields.sh devfiles
-./index.sh > devfiles/index.json
+./index.sh > devfiles/index.json && cp devfiles/index.json index
 # ./generate_devworkspace_templates.sh
 
 ROUTE_OR_INGRESS="routes"

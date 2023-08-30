@@ -38,6 +38,7 @@ RUN apk add --no-cache bash && \
     apk add --no-cache coreutils
 COPY .htaccess README.md /usr/local/apache2/htdocs/
 COPY --from=builder /build/devfiles /usr/local/apache2/htdocs/devfiles
+COPY --from=builder /build/devfiles/index.json /usr/local/apache2/htdocs/index
 COPY --from=builder /build/resources /usr/local/apache2/htdocs/resources
 COPY ./images /usr/local/apache2/htdocs/images
 COPY ./build/dockerfiles/entrypoint.sh /usr/bin/
@@ -53,4 +54,5 @@ RUN ./cache_projects.sh devfiles resources && \
 # Offline registry: copy updated devfile.yamls and cached projects
 FROM registry AS offline-registry
 COPY --from=offline-builder /build/devfiles /usr/local/apache2/htdocs/devfiles
+COPY --from=offline-builder /build/devfiles/index.json /usr/local/apache2/htdocs/index
 COPY --from=offline-builder /build/resources /usr/local/apache2/htdocs/resources

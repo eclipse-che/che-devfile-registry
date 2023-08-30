@@ -85,6 +85,7 @@ WORKDIR /var/www/html
 RUN mkdir -m 777 /var/www/html/devfiles
 COPY .htaccess README.md /var/www/html/
 COPY --from=builder /build/devfiles /var/www/html/devfiles
+COPY --from=builder /build/devfiles/index.json /var/www/html/index
 COPY ./images /var/www/html/images
 COPY ./build/dockerfiles/rhel.entrypoint.sh ./build/dockerfiles/entrypoint.sh /usr/local/bin/
 RUN chmod g+rwX /usr/local/bin/entrypoint.sh /usr/local/bin/rhel.entrypoint.sh
@@ -99,6 +100,7 @@ RUN ./cache_projects.sh devfiles resources && \
 
 FROM registry AS offline-registry
 COPY --from=offline-builder /build/devfiles /var/www/html/devfiles
+COPY --from=offline-builder /build/devfiles/index.json /var/www/html/index
 COPY --from=offline-builder /build/resources /var/www/html/resources
 
 # append Brew metadata here
