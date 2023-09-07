@@ -1,0 +1,15 @@
+displayName: Apache Camel K
+description: Stack with tooling ready to develop Integration projects with Apache
+  Camel K
+tags:
+  - Community
+  - Apache Camel K
+  - Red Hat Fuse
+  - Integration
+icon: /images/camelk.svg
+links:
+  v2: https://github.com/che-samples/apache-camel-k/tree/main
+  devWorkspaces:
+    che-incubator/che-idea/next: /devfiles/apache-camel-k/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/apache-camel-k/devworkspace-che-code-latest.yaml
+    che-incubator/che-code/insiders: /devfiles/apache-camel-k/devworkspace-che-code-insiders.yaml
