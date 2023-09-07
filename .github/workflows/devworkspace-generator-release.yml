@@ -70,9 +70,10 @@ jobs:
         run: |
           cd tools/devworkspace-generator
           sed -i -r -e "s/(\"version\": )(\".*\")/\1\"${{ github.event.inputs.version }}\"/" package.json
-          yarn
-          yarn compile
-          npm publish --tag latest
+          cat package.json | grep \"version\"
+          # yarn
+          # yarn compile
+          # npm publish --tag latest
     # che-22407 - mattermost steps are commented out, until we find a replacement for it
     #  - name: Create failure MM message
     #     if: ${{ failure() }}
