@@ -26,6 +26,12 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       -
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@eclipse-che'
+      -
         name: "Checkout source code"
         uses: actions/checkout@v4
         with:
