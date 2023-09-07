@@ -69,7 +69,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         run: |
           cd tools/devworkspace-generator
-          sed -i -r -e "s/(\"version\": )(\".*\")/\1\"${thisVERSION}\"/" package.json
+          sed -i -r -e "s/(\"version\": )(\".*\")/\1\"${{ github.event.inputs.version }}\"/" package.json
           yarn
           yarn compile
           npm publish --tag latest
