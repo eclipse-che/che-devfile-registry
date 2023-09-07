@@ -57,7 +57,7 @@ jobs:
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: yarn-${{ hashFiles('tools/devworkspace-generator/yarn.lock') }}
-        restore-keys: yarn-
+          restore-keys: yarn-
       - name: publish DevWorkspace Generator
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
