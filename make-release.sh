@@ -260,18 +260,18 @@ if [[ $TRIGGER_RELEASE -eq 1 ]]; then
   git push origin "${VERSION}"
 fi
 
-# now update ${BASEBRANCH} to the new snapshot version
+# now update ${BASEBRANCH} to the new next version
 fetchAndCheckout "${BASEBRANCH}"
 
 # change VERSION file + commit change into ${BASEBRANCH} branch
 if [[ "${BASEBRANCH}" != "${BRANCH}" ]]; then
   # bump the y digit
   [[ $BRANCH =~ ^([0-9]+)\.([0-9]+)\.x ]] && BASE=${BASH_REMATCH[1]}; NEXT=${BASH_REMATCH[2]}; (( NEXT=NEXT+1 )) # for BRANCH=7.10.x, get BASE=7, NEXT=11
-  NEXTVERSION="${BASE}.${NEXT}.0-SNAPSHOT"
+  NEXTVERSION="${BASE}.${NEXT}.0-next"
 else
   # bump the z digit
   [[ $VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]] && BASE="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}"; NEXT="${BASH_REMATCH[3]}"; (( NEXT=NEXT+1 )) # for VERSION=7.7.1, get BASE=7.7, NEXT=2
-  NEXTVERSION="${BASE}.${NEXT}-SNAPSHOT"
+  NEXTVERSION="${BASE}.${NEXT}-next"
 fi
 
 # bump VERSION file to NEXTVERSION

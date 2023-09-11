@@ -36,7 +36,7 @@ git tag 7.8.0
 git push origin 7.8.0
 ```
 
-After the release, the `VERSION` file should be bumped in the main branch, e.g. to `7.9.0-SNAPSHOT`.
+After the release, the `VERSION` file should be bumped in the main branch, e.g. to `7.75.0-next`.
 
 ## Service / Bugfix  Release
 
