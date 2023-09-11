@@ -1,6 +1,6 @@
 {
   "name": "@eclipse-che/che-devworkspace-generator",
-  "version": "7.69.0",
+  "version": "7.74.1-next",
   "private": false,
   "description": "Generates DevWorkspaces by transforming existing devfiles",
   "main": "lib/entrypoint.js",
@@ -46,8 +46,7 @@
     "inversify": "^5.0.1",
     "js-yaml": "^4.0.0",
     "jsonc-parser": "^3.0.0",
-    "reflect-metadata": "^0.1.13",
-    "@eclipse-che/che-devworkspace-generator": "7.74.0"
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
