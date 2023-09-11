@@ -11,7 +11,7 @@
 set -e
 
 VERSION="${1%/}"
-if [[ -z "$VERSION" || "$VERSION" == *"-SNAPSHOT" ]]; then
+if [[ -z "$VERSION" || "$VERSION" == *"-next" ]]; then
   VERSION="main"
 fi
 
