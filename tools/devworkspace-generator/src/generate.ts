@@ -16,12 +16,14 @@ import {
   V1alpha2DevWorkspaceSpecContributions,
   V1alpha2DevWorkspaceTemplate,
   V1alpha2DevWorkspaceTemplateSpec,
+  V221DevfileStarterProjects,
 } from '@devfile/api';
 import { injectable, inject } from 'inversify';
 import * as jsYaml from 'js-yaml';
 import * as fs from 'fs-extra';
 import { DevfileContext } from './api/devfile-context';
 import { DevContainerComponentFinder } from './devfile/dev-container-component-finder';
+import { UrlFetcher } from './fetch/url-fetcher';
 
 type DevfileLike = V221Devfile & {
   metadata: V221DevfileMetadata & {
@@ -33,6 +35,8 @@ type DevfileLike = V221Devfile & {
 export class Generate {
   @inject(DevContainerComponentFinder)
   private devContainerComponentFinder: DevContainerComponentFinder;
+  @inject(UrlFetcher)
+  private urlFetcher: UrlFetcher;
 
   async generate(
     devfileContent: string,
@@ -93,7 +97,7 @@ export class Generate {
 
     // transform it into a devWorkspace
     const devfileMetadata = this.createDevWorkspaceMetadata(devfile, true);
-    const devfileCopy = Object.assign({}, devfile);
+    const devfileCopy: V221Devfile = Object.assign({}, devfile);
     delete devfileCopy.schemaVersion;
     delete devfileCopy.metadata;
     const editorSpecContribution: V1alpha2DevWorkspaceSpecContributions = {
@@ -113,6 +117,18 @@ export class Generate {
         contributions: [editorSpecContribution],
       },
     };
+
+    let starterProjects: V221DevfileStarterProjects[];
+
+    // if the devfile has a starter project, we use it for the devWorkspace
+    if (devfileCopy.starterProjects && devfileCopy.starterProjects.length > 0) {
+      starterProjects = devfileCopy.starterProjects;
+      let starterProject: V221DevfileStarterProjects;
+      starterProject = starterProjects[0];
+      devWorkspace.spec.template.attributes = {
+        'controller.devfile.io/use-starter-project': starterProject.name,
+      };
+    }
 
     // for now the list of devWorkspace templates is only the editor template
     const devWorkspaceTemplates = [editorDevWorkspaceTemplate];
