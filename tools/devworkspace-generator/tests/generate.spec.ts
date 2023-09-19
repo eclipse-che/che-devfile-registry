@@ -15,19 +15,11 @@ import { Container } from 'inversify';
 import { Generate } from '../src/generate';
 import { DevContainerComponentFinder } from '../src/devfile/dev-container-component-finder';
 import { DevContainerComponentInserter } from '../src/devfile/dev-container-component-inserter';
-import { UrlFetcher } from '../src/fetch/url-fetcher';
 
 describe('Test Generate', () => {
   let container: Container;
   let generate: Generate;
   let devContainerFinder: DevContainerComponentFinder;
-
-  const urlFetcherFetchTextMock = jest.fn();
-  const urlFetcherFetchTextOptionalMock = jest.fn();
-  const urlFetcher = {
-    fetchText: urlFetcherFetchTextMock,
-    fetchTextOptionalContent: urlFetcherFetchTextOptionalMock,
-  } as any;
 
   beforeEach(() => {
     jest.restoreAllMocks();
@@ -36,7 +28,6 @@ describe('Test Generate', () => {
     container.bind(Generate).toSelf().inSingletonScope();
     container.bind(DevContainerComponentFinder).toSelf().inSingletonScope();
     container.bind(DevContainerComponentInserter).toSelf().inSingletonScope();
-    container.bind(UrlFetcher).toConstantValue(urlFetcher);
     generate = container.get(Generate);
     devContainerFinder = container.get(DevContainerComponentFinder);
   });

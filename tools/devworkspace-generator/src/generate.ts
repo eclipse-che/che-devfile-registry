@@ -23,7 +23,6 @@ import * as jsYaml from 'js-yaml';
 import * as fs from 'fs-extra';
 import { DevfileContext } from './api/devfile-context';
 import { DevContainerComponentFinder } from './devfile/dev-container-component-finder';
-import { UrlFetcher } from './fetch/url-fetcher';
 
 type DevfileLike = V221Devfile & {
   metadata: V221DevfileMetadata & {
@@ -35,8 +34,6 @@ type DevfileLike = V221Devfile & {
 export class Generate {
   @inject(DevContainerComponentFinder)
   private devContainerComponentFinder: DevContainerComponentFinder;
-  @inject(UrlFetcher)
-  private urlFetcher: UrlFetcher;
 
   async generate(
     devfileContent: string,
