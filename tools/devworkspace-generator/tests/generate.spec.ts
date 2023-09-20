@@ -94,6 +94,83 @@ metadata:
     });
   });
 
+  describe('Devfile contains starterProjects', () => {
+    test('basics', async () => {
+      const devfileContent = `
+schemaVersion: 2.2.0
+metadata:
+  name: starter-project
+starterProjects:
+  - name: go-starter
+    description: A Go project
+    git:
+      checkoutFrom:
+        revision: main
+      remotes:
+        origin: https://github.com/devfile-samples/devfile-stack-go.git
+  - name: vertx-http-example
+    git:
+      remotes:
+        origin: https://github.com
+`;
+      const editorContent = `
+schemaVersion: 2.2.0
+metadata:
+  name: che-code
+`;
+
+      const fsWriteFileSpy = jest.spyOn(fs, 'writeFile');
+      fsWriteFileSpy.mockReturnValue({});
+
+      let context = await generate.generate(devfileContent, editorContent);
+      // expect not to write the file
+      expect(fsWriteFileSpy).not.toBeCalled();
+      const expectedDevWorkspace = {
+        apiVersion: 'workspace.devfile.io/v1alpha2',
+        kind: 'DevWorkspace',
+        metadata: {
+          name: 'starter-project',
+          annotations: {
+            'che.eclipse.org/devfile': jsYaml.dump(jsYaml.load(devfileContent)),
+          },
+        },
+        spec: {
+          started: true,
+          routingClass: 'che',
+          template: {
+            attributes: {
+              'controller.devfile.io/use-starter-project': 'go-starter',
+            },
+            starterProjects: [
+              {
+                name: 'go-starter',
+                description: 'A Go project',
+                git: {
+                  checkoutFrom: {
+                    revision: 'main',
+                  },
+                  remotes: {
+                    origin: 'https://github.com/devfile-samples/devfile-stack-go.git',
+                  },
+                },
+              },
+              {
+                name: 'vertx-http-example',
+                git: {
+                  remotes: {
+                    origin: 'https://github.com',
+                  },
+                },
+              },
+            ],
+          },
+          contributions: [{ name: 'editor', kubernetes: { name: 'che-code-starter-project' } }],
+        },
+      };
+      expect(context.devWorkspace).toStrictEqual(expectedDevWorkspace);
+    });
+  });
+
   describe('Without writing an output file', () => {
     test('basics', async () => {
       const devfileContent = `

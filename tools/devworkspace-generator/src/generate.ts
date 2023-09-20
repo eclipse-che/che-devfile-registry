@@ -93,7 +93,7 @@ export class Generate {
 
     // transform it into a devWorkspace
     const devfileMetadata = this.createDevWorkspaceMetadata(devfile, true);
-    const devfileCopy = Object.assign({}, devfile);
+    const devfileCopy: V221Devfile = Object.assign({}, devfile);
     delete devfileCopy.schemaVersion;
     delete devfileCopy.metadata;
     const editorSpecContribution: V1alpha2DevWorkspaceSpecContributions = {
@@ -113,6 +113,13 @@ export class Generate {
         contributions: [editorSpecContribution],
       },
     };
+
+    // if the devfile has a starter project, we use it for the devWorkspace
+    if (devfileCopy.starterProjects && devfileCopy.starterProjects.length > 0) {
+      devWorkspace.spec.template.attributes = {
+        'controller.devfile.io/use-starter-project': devfileCopy.starterProjects[0].name,
+      };
+    }
 
     // for now the list of devWorkspace templates is only the editor template
     const devWorkspaceTemplates = [editorDevWorkspaceTemplate];
