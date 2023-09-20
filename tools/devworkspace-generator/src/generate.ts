@@ -16,7 +16,6 @@ import {
   V1alpha2DevWorkspaceSpecContributions,
   V1alpha2DevWorkspaceTemplate,
   V1alpha2DevWorkspaceTemplateSpec,
-  V221DevfileStarterProjects,
 } from '@devfile/api';
 import { injectable, inject } from 'inversify';
 import * as jsYaml from 'js-yaml';
