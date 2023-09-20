@@ -22,7 +22,7 @@ spec:
     - name: che-code-runtime-description
       container:
         image: >-
-          quay.io/devfile/universal-developer-image@sha256:12719272a078c51eec09c8d0f0dfde8b5be122f56d133e063c80da0a505c25bc
+          quay.io/devfile/universal-developer-image@sha256:55908a5f2898f804cfe76e5c64b901f938b78ab94eb650f7f00b64e941da9958
         volumeMounts:
           - name: checode
             path: /checode
