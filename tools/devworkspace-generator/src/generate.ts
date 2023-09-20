@@ -115,15 +115,10 @@ export class Generate {
       },
     };
 
-    let starterProjects: V221DevfileStarterProjects[];
-
     // if the devfile has a starter project, we use it for the devWorkspace
     if (devfileCopy.starterProjects && devfileCopy.starterProjects.length > 0) {
-      starterProjects = devfileCopy.starterProjects;
-      let starterProject: V221DevfileStarterProjects;
-      starterProject = starterProjects[0];
       devWorkspace.spec.template.attributes = {
-        'controller.devfile.io/use-starter-project': starterProject.name,
+        'controller.devfile.io/use-starter-project': devfileCopy.starterProjects[0].name,
       };
     }
 
