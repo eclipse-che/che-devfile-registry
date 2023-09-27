@@ -1,0 +1,16 @@
+displayName: Quarkus REST API
+description: Quarkus stack with a default REST endpoint application sample
+tags:
+  - Community
+  - Java
+  - Quarkus
+  - OpenJDK
+  - Maven
+  - Debian
+icon: /images/quarkus.svg
+links:
+  v2: https://github.com/che-samples/quarkus-quickstarts/tree/main
+  devWorkspaces:
+    che-incubator/che-idea/next: /devfiles/quarkus/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/quarkus/devworkspace-che-code-latest.yaml
+    che-incubator/che-code/insiders: /devfiles/quarkus/devworkspace-che-code-insiders.yaml
