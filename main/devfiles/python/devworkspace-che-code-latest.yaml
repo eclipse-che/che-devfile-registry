@@ -22,7 +22,7 @@ spec:
     - name: che-code-runtime-description
       container:
         image: >-
-          quay.io/devfile/universal-developer-image@sha256:55908a5f2898f804cfe76e5c64b901f938b78ab94eb650f7f00b64e941da9958
+          quay.io/devfile/universal-developer-image@sha256:8a0f1295f1e1cdbc52da111cf90f735c00e445f9d99994bacdab9248bdfd1700
         volumeMounts:
           - name: checode
             path: /checode
@@ -71,7 +71,7 @@ spec:
     - name: che-code-injector
       container:
         image: >-
-          quay.io/che-incubator/che-code@sha256:857079b48678762a3cf5afe22694e634c98d6d3b58148436b88945938d5d24e5
+          quay.io/che-incubator/che-code@sha256:88fe148f012bfbbd77dc7aa36fe4cce60fdda75443915068faa7c65604b84f4b
         command:
           - /entrypoint-init-container.sh
         volumeMounts:
