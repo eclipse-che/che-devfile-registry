@@ -46,7 +46,8 @@
     "inversify": "^5.0.1",
     "js-yaml": "^4.0.0",
     "jsonc-parser": "^3.0.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "@eclipse-che/che-devworkspace-generator": "7.77.0-next"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
