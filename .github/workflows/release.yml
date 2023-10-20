@@ -78,8 +78,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       -
-        name: Set up yq
+        name: Install hub, yq
         run: |
+          sudo apt-get -y -q install hub
           sudo wget https://github.com/mikefarah/yq/releases/download/v4.7.0/yq_linux_amd64 -O /usr/bin/yq
           sudo chmod +x /usr/bin/yq
       - 
