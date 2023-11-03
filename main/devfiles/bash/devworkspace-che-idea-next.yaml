@@ -22,7 +22,7 @@ spec:
     - name: che-idea-runtime-description
       container:
         image: >-
-          quay.io/devfile/universal-developer-image@sha256:80d07a6b85cdc34f76c8f9a4ea7a2ac3a409e6bc104d3933d97c0f51d7d05f63
+          quay.io/devfile/universal-developer-image@sha256:9da4db923308dd3872a264d4730bc0dfb3fa1e42249f78b3fb9337a8aa9cc681
         env:
           - name: PROJECTOR_ASSEMBLY_DIR
             value: /projector

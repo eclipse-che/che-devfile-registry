@@ -2,7 +2,7 @@ quay.io/che-incubator/che-code:insiders
 quay.io/che-incubator/che-code@sha256:820b4902797758ea3010fc76afd7d651c2a2da1728ae4c9a9fbaaaa2cadb91fa
 quay.io/che-incubator/che-idea:next
 quay.io/devfile/universal-developer-image:ubi8-latest
-quay.io/devfile/universal-developer-image@sha256:80d07a6b85cdc34f76c8f9a4ea7a2ac3a409e6bc104d3933d97c0f51d7d05f63
+quay.io/devfile/universal-developer-image@sha256:9da4db923308dd3872a264d4730bc0dfb3fa1e42249f78b3fb9337a8aa9cc681
 quay.io/eclipse/che--centos--mongodb-36-centos7:latest-a915db7beca87198fcd7860086989fe8a327a1a4f6508025b64ab28fcc7423b2
 quay.io/eclipse/che--centos--mongodb-36-centos7:latest-ffdf2431bbc6d9a9d2a03e95bbbe8adb49ab9eac301f268a35038c84288259c1
 quay.io/eclipse/che--centos--mysql-57-centos7:latest-e08ee4d43b7356607685b69bde6335e27cf20c020f345b6c6c59400183882764
