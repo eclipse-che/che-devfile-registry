@@ -59,7 +59,7 @@ export class Generate {
       await fs.writeFile(outputFile, generatedContent, 'utf-8');
     }
 
-    console.log(`DevWorkspace ${context.devWorkspaceTemplates[0].metadata.name} was generated.`);
+    console.log(`DevWorkspace ${context.devWorkspaceTemplates[0].metadata.name} was generated`);
     return context;
   }
 
@@ -71,7 +71,6 @@ export class Generate {
   ): Promise<DevfileContext> {
     const devfile = jsYaml.load(devfileContent);
 
-    // const originalDevfile = Object.assign({}, devfile);
     // sets the suffix to the devfile name
     const suffix = devfile.metadata.name || '';
 

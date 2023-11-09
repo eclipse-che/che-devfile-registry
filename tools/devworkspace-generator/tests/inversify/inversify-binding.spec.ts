@@ -17,10 +17,10 @@ import { InversifyBinding, InversifyBindingOptions } from '../../src/inversify/i
 import { Container } from 'inversify';
 import { Generate } from '../../src/generate';
 import { UrlFetcher } from '../../src/fetch/url-fetcher';
-import { GithubResolver } from '../../src/github/github-resolver';
 import { PluginRegistryResolver } from '../../src/plugin-registry/plugin-registry-resolver';
 import { DevContainerComponentFinder } from '../../src/devfile/dev-container-component-finder';
 import { TYPES } from '../../src/types';
+import { DevfileSchemaValidator } from '../../src/devfile-schema/devfile-schema-validator';
 
 describe('Test InversifyBinding', () => {
   const mockedArgv: string[] = ['dummy', 'dummy'];
@@ -59,6 +59,9 @@ describe('Test InversifyBinding', () => {
 
     // check plugin-registry module
     expect(container.get(PluginRegistryResolver)).toBeDefined();
+
+    // check devfile-schema module
+    expect(container.get(DevfileSchemaValidator)).toBeDefined();
 
     // check main module
     expect(container.get(Generate)).toBeDefined();

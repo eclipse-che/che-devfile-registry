@@ -11,6 +11,7 @@
 import * as axios from 'axios';
 import * as fs from 'fs-extra';
 import { Generate } from './generate';
+import { DevfileSchemaValidator } from './devfile-schema/devfile-schema-validator';
 import * as jsYaml from 'js-yaml';
 import { InversifyBinding } from './inversify/inversify-binding';
 import { UrlFetcher } from './fetch/url-fetcher';
@@ -18,6 +19,7 @@ import { PluginRegistryResolver } from './plugin-registry/plugin-registry-resolv
 import { V1alpha2DevWorkspaceSpecTemplate } from '@devfile/api';
 import { DevfileContext } from './api/devfile-context';
 import { GitUrlResolver } from './resolve/git-url-resolver';
+import { ValidatorResult } from 'jsonschema';
 
 export class Main {
   /**
@@ -99,6 +101,24 @@ export class Main {
     } else {
       devfileContent = params.devfileContent;
     }
+
+    const jsYamlDevfileContent = jsYaml.load(devfileContent);
+    const schemaVersion = jsYamlDevfileContent.schemaVersion;
+    if (!schemaVersion) {
+      throw new Error(`Devfile is not valid, schemaVersion is required`);
+    }
+
+    // validate devfile
+    const devfileSchemaValidator = container.get(DevfileSchemaValidator);
+    console.log(`Validating devfile`);
+    const validationResult: ValidatorResult = devfileSchemaValidator.validateDevfile(
+      jsYamlDevfileContent,
+      schemaVersion
+    );
+    if (!validationResult.valid) {
+      throw new Error(`Devfile schema validation failed. Error: ${validationResult.toString()}`);
+    }
+    console.log(`Devfile is valid with schema version ${schemaVersion}`);
 
     // enhance projects
     devfileContent = this.replaceIfExistingProjects(devfileContent, params.projects);

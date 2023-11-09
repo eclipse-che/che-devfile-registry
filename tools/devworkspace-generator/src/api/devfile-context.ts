@@ -26,3 +26,13 @@ export interface DevfileContext {
   // suffix to append on generated names
   suffix: string;
 }
+
+/**
+ * Enum for Devfile schema versions
+ */
+export enum DevfileSchemaVersion {
+  V200 = '2.0.0',
+  V210 = '2.1.0',
+  V220 = '2.2.0',
+  V221_alpha = '2.2.1-alpha',
+}

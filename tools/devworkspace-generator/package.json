@@ -41,6 +41,7 @@
   "homepage": "https://github.com/eclipse-che/che-devfile-registry#readme",
   "dependencies": {
     "@devfile/api": "2.2.1-alpha-1667236163",
+    "jsonschema": "^1.4.1",
     "axios": "1.6.0",
     "fs-extra": "^10.0.0",
     "inversify": "^5.0.1",
