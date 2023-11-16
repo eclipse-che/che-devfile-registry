@@ -1,5 +1,5 @@
 quay.io/che-incubator/che-code:insiders
-quay.io/che-incubator/che-code@sha256:820b4902797758ea3010fc76afd7d651c2a2da1728ae4c9a9fbaaaa2cadb91fa
+quay.io/che-incubator/che-code@sha256:70b90dcf4829ad01c6887ee6cdd3ecdf7c6069b1dcb1009c9a60b503cceaf4e1
 quay.io/che-incubator/che-idea:next
 quay.io/devfile/universal-developer-image:ubi8-latest
 quay.io/devfile/universal-developer-image@sha256:ad84a36d0ba43b5995c1ee2e06e320a6d9d90d71365e9aa71b38c65f9047560f
