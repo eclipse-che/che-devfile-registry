@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/eclipse-che/che-devfile-registry#readme",
   "dependencies": {
-    "@devfile/api": "latest",
+    "@devfile/api": "2.2.1-alpha-1667236163",
     "axios": "1.6.0",
     "fs-extra": "^10.0.0",
     "inversify": "^5.0.1",
@@ -83,6 +83,9 @@
         "lines": 100,
         "statements": 100
       }
+    },
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
     },
     "coverageDirectory": "coverage",
     "modulePathIgnorePatterns": [
