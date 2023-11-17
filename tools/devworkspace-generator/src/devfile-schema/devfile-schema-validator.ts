@@ -12,6 +12,7 @@ import { injectable } from 'inversify';
 import * as devfileSchemaV200 from './2.0.0/devfile.json';
 import * as devfileSchemaV210 from './2.1.0/devfile.json';
 import * as devfileSchemaV220 from './2.2.0/devfile.json';
+import * as devfileSchemaV221 from './2.2.1/devfile.json';
 import * as devfileSchemaV222 from './2.2.2/devfile.json';
 import * as Validator from 'jsonschema';
 import { DevfileSchemaVersion } from '../api/devfile-context';
@@ -26,6 +27,8 @@ export class DevfileSchemaValidator {
         return devfileSchemaV210;
       case DevfileSchemaVersion.V220:
         return devfileSchemaV220;
+      case DevfileSchemaVersion.V221:
+        return devfileSchemaV221;
       case DevfileSchemaVersion.V222:
         return devfileSchemaV222;
       default:

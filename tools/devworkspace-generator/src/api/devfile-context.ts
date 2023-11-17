@@ -34,5 +34,6 @@ export enum DevfileSchemaVersion {
   V200 = '2.0.0',
   V210 = '2.1.0',
   V220 = '2.2.0',
+  V221 = '2.2.1',
   V222 = '2.2.2',
 }
