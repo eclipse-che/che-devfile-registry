@@ -59,7 +59,7 @@ describe('DevfileValidator', () => {
     ['2.0.0', 'quarkus-api-devfile.yaml'],
     ['2.1.0', 'quarkus-api-devfile.yaml'],
     ['2.2.0', 'quarkus-api-devfile.yaml'],
-    ['2.2.1-alpha', 'quarkus-api-devfile.yaml'],
+    ['2.2.2', 'quarkus-api-devfile.yaml'],
   ])('Valid quarkus api devfile for schema %s', async (schemaVersion, fileName) => {
     const devfilePath = path.resolve(__dirname, '..', '_data', 'devfile', schemaVersion, fileName);
     const devfileYamlContent = await fs.readFile(devfilePath, 'utf-8');

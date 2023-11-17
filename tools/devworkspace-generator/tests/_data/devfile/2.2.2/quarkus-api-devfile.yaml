@@ -1,4 +1,4 @@
-schemaVersion: 2.2.1-alpha
+schemaVersion: 2.2.2
 metadata:
   generateName: quarkus-api-example
 attributes:
