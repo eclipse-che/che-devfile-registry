@@ -1,0 +1,8 @@
+schemaVersion: 2.2.2
+metadata:
+  name: empty
+  namespace: svor-che
+components:
+  - name: universal-developer-image
+    container:
+      image: quay.io/devfile/universal-developer-image:ubi8-latest

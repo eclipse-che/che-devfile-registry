@@ -16,6 +16,7 @@ import { fetchModule } from '../fetch/fetch-module';
 import { githubModule } from '../github/github-module';
 import { resolveModule } from '../resolve/resolve-module';
 import { pluginRegistryModule } from '../plugin-registry/plugin-registry-module';
+import { devfileSchemaModule } from '../devfile-schema/devfile-schema-module';
 import { bitbucketModule } from '../bitbucket/bitbucket-module';
 import { bitbucketServerModule } from '../bitbucket-server/bitbucket-server-module';
 
@@ -35,6 +36,7 @@ export class InversifyBinding {
     this.container.load(bitbucketServerModule);
     this.container.load(resolveModule);
     this.container.load(pluginRegistryModule);
+    this.container.load(devfileSchemaModule);
 
     this.container.bind(Symbol.for('AxiosInstance')).toConstantValue(options.axiosInstance);
     this.container.bind('string').toConstantValue(options.pluginRegistryUrl).whenTargetNamed('PLUGIN_REGISTRY_URL');

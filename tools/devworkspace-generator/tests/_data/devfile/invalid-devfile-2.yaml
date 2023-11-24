@@ -1,0 +1,16 @@
+schemaVersion: 2.2.0
+metadata:
+  name: empty
+  namespace: svor-che
+components:
+  - name: universal-developer-image
+    container:
+      image: quay.io/devfile/universal-developer-image:ubi8-latest
+commands:
+  - id: command-id
+    exec:
+      label: "2. Configure Che to use the Custom Devfile Registry"
+      # invalid devfile: no componnet
+      # component: builder
+      # invalid devfile: no commandLine
+      # commandLine: ls

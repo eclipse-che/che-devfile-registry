@@ -51,8 +51,6 @@ describe('Test Main with stubs', () => {
   } as any;
   let spyInitBindings;
 
-  const readFileSpy = jest.spyOn(fs, 'readFile');
-
   function initArgs(
     devfilePath: string | undefined,
     devfileUrl: string | undefined,
@@ -113,9 +111,7 @@ describe('Test Main with stubs', () => {
         undefined,
         undefined
       );
-      // mock devfile and editor
-      readFileSpy.mockResolvedValueOnce('');
-      readFileSpy.mockResolvedValueOnce('');
+      jest.spyOn(fs, 'readFile').mockResolvedValue('');
 
       spyInitBindings = jest.spyOn(InversifyBinding.prototype, 'initBindings');
       spyInitBindings.mockImplementation(() => Promise.resolve(container));
@@ -129,14 +125,24 @@ describe('Test Main with stubs', () => {
       jest.resetAllMocks();
     });
 
-    test('success', async () => {
-      process.argv.push('--project.foo=bar');
+    test('empty devfile', async () => {
       const main = new Main();
-      const returnCode = await main.start();
-      expect(mockedConsoleError).toBeCalledTimes(0);
 
-      expect(returnCode).toBeTruthy();
-      expect(generateMethod).toBeCalledWith('', '', FAKE_OUTPUT_FILE, undefined, undefined);
+      containerGetMethod.mockReset();
+
+      const validateDevfileMethod = jest.fn();
+      const devfileSchemaValidatorMock = {
+        validateDevfile: validateDevfileMethod as any,
+      };
+      validateDevfileMethod.mockReturnValueOnce(null);
+      containerGetMethod.mockReturnValueOnce(devfileSchemaValidatorMock);
+      containerGetMethod.mockReturnValueOnce(generateMock);
+
+      const returnCode = await main.start();
+
+      expect(returnCode).toBeFalsy();
+      expect(generateMethod).toBeCalledTimes(0);
+      expect(mockedConsoleError).toBeCalledTimes(2);
     });
 
     test('success with custom devfile Url', async () => {
@@ -151,6 +157,7 @@ describe('Test Main with stubs', () => {
         'true',
         'my-image'
       );
+      process.argv.push('--project.foo=bar');
       containerGetMethod.mockReset();
       const githubResolverResolveMethod = jest.fn();
       const githubResolverMock = {
@@ -181,6 +188,13 @@ describe('Test Main with stubs', () => {
       };
       urlFetcherFetchTextMethod.mockReturnValueOnce('schemaVersion: 2.1.0');
       containerGetMethod.mockReturnValueOnce(urlFetcherMock);
+
+      const validateDevfileMethod = jest.fn();
+      const devfileSchemaValidatorMock = {
+        validateDevfile: validateDevfileMethod as any,
+      };
+      validateDevfileMethod.mockReturnValueOnce({ valid: true });
+      containerGetMethod.mockReturnValueOnce(devfileSchemaValidatorMock);
 
       const loadDevfilePluginMethod = jest.fn();
       const pluginRegistryResolverMock = {
@@ -361,6 +375,14 @@ describe('Test Main with stubs', () => {
     test('success with custom default image', async () => {
       const main = new Main();
       containerGetMethod.mockReset();
+
+      const validateDevfileMethod = jest.fn();
+      const devfileSchemaValidatorMock = {
+        validateDevfile: validateDevfileMethod as any,
+      };
+      validateDevfileMethod.mockReturnValueOnce({ valid: true });
+      containerGetMethod.mockReturnValueOnce(devfileSchemaValidatorMock);
+
       const loadDevfilePluginMethod = jest.fn();
       const pluginRegistryResolverMock = {
         loadDevfilePlugin: loadDevfilePluginMethod as any,
@@ -401,6 +423,7 @@ describe('Test Main with stubs', () => {
         axios.default
       );
 
+      expect(validateDevfileMethod).toBeCalled();
       expect(mockedConsoleError).toBeCalledTimes(0);
       expect(loadDevfilePluginMethod).toBeCalled();
       expect(generateMethod).toBeCalledWith(
@@ -415,6 +438,13 @@ describe('Test Main with stubs', () => {
     test('success with custom devfile content', async () => {
       const main = new Main();
       containerGetMethod.mockReset();
+      const validateDevfileMethod = jest.fn();
+      const devfileSchemaValidatorMock = {
+        validateDevfile: validateDevfileMethod as any,
+      };
+      validateDevfileMethod.mockReturnValueOnce({ valid: true });
+      containerGetMethod.mockReturnValueOnce(devfileSchemaValidatorMock);
+
       const loadDevfilePluginMethod = jest.fn();
       const pluginRegistryResolverMock = {
         loadDevfilePlugin: loadDevfilePluginMethod as any,
@@ -455,12 +485,44 @@ describe('Test Main with stubs', () => {
 
       expect(mockedConsoleError).toBeCalledTimes(0);
       expect(loadDevfilePluginMethod).toBeCalled();
+      expect(validateDevfileMethod).toBeCalled();
       expect(generateMethod).toBeCalledWith(devfileContent, "''\n", FAKE_OUTPUT_FILE, undefined, undefined);
+    });
+
+    test('devfile without schemaVersion', async () => {
+      const main = new Main();
+      containerGetMethod.mockReset();
+
+      // devfile without schemaVersion
+      const devfileContent = jsYaml.dump({
+        metadata: {
+          name: 'my-repo',
+        },
+      });
+
+      await expect(
+        main.generateDevfileContext(
+          {
+            devfileContent,
+            outputFile: FAKE_OUTPUT_FILE,
+            pluginRegistryUrl: FAKE_PLUGIN_REGISTRY_URL,
+            editorEntry: FAKE_EDITOR_ENTRY,
+            projects: [],
+          },
+          axios.default
+        )
+      ).rejects.toThrow('Devfile is not valid, schemaVersion is required');
     });
 
     test('success with custom editor content', async () => {
       const main = new Main();
       containerGetMethod.mockReset();
+      const validateDevfileMethod = jest.fn();
+      const devfileSchemaValidatorMock = {
+        validateDevfile: validateDevfileMethod as any,
+      };
+      validateDevfileMethod.mockReturnValueOnce({ valid: true });
+      containerGetMethod.mockReturnValueOnce(devfileSchemaValidatorMock);
 
       // last one is generate mock
       containerGetMethod.mockReturnValueOnce(generateMock);
@@ -504,6 +566,7 @@ describe('Test Main with stubs', () => {
       );
 
       expect(mockedConsoleError).toBeCalledTimes(0);
+      expect(validateDevfileMethod).toBeCalled();
       expect(generateMethod).toBeCalledWith(
         devfileContent,
         jsYaml.dump({
@@ -520,6 +583,79 @@ describe('Test Main with stubs', () => {
         undefined,
         undefined
       );
+    });
+
+    test('success with editor path', async () => {
+      const main = new Main();
+      containerGetMethod.mockReset();
+      const validateDevfileMethod = jest.fn();
+      const devfileSchemaValidatorMock = {
+        validateDevfile: validateDevfileMethod as any,
+      };
+      validateDevfileMethod.mockReturnValueOnce({ valid: true });
+      containerGetMethod.mockReturnValueOnce(devfileSchemaValidatorMock);
+
+      // last one is generate mock
+      containerGetMethod.mockReturnValueOnce(generateMock);
+
+      const devfileContent = jsYaml.dump({
+        schemaVersion: '2.1.0',
+      });
+      const editorContent = 'editor content';
+
+      jest.spyOn(fs, 'readFile').mockResolvedValue(editorContent);
+      await main.generateDevfileContext(
+        {
+          devfileContent,
+          outputFile: FAKE_OUTPUT_FILE,
+          editorPath: FAKE_EDITOR_PATH,
+          projects: [],
+        },
+        axios.default
+      );
+
+      expect(mockedConsoleError).toBeCalledTimes(0);
+      expect(validateDevfileMethod).toBeCalled();
+      expect(generateMethod).toBeCalledWith(devfileContent, editorContent, FAKE_OUTPUT_FILE, undefined, undefined);
+    });
+
+    test('failed with not valid devfile', async () => {
+      const main = new Main();
+      containerGetMethod.mockReset();
+
+      const validationResult = {
+        toString: () => 'Dummy error',
+      };
+
+      const validateDevfileMethod = jest.fn();
+      const devfileSchemaValidatorMock = {
+        validateDevfile: validateDevfileMethod as any,
+      };
+      validateDevfileMethod.mockReturnValueOnce(validationResult);
+      containerGetMethod.mockReturnValueOnce(devfileSchemaValidatorMock);
+
+      // last one is generate mock
+      containerGetMethod.mockReturnValueOnce(generateMock);
+
+      const devfileContent = jsYaml.dump({
+        schemaVersion: '2.1.0',
+      });
+      const editorContent = 'editor content';
+
+      jest.spyOn(fs, 'readFile').mockResolvedValue(editorContent);
+      await expect(
+        main.generateDevfileContext(
+          {
+            devfileContent,
+            outputFile: FAKE_OUTPUT_FILE,
+            editorPath: FAKE_EDITOR_PATH,
+            projects: [],
+          },
+          axios.default
+        )
+      ).rejects.toThrow('Devfile schema validation failed. Error: Dummy error');
+
+      expect(validateDevfileMethod).toBeCalled();
     });
   });
 

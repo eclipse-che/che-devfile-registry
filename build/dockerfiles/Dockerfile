@@ -6,7 +6,7 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 #
-FROM docker.io/node:16.13.0-alpine3.14 AS builder
+FROM docker.io/node:18-alpine3.18 AS builder
 
 ARG VERSION
 
