@@ -1,6 +1,6 @@
 {
   "name": "@eclipse-che/che-devworkspace-generator",
-  "version": "7.78.0-next",
+  "version": "7.79.0-next",
   "private": false,
   "description": "Generates DevWorkspaces by transforming existing devfiles",
   "main": "lib/entrypoint.js",
