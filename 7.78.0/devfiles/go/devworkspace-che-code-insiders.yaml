@@ -1,0 +1,200 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-golang-example
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+    - id: init-che-code-command
+      exec:
+        component: che-code-runtime-description
+        commandLine: >-
+          nohup /checode/entrypoint-volume.sh > /checode/entrypoint-logs.txt
+          2>&1 &
+  events:
+    preStart:
+      - init-container-command
+    postStart:
+      - init-che-code-command
+  components:
+    - name: che-code-runtime-description
+      container:
+        image: >-
+          quay.io/devfile/universal-developer-image@sha256:f4e3180413ab3d16957642af9b12b0d13afe9f3429ecd62fc71e24553ca0cd74
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 1024Mi
+        memoryRequest: 256Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+        endpoints:
+          - name: che-code
+            attributes:
+              type: main
+              cookiesAuthEnabled: true
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: false
+            protocol: https
+          - name: code-redirect-1
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13131
+            exposure: public
+            protocol: https
+          - name: code-redirect-2
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13132
+            exposure: public
+            protocol: https
+          - name: code-redirect-3
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13133
+            exposure: public
+            protocol: https
+      attributes:
+        app.kubernetes.io/component: che-code-runtime
+        app.kubernetes.io/part-of: che-code.eclipse.org
+        controller.devfile.io/container-contribution: true
+    - name: checode
+      volume: {}
+    - name: che-code-injector
+      container:
+        image: quay.io/che-incubator/che-code:insiders
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 256Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: golang-example
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.1.0
+      metadata:
+        name: golang-example
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            env:
+              - name: GOPATH
+                value: /projects:/home/user/go
+              - name: GOCACHE
+                value: /tmp/.cache
+            endpoints:
+              - name: 8080-tcp
+                targetPort: 8080
+            memoryLimit: 2Gi
+            mountSources: true
+      commands:
+        - id: run-outyet
+          exec:
+            label: 1.1 Run outyet
+            component: tools
+            workingDir: ${PROJECT_SOURCE}/outyet
+            commandLine: go get -d && go run main.go
+            group:
+              kind: run
+        - id: stop-outyet
+          exec:
+            label: 1.2 Stop outyet
+            component: tools
+            commandLine: kill $(pidof go)
+            group:
+              kind: run
+        - id: test-outyet
+          exec:
+            label: 1.3 Test outyet
+            component: tools
+            workingDir: ${PROJECT_SOURCE}/outyet
+            commandLine: go test
+            group:
+              kind: test
+        - id: run-current-file
+          exec:
+            label: Run current file
+            component: tools
+            workingDir: ${fileDirname}
+            commandLine: go get -d && go run ${file}
+            group:
+              kind: run
+      projects:
+        - name: golang-example
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/7.78.0/resources/v2/golang-example.zip'
+spec:
+  started: true
+  routingClass: che
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          env:
+            - name: GOPATH
+              value: /projects:/home/user/go
+            - name: GOCACHE
+              value: /tmp/.cache
+          endpoints:
+            - name: 8080-tcp
+              targetPort: 8080
+          memoryLimit: 2Gi
+          mountSources: true
+    commands:
+      - id: run-outyet
+        exec:
+          label: 1.1 Run outyet
+          component: tools
+          workingDir: ${PROJECT_SOURCE}/outyet
+          commandLine: go get -d && go run main.go
+          group:
+            kind: run
+      - id: stop-outyet
+        exec:
+          label: 1.2 Stop outyet
+          component: tools
+          commandLine: kill $(pidof go)
+          group:
+            kind: run
+      - id: test-outyet
+        exec:
+          label: 1.3 Test outyet
+          component: tools
+          workingDir: ${PROJECT_SOURCE}/outyet
+          commandLine: go test
+          group:
+            kind: test
+      - id: run-current-file
+        exec:
+          label: Run current file
+          component: tools
+          workingDir: ${fileDirname}
+          commandLine: go get -d && go run ${file}
+          group:
+            kind: run
+    projects:
+      - name: golang-example
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.78.0/resources/v2/golang-example.zip'
+  contributions:
+    - name: editor
+      kubernetes:
+        name: che-code-golang-example
