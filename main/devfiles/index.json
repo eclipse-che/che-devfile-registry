@@ -202,7 +202,7 @@
   },
   {
     "displayName": "Java with Spring Boot and MongoDB",
-    "description": "Java stack with OpenJDK 8, MongoDB and Spring Boot Guestbook demo application",
+    "description": "Java stack with MongoDB and Spring Boot Guestbook demo application",
     "tags": [
       "Community",
       "Java",
@@ -281,7 +281,7 @@
   },
   {
     "displayName": "Java Lombok",
-    "description": "Java Stack with Lombok 1.18.18, OpenJDK 11 and Maven 3.6.0",
+    "description": "Java Stack with Project Lombok",
     "tags": [
       "Community",
       "Java",
@@ -342,7 +342,7 @@
   },
   {
     "displayName": "Java Spring Boot",
-    "description": "Java stack with OpenJDK 11 and Spring Boot Petclinic demo application",
+    "description": "Java stack with Spring Boot Petclinic demo application",
     "tags": [
       "Community",
       "Java",
