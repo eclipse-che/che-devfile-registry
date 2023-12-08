@@ -9,8 +9,8 @@
  ***********************************************************************/
 
 import {
-  V221Devfile,
-  V221DevfileMetadata,
+  V222Devfile,
+  V222DevfileMetadata,
   V1alpha2DevWorkspace,
   V1alpha2DevWorkspaceMetadata,
   V1alpha2DevWorkspaceSpecContributions,
@@ -23,8 +23,8 @@ import * as fs from 'fs-extra';
 import { DevfileContext } from './api/devfile-context';
 import { DevContainerComponentFinder } from './devfile/dev-container-component-finder';
 
-type DevfileLike = V221Devfile & {
-  metadata: V221DevfileMetadata & {
+type DevfileLike = V222Devfile & {
+  metadata: V222DevfileMetadata & {
     generateName?: string;
   };
 };
@@ -92,7 +92,7 @@ export class Generate {
 
     // transform it into a devWorkspace
     const devfileMetadata = this.createDevWorkspaceMetadata(devfile, true);
-    const devfileCopy: V221Devfile = Object.assign({}, devfile);
+    const devfileCopy: V222Devfile = Object.assign({}, devfile);
     delete devfileCopy.schemaVersion;
     delete devfileCopy.metadata;
     const editorSpecContribution: V1alpha2DevWorkspaceSpecContributions = {
