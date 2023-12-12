@@ -180,29 +180,6 @@
     }
   },
   {
-    "displayName": "Apache Camel based on Spring Boot",
-    "description": "Stack with environment ready to develop Integration projects with Apache Camel based on Spring Boot.",
-    "tags": [
-      "Community",
-      "Java",
-      "OpenJDK",
-      "Maven",
-      "Debian",
-      "Apache Camel",
-      "Red Hat Fuse",
-      "Spring Boot"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/camelk.svg",
-    "links": {
-      "v2": "https://github.com/che-samples/fuse-rest-http-booster/tree/main",
-      "devWorkspaces": {
-        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-springboot/devworkspace-che-idea-next.yaml",
-        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-springboot/devworkspace-che-code-latest.yaml",
-        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-springboot/devworkspace-che-code-insiders.yaml"
-      }
-    }
-  },
-  {
     "displayName": "Quarkus REST API",
     "description": "Quarkus stack with a default REST endpoint application sample",
     "tags": [
@@ -277,25 +254,6 @@
         "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python/devworkspace-che-idea-next.yaml",
         "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python/devworkspace-che-code-latest.yaml",
         "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python/devworkspace-che-code-insiders.yaml"
-      }
-    }
-  },
-  {
-    "displayName": "Apache Camel K",
-    "description": "Stack with tooling ready to develop Integration projects with Apache Camel K",
-    "tags": [
-      "Community",
-      "Apache Camel K",
-      "Red Hat Fuse",
-      "Integration"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/camelk.svg",
-    "links": {
-      "v2": "https://github.com/che-samples/apache-camel-k/tree/main",
-      "devWorkspaces": {
-        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-k/devworkspace-che-idea-next.yaml",
-        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-k/devworkspace-che-code-latest.yaml",
-        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/apache-camel-k/devworkspace-che-code-insiders.yaml"
       }
     }
   },
