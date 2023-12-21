@@ -116,7 +116,7 @@ metadata:
             endpoints:
               - exposure: public
                 name: nodejs
-                protocol: http
+                protocol: https
                 targetPort: 3000
             memoryLimit: 1G
             mountSources: true
@@ -135,7 +135,7 @@ metadata:
             label: Build the app
             component: tools
             workingDir: ${PROJECT_SOURCE}
-            commandLine: yarn build
+            commandLine: NODE_OPTIONS=--openssl-legacy-provider yarn build
             group:
               kind: build
               isDefault: true
@@ -144,7 +144,7 @@ metadata:
             label: Run the web app
             component: tools
             workingDir: ${PROJECT_SOURCE}
-            commandLine: yarn start
+            commandLine: NODE_OPTIONS=--openssl-legacy-provider yarn start
             group:
               kind: run
         - id: test
@@ -152,7 +152,7 @@ metadata:
             label: Launch tests
             component: tools
             workingDir: ${PROJECT_SOURCE}
-            commandLine: yarn test
+            commandLine: NODE_OPTIONS=--openssl-legacy-provider yarn test
             group:
               kind: test
       projects:
@@ -170,7 +170,7 @@ spec:
           endpoints:
             - exposure: public
               name: nodejs
-              protocol: http
+              protocol: https
               targetPort: 3000
           memoryLimit: 1G
           mountSources: true
@@ -189,7 +189,7 @@ spec:
           label: Build the app
           component: tools
           workingDir: ${PROJECT_SOURCE}
-          commandLine: yarn build
+          commandLine: NODE_OPTIONS=--openssl-legacy-provider yarn build
           group:
             kind: build
             isDefault: true
@@ -198,7 +198,7 @@ spec:
           label: Run the web app
           component: tools
           workingDir: ${PROJECT_SOURCE}
-          commandLine: yarn start
+          commandLine: NODE_OPTIONS=--openssl-legacy-provider yarn start
           group:
             kind: run
       - id: test
@@ -206,7 +206,7 @@ spec:
           label: Launch tests
           component: tools
           workingDir: ${PROJECT_SOURCE}
-          commandLine: yarn test
+          commandLine: NODE_OPTIONS=--openssl-legacy-provider yarn test
           group:
             kind: test
     projects:

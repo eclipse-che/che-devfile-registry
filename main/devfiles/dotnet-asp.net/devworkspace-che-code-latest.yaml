@@ -107,8 +107,9 @@ metadata:
               - name: ASPNETCORE_URLS
                 value: http://*:8080
             endpoints:
-              - name: http-dotnet60
+              - name: https-dotnet60
                 targetPort: 8080
+                protocol: https
             volumeMounts:
               - name: nuget
                 path: /home/user/.nuget
@@ -160,8 +161,9 @@ spec:
             - name: ASPNETCORE_URLS
               value: http://*:8080
           endpoints:
-            - name: http-dotnet60
+            - name: https-dotnet60
               targetPort: 8080
+              protocol: https
           volumeMounts:
             - name: nuget
               path: /home/user/.nuget

@@ -100,8 +100,9 @@ metadata:
               - name: GOCACHE
                 value: /tmp/.cache
             endpoints:
-              - name: 8080-tcp
+              - name: 8080-https
                 targetPort: 8080
+                protocol: https
             memoryLimit: 2Gi
             mountSources: true
       commands:
@@ -154,8 +155,9 @@ spec:
             - name: GOCACHE
               value: /tmp/.cache
           endpoints:
-            - name: 8080-tcp
+            - name: 8080-https
               targetPort: 8080
+              protocol: https
           memoryLimit: 2Gi
           mountSources: true
     commands:

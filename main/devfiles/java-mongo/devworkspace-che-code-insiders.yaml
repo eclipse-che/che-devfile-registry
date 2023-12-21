@@ -98,11 +98,11 @@ metadata:
             endpoints:
               - name: java-guestbook-backend
                 exposure: public
-                protocol: http
+                protocol: https
                 targetPort: 8080
               - name: java-guestbook
                 exposure: public
-                protocol: http
+                protocol: https
                 targetPort: 8443
               - name: debug
                 exposure: none
@@ -196,11 +196,11 @@ spec:
           endpoints:
             - name: java-guestbook-backend
               exposure: public
-              protocol: http
+              protocol: https
               targetPort: 8080
             - name: java-guestbook
               exposure: public
-              protocol: http
+              protocol: https
               targetPort: 8443
             - name: debug
               exposure: none

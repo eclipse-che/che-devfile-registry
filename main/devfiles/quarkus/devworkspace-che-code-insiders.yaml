@@ -104,7 +104,7 @@ metadata:
                 targetPort: 5005
               - exposure: public
                 name: hello-greeting-endpoint
-                protocol: http
+                protocol: https
                 targetPort: 8080
                 path: /hello/greeting/che-user
             volumeMounts:
@@ -183,7 +183,7 @@ spec:
               targetPort: 5005
             - exposure: public
               name: hello-greeting-endpoint
-              protocol: http
+              protocol: https
               targetPort: 8080
               path: /hello/greeting/che-user
           volumeMounts:

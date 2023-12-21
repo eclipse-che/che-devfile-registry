@@ -117,6 +117,7 @@ metadata:
               - exposure: public
                 name: django
                 targetPort: 7000
+                protocol: https
                 path: /api
             volumeMounts:
               - name: venv
@@ -181,6 +182,7 @@ spec:
             - exposure: public
               name: django
               targetPort: 7000
+              protocol: https
               path: /api
           volumeMounts:
             - name: venv

@@ -103,6 +103,7 @@ metadata:
               - exposure: public
                 name: nodejs
                 targetPort: 8080
+                protocol: https
             memoryLimit: 1G
             mountSources: true
         - name: mongo
@@ -162,6 +163,7 @@ spec:
             - exposure: public
               name: nodejs
               targetPort: 8080
+              protocol: https
           memoryLimit: 1G
           mountSources: true
       - name: mongo

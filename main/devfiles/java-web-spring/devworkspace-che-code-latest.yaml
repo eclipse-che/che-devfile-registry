@@ -102,8 +102,8 @@ metadata:
                 protocol: tcp
                 targetPort: 5005
               - exposure: public
-                name: 8080-tcp
-                protocol: http
+                name: 8080-https
+                protocol: https
                 targetPort: 8080
             volumeMounts:
               - name: m2
@@ -206,8 +206,8 @@ spec:
               protocol: tcp
               targetPort: 5005
             - exposure: public
-              name: 8080-tcp
-              protocol: http
+              name: 8080-https
+              protocol: https
               targetPort: 8080
           volumeMounts:
             - name: m2

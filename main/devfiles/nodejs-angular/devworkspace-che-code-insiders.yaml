@@ -97,7 +97,7 @@ metadata:
             endpoints:
               - exposure: public
                 name: angular
-                protocol: http
+                protocol: https
                 targetPort: 4200
             memoryLimit: 2G
             mountSources: true
@@ -115,7 +115,7 @@ metadata:
             label: Build application
             component: tools
             workingDir: ${PROJECT_SOURCE}
-            commandLine: yarn build
+            commandLine: NODE_OPTIONS=--openssl-legacy-provider yarn build
             group:
               kind: build
         - id: start
@@ -123,7 +123,9 @@ metadata:
             label: Start application
             component: tools
             workingDir: ${PROJECT_SOURCE}
-            commandLine: yarn run start --host 0.0.0.0 --disableHostCheck true
+            commandLine: >-
+              NODE_OPTIONS=--openssl-legacy-provider yarn run start --host 0.0.0.0
+              --disableHostCheck true
             group:
               kind: run
       projects:
@@ -141,7 +143,7 @@ spec:
           endpoints:
             - exposure: public
               name: angular
-              protocol: http
+              protocol: https
               targetPort: 4200
           memoryLimit: 2G
           mountSources: true
@@ -159,7 +161,7 @@ spec:
           label: Build application
           component: tools
           workingDir: ${PROJECT_SOURCE}
-          commandLine: yarn build
+          commandLine: NODE_OPTIONS=--openssl-legacy-provider yarn build
           group:
             kind: build
       - id: start
@@ -167,7 +169,9 @@ spec:
           label: Start application
           component: tools
           workingDir: ${PROJECT_SOURCE}
-          commandLine: yarn run start --host 0.0.0.0 --disableHostCheck true
+          commandLine: >-
+            NODE_OPTIONS=--openssl-legacy-provider yarn run start --host 0.0.0.0
+            --disableHostCheck true
           group:
             kind: run
     projects:
