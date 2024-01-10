@@ -116,7 +116,7 @@ metadata:
             endpoints:
               - exposure: public
                 name: symfony
-                protocol: http
+                protocol: https
                 targetPort: 8000
             memoryLimit: 2G
             mountSources: true
@@ -193,7 +193,7 @@ spec:
           endpoints:
             - exposure: public
               name: symfony
-              protocol: http
+              protocol: https
               targetPort: 8000
           memoryLimit: 2G
           mountSources: true

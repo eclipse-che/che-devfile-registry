@@ -97,7 +97,7 @@ metadata:
             endpoints:
               - exposure: public
                 name: nodejs
-                protocol: http
+                protocol: https
                 targetPort: 3000
             memoryLimit: 1G
             mountSources: true
@@ -153,7 +153,7 @@ spec:
           endpoints:
             - exposure: public
               name: nodejs
-              protocol: http
+              protocol: https
               targetPort: 3000
           memoryLimit: 1G
           mountSources: true
