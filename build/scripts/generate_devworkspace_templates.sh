@@ -15,7 +15,7 @@ if [[ -z "$VERSION" || "$VERSION" == *"-next" ]]; then
   VERSION="main"
 fi
 
-CHE_DEVWORKSPACE_GENERATOR_VERSION=next
+CHE_DEVWORKSPACE_GENERATOR_VERSION=7.80.0
 PLUGIN_REGISTRY_URL=https://eclipse-che.github.io/che-plugin-registry/${VERSION}/v3
 
 for dir in /build/devfiles/*/
