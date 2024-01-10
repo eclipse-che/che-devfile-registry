@@ -1,0 +1,13 @@
+displayName: Go
+description: Stack with Go 1.14
+tags:
+  - Community
+  - Debian
+  - Go
+icon: /images/go.svg
+links:
+  v2: https://github.com/che-samples/golang-example/tree/main
+  devWorkspaces:
+    che-incubator/che-idea/next: /devfiles/go/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/go/devworkspace-che-code-latest.yaml
+    che-incubator/che-code/insiders: /devfiles/go/devworkspace-che-code-insiders.yaml
