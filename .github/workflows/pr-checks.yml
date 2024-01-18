@@ -45,7 +45,7 @@ jobs:
       uses: docker/setup-qemu-action@v3
 
     - name: Cache docker layers
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ./caches
         key: v1-${{ github.head_ref }}
