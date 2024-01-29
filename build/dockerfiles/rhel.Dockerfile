@@ -12,8 +12,8 @@
 #
 
 # Builder: check meta.yamls and create index.json
-# https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/ubi8/nodejs-16-minimal
-FROM registry.access.redhat.com/ubi8/nodejs-16-minimal:1-155 as builder
+# https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/ubi8/nodejs-18-minimal
+FROM registry.access.redhat.com/ubi8/nodejs-18-minimal:1-91 as builder
 USER 0
 
 ################# 
@@ -22,6 +22,8 @@ USER 0
 
 ARG BOOTSTRAP=false
 ENV BOOTSTRAP=${BOOTSTRAP}
+
+ARG VERSION
 
 # to get all the python deps pre-fetched so we can build in Brew:
 # 1. extract files in the container to your local filesystem
@@ -50,8 +52,11 @@ RUN ./check_mandatory_fields.sh devfiles
 
 RUN ./index.sh > /build/devfiles/index.json
 RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
-RUN ./generate_devworkspace_templates.sh
+RUN ./generate_devworkspace_templates.sh $VERSION
+RUN ./update_devworkspace_templates.sh $VERSION
+RUN ./list_referenced_images.sh devfiles > /build/devfiles/external_images.txt
 RUN chmod -R g+rwX /build/devfiles
+RUN chmod -R g+rwX /build/resources
 
 ################# 
 # PHASE TWO: configure registry image
@@ -77,6 +82,8 @@ RUN sed -i /etc/httpd/conf/httpd.conf \
     -e "s,logs/error_log,/dev/stderr," \
     -e "s,logs/access_log,/dev/stdout," \
     -e "s,AllowOverride None,AllowOverride All," && \
+    echo "ServerName localhost" >> /etc/httpd/conf/httpd.conf && \
+    echo "LimitRequestFieldSize 32768" >> /etc/httpd/conf/httpd.conf && \
     chmod a+rwX /etc/httpd/conf /run/httpd /etc/httpd/logs/
 STOPSIGNAL SIGWINCH
 
@@ -85,6 +92,7 @@ WORKDIR /var/www/html
 RUN mkdir -m 777 /var/www/html/devfiles
 COPY .htaccess README.md /var/www/html/
 COPY --from=builder /build/devfiles /var/www/html/devfiles
+COPY --from=builder /build/resources /var/www/html/resources
 COPY --from=builder /build/devfiles/index.json /var/www/html/index
 COPY ./images /var/www/html/images
 COPY ./build/dockerfiles/rhel.entrypoint.sh ./build/dockerfiles/entrypoint.sh /usr/local/bin/

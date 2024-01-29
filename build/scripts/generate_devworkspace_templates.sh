@@ -10,6 +10,8 @@
 
 set -e
 
+npm install -g npm@10.4.0
+
 VERSION="${1%/}"
 if [[ -z "$VERSION" || "$VERSION" == *"-next" ]]; then
   VERSION="main"
