@@ -1,0 +1,204 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-nodejs-web-app
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+    - id: init-che-code-command
+      exec:
+        component: che-code-runtime-description
+        commandLine: >-
+          nohup /checode/entrypoint-volume.sh > /checode/entrypoint-logs.txt
+          2>&1 &
+  events:
+    preStart:
+      - init-container-command
+    postStart:
+      - init-che-code-command
+  components:
+    - name: che-code-runtime-description
+      container:
+        image: >-
+          quay.io/devfile/universal-developer-image@sha256:1bc8bee1f7c5194ce250567a307502cb7feb9a9b4400b4f9d99f931b89772823
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 1024Mi
+        memoryRequest: 256Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+        endpoints:
+          - name: che-code
+            attributes:
+              type: main
+              cookiesAuthEnabled: true
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: false
+            protocol: https
+          - name: code-redirect-1
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13131
+            exposure: public
+            protocol: https
+          - name: code-redirect-2
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13132
+            exposure: public
+            protocol: https
+          - name: code-redirect-3
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+            targetPort: 13133
+            exposure: public
+            protocol: https
+      attributes:
+        app.kubernetes.io/component: che-code-runtime
+        app.kubernetes.io/part-of: che-code.eclipse.org
+        controller.devfile.io/container-contribution: true
+    - name: checode
+      volume: {}
+    - name: che-code-injector
+      container:
+        image: quay.io/che-incubator/che-code:insiders
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 256Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: nodejs-web-app
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.2.2
+      metadata:
+        name: nodejs-web-app
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            endpoints:
+              - exposure: public
+                name: nodejs
+                protocol: https
+                targetPort: 3000
+            memoryLimit: 1G
+            mountSources: true
+      commands:
+        - id: install-dependencies
+          exec:
+            label: Install dependencies
+            component: tools
+            workingDir: ${PROJECT_SOURCE}/app
+            commandLine: npm install
+            group:
+              kind: build
+              isDefault: true
+        - id: run-application
+          exec:
+            label: Run web application
+            component: tools
+            workingDir: ${PROJECT_SOURCE}/app
+            commandLine: node app.js
+            group:
+              kind: run
+        - id: debug
+          exec:
+            label: Run web application (debugging enabled)
+            component: tools
+            workingDir: ${PROJECT_SOURCE}/app
+            commandLine: node --inspect app.js
+            group:
+              kind: debug
+              isDefault: true
+        - id: stop-application
+          exec:
+            label: Stop web application
+            component: tools
+            commandLine: >-
+              node_server_pids=$(pgrep -fx '.*node (--inspect )?app.js' | tr "\\n" "
+              ") && echo "Stopping node server with PIDs: ${node_server_pids}" && 
+              kill -15 ${node_server_pids} &>/dev/null && echo 'Done.'
+            group:
+              kind: run
+      projects:
+        - name: web-nodejs-sample
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/7.81.0/resources/v2/web-nodejs-sample.zip'
+spec:
+  started: true
+  routingClass: che
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          endpoints:
+            - exposure: public
+              name: nodejs
+              protocol: https
+              targetPort: 3000
+          memoryLimit: 1G
+          mountSources: true
+    commands:
+      - id: install-dependencies
+        exec:
+          label: Install dependencies
+          component: tools
+          workingDir: ${PROJECT_SOURCE}/app
+          commandLine: npm install
+          group:
+            kind: build
+            isDefault: true
+      - id: run-application
+        exec:
+          label: Run web application
+          component: tools
+          workingDir: ${PROJECT_SOURCE}/app
+          commandLine: node app.js
+          group:
+            kind: run
+      - id: debug
+        exec:
+          label: Run web application (debugging enabled)
+          component: tools
+          workingDir: ${PROJECT_SOURCE}/app
+          commandLine: node --inspect app.js
+          group:
+            kind: debug
+            isDefault: true
+      - id: stop-application
+        exec:
+          label: Stop web application
+          component: tools
+          commandLine: >-
+            node_server_pids=$(pgrep -fx '.*node (--inspect )?app.js' | tr "\\n"
+            " ") && echo "Stopping node server with PIDs: ${node_server_pids}"
+            &&  kill -15 ${node_server_pids} &>/dev/null && echo 'Done.'
+          group:
+            kind: run
+    projects:
+      - name: web-nodejs-sample
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.81.0/resources/v2/web-nodejs-sample.zip'
+  contributions:
+    - name: editor
+      kubernetes:
+        name: che-code-nodejs-web-app
