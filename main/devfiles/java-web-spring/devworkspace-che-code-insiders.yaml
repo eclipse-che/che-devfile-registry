@@ -87,7 +87,7 @@ metadata:
   name: spring-petclinic
   annotations:
     che.eclipse.org/devfile: |
-      schemaVersion: 2.1.0
+      schemaVersion: 2.2.2
       metadata:
         name: spring-petclinic
       components:

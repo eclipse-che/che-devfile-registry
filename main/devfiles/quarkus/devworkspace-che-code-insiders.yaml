@@ -87,7 +87,7 @@ metadata:
   name: quarkus-quickstart
   annotations:
     che.eclipse.org/devfile: |
-      schemaVersion: 2.1.0
+      schemaVersion: 2.2.2
       metadata:
         name: quarkus-quickstart
       components:
@@ -103,7 +103,7 @@ metadata:
                 protocol: tcp
                 targetPort: 5005
               - exposure: public
-                name: hello-greeting-endpoint
+                name: hello-greeting
                 protocol: https
                 targetPort: 8080
                 path: /hello/greeting/che-user
@@ -182,7 +182,7 @@ spec:
               protocol: tcp
               targetPort: 5005
             - exposure: public
-              name: hello-greeting-endpoint
+              name: hello-greeting
               protocol: https
               targetPort: 8080
               path: /hello/greeting/che-user

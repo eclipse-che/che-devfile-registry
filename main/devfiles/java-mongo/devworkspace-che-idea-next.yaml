@@ -106,7 +106,7 @@ metadata:
   name: java-guestbook
   annotations:
     che.eclipse.org/devfile: |
-      schemaVersion: 2.1.0
+      schemaVersion: 2.2.2
       metadata:
         name: java-guestbook
       components:
@@ -115,11 +115,11 @@ metadata:
             image: quay.io/devfile/universal-developer-image:ubi8-latest
             memoryLimit: 3Gi
             endpoints:
-              - name: java-guestbook-backend
+              - name: backend
                 exposure: public
                 protocol: https
                 targetPort: 8080
-              - name: java-guestbook
+              - name: frontend
                 exposure: public
                 protocol: https
                 targetPort: 8443
@@ -145,7 +145,7 @@ metadata:
               - name: MONGODB_ADMIN_PASSWORD
                 value: password
             endpoints:
-              - name: java-guestbook-mongodb
+              - name: mongodb
                 exposure: none
                 protocol: tcp
                 targetPort: 27017
@@ -213,11 +213,11 @@ spec:
           image: quay.io/devfile/universal-developer-image:ubi8-latest
           memoryLimit: 3Gi
           endpoints:
-            - name: java-guestbook-backend
+            - name: backend
               exposure: public
               protocol: https
               targetPort: 8080
-            - name: java-guestbook
+            - name: frontend
               exposure: public
               protocol: https
               targetPort: 8443
@@ -243,7 +243,7 @@ spec:
             - name: MONGODB_ADMIN_PASSWORD
               value: password
           endpoints:
-            - name: java-guestbook-mongodb
+            - name: mongodb
               exposure: none
               protocol: tcp
               targetPort: 27017
