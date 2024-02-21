@@ -1,0 +1,223 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-python-django
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+    - id: init-che-code-command
+      exec:
+        component: che-code-runtime-description
+        commandLine: >-
+          nohup /checode/entrypoint-volume.sh > /checode/entrypoint-logs.txt
+          2>&1 &
+  events:
+    preStart:
+      - init-container-command
+    postStart:
+      - init-che-code-command
+  components:
+    - name: che-code-injector
+      container:
+        image: >-
+          quay.io/che-incubator/che-code@sha256:715c65869811e1f8ae3f337af014fa90eb64e9909c6d426eea990c5563ae92c6
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 256Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+    - name: che-code-runtime-description
+      container:
+        image: >-
+          quay.io/devfile/universal-developer-image@sha256:75034f0dad7a6df3db53e20fc3597b68f2311e556164d47aa9151d3b3584bbce
+        memoryLimit: 1024Mi
+        memoryRequest: 256Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+        volumeMounts:
+          - name: checode
+            path: /checode
+        endpoints:
+          - name: che-code
+            attributes:
+              type: main
+              cookiesAuthEnabled: true
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: true
+            protocol: https
+          - name: code-redirect-1
+            targetPort: 13131
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+          - name: code-redirect-2
+            targetPort: 13132
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+          - name: code-redirect-3
+            targetPort: 13133
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+      attributes:
+        app.kubernetes.io/component: che-code-runtime
+        app.kubernetes.io/part-of: che-code.eclipse.org
+        controller.devfile.io/container-contribution: true
+    - name: checode
+      volume: {}
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: python-django
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.2.2
+      metadata:
+        name: python-django
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            endpoints:
+              - exposure: public
+                name: django
+                targetPort: 7000
+                protocol: https
+                path: /api
+            volumeMounts:
+              - name: venv
+                path: /home/user/.venv
+            memoryLimit: 512Mi
+            mountSources: true
+        - name: venv
+          volume:
+            size: 1G
+      commands:
+        - id: install-dependencies
+          exec:
+            label: Install dependencies
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: >-
+              python3 -m venv .venv && . .venv/bin/activate && pip3 install -r
+              requirements.txt && pip3 install ptvsd
+            group:
+              kind: build
+        - id: migrate
+          exec:
+            label: Migrate
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: . .venv/bin/activate && python3 manage.py migrate
+            group:
+              kind: build
+        - id: run
+          exec:
+            label: Run the server
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: >-
+              . .venv/bin/activate && export DEBUG_MODE=False && python3 manage.py
+              runserver 0.0.0.0:7000
+            group:
+              kind: run
+        - id: debug
+          exec:
+            label: Run the server in debug mode
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: >-
+              . .venv/bin/activate &&  export DEBUG_MODE=True && python3 manage.py
+              runserver 0.0.0.0:7000 --noreload --nothreading
+            group:
+              kind: debug
+      projects:
+        - name: django-realworld-example-app
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/7.82.0/resources/v2/django-realworld-example-app.zip'
+spec:
+  started: true
+  routingClass: che
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          endpoints:
+            - exposure: public
+              name: django
+              targetPort: 7000
+              protocol: https
+              path: /api
+          volumeMounts:
+            - name: venv
+              path: /home/user/.venv
+          memoryLimit: 512Mi
+          mountSources: true
+      - name: venv
+        volume:
+          size: 1G
+    commands:
+      - id: install-dependencies
+        exec:
+          label: Install dependencies
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: >-
+            python3 -m venv .venv && . .venv/bin/activate && pip3 install -r
+            requirements.txt && pip3 install ptvsd
+          group:
+            kind: build
+      - id: migrate
+        exec:
+          label: Migrate
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: . .venv/bin/activate && python3 manage.py migrate
+          group:
+            kind: build
+      - id: run
+        exec:
+          label: Run the server
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: >-
+            . .venv/bin/activate && export DEBUG_MODE=False && python3 manage.py
+            runserver 0.0.0.0:7000
+          group:
+            kind: run
+      - id: debug
+        exec:
+          label: Run the server in debug mode
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: >-
+            . .venv/bin/activate &&  export DEBUG_MODE=True && python3 manage.py
+            runserver 0.0.0.0:7000 --noreload --nothreading
+          group:
+            kind: debug
+    projects:
+      - name: django-realworld-example-app
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.82.0/resources/v2/django-realworld-example-app.zip'
+  contributions:
+    - name: editor
+      kubernetes:
+        name: che-code-python-django

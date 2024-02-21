@@ -1,0 +1,201 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-react-web-app
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+    - id: init-che-code-command
+      exec:
+        component: che-code-runtime-description
+        commandLine: >-
+          nohup /checode/entrypoint-volume.sh > /checode/entrypoint-logs.txt
+          2>&1 &
+  events:
+    preStart:
+      - init-container-command
+    postStart:
+      - init-che-code-command
+  components:
+    - name: che-code-injector
+      container:
+        image: >-
+          quay.io/che-incubator/che-code@sha256:715c65869811e1f8ae3f337af014fa90eb64e9909c6d426eea990c5563ae92c6
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 256Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+    - name: che-code-runtime-description
+      container:
+        image: >-
+          quay.io/devfile/universal-developer-image@sha256:75034f0dad7a6df3db53e20fc3597b68f2311e556164d47aa9151d3b3584bbce
+        memoryLimit: 1024Mi
+        memoryRequest: 256Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+        volumeMounts:
+          - name: checode
+            path: /checode
+        endpoints:
+          - name: che-code
+            attributes:
+              type: main
+              cookiesAuthEnabled: true
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: true
+            protocol: https
+          - name: code-redirect-1
+            targetPort: 13131
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+          - name: code-redirect-2
+            targetPort: 13132
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+          - name: code-redirect-3
+            targetPort: 13133
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+      attributes:
+        app.kubernetes.io/component: che-code-runtime
+        app.kubernetes.io/part-of: che-code.eclipse.org
+        controller.devfile.io/container-contribution: true
+    - name: checode
+      volume: {}
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: react-web-app
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.2.2
+      metadata:
+        name: react-web-app
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            endpoints:
+              - exposure: public
+                name: nodejs
+                protocol: https
+                targetPort: 3000
+            memoryLimit: 1G
+            mountSources: true
+      commands:
+        - id: install-dependencies
+          exec:
+            label: Install all required dependencies
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: yarn install
+            group:
+              kind: build
+              isDefault: true
+        - id: build
+          exec:
+            label: Build the app
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: NODE_OPTIONS=--openssl-legacy-provider yarn build
+            group:
+              kind: build
+              isDefault: true
+        - id: run
+          exec:
+            label: Run the web app
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: NODE_OPTIONS=--openssl-legacy-provider yarn start
+            group:
+              kind: run
+        - id: test
+          exec:
+            label: Launch tests
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: NODE_OPTIONS=--openssl-legacy-provider yarn test
+            group:
+              kind: test
+      projects:
+        - name: react-web-app
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/7.82.0/resources/v2/react-web-app.zip'
+spec:
+  started: true
+  routingClass: che
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          endpoints:
+            - exposure: public
+              name: nodejs
+              protocol: https
+              targetPort: 3000
+          memoryLimit: 1G
+          mountSources: true
+    commands:
+      - id: install-dependencies
+        exec:
+          label: Install all required dependencies
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: yarn install
+          group:
+            kind: build
+            isDefault: true
+      - id: build
+        exec:
+          label: Build the app
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: NODE_OPTIONS=--openssl-legacy-provider yarn build
+          group:
+            kind: build
+            isDefault: true
+      - id: run
+        exec:
+          label: Run the web app
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: NODE_OPTIONS=--openssl-legacy-provider yarn start
+          group:
+            kind: run
+      - id: test
+        exec:
+          label: Launch tests
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: NODE_OPTIONS=--openssl-legacy-provider yarn test
+          group:
+            kind: test
+    projects:
+      - name: react-web-app
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.82.0/resources/v2/react-web-app.zip'
+  contributions:
+    - name: editor
+      kubernetes:
+        name: che-code-react-web-app
