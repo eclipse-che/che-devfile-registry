@@ -22,7 +22,7 @@ spec:
     - name: che-code-injector
       container:
         image: >-
-          quay.io/che-incubator/che-code@sha256:c9a3801dd113a9ca7a26e2db9bade5b4704a1f8cc3a1fb10fc426038b0d222c4
+          quay.io/che-incubator/che-code@sha256:715c65869811e1f8ae3f337af014fa90eb64e9909c6d426eea990c5563ae92c6
         command:
           - /entrypoint-init-container.sh
         volumeMounts:
