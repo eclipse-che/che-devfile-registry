@@ -22,7 +22,7 @@ spec:
     - name: che-code-injector
       container:
         image: >-
-          quay.io/che-incubator/che-code@sha256:abb7bfc64304c7adc403d89ebae91ad6e82914fbff3322e63d8e634e9e5c5845
+          quay.io/che-incubator/che-code@sha256:fd69dc1363b489259eaf3b0b297ae6b9abd6d6fc532303d766395fd56807b8e0
         command:
           - /entrypoint-init-container.sh
         volumeMounts:
@@ -35,7 +35,7 @@ spec:
     - name: che-code-runtime-description
       container:
         image: >-
-          quay.io/devfile/universal-developer-image@sha256:ba03058298b8f67bce60226a0ebcb243f60ac59ce77b02b97735467ecedce56f
+          quay.io/devfile/universal-developer-image@sha256:771a764147a8eef1e7520ec1fc4860f39ca43fb817bc173dfbd58b6fc5993630
         memoryLimit: 1024Mi
         memoryRequest: 256Mi
         cpuLimit: 500m
