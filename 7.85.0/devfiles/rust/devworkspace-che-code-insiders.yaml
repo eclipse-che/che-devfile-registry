@@ -1,0 +1,154 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-rust
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+    - id: init-che-code-command
+      exec:
+        component: che-code-runtime-description
+        commandLine: >-
+          nohup /checode/entrypoint-volume.sh > /checode/entrypoint-logs.txt
+          2>&1 &
+  events:
+    preStart:
+      - init-container-command
+    postStart:
+      - init-che-code-command
+  components:
+    - name: che-code-injector
+      container:
+        image: quay.io/che-incubator/che-code:insiders
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 256Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+    - name: che-code-runtime-description
+      container:
+        image: >-
+          quay.io/devfile/universal-developer-image@sha256:d8e409c958f99e481cd4c460e175603b2fdfbf4ea0bca10f3b23266b0a578768
+        memoryLimit: 1024Mi
+        memoryRequest: 256Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+        volumeMounts:
+          - name: checode
+            path: /checode
+        endpoints:
+          - name: che-code
+            attributes:
+              type: main
+              cookiesAuthEnabled: true
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: true
+            protocol: https
+          - name: code-redirect-1
+            targetPort: 13131
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+          - name: code-redirect-2
+            targetPort: 13132
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+          - name: code-redirect-3
+            targetPort: 13133
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+      attributes:
+        app.kubernetes.io/component: che-code-runtime
+        app.kubernetes.io/part-of: che-code.eclipse.org
+        controller.devfile.io/container-contribution: true
+    - name: checode
+      volume: {}
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: rust
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.2.2
+      metadata:
+        name: rust
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            memoryLimit: 1Gi
+            cpuLimit: 1000m
+      commands:
+        - id: build
+          exec:
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: cargo build
+            group:
+              kind: build
+              isDefault: true
+        - id: run
+          exec:
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: cargo run
+            group:
+              kind: run
+              isDefault: true
+      projects:
+        - name: helloworld-rust
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/7.85.0/resources/v2/helloworld-rust.zip'
+spec:
+  started: true
+  routingClass: che
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          memoryLimit: 1Gi
+          cpuLimit: 1000m
+    commands:
+      - id: build
+        exec:
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: cargo build
+          group:
+            kind: build
+            isDefault: true
+      - id: run
+        exec:
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: cargo run
+          group:
+            kind: run
+            isDefault: true
+    projects:
+      - name: helloworld-rust
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.85.0/resources/v2/helloworld-rust.zip'
+  contributions:
+    - name: editor
+      kubernetes:
+        name: che-code-rust
