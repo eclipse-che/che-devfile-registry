@@ -75,7 +75,12 @@ export class Generate {
     const suffix = devfile.metadata.name || '';
 
     // devfile of the editor
-    const editorDevfile = jsYaml.load(editorContent);
+    let editorDevfile = jsYaml.load(editorContent);
+
+    // support for the inline format of the devfile
+    if (editorDevfile.inline) {
+      editorDevfile = editorDevfile.inline;
+    }
 
     // transform it into a devWorkspace template
     const metadata = this.createDevWorkspaceMetadata(editorDevfile);
