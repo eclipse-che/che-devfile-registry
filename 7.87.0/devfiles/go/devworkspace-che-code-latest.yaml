@@ -1,0 +1,203 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-code-golang-example
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-code-injector
+    - id: init-che-code-command
+      exec:
+        component: che-code-runtime-description
+        commandLine: >-
+          nohup /checode/entrypoint-volume.sh > /checode/entrypoint-logs.txt
+          2>&1 &
+  events:
+    preStart:
+      - init-container-command
+    postStart:
+      - init-che-code-command
+  components:
+    - name: che-code-injector
+      container:
+        image: >-
+          quay.io/che-incubator/che-code@sha256:491c5238d2210ee319a47b5cc15511efffa5edf4d0ce75843545550d042bb086
+        command:
+          - /entrypoint-init-container.sh
+        volumeMounts:
+          - name: checode
+            path: /checode
+        memoryLimit: 256Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+    - name: che-code-runtime-description
+      container:
+        image: >-
+          quay.io/devfile/universal-developer-image@sha256:218b635aa3ea06cc766d287925e650dc32483e1b2d85da2fac00582d1baf0a9c
+        memoryLimit: 1024Mi
+        memoryRequest: 256Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+        volumeMounts:
+          - name: checode
+            path: /checode
+        endpoints:
+          - name: che-code
+            attributes:
+              type: main
+              cookiesAuthEnabled: true
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 3100
+            exposure: public
+            secure: true
+            protocol: https
+          - name: code-redirect-1
+            targetPort: 13131
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+          - name: code-redirect-2
+            targetPort: 13132
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+          - name: code-redirect-3
+            targetPort: 13133
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+      attributes:
+        app.kubernetes.io/component: che-code-runtime
+        app.kubernetes.io/part-of: che-code.eclipse.org
+        controller.devfile.io/container-contribution: true
+    - name: checode
+      volume: {}
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: golang-example
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.2.2
+      metadata:
+        name: golang-example
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            env:
+              - name: GOPATH
+                value: /projects:/home/user/go
+              - name: GOCACHE
+                value: /tmp/.cache
+            endpoints:
+              - name: 8080-https
+                targetPort: 8080
+                protocol: https
+            memoryLimit: 2Gi
+            mountSources: true
+      commands:
+        - id: run-outyet
+          exec:
+            label: 1.1 Run outyet
+            component: tools
+            workingDir: ${PROJECT_SOURCE}/outyet
+            commandLine: go get -d && go run main.go
+            group:
+              kind: run
+        - id: stop-outyet
+          exec:
+            label: 1.2 Stop outyet
+            component: tools
+            commandLine: kill $(pidof go)
+            group:
+              kind: run
+        - id: test-outyet
+          exec:
+            label: 1.3 Test outyet
+            component: tools
+            workingDir: ${PROJECT_SOURCE}/outyet
+            commandLine: go test
+            group:
+              kind: test
+        - id: run-current-file
+          exec:
+            label: Run current file
+            component: tools
+            workingDir: ${fileDirname}
+            commandLine: go get -d && go run ${file}
+            group:
+              kind: run
+      projects:
+        - name: golang-example
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/7.87.0/resources/v2/golang-example.zip'
+spec:
+  started: true
+  routingClass: che
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          env:
+            - name: GOPATH
+              value: /projects:/home/user/go
+            - name: GOCACHE
+              value: /tmp/.cache
+          endpoints:
+            - name: 8080-https
+              targetPort: 8080
+              protocol: https
+          memoryLimit: 2Gi
+          mountSources: true
+    commands:
+      - id: run-outyet
+        exec:
+          label: 1.1 Run outyet
+          component: tools
+          workingDir: ${PROJECT_SOURCE}/outyet
+          commandLine: go get -d && go run main.go
+          group:
+            kind: run
+      - id: stop-outyet
+        exec:
+          label: 1.2 Stop outyet
+          component: tools
+          commandLine: kill $(pidof go)
+          group:
+            kind: run
+      - id: test-outyet
+        exec:
+          label: 1.3 Test outyet
+          component: tools
+          workingDir: ${PROJECT_SOURCE}/outyet
+          commandLine: go test
+          group:
+            kind: test
+      - id: run-current-file
+        exec:
+          label: Run current file
+          component: tools
+          workingDir: ${fileDirname}
+          commandLine: go get -d && go run ${file}
+          group:
+            kind: run
+    projects:
+      - name: golang-example
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.87.0/resources/v2/golang-example.zip'
+  contributions:
+    - name: editor
+      kubernetes:
+        name: che-code-golang-example
