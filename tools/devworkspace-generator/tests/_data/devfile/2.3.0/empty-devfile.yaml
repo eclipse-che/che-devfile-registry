@@ -1,0 +1,8 @@
+schemaVersion: 2.3.0
+metadata:
+  name: empty
+  namespace: test-che
+components:
+  - name: universal-developer-image
+    container:
+      image: quay.io/devfile/universal-developer-image:ubi8-latest

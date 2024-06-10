@@ -14,6 +14,7 @@ import * as devfileSchemaV210 from './2.1.0/devfile.json';
 import * as devfileSchemaV220 from './2.2.0/devfile.json';
 import * as devfileSchemaV221 from './2.2.1/devfile.json';
 import * as devfileSchemaV222 from './2.2.2/devfile.json';
+import * as devfileSchemaV230 from './2.3.0/devfile.json';
 import * as Validator from 'jsonschema';
 import { DevfileSchemaVersion } from '../api/devfile-context';
 
@@ -31,6 +32,8 @@ export class DevfileSchemaValidator {
         return devfileSchemaV221;
       case DevfileSchemaVersion.V222:
         return devfileSchemaV222;
+      case DevfileSchemaVersion.V230:
+        return devfileSchemaV230;
       default:
         throw new Error(`Dev Workspace generator tool doesn't support devfile version: ${version}`);
     }
