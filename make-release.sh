@@ -1,10 +1,10 @@
 #!/bin/bash
-# Release process automation script. 
+# Release process automation script.
 # Used to create branch/tag, update VERSION files
-# and and trigger release by force pushing changes to the release branch 
+# and and trigger release by force pushing changes to the release branch
 
 # set to 1 to actually trigger changes in the release branch
-TRIGGER_RELEASE=0 
+TRIGGER_RELEASE=0
 NOCOMMIT=0
 TMP=""
 REPO=git@github.com:eclipse-che/che-devfile-registry
@@ -37,7 +37,7 @@ verifyContainerExistsWithTimeout()
   count=1
   (( timeout_intervals=this_timeout*3 ))
   while [[ $count -le $timeout_intervals ]]; do # echo $count
-    echo "[INFO] [$count/$timeout_intervals] Verify ${container_to_check} exists..." 
+    echo "[INFO] [$count/$timeout_intervals] Verify ${container_to_check} exists..."
     # check if the container exists
     verifyContainerExists "${container_to_check}"
 
@@ -65,7 +65,7 @@ verifyContainerExistsWithTimeout()
 # Checks the container existence
 #
 # Returns
-#   1: found; 0: not found; -1: unknown manifest 
+#   1: found; 0: not found; -1: unknown manifest
 #
 verifyContainerExists()
 {
@@ -124,7 +124,7 @@ checkRequiredImagesExist()
   done
 }
 
-performRelease() 
+performRelease()
 {
   set -xe
 
@@ -134,7 +134,7 @@ performRelease()
 
   # Build and push happy path image, which depends on the above
   ./happy-path/build_happy_path_image.sh --push --rm
-  
+
   echo "[INFO] Checking images..."
   checkRequiredImagesExist
 
@@ -170,9 +170,6 @@ updateVersion () {
   thisVERSION="$1"
   # update main VERSION file of devfile registry
   echo "${thisVERSION}" > VERSION
-  # update version of devworkspace-generator in package.json
-  jq ".\"version\" = \"${thisVERSION}\"" tools/devworkspace-generator/package.json > tools/devworkspace-generator/package.json.update
-  mv tools/devworkspace-generator/package.json.update tools/devworkspace-generator/package.json
 }
 
 if [[ ! ${VERSION} ]]; then
@@ -186,7 +183,7 @@ BRANCH=${VERSION%.*}.x
 # if doing a .0 release, use main; if doing a .z release, use $BRANCH
 if [[ ${VERSION} == *".0" ]]; then
   BASEBRANCH="main"
-else 
+else
   BASEBRANCH="${BRANCH}"
 fi
 
@@ -218,7 +215,7 @@ commitChangeOrCreatePR()
 
     if [[ ${PR_BRANCH} == *"add"* ]]; then
       COMMIT_MSG="chore: release: add ${aVERSION} plugins in ${aBRANCH}"
-    else 
+    else
       COMMIT_MSG="chore: release: bump to ${aVERSION} in ${aBRANCH}"
     fi
 
