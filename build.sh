@@ -10,8 +10,6 @@
 
 set -e
 
-base_dir=$(cd "$(dirname "$0")"; pwd)
-
 REGISTRY="quay.io"
 ORGANIZATION="eclipse"
 TAG="next"
@@ -73,10 +71,6 @@ function parse_arguments() {
 
 parse_arguments "$@"
 
-echo "Build tooling..."
-pushd "${base_dir}"/tools/devworkspace-generator > /dev/null
-yarn
-
 BUILD_COMMAND="build"
 if [[ -z $BUILDER ]]; then
     echo "BUILDER not specified, trying with podman"
@@ -107,8 +101,6 @@ else
         BUILD_COMMAND="bud"
     fi
 fi
-
-pushd "${base_dir}" > /dev/null
 
 IMAGE="${REGISTRY}/${ORGANIZATION}/che-devfile-registry:${TAG}"
 VERSION=$(head -n 1 VERSION)
