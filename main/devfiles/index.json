@@ -1,5 +1,26 @@
 [
   {
+    "displayName": "Java with Spring Boot and MongoDB",
+    "description": "Java stack with MongoDB and Spring Boot Guestbook demo application",
+    "tags": [
+      "Community",
+      "Java",
+      "OpenJDK",
+      "Maven",
+      "Spring Boot",
+      "MongoDB"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/java.svg",
+    "links": {
+      "v2": "https://github.com/che-samples/java-guestbook/tree/main",
+      "devWorkspaces": {
+        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mongo/devworkspace-che-idea-next.yaml",
+        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mongo/devworkspace-che-code-latest.yaml",
+        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mongo/devworkspace-che-code-insiders.yaml"
+      }
+    }
+  },
+  {
     "displayName": "Node.js Express Web Application",
     "description": "Stack with Node.js 10",
     "tags": [
@@ -15,26 +36,6 @@
         "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs/devworkspace-che-idea-next.yaml",
         "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs/devworkspace-che-code-latest.yaml",
         "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs/devworkspace-che-code-insiders.yaml"
-      }
-    }
-  },
-  {
-    "displayName": "Scala",
-    "description": "Scala Stack with OpenJDK 11 and sbt 1.x",
-    "tags": [
-      "Community",
-      "Scala",
-      "OpenJDK",
-      "sbt",
-      "Debian"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/scala.svg",
-    "links": {
-      "v2": "https://github.com/che-samples/scala-sbt/tree/main",
-      "devWorkspaces": {
-        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/scala-sbt/devworkspace-che-idea-next.yaml",
-        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/scala-sbt/devworkspace-che-code-latest.yaml",
-        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/scala-sbt/devworkspace-che-code-insiders.yaml"
       }
     }
   },
@@ -59,6 +60,45 @@
     }
   },
   {
+    "displayName": "ASP.NET Core Web Application",
+    "description": "Stack for developing ASP.NET Core Web Application",
+    "tags": [
+      "Community",
+      "Debian",
+      "Dotnet",
+      "C#",
+      "ASP.NET"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/dotnetcore.svg",
+    "links": {
+      "v2": "https://github.com/che-samples/dotnet-web-simple/tree/main",
+      "devWorkspaces": {
+        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devworkspace-che-idea-next.yaml",
+        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devworkspace-che-code-latest.yaml",
+        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devworkspace-che-code-insiders.yaml"
+      }
+    }
+  },
+  {
+    "displayName": "Python Django",
+    "description": "Python Stack with Python 3.8 and Django application",
+    "tags": [
+      "Community",
+      "Centos",
+      "Python",
+      "pip"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/python.svg",
+    "links": {
+      "v2": "https://github.com/che-samples/django-realworld-example-app/tree/main",
+      "devWorkspaces": {
+        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python-django/devworkspace-che-idea-next.yaml",
+        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python-django/devworkspace-che-code-latest.yaml",
+        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python-django/devworkspace-che-code-insiders.yaml"
+      }
+    }
+  },
+  {
     "displayName": "Java Spring Boot",
     "description": "Java stack with Spring Boot Petclinic demo application",
     "tags": [
@@ -75,6 +115,85 @@
         "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-web-spring/devworkspace-che-idea-next.yaml",
         "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-web-spring/devworkspace-che-code-latest.yaml",
         "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-web-spring/devworkspace-che-code-insiders.yaml"
+      }
+    }
+  },
+  {
+    "displayName": "Rust",
+    "description": "Rust Stack with Rust 1.57",
+    "tags": [
+      "Community",
+      "Rust"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/rust.svg",
+    "links": {
+      "v2": "https://github.com/che-samples/helloworld-rust/tree/main",
+      "devWorkspaces": {
+        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devworkspace-che-idea-next.yaml",
+        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devworkspace-che-code-latest.yaml",
+        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devworkspace-che-code-insiders.yaml"
+      }
+    }
+  },
+  {
+    "displayName": "Java Lombok",
+    "description": "Java Stack with Project Lombok",
+    "tags": [
+      "Community",
+      "Java",
+      "OpenJDK",
+      "Maven",
+      "Debian",
+      "Lombok"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/lombok.svg",
+    "links": {
+      "v2": "https://github.com/che-samples/lombok-project-sample/tree/main",
+      "devWorkspaces": {
+        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devworkspace-che-idea-next.yaml",
+        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devworkspace-che-code-latest.yaml",
+        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devworkspace-che-code-insiders.yaml"
+      }
+    }
+  },
+  {
+    "displayName": "Quarkus REST API",
+    "description": "Quarkus stack with a default REST endpoint application sample",
+    "tags": [
+      "Community",
+      "Java",
+      "Quarkus",
+      "OpenJDK",
+      "Maven",
+      "Debian"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/quarkus.svg",
+    "links": {
+      "v2": "https://github.com/che-samples/quarkus-quickstarts/tree/main",
+      "devWorkspaces": {
+        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devworkspace-che-idea-next.yaml",
+        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devworkspace-che-code-latest.yaml",
+        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devworkspace-che-code-insiders.yaml"
+      }
+    }
+  },
+  {
+    "displayName": "Node.js Web Application based on Yarn",
+    "description": "Stack for developing Node.js Web Application based on Yarn",
+    "tags": [
+      "Community",
+      "Node.js",
+      "Alpine",
+      "Yarn",
+      "React"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
+    "links": {
+      "v2": "https://github.com/che-samples/react-web-app/tree/main",
+      "devWorkspaces": {
+        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-yarn/devworkspace-che-idea-next.yaml",
+        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-yarn/devworkspace-che-code-latest.yaml",
+        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-yarn/devworkspace-che-code-insiders.yaml"
       }
     }
   },
@@ -101,22 +220,24 @@
     }
   },
   {
-    "displayName": "Node.js Web Application based on Yarn",
-    "description": "Stack for developing Node.js Web Application based on Yarn",
+    "displayName": "Node.js MongoDB Web Application",
+    "description": "Stack with NodeJS 10 and MongoDB 3.4",
     "tags": [
       "Community",
       "Node.js",
-      "Alpine",
-      "Yarn",
-      "React"
+      "Express",
+      "MongoDB",
+      "RealWorld",
+      "ubi8",
+      "Centos"
     ],
     "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
     "links": {
-      "v2": "https://github.com/che-samples/react-web-app/tree/main",
+      "v2": "https://github.com/che-samples/nodejs-mongodb-sample/tree/main",
       "devWorkspaces": {
-        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-yarn/devworkspace-che-idea-next.yaml",
-        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-yarn/devworkspace-che-code-latest.yaml",
-        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-yarn/devworkspace-che-code-insiders.yaml"
+        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devworkspace-che-idea-next.yaml",
+        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devworkspace-che-code-latest.yaml",
+        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devworkspace-che-code-insiders.yaml"
       }
     }
   },
@@ -159,129 +280,6 @@
     }
   },
   {
-    "displayName": "Quarkus REST API",
-    "description": "Quarkus stack with a default REST endpoint application sample",
-    "tags": [
-      "Community",
-      "Java",
-      "Quarkus",
-      "OpenJDK",
-      "Maven",
-      "Debian"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/quarkus.svg",
-    "links": {
-      "v2": "https://github.com/che-samples/quarkus-quickstarts/tree/main",
-      "devWorkspaces": {
-        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devworkspace-che-idea-next.yaml",
-        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devworkspace-che-code-latest.yaml",
-        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/quarkus/devworkspace-che-code-insiders.yaml"
-      }
-    }
-  },
-  {
-    "displayName": "Python Django",
-    "description": "Python Stack with Python 3.8 and Django application",
-    "tags": [
-      "Community",
-      "Centos",
-      "Python",
-      "pip"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/python.svg",
-    "links": {
-      "v2": "https://github.com/che-samples/django-realworld-example-app/tree/main",
-      "devWorkspaces": {
-        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python-django/devworkspace-che-idea-next.yaml",
-        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python-django/devworkspace-che-code-latest.yaml",
-        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python-django/devworkspace-che-code-insiders.yaml"
-      }
-    }
-  },
-  {
-    "displayName": "Node.js Angular Web Application",
-    "description": "Stack for developing Node.js Angular Web Application",
-    "tags": [
-      "Community",
-      "Node.js",
-      "Angular",
-      "Alpine"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/angular.svg",
-    "links": {
-      "v2": "https://github.com/che-samples/nodejs-angular/tree/main",
-      "devWorkspaces": {
-        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devworkspace-che-idea-next.yaml",
-        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devworkspace-che-code-latest.yaml",
-        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devworkspace-che-code-insiders.yaml"
-      }
-    }
-  },
-  {
-    "displayName": "Java Lombok",
-    "description": "Java Stack with Project Lombok",
-    "tags": [
-      "Community",
-      "Java",
-      "OpenJDK",
-      "Maven",
-      "Debian",
-      "Lombok"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/lombok.svg",
-    "links": {
-      "v2": "https://github.com/che-samples/lombok-project-sample/tree/main",
-      "devWorkspaces": {
-        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devworkspace-che-idea-next.yaml",
-        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devworkspace-che-code-latest.yaml",
-        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-lombok/devworkspace-che-code-insiders.yaml"
-      }
-    }
-  },
-  {
-    "displayName": "Node.js MongoDB Web Application",
-    "description": "Stack with NodeJS 10 and MongoDB 3.4",
-    "tags": [
-      "Community",
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "RealWorld",
-      "ubi8",
-      "Centos"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/nodejs.svg",
-    "links": {
-      "v2": "https://github.com/che-samples/nodejs-mongodb-sample/tree/main",
-      "devWorkspaces": {
-        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devworkspace-che-idea-next.yaml",
-        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devworkspace-che-code-latest.yaml",
-        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-mongo/devworkspace-che-code-insiders.yaml"
-      }
-    }
-  },
-  {
-    "displayName": "Java with Spring Boot and MongoDB",
-    "description": "Java stack with MongoDB and Spring Boot Guestbook demo application",
-    "tags": [
-      "Community",
-      "Java",
-      "OpenJDK",
-      "Maven",
-      "Spring Boot",
-      "MongoDB"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/java.svg",
-    "links": {
-      "v2": "https://github.com/che-samples/java-guestbook/tree/main",
-      "devWorkspaces": {
-        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mongo/devworkspace-che-idea-next.yaml",
-        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mongo/devworkspace-che-code-latest.yaml",
-        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/java-mongo/devworkspace-che-code-insiders.yaml"
-      }
-    }
-  },
-  {
     "displayName": "Bash",
     "description": "Stack with environment ready to develop bash scripts.",
     "tags": [
@@ -300,39 +298,22 @@
     }
   },
   {
-    "displayName": "ASP.NET Core Web Application",
-    "description": "Stack for developing ASP.NET Core Web Application",
+    "displayName": "Scala",
+    "description": "Scala Stack with OpenJDK 11 and sbt 1.x",
     "tags": [
       "Community",
-      "Debian",
-      "Dotnet",
-      "C#",
-      "ASP.NET"
+      "Scala",
+      "OpenJDK",
+      "sbt",
+      "Debian"
     ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/dotnetcore.svg",
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/scala.svg",
     "links": {
-      "v2": "https://github.com/che-samples/dotnet-web-simple/tree/main",
+      "v2": "https://github.com/che-samples/scala-sbt/tree/main",
       "devWorkspaces": {
-        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devworkspace-che-idea-next.yaml",
-        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devworkspace-che-code-latest.yaml",
-        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/dotnet-asp.net/devworkspace-che-code-insiders.yaml"
-      }
-    }
-  },
-  {
-    "displayName": "Rust",
-    "description": "Rust Stack with Rust 1.57",
-    "tags": [
-      "Community",
-      "Rust"
-    ],
-    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/rust.svg",
-    "links": {
-      "v2": "https://github.com/che-samples/helloworld-rust/tree/main",
-      "devWorkspaces": {
-        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devworkspace-che-idea-next.yaml",
-        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devworkspace-che-code-latest.yaml",
-        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/rust/devworkspace-che-code-insiders.yaml"
+        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/scala-sbt/devworkspace-che-idea-next.yaml",
+        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/scala-sbt/devworkspace-che-code-latest.yaml",
+        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/scala-sbt/devworkspace-che-code-insiders.yaml"
       }
     }
   },
@@ -352,6 +333,25 @@
         "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python/devworkspace-che-idea-next.yaml",
         "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python/devworkspace-che-code-latest.yaml",
         "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/python/devworkspace-che-code-insiders.yaml"
+      }
+    }
+  },
+  {
+    "displayName": "Node.js Angular Web Application",
+    "description": "Stack for developing Node.js Angular Web Application",
+    "tags": [
+      "Community",
+      "Node.js",
+      "Angular",
+      "Alpine"
+    ],
+    "icon": "https://eclipse-che.github.io/che-devfile-registry/main/images/angular.svg",
+    "links": {
+      "v2": "https://github.com/che-samples/nodejs-angular/tree/main",
+      "devWorkspaces": {
+        "che-incubator/che-idea/next": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devworkspace-che-idea-next.yaml",
+        "che-incubator/che-code/latest": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devworkspace-che-code-latest.yaml",
+        "che-incubator/che-code/insiders": "https://eclipse-che.github.io/che-devfile-registry/main/devfiles/nodejs-angular/devworkspace-che-code-insiders.yaml"
       }
     }
   }
