@@ -20,7 +20,7 @@ fi
 PLUGIN_REGISTRY_URL=https://eclipse-che.github.io/che-plugin-registry/${VERSION}/v3
 
 # Install che-devworkspace-generator
-CHE_DEVWORKSPACE_GENERATOR_VERSION=next
+CHE_DEVWORKSPACE_GENERATOR_VERSION=7.88.0
 npm install @eclipse-che/che-devworkspace-generator@${CHE_DEVWORKSPACE_GENERATOR_VERSION}
 
 for dir in /build/devfiles/*/
