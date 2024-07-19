@@ -1,0 +1,159 @@
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspaceTemplate
+metadata:
+  name: che-idea-bash
+spec:
+  commands:
+    - id: init-container-command
+      apply:
+        component: che-idea-injector
+    - id: init-che-idea-command
+      exec:
+        component: che-idea-runtime-description
+        commandLine: >-
+          nohup /projector/entrypoint-volume.sh > /projector/entrypoint-logs.txt
+          2>&1 &
+  events:
+    preStart:
+      - init-container-command
+    postStart:
+      - init-che-idea-command
+  components:
+    - name: che-idea-runtime-description
+      container:
+        image: >-
+          quay.io/devfile/universal-developer-image@sha256:3042c191da06ed2b566d1a5dd7ef382bbc548d98b3676bdbade0c39ae060821f
+        env:
+          - name: PROJECTOR_ASSEMBLY_DIR
+            value: /projector
+          - name: PROJECTOR_CONFIG_DIR
+            value: /home/user/.jetbrains
+        volumeMounts:
+          - name: projector-volume
+            path: /projector
+          - name: projector-configuration
+            path: /home/user/.jetbrains
+          - name: projector-java-configuration
+            path: /home/user/.java
+        memoryLimit: 6144Mi
+        memoryRequest: 2048Mi
+        cpuLimit: 2000m
+        cpuRequest: 1500m
+        endpoints:
+          - name: intellij
+            attributes:
+              type: main
+              cookiesAuthEnabled: true
+              discoverable: false
+              urlRewriteSupported: true
+            targetPort: 8887
+            exposure: public
+            path: /?backgroundColor=434343&wss
+            secure: true
+            protocol: https
+          - name: intellij-redirect-1
+            targetPort: 13131
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+          - name: intellij-redirect-2
+            targetPort: 13132
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+          - name: intellij-redirect-3
+            targetPort: 13133
+            exposure: public
+            protocol: https
+            attributes:
+              discoverable: false
+              urlRewriteSupported: false
+      attributes:
+        app.kubernetes.io/component: che-idea-runtime
+        app.kubernetes.io/part-of: che-idea.eclipse.org
+        controller.devfile.io/container-contribution: true
+    - name: projector-volume
+      volume: {}
+    - name: projector-configuration
+      volume: {}
+    - name: projector-java-configuration
+      volume: {}
+    - name: che-idea-injector
+      container:
+        image: quay.io/che-incubator/che-idea:next
+        command:
+          - /projector/entrypoint-init-container.sh
+        env:
+          - name: PROJECTOR_VOLUME_MOUNT
+            value: /projector-volume
+          - name: PROJECTOR_ASSEMBLY_DIR
+            value: /projector
+        volumeMounts:
+          - name: projector-volume
+            path: /projector-volume
+        memoryLimit: 128Mi
+        memoryRequest: 32Mi
+        cpuLimit: 500m
+        cpuRequest: 30m
+---
+apiVersion: workspace.devfile.io/v1alpha2
+kind: DevWorkspace
+metadata:
+  name: bash
+  annotations:
+    che.eclipse.org/devfile: |
+      schemaVersion: 2.2.2
+      metadata:
+        name: bash
+      components:
+        - name: tools
+          container:
+            image: quay.io/devfile/universal-developer-image:ubi8-latest
+            memoryLimit: 3Gi
+      commands:
+        - id: run-main-script
+          exec:
+            label: Run main.sh script
+            component: tools
+            workingDir: ${PROJECT_SOURCE}
+            commandLine: |
+              ./main.sh
+            group:
+              kind: run
+              isDefault: true
+      projects:
+        - name: bash
+          zip:
+            location: 'https://eclipse-che.github.io/che-devfile-registry/7.89.0/resources/v2/bash.zip'
+spec:
+  started: true
+  routingClass: che
+  template:
+    components:
+      - name: tools
+        container:
+          image: quay.io/devfile/universal-developer-image:ubi8-latest
+          memoryLimit: 3Gi
+    commands:
+      - id: run-main-script
+        exec:
+          label: Run main.sh script
+          component: tools
+          workingDir: ${PROJECT_SOURCE}
+          commandLine: |
+            ./main.sh
+          group:
+            kind: run
+            isDefault: true
+    projects:
+      - name: bash
+        zip:
+          location: 'https://eclipse-che.github.io/che-devfile-registry/7.89.0/resources/v2/bash.zip'
+  contributions:
+    - name: editor
+      kubernetes:
+        name: che-idea-bash

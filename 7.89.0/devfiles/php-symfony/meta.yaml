@@ -1,0 +1,17 @@
+displayName: PHP Symfony
+description: PHP Stack with Symfony Demo Application https://symfony.com/
+tags:
+  - Community
+  - PHP
+  - Apache
+  - MySQL
+  - Symfony
+  - Debian
+  - Centos
+icon: /images/php.svg
+links:
+  v2: https://github.com/che-samples/php-symfony/tree/main
+  devWorkspaces:
+    che-incubator/che-idea/next: /devfiles/php-symfony/devworkspace-che-idea-next.yaml
+    che-incubator/che-code/latest: /devfiles/php-symfony/devworkspace-che-code-latest.yaml
+    che-incubator/che-code/insiders: /devfiles/php-symfony/devworkspace-che-code-insiders.yaml
