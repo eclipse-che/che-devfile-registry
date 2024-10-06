@@ -1,0 +1,7 @@
+---
+displayName: WildFly Numberguess
+description: WildFly JakartaEE 10 application
+tags: ["Community", "Java", "WildFly", "OpenJDK", "Maven", "JakartaEE"]
+icon: /images/wildfly.svg
+links:
+  v2: https://github.com/ehsavoie/wildfly-devfile-examples/tree/devspaces
